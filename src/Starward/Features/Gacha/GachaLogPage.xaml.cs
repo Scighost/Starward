@@ -10,8 +10,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Gacha;
+using Starward.Core.GameRecord;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameLauncher;
+using Starward.Features.GameRecord;
+using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using System;
@@ -34,6 +37,8 @@ public sealed partial class GachaLogPage : PageBase
     private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
 
     private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
+
+    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
 
     private GachaLogService _gachaLogService;
@@ -70,6 +75,8 @@ public sealed partial class GachaLogPage : PageBase
             _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
             MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
+            MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Visible;
+            MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Visible;
         }
         if (CurrentGameBiz.IsGlobalServer())
         {
@@ -555,6 +562,173 @@ public sealed partial class GachaLogPage : PageBase
         }
     }
 
+
+    [RelayCommand]
+    private async Task SyncFromMiyousheAsync(string? param = null)
+    {
+        try
+        {
+            if (CurrentGameBiz.Game != GameBiz.nap)
+            {
+                InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_OnlySupportZZZCNServer);
+                return;
+            }
+            if (_gachaLogService is not ZZZGachaService zzzGachaService)
+            {
+                throw new InvalidOperationException($"Current gacha service type is {_gachaLogService.GetType().Name}.");
+            }
+            GameBiz roleGameBiz = CurrentGameBiz == GameBiz.nap_bilibili ? GameBiz.nap_cn : CurrentGameBiz;
+            var roles = _gameRecordService.GetGameRoles(roleGameBiz);
+            if (roles.Count == 0)
+            {
+                InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_PleaseLoginMiyousheAndAddZZZRole);
+                WeakReferenceMessenger.Default.Send(new MainViewNavigateMessage(typeof(GameRecordPage)));
+                return;
+            }
+            GameRecordRole? role;
+            if (roles.Count == 1)
+            {
+                role = roles[0];
+            }
+            else
+            {
+                role = await SelectMiyousheRoleAsync(roles, roleGameBiz);
+                if (role is null)
+                {
+                    return;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(role.Cookie))
+            {
+                InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe);
+                return;
+            }
+            _gameRecordService.SetLastSelectGachaSyncRole(roleGameBiz, role);
+            var cancelSource = new CancellationTokenSource();
+            var button = new Button
+            {
+                // 取消
+                Content = Lang.Common_Cancel,
+                HorizontalAlignment = HorizontalAlignment.Right,
+            };
+            var infoBar = new InfoBar
+            {
+                Severity = InfoBarSeverity.Informational,
+                Background = Application.Current.Resources["CustomAcrylicBrush"] as Brush,
+                ActionButton = button,
+            };
+            button.Click += (_, _) =>
+            {
+                cancelSource.Cancel();
+                // 操作已取消
+                infoBar.Message = Lang.GachaLogPage_OperationCanceled;
+                infoBar.ActionButton = null;
+            };
+            InAppToast.MainWindow?.Show(infoBar);
+            var progress = new Progress<string>((str) => infoBar.Message = str);
+            var uid = await zzzGachaService.GetGachaLogByGameRecordAsync(role, param is "all", GachaLanguage, progress, cancelSource.Token);
+            infoBar.Title = $"Uid {uid}";
+            infoBar.Severity = InfoBarSeverity.Success;
+            infoBar.ActionButton = null;
+            if (SelectUid == uid)
+            {
+                UpdateGachaTypeStats(uid);
+            }
+            else
+            {
+                if (!UidList.Contains(uid))
+                {
+                    UidList.Add(uid);
+                }
+                SelectUid = uid;
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Sync zzz gacha record from miyoushe canceled");
+        }
+        catch (miHoYoApiException ex)
+        {
+            _logger.LogWarning(ex, "Sync zzz gacha record from miyoushe error ({retcode})", ex.ReturnCode);
+            InAppToast.MainWindow?.Warning(null, ex.Message);
+        }
+        catch (NotSupportedException ex)
+        {
+            _logger.LogWarning(ex, "Sync zzz gacha record from miyoushe is not supported");
+            InAppToast.MainWindow?.Warning(null, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Sync zzz gacha record from miyoushe");
+            InAppToast.MainWindow?.Error(ex);
+        }
+    }
+
+    private async Task<GameRecordRole?> SelectMiyousheRoleAsync(List<GameRecordRole> roles, GameBiz roleGameBiz)
+    {
+        var items = roles.Select(role => new MiyousheRoleItem(role)).ToList();
+        MiyousheRoleItem? selectedItem = null;
+        if (SelectUid is long currentUid && currentUid > 0)
+        {
+            selectedItem = items.FirstOrDefault(x => x.Role.Uid == currentUid);
+        }
+        var selectedRole = _gameRecordService.GetLastSelectGachaSyncRoleOrTheFirstOne(roleGameBiz);
+        selectedItem ??= items.FirstOrDefault(x =>
+            selectedRole is not null
+            && x.Role.Uid == selectedRole.Uid);
+        var comboBox = new ComboBox
+        {
+            MinWidth = 420,
+            ItemsSource = items,
+            DisplayMemberPath = nameof(MiyousheRoleItem.DisplayText),
+            SelectedItem = selectedItem ?? items.FirstOrDefault(),
+        };
+        var panel = new StackPanel
+        {
+            Spacing = 8,
+        };
+        panel.Children.Add(new TextBlock
+        {
+            Text = Lang.GachaLogPage_SelectMiyousheRoleDescription,
+            TextWrapping = TextWrapping.Wrap,
+        });
+        panel.Children.Add(comboBox);
+        var dialog = new ContentDialog
+        {
+            Title = Lang.GachaLogPage_SelectMiyousheRole,
+            Content = panel,
+            PrimaryButtonText = Lang.Common_Confirm,
+            SecondaryButtonText = Lang.Common_Cancel,
+            DefaultButton = ContentDialogButton.Primary,
+            IsPrimaryButtonEnabled = comboBox.SelectedItem is not null,
+            XamlRoot = this.XamlRoot,
+        };
+        comboBox.SelectionChanged += (_, _) => dialog.IsPrimaryButtonEnabled = comboBox.SelectedItem is not null;
+        if (await dialog.ShowAsync() is not ContentDialogResult.Primary)
+        {
+            return null;
+        }
+        if (comboBox.SelectedItem is not MiyousheRoleItem item)
+        {
+            InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_PleaseSelectMiyousheRole);
+            return null;
+        }
+        return item.Role;
+    }
+
+
+    private sealed class MiyousheRoleItem
+    {
+        public GameRecordRole Role { get; }
+
+        public string DisplayText { get; }
+
+        public MiyousheRoleItem(GameRecordRole role)
+        {
+            Role = role;
+            DisplayText = $"{role.Nickname} ({role.Uid}) | {role.RegionName}";
+        }
+    }
 
 
 

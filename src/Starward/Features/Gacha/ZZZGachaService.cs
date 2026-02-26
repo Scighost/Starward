@@ -6,8 +6,12 @@ using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
+using Starward.Core.GameRecord;
+using Starward.Core.GameRecord.ZZZ;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Features.Database;
 using Starward.Features.Gacha.UIGF;
+using Starward.Features.GameRecord;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -29,10 +33,13 @@ internal class ZZZGachaService : GachaLogService
     protected override string GachaTableName { get; } = "ZZZGachaItem";
 
 
+    private readonly GameRecordService _gameRecordService;
 
-    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client) : base(logger, client)
+
+
+    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client, GameRecordService gameRecordService) : base(logger, client)
     {
-
+        _gameRecordService = gameRecordService;
     }
 
 
@@ -122,6 +129,96 @@ internal class ZZZGachaService : GachaLogService
             // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
             progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
         }
+        return uid;
+    }
+
+
+    public async Task<long> GetGachaLogByGameRecordAsync(GameRecordRole role, bool all, string? lang = null, IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    {
+        if (role is null)
+        {
+            throw new ArgumentNullException(nameof(role));
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        // 正在获取 uid
+        progress?.Report(Lang.GachaLogService_GettingUid);
+        long uid = role.Uid;
+        if (uid == 0)
+        {
+            // 该账号最近6个月没有抽卡记录
+            progress?.Report(Lang.GachaLogService_ThisAccountHasNoGachaRecordsInTheLast6Months);
+            return 0;
+        }
+
+        // requestLanguage: global 场景下，用于更新 HoYoLAB 请求头语言。
+        // recordLanguage: 用于本地落库语言标记与 item_type 映射规则（国服固定 zh-cn）。
+        bool isGlobal = role.GameBiz?.EndsWith("_global", StringComparison.OrdinalIgnoreCase) ?? false;
+        string recordLanguage = "zh-cn";
+        string? requestLanguage = null;
+        if (isGlobal)
+        {
+            string sourceLanguage = string.IsNullOrWhiteSpace(lang)
+                ? System.Globalization.CultureInfo.CurrentUICulture.Name
+                : lang;
+            string normalizedLanguage = LanguageUtil.FilterLanguage(sourceLanguage);
+
+            requestLanguage = normalizedLanguage;
+            recordLanguage = normalizedLanguage;
+        }
+
+        long endId = 0;
+        if (!all)
+        {
+            endId = dapper.QueryFirstOrDefault<long>($"SELECT Id FROM {GachaTableName} WHERE Uid = @Uid ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+            _logger.LogInformation("Last gacha log id of uid {Uid} is {EndId}", uid, endId);
+        }
+
+        var list = new List<GachaLogItem>();
+        foreach (IGachaType queryType in QueryGachaTypes)
+        {
+            ZZZGachaType gachaType = queryType.Value;
+            bool stop = false;
+            long? queryEndId = null;
+            int page = 1;
+            while (!stop)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                progress?.Report(string.Format(Lang.GachaLogService_GetGachaProgressText, queryType.ToLocalization(), page));
+                var data = await _gameRecordService.GetZZZGachaRecordAsync(role, gachaType, queryEndId, requestLanguage, cancellationToken);
+                var pageItems = data.GachaItemList ?? new List<ZZZGachaRecordItem>();
+                if (pageItems.Count == 0)
+                {
+                    break;
+                }
+                foreach (var item in pageItems)
+                {
+                    if (!all && endId > 0 && item.Id <= endId)
+                    {
+                        stop = true;
+                        break;
+                    }
+                    list.Add(ToGachaLogItem(uid, gachaType, item, recordLanguage));
+                }
+                if (stop || !data.HasMore)
+                {
+                    break;
+                }
+                long nextEndId = pageItems.Last().Id;
+                if (nextEndId <= 0 || nextEndId == queryEndId.GetValueOrDefault())
+                {
+                    _logger.LogWarning("ZZZ gacha_record paging is not advancing (Uid: {Uid}, GachaType: {GachaType}, EndId: {EndId}). Stop paging to avoid infinite loop.", uid, gachaType, nextEndId);
+                    break;
+                }
+                queryEndId = nextEndId;
+                page++;
+            }
+        }
+
+        var oldCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+        InsertGachaLogItems(list);
+        var newCount = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM {GachaTableName} WHERE Uid = @Uid;", new { Uid = uid });
+        // 获取 {list.Count} 条记录，新增 {newCount - oldCount} 条记录
+        progress?.Report(string.Format(Lang.GachaLogService_GetGachaResult, list.Count, newCount - oldCount));
         return uid;
     }
 
@@ -359,6 +456,83 @@ internal class ZZZGachaService : GachaLogService
              FROM ZZZGachaItem item INNER JOIN ZZZGachaInfo info ON item.ItemId = info.Id;
              """, new { Lang = lang });
         return (lang, count);
+    }
+
+
+
+    private static GachaLogItem ToGachaLogItem(long uid, ZZZGachaType gachaType, ZZZGachaRecordItem item, string language)
+    {
+        ArgumentNullException.ThrowIfNull(item);
+        if (uid == 0)
+        {
+            throw new ArgumentException("Uid cannot be 0.", nameof(uid));
+        }
+        if (gachaType.Value == 0)
+        {
+            throw new ArgumentException("GachaType cannot be 0.", nameof(gachaType));
+        }
+        if (item.Id == 0)
+        {
+            throw new ArgumentException("Id cannot be 0.", nameof(item));
+        }
+        if (item.ItemId == 0)
+        {
+            throw new ArgumentException("ItemId cannot be 0.", nameof(item));
+        }
+        if (item.Date == default)
+        {
+            throw new ArgumentException("Date cannot be default value.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.ItemName))
+        {
+            throw new ArgumentException("ItemName cannot be null or empty.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.ItemType))
+        {
+            throw new ArgumentException("ItemType cannot be null or empty.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(item.Rarity))
+        {
+            throw new ArgumentException("Rarity cannot be null or empty.", nameof(item));
+        }
+        if (string.IsNullOrWhiteSpace(language))
+        {
+            throw new ArgumentException("Language cannot be null or empty.", nameof(language));
+        }
+
+        int rankType = item.Rarity.ToUpperInvariant() switch
+        {
+            "S" => 4,
+            "A" => 3,
+            "B" => 2,
+            _ => 0,
+        };
+        if (rankType == 0)
+        {
+            throw new ArgumentException($"Invalid rarity value: {item.Rarity}.", nameof(item));
+        }
+
+        bool isChinese = language.StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+
+        return new ZZZGachaItem
+        {
+            Uid = uid,
+            Id = item.Id,
+            GachaType = gachaType,
+            Name = item.ItemName,
+            ItemType = item.ItemType.ToUpperInvariant() switch
+            {
+                "ITEM_TYPE_AVATAR" => isChinese ? "代理人" : item.ItemType,
+                "ITEM_TYPE_WEAPON" => isChinese ? "音擎" : item.ItemType,
+                "ITEM_TYPE_BANGBOO" => isChinese ? "邦布" : item.ItemType,
+                _ => item.ItemType,
+            },
+            RankType = rankType,
+            Time = item.Date,
+            ItemId = item.ItemId,
+            Count = 1,
+            Lang = language,
+        };
     }
 
 

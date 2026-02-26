@@ -2023,6 +2023,15 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_CopyURL", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 The current account is missing login credentials. Please re-login Miyoushe. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe {
+            get {
+                return ResourceManager.GetString("GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Delete All 的本地化字符串。
@@ -2149,6 +2158,15 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_OperationCanceled", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 This feature currently supports ZZZ China server only. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_OnlySupportZZZCNServer {
+            get {
+                return ResourceManager.GetString("GachaLogPage_OnlySupportZZZCNServer", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Other Settings 的本地化字符串。
@@ -2158,6 +2176,15 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_OtherSettings", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 Please log in via Miyoushe toolbox and add your ZZZ account first. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_PleaseLoginMiyousheAndAddZZZRole {
+            get {
+                return ResourceManager.GetString("GachaLogPage_PleaseLoginMiyousheAndAddZZZRole", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Please open the gacha records page in game and try again. 的本地化字符串。
@@ -2165,6 +2192,33 @@ namespace Starward.Language {
         public static string GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain {
             get {
                 return ResourceManager.GetString("GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Please select a Miyoushe account first. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_PleaseSelectMiyousheRole {
+            get {
+                return ResourceManager.GetString("GachaLogPage_PleaseSelectMiyousheRole", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Select Miyoushe account 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_SelectMiyousheRole {
+            get {
+                return ResourceManager.GetString("GachaLogPage_SelectMiyousheRole", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Multiple ZZZ roles were found. Please choose one role to sync gacha records. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_SelectMiyousheRoleDescription {
+            get {
+                return ResourceManager.GetString("GachaLogPage_SelectMiyousheRoleDescription", resourceCulture);
             }
         }
         
@@ -2192,6 +2246,24 @@ namespace Starward.Language {
         public static string GachaLogPage_SpecificTimePeriod {
             get {
                 return ResourceManager.GetString("GachaLogPage_SpecificTimePeriod", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Sync from Miyoushe (Experimental) 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_SyncFromMiyoushe {
+            get {
+                return ResourceManager.GetString("GachaLogPage_SyncFromMiyoushe", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Sync all from Miyoushe (Experimental) 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_SyncFromMiyousheAll {
+            get {
+                return ResourceManager.GetString("GachaLogPage_SyncFromMiyousheAll", resourceCulture);
             }
         }
         

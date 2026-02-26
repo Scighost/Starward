@@ -21,6 +21,7 @@ using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
 using Starward.Core.GameRecord.StarRail.ChallengePeak;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 
 
 
@@ -522,6 +523,18 @@ public abstract class GameRecordClient
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public abstract Task<List<GameRecordRole>> GetZZZGameRolesAsync(string cookie, CancellationToken cancellationToken = default);
+
+
+    /// <summary>
+    /// 绝区零抽卡记录
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="gachaType">ZZZGachaType</param>
+    /// <param name="endId">首次请求不传</param>
+    /// <param name="language"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public abstract Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default);
 
 
     /// <summary>

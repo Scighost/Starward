@@ -60,6 +60,16 @@
                         <MenuFlyoutItem Command="{x:Bind UpdateGachaLogCommand}"
                                         CommandParameter="all"
                                         Text="{x:Bind lang:Lang.GachaLogPage_UpdateAll}" />
+                        <!--  从 米游社 同步  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_SyncFromMiyoushe"
+                                        Command="{x:Bind SyncFromMiyousheCommand}"
+                                        Text="{x:Bind lang:Lang.GachaLogPage_SyncFromMiyoushe}"
+                                        Visibility="Collapsed" />
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_SyncFromMiyousheAll"
+                                        Command="{x:Bind SyncFromMiyousheCommand}"
+                                        CommandParameter="all"
+                                        Text="{x:Bind lang:Lang.GachaLogPage_SyncFromMiyousheAll}"
+                                        Visibility="Collapsed" />
                         <!--  输入 URL  -->
                         <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="{x:Bind lang:Lang.GachaLogPage_InputURL}" />
                         <MenuFlyoutItem x:Name="MenuFlyoutItem_CloudGame"

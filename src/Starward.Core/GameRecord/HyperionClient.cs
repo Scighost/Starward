@@ -13,6 +13,7 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
@@ -802,6 +803,34 @@ public class HyperionClient : GameRecordClient
         var data = await CommonSendAsync<GameRecordRoleWrapper>(request, cancellationToken);
         data.List?.ForEach(x => x.Cookie = cookie);
         return data.List ?? new List<GameRecordRole>();
+    }
+
+
+    /// <summary>
+    /// 绝区零抽卡记录
+    /// </summary>
+    /// <param name="role"></param>
+    /// <param name="gachaType"></param>
+    /// <param name="endId">首次请求不传</param>
+    /// <param name="language"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public override async Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default)
+    {
+        var url = $"https://api-takumi-record.mihoyo.com/event/game_record_zzz/api/zzz/gacha_record?uid={role.Uid}&region={role.Region}&gacha_type={gachaType}";
+        long validEndId = endId.GetValueOrDefault();
+        if (validEndId > 0)
+        {
+            url += $"&end_id={validEndId}";
+        }
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
+        request.Headers.Add(Cookie, role.Cookie);
+        request.Headers.Add(Referer, "https://act.mihoyo.com/");
+        request.Headers.Add(x_rpc_app_version, AppVersion);
+        request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(x_rpc_device_id, DeviceId);
+        request.Headers.Add(x_rpc_device_fp, DeviceFp);
+        return await CommonSendAsync<ZZZGachaRecordData>(request, cancellationToken);
     }
 
 

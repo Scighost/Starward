@@ -18,6 +18,7 @@ using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
+using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Features.Database;
@@ -178,6 +179,35 @@ internal class GameRecordService
     {
         using var dapper = DatabaseService.CreateConnection();
         dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @value);", new { key = $"last_select_game_record_role_{gameBiz}", value = role.Uid.ToString() });
+    }
+
+
+    public GameRecordRole? GetLastSelectGachaSyncRoleOrTheFirstOne(GameBiz gameBiz)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        GameRecordRole? role = dapper.QueryFirstOrDefault<GameRecordRole>("""
+            SELECT r.* FROM GameRecordRole r INNER JOIN Setting s ON s.Value = r.Uid WHERE r.GameBiz = @gameBiz AND s.Key = @key LIMIT 1;
+            """, new { gameBiz, key = $"last_select_gacha_sync_role_{gameBiz}" });
+        if (role is not null)
+        {
+            return role;
+        }
+        role = dapper.QueryFirstOrDefault<GameRecordRole>("""
+            SELECT r.* FROM GameRecordRole r INNER JOIN Setting s ON s.Value = r.Uid WHERE r.GameBiz = @gameBiz AND s.Key = @key LIMIT 1;
+            """, new { gameBiz, key = $"last_select_game_record_role_{gameBiz}" });
+        if (role is not null)
+        {
+            dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @value);", new { key = $"last_select_gacha_sync_role_{gameBiz}", value = role.Uid.ToString() });
+            return role;
+        }
+        return dapper.QueryFirstOrDefault<GameRecordRole>("SELECT * FROM GameRecordRole WHERE GameBiz = @gameBiz LIMIT 1;", new { gameBiz });
+    }
+
+
+    public void SetLastSelectGachaSyncRole(GameBiz gameBiz, GameRecordRole role)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        dapper.Execute("INSERT OR REPLACE INTO Setting (Key, Value) VALUES (@key, @value);", new { key = $"last_select_gacha_sync_role_{gameBiz}", value = role.Uid.ToString() });
     }
 
 
@@ -921,6 +951,27 @@ internal class GameRecordService
     {
         using var dapper = DatabaseService.CreateConnection();
         return dapper.Query<InterKnotReportDetailItem>("SELECT * FROM ZZZInterKnotReportDetailItem WHERE Uid=@uid AND DataMonth=@month AND DataType=@type ORDER BY Time;", new { uid, month, type }).ToList();
+    }
+
+
+    public async Task<ZZZGachaRecordData> GetZZZGachaRecordAsync(GameRecordRole role, int gachaType, long? endId = null, string? language = null, CancellationToken cancellationToken = default)
+    {
+        if (role is null)
+        {
+            throw new ArgumentNullException(nameof(role));
+        }
+        bool isHoyolab = role.GameBiz?.EndsWith("_global", StringComparison.OrdinalIgnoreCase) ?? false;
+        IsHoyolab = isHoyolab;
+        if (isHoyolab && !string.IsNullOrWhiteSpace(language))
+        {
+            // HoYoLAB 语言由请求头决定，统一通过 HoyolabClient.Language 生效。
+            Language = language;
+        }
+        if (!isHoyolab)
+        {
+            await UpdateDeviceFpAsync(cancellationToken: cancellationToken);
+        }
+        return await _gameRecordClient.GetZZZGachaRecordAsync(role, gachaType, endId, language, cancellationToken);
     }
 
 
