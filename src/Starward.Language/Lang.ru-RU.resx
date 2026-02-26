@@ -317,10 +317,10 @@
     <value>Обновить (Всё)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
-    <value>Sync from Miyoushe (Experimental)</value>
+    <value>Синхронизация с Miyoushe (экспериментальная)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync all from Miyoushe (Experimental)</value>
+    <value>Синхронизировать все из Miyoushe (экспериментально)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Входной URL-адрес</value>
@@ -369,22 +369,22 @@
     <value>Операция отменена</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>This feature currently supports ZZZ only.</value>
+    <value>Эта функция в настоящее время поддерживает только ZZZ.</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
-    <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>
+    <value>Пожалуйста, войдите в систему с помощью Miyoushe toolbox и сначала добавьте ваш аккаунт в Miyoushe</value>
   </data>
   <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
-    <value>The current account is missing login credentials. Please re-login Miyoushe.</value>
+    <value>В текущей учетной записи отсутствуют учетные данные для входа. Пожалуйста, повторите вход в Miyoushe.</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
-    <value>Select Miyoushe account</value>
+    <value>Выберите аккаунт Miyoushe</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
-    <value>Multiple ZZZ roles were found. Please choose one role to sync gacha records.</value>
+    <value>Найдено несколько ZZZ ролей. Пожалуйста, выберите одну роль для синхронизации гача.</value>
   </data>
   <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
-    <value>Please select a Miyoushe account first.</value>
+    <value>Пожалуйста, сначала выберите аккаунт Miyoushe</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>Пожалуйста, откройте страницу записей гачи в игре и попробуйте еще раз.</value>
