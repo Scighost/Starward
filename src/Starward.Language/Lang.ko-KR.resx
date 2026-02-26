@@ -316,6 +316,12 @@
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
     <value>업데이트 (전체)</value>
   </data>
+  <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
+    <value>Sync from Miyoushe (Experimental)</value>
+  </data>
+  <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
+    <value>Sync all from Miyoushe (Experimental)</value>
+  </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>URL 입력</value>
   </data>
@@ -361,6 +367,24 @@
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
     <value>작업이 취소되었습니다.</value>
+  </data>
+  <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
+    <value>This feature currently supports ZZZ only.</value>
+  </data>
+  <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
+    <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>
+  </data>
+  <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
+    <value>The current account is missing login credentials. Please re-login Miyoushe.</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
+    <value>Select Miyoushe account</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
+    <value>Multiple ZZZ roles were found. Please choose one role to sync gacha records.</value>
+  </data>
+  <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
+    <value>Please select a Miyoushe account first.</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>게임에서 뽑기기록 페이지를 열고 다시시도 하세요.</value>
