@@ -317,10 +317,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Cập nhật (tất cả)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
-    <value>Sync from Miyoushe (Experimental)</value>
+    <value>Đồng nhất với Miyoushe (Thử nghiệm)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync all from Miyoushe (Experimental)</value>
+    <value>Đồng nhất với toàn bộ Miyoushe (Thử nghiệm)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Nhập URL</value>
@@ -369,10 +369,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Thao tác bị huỷ</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>This feature currently supports ZZZ only.</value>
+    <value>Tính năng này hiện chỉ hỗ trợ ZZZ.</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
-    <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>
+    <value>Hãy đăng nhập qua hộp công cụ Miyoushe và thêm tài khoản Miyoushe trước.</value>
   </data>
   <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
     <value>The current account is missing login credentials. Please re-login Miyoushe.</value>
