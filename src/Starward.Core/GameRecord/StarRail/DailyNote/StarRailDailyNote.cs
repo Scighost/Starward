@@ -171,4 +171,18 @@ public class StarRailDailyNote
     public bool RogueTournExpIsFull { get; set; }
 
 
+    /// <summary>
+    /// 货币战争当前积分
+    /// </summary>
+    [JsonPropertyName("grid_fight_weekly_cur")]
+    public int GridFightWeeklyCurrent { get; set; }
+
+
+    /// <summary>
+    /// 货币战争最大积分
+    /// </summary>
+    [JsonPropertyName("grid_fight_weekly_max")]
+    public int GridFightWeeklyMax { get; set; }
+
+
 }

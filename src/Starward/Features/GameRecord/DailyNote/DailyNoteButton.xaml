@@ -383,7 +383,6 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -406,9 +405,8 @@
                                         <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
                                         <Run Text="{x:Bind StarRailDailyNote.StaminaFullTime.LocalDateTime.ToString('HH\:mm', x:Null)}" />
                                     </TextBlock>
-                                    <TextBlock VerticalAlignment="Top"
-                                               FontSize="10"
-                                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource SystemFillColorCautionBrush}"
                                                Text="{x:Bind StarRailDailyNote.StaminaRecoveryDaysRemaining}"
                                                Visibility="{x:Bind StarRailDailyNote.StaminaRecoveryBeyondTomorrow}" />
                                 </StackPanel>
@@ -438,65 +436,53 @@
                         <StackPanel Grid.Row="1"
                                     Grid.ColumnSpan="2"
                                     Orientation="Horizontal"
-                                    Spacing="16">
+                                    Spacing="20">
 
-                            <!--  每日实训  -->
-                            <StackPanel>
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
-                                <TextBlock>
-                                    <Run Text="{x:Bind StarRailDailyNote.CurrentTrainScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxTrainScore}" />
-                                </TextBlock>
+                            <StackPanel Spacing="8">
+                                <!--  每日实训  -->
+                                <StackPanel>
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
+                                    <TextBlock>
+                                        <Run Text="{x:Bind StarRailDailyNote.CurrentTrainScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxTrainScore}" />
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <!--  历战余响剩余  -->
+                                <StackPanel>
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
+                                    <TextBlock>
+                                        <Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonCnt}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonLimit}" />
+                                    </TextBlock>
+                                </StackPanel>
                             </StackPanel>
 
-                            <!--  历战余响剩余  -->
-                            <StackPanel>
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
-                                <TextBlock>
-                                    <Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonCnt}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonLimit}" />
-                                </TextBlock>
-                            </StackPanel>
+                            <StackPanel Spacing="8">
+                                <!--  模拟宇宙积分  -->
+                                <StackPanel>
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_SimulatedUniversePoints}" />
+                                    <TextBlock>
+                                        <Run Text="{x:Bind StarRailDailyNote.CurrentRogueScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxRogueScore}" />
+                                    </TextBlock>
+                                </StackPanel>
 
-                            <!--  差分宇宙周期演算额外拟合值  -->
-                            <StackPanel>
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_BonusSynchronicityPoints}" />
-                                <TextBlock>
-                                    <Run Text="{x:Bind StarRailDailyNote.RogueTournWeeklyCur}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.RogueTournWeeklyMax}" />
-                                </TextBlock>
+                                <!--  货币战争积分  -->
+                                <StackPanel>
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_CurrencyWarsPoints}" />
+                                    <TextBlock>
+                                        <Run Text="{x:Bind StarRailDailyNote.GridFightWeeklyCurrent}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.GridFightWeeklyMax}" />
+                                    </TextBlock>
+                                </StackPanel>
                             </StackPanel>
 
                         </StackPanel>
-
-                        <!--  每日委托  -->
-                        <Grid Grid.Row="2"
-                              Grid.ColumnSpan="2"
-                              ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock>
-                                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_OngoingAssignments}" />
-                                <Run Text="" />
-                                <Run Text="{x:Bind StarRailDailyNote.AcceptedExpeditionNum}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.TotalExpeditionNum}" />
-                            </TextBlock>
-                            <!--  全部已完成  -->
-                            <TextBlock Grid.Column="1"
-                                       Foreground="{ThemeResource SystemFillColorSuccessBrush}"
-                                       Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_AllFinished}"
-                                       Visibility="{x:Bind StarRailDailyNote.ExpeditionsAllFinished}" />
-                            <!--  完成时间  -->
-                            <TextBlock Grid.Column="1" Visibility="{x:Bind StarRailDailyNote.HasExpeditionsNotFinished}">
-                                <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FinishedTime}" />
-                                <Run Text="{x:Bind StarRailDailyNote.ExpeditionsFinishTime.LocalDateTime.ToString('HH\:mm', x:Null)}" />
-                            </TextBlock>
-                        </Grid>
 
                     </Grid>
 
@@ -530,9 +516,8 @@
                                         <Run Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_FullTime}" />
                                         <Run Text="{x:Bind ZZZDailyNote.Energy.Hour.ToString('D2', x:Null)}" /><Run Text=":" /><Run Text="{x:Bind ZZZDailyNote.Energy.Minute.ToString('D2', x:Null)}" />
                                     </TextBlock>
-                                    <TextBlock VerticalAlignment="Top"
-                                               FontSize="10"
-                                               Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                    <TextBlock FontSize="12"
+                                               Foreground="{ThemeResource SystemFillColorCautionBrush}"
                                                Text="+1"
                                                Visibility="{x:Bind ZZZDailyNote.Energy.TomorrowRecovery}" />
                                 </StackPanel>

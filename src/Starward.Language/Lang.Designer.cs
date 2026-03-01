@@ -899,6 +899,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Currency Wars Points 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_CurrencyWarsPoints {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_CurrencyWarsPoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Daily Training 的本地化字符串。
         /// </summary>
         public static string DailyNoteButton_StarRail_DailyTraining {
@@ -958,6 +967,15 @@ namespace Starward.Language {
         public static string DailyNoteButton_StarRail_ReservedTrailblazePower {
             get {
                 return ResourceManager.GetString("DailyNoteButton_StarRail_ReservedTrailblazePower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Simulated Universe Points 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_StarRail_SimulatedUniversePoints {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_StarRail_SimulatedUniversePoints", resourceCulture);
             }
         }
         
@@ -2023,7 +2041,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_CopyURL", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 The current account is missing login credentials. Please re-login Miyoushe. 的本地化字符串。
         /// </summary>
@@ -2151,20 +2169,20 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 This feature currently supports ZZZ only. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_OnlySupportZZZCNServer {
+            get {
+                return ResourceManager.GetString("GachaLogPage_OnlySupportZZZCNServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Operation canceled 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_OperationCanceled {
             get {
                 return ResourceManager.GetString("GachaLogPage_OperationCanceled", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   查找类似 This feature currently supports ZZZ China server only. 的本地化字符串。
-        /// </summary>
-        public static string GachaLogPage_OnlySupportZZZCNServer {
-            get {
-                return ResourceManager.GetString("GachaLogPage_OnlySupportZZZCNServer", resourceCulture);
             }
         }
         
@@ -2176,9 +2194,9 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_OtherSettings", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   查找类似 Please log in via Miyoushe toolbox and add your ZZZ account first. 的本地化字符串。
+        ///   查找类似 Please log in via Miyoushe toolbox and add your Miyoushe account first. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_PleaseLoginMiyousheAndAddZZZRole {
             get {
@@ -2194,7 +2212,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Please select a Miyoushe account first. 的本地化字符串。
         /// </summary>
@@ -2203,7 +2221,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_PleaseSelectMiyousheRole", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Select Miyoushe account 的本地化字符串。
         /// </summary>
@@ -2212,7 +2230,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_SelectMiyousheRole", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Multiple ZZZ roles were found. Please choose one role to sync gacha records. 的本地化字符串。
         /// </summary>
@@ -2248,7 +2266,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_SpecificTimePeriod", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Sync from Miyoushe (Experimental) 的本地化字符串。
         /// </summary>
@@ -2257,7 +2275,7 @@ namespace Starward.Language {
                 return ResourceManager.GetString("GachaLogPage_SyncFromMiyoushe", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   查找类似 Sync all from Miyoushe (Experimental) 的本地化字符串。
         /// </summary>
