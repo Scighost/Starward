@@ -2701,4 +2701,10 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>Ошибка декодирования видео</value>
   </data>
+  <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
+    <value>Simulated Universe Points</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
+    <value>Currency Wars Points</value>
+  </data>
 </root>
