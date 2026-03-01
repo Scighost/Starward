@@ -2681,4 +2681,10 @@
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>视频解码失败</value>
   </data>
+  <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
+    <value>模拟宇宙积分</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
+    <value>货币战争积分</value>
+  </data>
 </root>
