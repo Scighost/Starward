@@ -316,6 +316,12 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
     <value>Cập nhật (tất cả)</value>
   </data>
+  <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
+    <value>Đồng bộ với Miyoushe (Thử nghiệm)</value>
+  </data>
+  <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
+    <value>Đồng nhất với toàn bộ Miyoushe (Thử nghiệm)</value>
+  </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Nhập URL</value>
   </data>
@@ -361,6 +367,24 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
     <value>Thao tác bị huỷ</value>
+  </data>
+  <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
+    <value>Tính năng này hiện chỉ hỗ trợ ZZZ.</value>
+  </data>
+  <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
+    <value>Hãy đăng nhập qua hộp công cụ Miyoushe và thêm tài khoản Miyoushe trước.</value>
+  </data>
+  <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
+    <value>Phiên đăng nhập của tài khoản hiện tại đã hết hạn. Xin hãy đăng nhập lại tài khoản Miyoushe.</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
+    <value>Chọn tài khoản Miyoushe</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
+    <value>Có nhiều tài khoản ZZZ. Hãy chọn một tài khoản để đồng bộ kết quả gacha.</value>
+  </data>
+  <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
+    <value>Hãy chọn tài khoản Miyoushe trước.</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>Vui lòng hãy mở trang bản ghi gacha ở trong trò chơi và thử lại.</value>
@@ -1909,7 +1933,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Độ lệch múi giờ</value>
   </data>
   <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
-    <value>Offset Time</value>
+    <value>Độ lệch thời gian</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
     <value>Chọn tập tin</value>
@@ -2436,7 +2460,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Image Viewer</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
-    <value>View / Edit Image</value>
+    <value>Xem / Chỉnh sửa ảnh</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
     <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
@@ -2544,13 +2568,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xóa bộ nhớ đệm Thumbnail</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
-    <value>Clear Successfully</value>
+    <value>Xoá hoàn tất</value>
   </data>
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
-    <value>Clear Failed</value>
+    <value>Xoá thất bại</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+    <value>Định dạng hình ảnh AVIF và JPEG XL chất lượng cao giúp tiết kiệm khoảng 85% dung lượng lưu trữ.</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
     <value>Đã sao chép vào bộ nhớ tạm.</value>
@@ -2595,7 +2619,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>King in Check Stage Records</value>
   </data>
   <data name="ChallengePeakPage_Cleared" xml:space="preserve">
-    <value>Cleared</value>
+    <value>Đã xóa</value>
   </data>
   <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
     <value>No Clearance Records</value>
@@ -2610,34 +2634,34 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Updated to the latest version.</value>
   </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
-    <value>Play / Pause</value>
+    <value>Phát / Tạm dừng</value>
   </data>
   <data name="GameLauncherPage_Gallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>Thư viện</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
-    <value>Delete Duplicate Files</value>
+    <value>Xoá tệp trùng lặp</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
     <value>{0} duplicate file(s) has been deleted.</value>
   </data>
   <data name="Common_All" xml:space="preserve">
-    <value>All</value>
+    <value>Tất cả</value>
   </data>
   <data name="Common_Video" xml:space="preserve">
-    <value>Video</value>
+    <value>Đoạn phim</value>
   </data>
   <data name="Common_Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Thời gian</value>
   </data>
   <data name="Common_FileSize" xml:space="preserve">
-    <value>File Size</value>
+    <value>Kích thước tệp</value>
   </data>
   <data name="Common_Filter" xml:space="preserve">
-    <value>Filter</value>
+    <value>Bộ lọc</value>
   </data>
   <data name="Common_Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sắp xếp</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
     <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
@@ -2653,5 +2677,11 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
     <value>Video decoding failed</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
+    <value>Simulated Universe Points</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
+    <value>Currency Wars Points</value>
   </data>
 </root>
