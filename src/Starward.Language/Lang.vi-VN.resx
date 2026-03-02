@@ -2684,4 +2684,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
     <value>Currency Wars Points</value>
   </data>
+  <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
+    <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
+  </data>
 </root>
