@@ -3,6 +3,7 @@
 #include <mfapi.h>
 #include "pch.h"
 #include "VP9Decoder.h"
+#include "VorbisDecoder.h"
 
 // --- Class Factory for VP9Decoder ---
 
@@ -94,6 +95,96 @@ extern "C" __declspec(dllexport) HRESULT UnregisterVP9DecoderLocal()
 		HRESULT hr = MFTUnregisterLocal(g_pClassFactory);
 		g_pClassFactory->Release();
 		g_pClassFactory = nullptr;
+		return hr;
+	}
+	return S_OK;
+}
+
+
+// ============================================================
+// Class Factory for VorbisDecoder
+// ============================================================
+
+class VorbisDecoderClassFactory : public IClassFactory
+{
+public:
+	STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
+	{
+		if (!ppv) return E_POINTER;
+		if (riid == IID_IUnknown || riid == IID_IClassFactory)
+		{
+			*ppv = this;
+			AddRef();
+			return S_OK;
+		}
+		*ppv = nullptr;
+		return E_NOINTERFACE;
+	}
+	STDMETHODIMP_(ULONG) AddRef() { return InterlockedIncrement(&m_cRef); }
+	STDMETHODIMP_(ULONG) Release()
+	{
+		long cRef = InterlockedDecrement(&m_cRef);
+		if (cRef == 0) delete this;
+		return cRef;
+	}
+
+	STDMETHODIMP CreateInstance(IUnknown* pUnkOuter, REFIID riid, void** ppv)
+	{
+		if (pUnkOuter != nullptr) return CLASS_E_NOAGGREGATION;
+
+		VorbisDecoder* pDecoder = new (std::nothrow) VorbisDecoder();
+		if (!pDecoder) return E_OUTOFMEMORY;
+
+		HRESULT hr = pDecoder->QueryInterface(riid, ppv);
+		pDecoder->Release();
+		return hr;
+	}
+	STDMETHODIMP LockServer(BOOL /*fLock*/) { return S_OK; }
+
+	VorbisDecoderClassFactory() : m_cRef(1) {}
+
+private:
+	~VorbisDecoderClassFactory() {}
+	long m_cRef;
+};
+
+IClassFactory* g_pVorbisClassFactory = nullptr;
+
+
+extern "C" __declspec(dllexport) HRESULT RegisterVorbisDecoderLocal()
+{
+	if (!g_pVorbisClassFactory)
+	{
+		g_pVorbisClassFactory = new (std::nothrow) VorbisDecoderClassFactory();
+		if (!g_pVorbisClassFactory) return E_OUTOFMEMORY;
+	}
+
+	MFT_REGISTER_TYPE_INFO inputTypes[] = {
+		{ MFMediaType_Audio, MFAudioFormat_Vorbis }
+	};
+	MFT_REGISTER_TYPE_INFO outputTypes[] = {
+		{ MFMediaType_Audio, MFAudioFormat_Float },
+		{ MFMediaType_Audio, MFAudioFormat_PCM   },
+	};
+
+	return MFTRegisterLocal(
+		g_pVorbisClassFactory,
+		MFT_CATEGORY_AUDIO_DECODER,
+		(LPWSTR)L"Vorbis Audio Decoder",
+		MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_LOCALMFT,
+		ARRAYSIZE(inputTypes),  inputTypes,
+		ARRAYSIZE(outputTypes), outputTypes
+	);
+}
+
+
+extern "C" __declspec(dllexport) HRESULT UnregisterVorbisDecoderLocal()
+{
+	if (g_pVorbisClassFactory)
+	{
+		HRESULT hr = MFTUnregisterLocal(g_pVorbisClassFactory);
+		g_pVorbisClassFactory->Release();
+		g_pVorbisClassFactory = nullptr;
 		return hr;
 	}
 	return S_OK;

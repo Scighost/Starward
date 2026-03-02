@@ -24,6 +24,9 @@
     <ClInclude Include="VP9Decoder.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="VorbisDecoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="export.cpp">
@@ -33,6 +36,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="VP9Decoder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="VorbisDecoder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

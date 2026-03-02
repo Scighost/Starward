@@ -20,4 +20,20 @@ public static partial class VP9Decoder
     [LibraryImport("VP9DecoderMFT.dll")]
     public static partial int UnregisterVP9DecoderLocal();
 
+
+    /// <summary>
+    /// Register Vorbis Decoder MFT locally for current process.
+    /// </summary>
+    /// <returns>HRESULT</returns>
+    [LibraryImport("VP9DecoderMFT.dll")]
+    public static partial int RegisterVorbisDecoderLocal();
+
+
+    /// <summary>
+    /// Unregister Vorbis Decoder MFT locally for current process.
+    /// </summary>
+    /// <returns>HRESULT</returns>
+    [LibraryImport("VP9DecoderMFT.dll")]
+    public static partial int UnregisterVorbisDecoderLocal();
+
 }
