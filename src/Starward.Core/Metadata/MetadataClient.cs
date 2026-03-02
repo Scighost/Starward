@@ -11,7 +11,7 @@ public class MetadataClient
 {
 
 
-    private const string API_PREFIX_CLOUDFLARE = "https://starward.scighost.com/metadata";
+    private const string API_PREFIX_CLOUDFLARE = "https://starward-static.scighost.com/metadata";
 
     private const string API_PREFIX_GITHUB = "https://raw.githubusercontent.com/Scighost/Starward/metadata";
 

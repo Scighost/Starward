@@ -53,9 +53,9 @@ public class ReleaseVersion : IJsonOnDeserialized
             if (string.IsNullOrWhiteSpace(SeparatePrefix))
             {
 #if DEV
-                prefix = $"https://starward.scighost.com/release/separate_files/dev/";
+                prefix = $"https://starward-static.scighost.com/release/separate_files/dev/";
 #else
-                prefix = $"https://starward.scighost.com/release/separate_files/";
+                prefix = $"https://starward-static.scighost.com/release/separate_files/";
 #endif
             }
             else

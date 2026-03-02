@@ -42,7 +42,7 @@
                        TextWrapping="Wrap"
                        Visibility="Collapsed">
                 <Run Text="{x:Bind lang:Lang.GamepadControlSetting_GameInputRedistOutdate}" />
-                <Hyperlink NavigateUri="https://starward.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://starward-static.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.GamepadControlSetting_ClickToDownload}" />
                 </Hyperlink>
             </TextBlock>
@@ -54,7 +54,7 @@
                        TextWrapping="Wrap"
                        Visibility="Collapsed">
                 <Run Text="{x:Bind lang:Lang.GamepadControlSetting_NeedInstallGameInputRedistOnWin10}" />
-                <Hyperlink NavigateUri="https://starward.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://starward-static.scighost.com/resource/gameinput/GameInputRedist.msi" UnderlineStyle="None">
                     <Run Text="{x:Bind lang:Lang.GamepadControlSetting_ClickToDownload}" />
                 </Hyperlink>
             </TextBlock>

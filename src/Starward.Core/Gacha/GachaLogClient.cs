@@ -392,12 +392,12 @@ public abstract class GachaLogClient
         ZZZGachaWiki wiki;
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
-            const string url = $"https://starward.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_cn.zh-cn.json";
+            const string url = $"https://starward-static.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_cn.zh-cn.json";
             wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
         }
         else
         {
-            string url = $"https://starward.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_global.{lang}.json";
+            string url = $"https://starward-static.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_global.{lang}.json";
             wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
         }
         if (string.IsNullOrWhiteSpace(wiki.Language))
