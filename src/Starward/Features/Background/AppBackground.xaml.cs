@@ -380,7 +380,7 @@ public sealed partial class AppBackground : UserControl
                 bool highProfile = VP9Helper.IsVP9HighProfile(file);
                 if (!decoderInstalled || highProfile)
                 {
-                    VP9Helper.RegisterVP9Decoder();
+                    VP9Helper.RegisterVP9Decoder(true);
                 }
                 if (!decoderInstalled && !highProfile)
                 {
@@ -570,6 +570,7 @@ public sealed partial class AppBackground : UserControl
         _videoOverlayImage?.Dispose();
         _videoOverlayImage = null;
         VP9Helper.UnregisterVP9Decoder(true);
+        VP9Helper.UnregisterVorbisDecoder();
     }
 
 
