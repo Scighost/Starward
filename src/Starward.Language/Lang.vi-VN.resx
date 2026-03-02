@@ -2687,10 +2687,4 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
     <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
   </data>
-  <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
-    <value>Đồng nhất với toàn bộ HoYoLAB (Thử nghiệm)</value>
-  </data>
-  <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
-    <value>Đồng bộ với HoYoLAB (Thử nghiệm)</value>
-  </data>
 </root>
