@@ -367,16 +367,28 @@ public sealed partial class AppBackground : UserControl
         if (Path.GetExtension(file).Equals(".webm", StringComparison.OrdinalIgnoreCase))
         {
             bool decoderInstalled = VP9Helper.IsVP9DecoderInstalled();
-            bool highProfile = VP9Helper.IsWebmButNotProfile0(file);
-            if (!decoderInstalled || highProfile)
+            bool vp8 = VP9Helper.IsVP8VideoFile(file);
+            if (vp8)
             {
-                VP9Helper.RegisterVP9Decoder();
+                if (!decoderInstalled)
+                {
+                    _needToInstallVp9VideoExtension = true;
+                }
             }
-            if (!decoderInstalled && !highProfile)
+            else
             {
-                SuggestToInstallVP9Decoder();
+                bool highProfile = VP9Helper.IsVP9HighProfile(file);
+                if (!decoderInstalled || highProfile)
+                {
+                    VP9Helper.RegisterVP9Decoder();
+                }
+                if (!decoderInstalled && !highProfile)
+                {
+                    SuggestToInstallVP9Decoder();
+                }
             }
         }
+        VP9Helper.RegisterVorbisDecoder();
         _mediaPlayer = new MediaPlayer
         {
             IsLoopingEnabled = true,
@@ -440,11 +452,20 @@ public sealed partial class AppBackground : UserControl
     }
 
 
+    private bool _needToInstallVp9VideoExtension;
 
     private void MediaPlayer_MediaFailed(MediaPlayer sender, MediaPlayerFailedEventArgs args)
     {
         _logger.LogError(args.ExtendedErrorCode, "Media player failed.");
-        InAppToast.MainWindow?.Warning(Lang.AppBackground_VideoDecodingFailed);
+        if (_needToInstallVp9VideoExtension)
+        {
+            InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning, null, Lang.AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions, Lang.SettingPage_Download, async () => await Launcher.LaunchUriAsync(new("https://apps.microsoft.com/detail/9n4d0msmp0pt")));
+            _needToInstallVp9VideoExtension = false;
+        }
+        else
+        {
+            InAppToast.MainWindow?.Warning(Lang.AppBackground_VideoDecodingFailed);
+        }
     }
 
 

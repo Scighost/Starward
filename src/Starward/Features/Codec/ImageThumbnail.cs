@@ -318,7 +318,7 @@ internal static class ImageThumbnail
             if (Path.GetExtension(path).Equals(".webm", StringComparison.OrdinalIgnoreCase))
             {
                 bool decoderInstalled = VP9Helper.IsVP9DecoderInstalled();
-                bool highProfile = VP9Helper.IsWebmButNotProfile0(path);
+                bool highProfile = VP9Helper.IsVP9HighProfile(path);
                 if (!decoderInstalled || highProfile)
                 {
                     return await GetVideoThumbnailFromMediaPlayerAsync(path, cachePath, cancellation);

@@ -2687,4 +2687,7 @@
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
     <value>货币战争积分</value>
   </data>
+  <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
+    <value>视频解码失败，需要安装 VP9 视频扩展。</value>
+  </data>
 </root>

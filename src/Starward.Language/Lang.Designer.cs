@@ -187,6 +187,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Video decoding failed. Please install the VP9 Video Extensions. 的本地化字符串。
+        /// </summary>
+        public static string AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions {
+            get {
+                return ResourceManager.GetString("AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
