@@ -2690,10 +2690,4 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
     <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
   </data>
-  <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
-    <value>Sync from HoYoLAB (Experimental)</value>
-  </data>
-  <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
-    <value>Sync All from HoYoLAB (Experimental)</value>
-  </data>
 </root>
