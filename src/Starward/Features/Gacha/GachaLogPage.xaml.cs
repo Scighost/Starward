@@ -75,8 +75,16 @@ public sealed partial class GachaLogPage : PageBase
             _gachaLogService = AppConfig.GetService<ZZZGachaService>();
             Image_Emoji.Source = new BitmapImage(AppConfig.EmojiBangboo);
             MenuFlyoutItem_CloudGame.Visibility = Visibility.Collapsed;
-            MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Visible;
-            MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Visible;
+            if (CurrentGameBiz.Value is GameBiz.nap_cn or GameBiz.nap_bilibili)
+            {
+                MenuFlyoutItem_SyncFromMiyoushe.Visibility = Visibility.Visible;
+                MenuFlyoutItem_SyncFromMiyousheAll.Visibility = Visibility.Visible;
+            }
+            if (CurrentGameBiz == GameBiz.nap_global)
+            {
+                MenuFlyoutItem_SyncFromHoYoLAB.Visibility = Visibility.Visible;
+                MenuFlyoutItem_SyncFromHoYoLABAll.Visibility = Visibility.Visible;
+            }
         }
         if (CurrentGameBiz.IsGlobalServer())
         {

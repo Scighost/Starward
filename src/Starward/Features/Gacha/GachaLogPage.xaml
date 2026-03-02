@@ -70,6 +70,16 @@
                                         CommandParameter="all"
                                         Text="{x:Bind lang:Lang.GachaLogPage_SyncFromMiyousheAll}"
                                         Visibility="Collapsed" />
+                        <!--  从 HoYoLAB 同步  -->
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_SyncFromHoYoLAB"
+                                        Command="{x:Bind SyncFromMiyousheCommand}"
+                                        Text="{x:Bind lang:Lang.GachaLogPage_SyncFromHoYoLAB}"
+                                        Visibility="Collapsed" />
+                        <MenuFlyoutItem x:Name="MenuFlyoutItem_SyncFromHoYoLABAll"
+                                        Command="{x:Bind SyncFromMiyousheCommand}"
+                                        CommandParameter="all"
+                                        Text="{x:Bind lang:Lang.GachaLogPage_SyncAllFromHoYoLAB}"
+                                        Visibility="Collapsed" />
                         <!--  输入 URL  -->
                         <MenuFlyoutItem Command="{x:Bind InputUrlCommand}" Text="{x:Bind lang:Lang.GachaLogPage_InputURL}" />
                         <MenuFlyoutItem x:Name="MenuFlyoutItem_CloudGame"
@@ -301,7 +311,9 @@
             <ScrollViewer x:Name="ScrollViewer_GachaStats"
                           ScrollViewer.HorizontalScrollBarVisibility="Auto"
                           ScrollViewer.HorizontalScrollMode="Auto">
-                <Grid x:Name="Grid_GachaStats" Margin="20,0,20,16" Background="Transparent">
+                <Grid x:Name="Grid_GachaStats"
+                      Margin="20,0,20,16"
+                      Background="Transparent">
                     <ItemsControl x:Name="ItemsControl_GachaStats"
                                   x:Load="{x:Bind IsZZZGachaStatsCardVisible, Converter={StaticResource BoolReversedConverter}}"
                                   ItemsSource="{x:Bind DisplayGachaTypeStatsCollection}">
