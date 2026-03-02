@@ -311,9 +311,9 @@
     <value>Ядро арканы</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>Эксклюзивный показ</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>Звук на полную</value>
   </data>
 </root>
