@@ -2304,7 +2304,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Sync All from Miyoushe (Experimental) 的本地化字符串。
+        ///   查找类似 Sync all from Miyoushe (Experimental) 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_SyncFromMiyousheAll {
             get {
