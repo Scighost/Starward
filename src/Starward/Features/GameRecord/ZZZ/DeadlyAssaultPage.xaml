@@ -105,24 +105,22 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock Text="{x:Bind StartTime.ToString('yyyy-MM-dd', x:Null)}" />
-                        <TextBlock Grid.Row="1"
-                                   Margin="0,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   IsTextScaleFactorEnabled="False"
-                                   Text="{x:Bind TotalScore}" />
-                        <Image Grid.Row="1"
-                               Width="20"
-                               Height="20"
-                               Margin="42,2,0,0"
-                               HorizontalAlignment="Left"
-                               Source="{StaticResource StarIconLight}" />
-                        <TextBlock Grid.Row="1"
-                                   Margin="64,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   IsTextScaleFactorEnabled="False"
-                                   Text="{x:Bind TotalStar}" />
+                        <StackPanel Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    Spacing="4">
+                            <TextBlock MinWidth="44"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind TotalScore}" />
+                            <Image Width="20"
+                                   Height="20"
+                                   Source="{StaticResource StarIconLight}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind TotalStar}" />
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
