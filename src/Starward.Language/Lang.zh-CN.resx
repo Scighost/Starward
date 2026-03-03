@@ -2691,9 +2691,9 @@
     <value>视频解码失败，需要安装 VP9 视频扩展。</value>
   </data>
   <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
-    <value>从 HoYoLAB 同步 (实验)</value>
+    <value>Sync from HoYoLAB (Experimental)</value>
   </data>
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
-    <value>从 HoYoLAB 同步全部 (实验)</value>
+    <value>Sync All from HoYoLAB (Experimental)</value>
   </data>
 </root>
