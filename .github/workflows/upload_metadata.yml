@@ -20,5 +20,5 @@ jobs:
         rm -rf ./.git ./.github
         curl https://gosspublic.alicdn.com/ossutil/install.sh | sudo bash
         ossutil config -e ${{ secrets.OSS_ENDPOINT }} -i ${{ secrets.ACCESS_KEY_ID }} -k ${{ secrets.ACCESS_KEY_SECRET }}
-        ossutil cp -rf ./ oss://starward/metadata/
+        ossutil cp -rf ./ oss://starward-static/metadata/
 
