@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Starward.Features.GameInstall;
 using Starward.RPC.GameInstall;
 using System;
 using System.Windows.Input;
@@ -198,16 +199,7 @@ public sealed partial class StartGameButton : UserControl
 
     public string InstallStateText => InstallState switch
     {
-        GameInstallState.Waiting => Lang.StartGameButton_Waiting,
-        GameInstallState.Downloading => Lang.DownloadGamePage_Downloading,
-        GameInstallState.Decompressing => Lang.DownloadGamePage_Decompressing,
-        GameInstallState.Merging => Lang.DownloadGamePage_Merging,
-        GameInstallState.Verifying => Lang.DownloadGamePage_Verifying,
-        GameInstallState.Paused => Lang.DownloadGamePage_Paused,
-        GameInstallState.Finish => Lang.DownloadGamePage_Finished,
-        GameInstallState.Error => Lang.DownloadGamePage_SomethingError,
-        GameInstallState.Queueing => Lang.StartGameButton_InQueue,
-        _ => "State Error"
+        _ => GameInstallProgressFormatter.GetInstallStateText(InstallState),
     };
 
 
@@ -250,29 +242,18 @@ public sealed partial class StartGameButton : UserControl
     public void UpdateGameInstallTaskState(GameInstallContext task)
     {
         InstallState = task.State;
-        DownloadBytesText = ToBytesText(task.Progress_DownloadFinishBytes, task.Progress_DownloadTotalBytes);
-        InstallBytesText = ToBytesText(task.Progress_WriteFinishBytes, task.Progress_WriteTotalBytes);
+        DownloadBytesText = GameInstallProgressFormatter.ToBytesText(task.Progress_DownloadFinishBytes, task.Progress_DownloadTotalBytes);
+        InstallBytesText = GameInstallProgressFormatter.ToBytesText(task.Progress_WriteFinishBytes, task.Progress_WriteTotalBytes);
         ErrorMessage = task.ErrorMessage;
         if (InstallState is GameInstallState.Downloading)
         {
-            long total = task.Progress_DownloadTotalBytes;
-            long finish = task.Progress_DownloadFinishBytes;
-            double progress = (double)finish / total;
-            DownloadSpeedText = ToSpeedText(task.NetworkDownloadSpeed);
-            InstallSpeedText = ToSpeedText(task.StorageWriteSpeed);
-            VerifySpeedText = ToSpeedText(task.StorageReadSpeed);
-            RemainTimeText = ToRemainTimeText(task.RemainTimeSeconds);
-            if (task.Operation is GameInstallOperation.Update && task.DownloadMode is GameInstallDownloadMode.Chunk)
-            {
-                progress = (double)task.Progress_WriteFinishBytes / task.Progress_WriteTotalBytes;
-                ProgressRingValue = (int)(progress * 100);
-                ProgressPercentText = $"{progress:P1}";
-            }
-            else
-            {
-                ProgressRingValue = (int)(progress * 100);
-                ProgressPercentText = $"{progress:P1}";
-            }
+            double progress = GameInstallProgressFormatter.GetProgressPercent(task);
+            DownloadSpeedText = GameInstallProgressFormatter.ToSpeedText(task.NetworkDownloadSpeed);
+            InstallSpeedText = GameInstallProgressFormatter.ToSpeedText(task.StorageWriteSpeed);
+            VerifySpeedText = GameInstallProgressFormatter.ToSpeedText(task.StorageReadSpeed);
+            RemainTimeText = GameInstallProgressFormatter.ToRemainTimeText(task.RemainTimeSeconds);
+            ProgressRingValue = (int)(progress * 100);
+            ProgressPercentText = $"{progress:P1}";
         }
         else if (InstallState is GameInstallState.Decompressing or GameInstallState.Merging)
         {
@@ -280,8 +261,9 @@ public sealed partial class StartGameButton : UserControl
             InstallSpeedText = null;
             VerifySpeedText = null;
             RemainTimeText = "--:--:--";
-            ProgressRingValue = (int)(task.Progress_Percent * 100);
-            ProgressPercentText = $"{task.Progress_Percent:P1}";
+            double progress = GameInstallProgressFormatter.GetProgressPercent(task);
+            ProgressRingValue = (int)(progress * 100);
+            ProgressPercentText = $"{progress:P1}";
         }
         else if (InstallState is GameInstallState.Finish)
         {
@@ -303,50 +285,6 @@ public sealed partial class StartGameButton : UserControl
             VerifySpeedText = null;
             RemainTimeText = "--:--:--";
         }
-    }
-
-
-    private static string? ToBytesText(long finish, long total)
-    {
-        const double MB = 1 << 20;
-        const double GB = 1 << 30;
-        if (total == 0)
-        {
-            return null;
-        }
-        if (total >= GB)
-        {
-            return $"{finish / GB:F2}/{total / GB:F2} GB";
-        }
-        else
-        {
-            return $"{finish / MB:F2}/{total / MB:F2} MB";
-        }
-    }
-
-
-    private static string ToSpeedText(long bytes)
-    {
-        const double KB = 1 << 10;
-        const double MB = 1 << 20;
-        if (bytes >= MB)
-        {
-            return $"{bytes / MB:F2} MB/s";
-        }
-        else
-        {
-            return $"{bytes / KB:F2} KB/s";
-        }
-    }
-
-
-    private static string? ToRemainTimeText(long seconds)
-    {
-        if (seconds == 0)
-        {
-            return "--:--:--";
-        }
-        return TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
     }
 
 
