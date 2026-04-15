@@ -25,7 +25,7 @@ public partial class GachaLogItemEx : GachaLogItem
 
     public string Icon { get; set; }
 
-    public double Progress => (double)Pity / ((GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or ZZZGachaType.WEngineChannel) ? 80 : 90) * 100;
+    public double Progress => (double)Pity / ((GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or StarRailGachaType.LightConeCollaborationWarp or ZZZGachaType.WEngineChannel or ZZZGachaType.WEngineReverberation or ZZZGachaType.BangbooChannel) ? 80 : 90) * 100;
 
 
     public bool IsPointerIn { get; set => SetProperty(ref field, value); }
