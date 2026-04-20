@@ -311,9 +311,9 @@
     <value>Ngọc Kỳ Bí</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>Độc Quyền Phát Lại</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>W-Engine Vang Vọng</value>
   </data>
 </root>
