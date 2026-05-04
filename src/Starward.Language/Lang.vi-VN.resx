@@ -2419,16 +2419,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Locate Mouse Pointer</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>Dừng giả lập đầu vào</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value>Thử Chụp ảnh</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>Tự động chuyển đổi sang ảnh SDR</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>Khi chụp ảnh HDR, phiên bản SDR cũng sẽ được lưu lại.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
     <value>Tính năng chụp ảnh màn hình chụp trò chơi đang chạy. Nếu có nhiều trò chơi đang chạy cùng lúc, tính năng sẽ xử lí cửa sổ trò chơi vừa được thao tác gần nhất. Lưu ý các giới hạn sau:
@@ -2442,10 +2442,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
 • Con trỏ chuột không thể bị ẩn.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>Nếu bạn muốn chụp ảnh màn hình bằng bộ điều khiển, vui lòng sử dụng chức năng Ánh xạ nút trong trang Cải thiện tay cầm.</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>Tính năng chụp ảnh màn hình không hỗ trợ phiên bản đám mây.</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
     <value>Switch Windows</value>
@@ -2463,19 +2463,19 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xem / Chỉnh sửa ảnh</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Đã phát hiện thành phần Microsoft GameInput. Chức năng nhập liệu mô phỏng không khả dụng khi ứng dụng đang chạy ngầm.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>Một thành phần Microsoft GameInput đã lỗi thời đang được cài đặt. Vui lòng gỡ cài đặt hoặc cập nhật nó.</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Trên Windows 10, thành phần Microsoft GameInput phải được cài đặt để tính năng tăng cường tay cầm hoạt động đúng cách.</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>Nhấn để tải.</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
-    <value>Copy as JPG</value>
+    <value>Sao chép dưới dạng JPG</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
     <value>Chọn nhiều</value>
@@ -2487,7 +2487,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Keyboard Enter Key</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
-    <value>Stygian Onslaught</value>
+    <value>Ảo Cảnh Hiểm Ác</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
     <value>Single Player</value>
@@ -2496,10 +2496,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Co-Op</value>
   </data>
   <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
-    <value>Battle Time</value>
+    <value>Thời gian khiêu chiến</value>
   </data>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
-    <value>Highest Total Damage Dealt</value>
+    <value>Gây Nhiều Sát Thương Nhất</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
     <value>Các tuỳ chọn khác</value>
@@ -2631,7 +2631,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Anomaly Arbitration</value>
   </data>
   <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
-    <value>Updated to the latest version.</value>
+    <value>Đã cập nhật phiên bản mới nhất.</value>
   </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
     <value>Phát / Tạm dừng</value>
@@ -2667,25 +2667,25 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
-    <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+    <value>Tiện ích mở rộng video VP9 không hỗ trợ một số định dạng nhất định, điều này có thể gây cản trở việc tạo thumbnail hoặc phát lại video đúng cách.</value>
   </data>
   <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
     <value>Image decoding failed</value>
   </data>
   <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
-    <value>Please install the WebP Image Extension.</value>
+    <value>Vui lòng cài đặt tiện ích mở rộng hình ảnh WebP.</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
-    <value>Video decoding failed</value>
+    <value>Giải mã video thất bại</value>
   </data>
   <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
-    <value>Simulated Universe Points</value>
+    <value>Điểm Vũ trụ mô phỏng</value>
   </data>
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
-    <value>Currency Wars Points</value>
+    <value>Điểm Chiến Tranh Tiền Tệ</value>
   </data>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
-    <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
+    <value>Quá trình giải mã video thất bại. Vui lòng cài đặt tiện ích mở rộng video VP9.</value>
   </data>
   <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
     <value>Đồng nhất với toàn bộ HoYoLAB (Thử nghiệm)</value>
