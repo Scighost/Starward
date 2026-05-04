@@ -1,0 +1,33 @@
+
+name: Upload Release Metadata
+
+on:
+  push:
+    branches: [ "release-metadata" ]
+
+jobs:
+
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Setup ossutil
+      run: |
+        curl -o ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.2.2/ossutil-2.2.2-linux-amd64.zip
+        unzip ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip -d ${{runner.temp}}
+        sudo cp ${{runner.temp}}/ossutil-2.2.2-linux-amd64/ossutil /usr/local/bin/ossutil
+        sudo chmod +x /usr/local/bin/ossutil
+        ossutil version
+
+    - name: Upload to OSS
+      run: |
+        rm -rf ./.git ./.github
+        ossutil cp ./ oss://starward-static/ -r -f --content-type "application/json" --cache-control "public, s-maxage=86400"
+      env:
+        OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        OSS_REGION: ${{ secrets.OSS_REGION }}
+
