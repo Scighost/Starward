@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>Tôi đã đọc và đồng ý với Chính sách quyền riêng tư</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>Kiểm tra thất bại; không thể đảm bảo tính an toàn của quá trình gỡ cài đặt.</value>
+  </data>
 </root>
