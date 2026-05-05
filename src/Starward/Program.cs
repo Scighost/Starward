@@ -1,8 +1,7 @@
 global using Starward.Language;
 using Microsoft.Extensions.Configuration;
 using Starward.Core;
-using Starward.Core.HoYoPlay;
-using Starward.Features.GameLauncher;
+using Starward.Features.CommandLine;
 using Starward.Features.UrlProtocol;
 using Starward.RPC;
 using System;
@@ -50,12 +49,13 @@ public static class Program
 
             if (args[0].ToLower() is "startgame")
             {
-                GameBiz biz = (GameBiz)config.GetValue<string>("biz");
-                GameId? gameId = GameId.FromGameBiz(biz);
-                if (gameId is not null)
-                {
-                    AppConfig.GetService<GameLauncherService>().StartGameAsync(gameId).GetAwaiter().GetResult();
-                }
+                GameCliRunner.StartGameAsync(args).GetAwaiter().GetResult();
+                return;
+            }
+
+            if (args[0].ToLower() is "updategame")
+            {
+                GameCliRunner.UpdateGameAsync(args).GetAwaiter().GetResult();
                 return;
             }
 
