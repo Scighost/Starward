@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "BuildTool": {
+    "Starward.Setup": {
       "commandName": "Project"
     }
   }

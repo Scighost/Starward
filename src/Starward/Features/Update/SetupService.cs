@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Snap.HPatch;
 using Starward.Helpers;
 using Starward.Setup.Core;
 using System;
@@ -65,28 +64,9 @@ internal class SetupService
         {
             if (await FileHashHelper.CheckSHA256Async(setupPath, size, hash, cancellationToken))
             {
-                SetupTotalBytes = size;
-                SetupDownloadBytes = size;
                 return setupPath;
             }
-
-            if (detail.Diffs.TryGetValue(AppConfig.AppVersion, out var diff) && diff.SetupDiff is ReleaseSetupDiff setupDiff)
-            {
-                if (await FileHashHelper.CheckSHA256Async(setupPath, setupDiff.OldFileHash, cancellationToken))
-                {
-                    SetupTotalBytes = setupDiff.Size;
-                    using var diffStream = new MemoryStream();
-                    await DownloadFileAsync(diffStream, setupDiff.Url, setupDiff.Size, setupDiff.Hash, cancellationToken);
-                    byte[] oldFileBytes = await File.ReadAllBytesAsync(setupPath, cancellationToken);
-                    using var fs = File.Open(setupPath, FileMode.Create, FileAccess.ReadWrite);
-                    HPatch.PatchZstandard(new MemoryStream(oldFileBytes), diffStream, fs);
-                    fs.Position = 0;
-                    if (await FileHashHelper.CheckSHA256Async(fs, size, hash, cancellationToken))
-                    {
-                        return setupPath;
-                    }
-                }
-            }
+            File.Delete(setupPath);
         }
 
         SetupTotalBytes = detail.Setup.Size;
@@ -146,27 +126,6 @@ internal class SetupService
 
 
 
-
-    public async Task MigrateToSetupAsync(ReleaseInfoDetail detail, CancellationToken cancellationToken = default)
-    {
-        string? setupPath = await DownloadSetupAsync(detail, cancellationToken);
-        if (!File.Exists(setupPath))
-        {
-            throw new NotSupportedException("Migrate to setup is not supported.");
-        }
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = setupPath,
-            UseShellExecute = true,
-            Verb = "runas",
-            Arguments = $"""
-                migrate --Version "{AppConfig.AppVersion}" --Path "{AppContext.BaseDirectory.TrimEnd('\\')}" --UserDataFolder "{AppConfig.UserDataFolder?.TrimEnd('\\')}"
-                """,
-        });
-    }
-
-
-
     public async Task UpdateAsync(ReleaseInfoDetail detail, CancellationToken cancellationToken = default)
     {
         string? setupPath = await DownloadSetupAsync(detail, cancellationToken);
@@ -174,13 +133,14 @@ internal class SetupService
         {
             throw new NotSupportedException("Update is not supported.");
         }
+        cancellationToken.ThrowIfCancellationRequested();
         Process.Start(new ProcessStartInfo
         {
             FileName = setupPath,
             UseShellExecute = true,
             Verb = "runas",
             Arguments = $"""
-                update --Version "{AppConfig.AppVersion}" --Path "{AppContext.BaseDirectory.TrimEnd('\\')}"
+                update --InstallFolder "{AppContext.BaseDirectory.TrimEnd('\\')}" --OldVersion "{AppConfig.AppVersion}" --NewVersion "{detail.Version}" --Preview "{AppConfig.EnablePreviewRelease}"
                 """,
         });
     }

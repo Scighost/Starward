@@ -11,7 +11,7 @@ on:
 jobs:
 
   build:
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     strategy:
       matrix:
         configuration: [Debug, Release]
@@ -31,7 +31,7 @@ jobs:
         global-json-file: global.json
 
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
 
     - name: SHA
       id: sha
@@ -42,11 +42,11 @@ jobs:
         $sha = "${{ steps.sha.outputs.sha }}"
         New-Item -Path "build/Starward/" -Type Directory
         msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform;OutDir=$(Resolve-Path "build/Starward/")"
-        dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-build.$sha" -p:Platform=$env:Platform -p:Version="0.0.1-build.$sha" -p:DefineConstants=CI
-        Add-Content "build/Starward/version.ini" -Value "app_folder=app-build.$sha`r`nexe_name=Starward.exe"
+        dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-build.$sha" -p:Platform=$env:Platform -p:Version="0.0.1-build.$sha" -p:DefineConstants=DONOT_CHECK_UPDATE
+        Add-Content "build/Starward/version.ini" -Value "exe_path=app-build.$sha\Starward.exe"
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: Starward_${{ matrix.configuration }}_${{ matrix.platform }}_${{ steps.sha.outputs.sha }}
         path: build/Starward/

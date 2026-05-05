@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
@@ -16,11 +17,7 @@ public class ReleaseInfo
     [JsonPropertyName("releases")]
     public Dictionary<string, ReleaseInfoDetail> Releases { get; set; }
 
-    public bool TryGetReleaseInfoDetail(Architecture architecture, InstallType installType,
-#if NET10_0_OR_GREATER
-[System.Diagnostics.CodeAnalysis.NotNullWhen(true)]
-#endif
-    out ReleaseInfoDetail? detail)
+    public bool TryGetReleaseInfoDetail(Architecture architecture, InstallType installType, [NotNullWhen(true)] out ReleaseInfoDetail? detail)
     {
         detail = null;
         if (Releases is null)
@@ -39,10 +36,12 @@ public class ReleaseInfoDetail
     public string Version { get; set; }
 
     [JsonPropertyName("architecture")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(JsonStringIgnoreCaseEnumConverter<Architecture>))]
     public Architecture Architecture { get; set; }
 
     [JsonPropertyName("install_type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(JsonStringIgnoreCaseEnumConverter<InstallType>))]
     public InstallType InstallType { get; set; }
 
@@ -93,25 +92,11 @@ public class ReleaseInfoDiff
     [JsonPropertyName("diff_version")]
     public string DiffVersion { get; set; }
 
+    [JsonPropertyName("diff_size")]
+    public long DiffSize { get; set; }
+
     [JsonPropertyName("manifest_url")]
     public string ManifestUrl { get; set; }
 
-    [JsonPropertyName("setup_diff")]
-    public ReleaseSetupDiff? SetupDiff { get; set; }
 }
 
-
-public class ReleaseSetupDiff
-{
-    [JsonPropertyName("url")]
-    public string Url { get; set; }
-
-    [JsonPropertyName("size")]
-    public long Size { get; set; }
-
-    [JsonPropertyName("hash")]
-    public string Hash { get; set; }
-
-    [JsonPropertyName("old_file_hash")]
-    public string OldFileHash { get; set; }
-}

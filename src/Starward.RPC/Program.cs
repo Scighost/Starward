@@ -9,7 +9,6 @@ using Serilog;
 using Starward.Core.HoYoPlay;
 using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
-using Starward.RPC.Update;
 using Starward.Setup.Core;
 using System;
 using System.IO;
@@ -110,7 +109,6 @@ public static class RpcRunner
 
 
         builder.Services.AddScoped<ReleaseClient>();
-        builder.Services.AddScoped<UpdateService>();
         //builder.Services.AddScoped<HoYoPlayClient>();
         builder.Services.AddScoped<GamePackageService>();
         builder.Services.AddSingleton<GameInstallService>();
@@ -123,7 +121,6 @@ public static class RpcRunner
 
 
         app.MapGrpcService<EnviromentController>();
-        app.MapGrpcService<UpdateController>();
         app.MapGrpcService<GameInstallController>();
 
         app.Run();

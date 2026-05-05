@@ -11,10 +11,12 @@ public class ReleaseManifest
     public string Version { get; set; }
 
     [JsonPropertyName("architecture")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(JsonStringIgnoreCaseEnumConverter<Architecture>))]
     public Architecture Architecture { get; set; }
 
     [JsonPropertyName("install_type")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(JsonStringIgnoreCaseEnumConverter<InstallType>))]
     public InstallType InstallType { get; set; }
 

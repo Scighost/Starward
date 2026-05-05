@@ -1,7 +1,7 @@
 ﻿using Starward.Setup.Core.Github;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -25,21 +25,14 @@ public class ReleaseClient
     {
         if (httpClient is null)
         {
-            _httpClient = new HttpClient(
-#if NET9_0_OR_GREATER
-                new SocketsHttpHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.All,
-                    EnableMultipleHttp2Connections = true,
-                    EnableMultipleHttp3Connections = true,
-                    PooledConnectionLifetime = TimeSpan.FromMinutes(5)
-#else
-                new HttpClientHandler
-                {
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-#endif
-                });
-            _httpClient.DefaultRequestHeaders.Add("User-Agent", $"{Process.GetCurrentProcess().ProcessName}/*");
+            _httpClient = new HttpClient(new SocketsHttpHandler
+            {
+                AutomaticDecompression = DecompressionMethods.All,
+                EnableMultipleHttp2Connections = true,
+                EnableMultipleHttp3Connections = true,
+                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+            });
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", $"{Path.GetFileNameWithoutExtension(Environment.ProcessPath)}/*");
         }
         else
         {
@@ -49,26 +42,26 @@ public class ReleaseClient
     }
 
 
-    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync(bool isPrerelease, string appVersion, CancellationToken cancellationToken = default)
+    public async Task<ReleaseInfo> GetLatestReleaseInfoAsync(bool isPrerelease, string currentVersion, CancellationToken cancellationToken = default)
     {
         var url = isPrerelease switch
         {
-            false => $"/release/latest?version={appVersion}",
-            true => $"/release/latest-preview?version={appVersion}",
+            false => $"/release/latest?version={currentVersion}",
+            true => $"/release/latest-preview?version={currentVersion}",
         };
-        var info = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseInfo), ReleaseJsonContext.Default, cancellationToken);
-        return info as ReleaseInfo ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
+        return info ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
 
-    public async Task<ReleaseInfoDetail> GetLatestReleaseInfoDetailAsync(bool isPrerelease, string appVersion, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
+    public async Task<ReleaseInfoDetail> GetLatestReleaseInfoDetailAsync(bool isPrerelease, string currentVersion, Architecture arch, InstallType type, CancellationToken cancellationToken = default)
     {
         var url = isPrerelease switch
         {
-            false => $"/release/latest?version={appVersion}",
-            true => $"/release/latest-preview?version={appVersion}",
+            false => $"/release/latest?version={currentVersion}",
+            true => $"/release/latest-preview?version={currentVersion}",
         };
-        var info = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseInfo), ReleaseJsonContext.Default, cancellationToken) as ReleaseInfo;
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
         if (info is null)
         {
             throw new NullReferenceException($"Cannot get json content from '{url}'.");
@@ -87,15 +80,15 @@ public class ReleaseClient
     public async Task<ReleaseInfo> GetReleaseInfoAsync(string version, CancellationToken cancellationToken = default)
     {
         var url = $"/release/version/{version}";
-        var info = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseInfo), ReleaseJsonContext.Default, cancellationToken);
-        return info as ReleaseInfo ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
+        return info ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
 
     public async Task<ReleaseManifest> GetReleaseManifestAsync(string url, CancellationToken cancellationToken = default)
     {
-        var manifest = await _httpClient.GetFromJsonAsync(url, typeof(ReleaseManifest), ReleaseJsonContext.Default, cancellationToken);
-        return manifest as ReleaseManifest ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
+        var manifest = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseManifest, cancellationToken);
+        return manifest ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
 
@@ -107,7 +100,7 @@ public class ReleaseClient
     public async Task<GithubRelease?> GetGithubLatestReleaseAsync(CancellationToken cancellationToken = default)
     {
         const string url = "https://api.github.com/repos/Scighost/Starward/releases?page=1&per_page=1";
-        var list = await _httpClient.GetFromJsonAsync(url, typeof(List<GithubRelease>), ReleaseJsonContext.Default, cancellationToken) as List<GithubRelease>;
+        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken);
         return list?.FirstOrDefault();
     }
 
@@ -116,7 +109,7 @@ public class ReleaseClient
     public async Task<List<GithubRelease>> GetGithubReleaseAsync(int page, int perPage, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases?page={page}&per_page={perPage}";
-        var list = await _httpClient.GetFromJsonAsync(url, typeof(List<GithubRelease>), ReleaseJsonContext.Default, cancellationToken) as List<GithubRelease>;
+        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken);
         return list ?? new List<GithubRelease>();
     }
 
@@ -125,7 +118,7 @@ public class ReleaseClient
     public async Task<GithubRelease?> GetGithubReleaseAsync(string tag, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases/tags/{tag}";
-        return await _httpClient.GetFromJsonAsync(url, typeof(GithubRelease), ReleaseJsonContext.Default, cancellationToken) as GithubRelease;
+        return await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.GithubRelease, cancellationToken);
     }
 
 
@@ -138,7 +131,7 @@ public class ReleaseClient
             Mode = "gfm",
             Context = "Scighost/Starward",
         };
-        var content = new StringContent(JsonSerializer.Serialize(request, typeof(GithubMarkdownRequest), ReleaseJsonContext.Default), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(request, ReleaseJsonContext.Default.GithubMarkdownRequest), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(url, content, cancellationToken);
         response.EnsureSuccessStatusCode();
         return await response.Content.ReadAsStringAsync();

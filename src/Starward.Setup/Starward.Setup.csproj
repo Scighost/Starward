@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<PublishAot>true</PublishAot>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<CETCompat>false</CETCompat>
+		<OptimizationPreference>Size</OptimizationPreference>
+		<IlcGenerateMstatFile>true</IlcGenerateMstatFile>
+		<IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>../logo.ico</ApplicationIcon>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aprillz.MewUI" Version="0.15.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.7" />
+		<PackageReference Include="SharpCompress" Version="0.47.4" />
+		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="5.0.4" />
+		<PackageReference Include="WindowsShortcutFactory" Version="1.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\*" />
+		<EmbeddedResource Include="Firefly.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<DirectPInvoke Include="Snap.HPatch" />
+		<NativeLibrary Include="runtimes\$(RuntimeIdentifier)\Snap.HPatch.lib" />
+	</ItemGroup>
+
+</Project>

@@ -74,17 +74,13 @@ public sealed partial class WelcomeView : UserControl
         try
         {
             string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
-            if (AppConfig.IsAppInRemovableStorage && AppConfig.IsPortable)
+            if (AppConfig.IsPortable)
             {
                 UserDataFolder = parentFolder;
             }
             else if (AppConfig.IsAppInRemovableStorage)
             {
                 UserDataFolder = Path.Combine(Path.GetPathRoot(AppContext.BaseDirectory)!, ".StarwardData");
-            }
-            else if (AppConfig.IsPortable)
-            {
-                UserDataFolder = parentFolder;
             }
             else
             {
@@ -109,12 +105,13 @@ public sealed partial class WelcomeView : UserControl
         {
             UserDataFolderErrorMessage = null;
             CanStartStarward = false;
-            if (!Directory.Exists(UserDataFolder) || !Path.IsPathFullyQualified(UserDataFolder))
+            if (string.IsNullOrWhiteSpace(UserDataFolder) || !Path.IsPathFullyQualified(UserDataFolder))
             {
                 UserDataFolderErrorMessage = Lang.DownloadGamePage_TheFolderDoesNotExist;
                 return;
             }
             string folder = Path.GetFullPath(UserDataFolder);
+            Directory.CreateDirectory(folder);
             if (folder == Path.GetPathRoot(folder))
             {
                 UserDataFolderErrorMessage = Lang.LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive;
