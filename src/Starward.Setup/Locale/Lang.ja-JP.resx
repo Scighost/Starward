@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>プライバシーポリシーを読み、同意します</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>チェックに失敗しました。アンインストール処理の安全性を保証できません。</value>
+  </data>
 </root>
