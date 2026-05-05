@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>개인정보 처리방침을 읽고 동의합니다</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>검사에 실패했습니다. 제거 작업의 안전성을 보장할 수 없습니다.</value>
+  </data>
 </root>
