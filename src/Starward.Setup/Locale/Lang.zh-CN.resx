@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>我已阅读并同意《隐私政策》</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>检查出错，无法保证卸载操作的安全性。</value>
+  </data>
 </root>
