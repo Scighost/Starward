@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>Я прочитал и согласен с Политикой конфиденциальности</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>Проверка не удалась; невозможно гарантировать безопасность процесса удаления.</value>
+  </data>
 </root>
