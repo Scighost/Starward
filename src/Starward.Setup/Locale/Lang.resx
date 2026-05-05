@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>I have read and agree to the Privacy Policy</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>Check failed. Unable to guarantee the safety of the uninstallation operation.</value>
+  </data>
 </root>
