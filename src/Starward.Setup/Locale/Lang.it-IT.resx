@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>Ho letto e accetto l'Informativa sulla privacy</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>Controllo non riuscito; non è possibile garantire la sicurezza del processo di disinstallazione.</value>
+  </data>
 </root>
