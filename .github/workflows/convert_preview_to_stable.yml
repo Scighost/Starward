@@ -15,16 +15,14 @@ jobs:
 
     steps:
     - name: Checkout Static
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
-        ref: static
+        ref: release-metadata
 
     - name: Copy Files
-      shell: pwsh
-      run: |
-        Copy-Item release/release_info_preview.json release/release_info_stable.json -Force
+      run: cp -f release/latest-preview release/latest
 
-    - name: Push Static
+    - name: Push Metadata
       run: |
         git config --global user.name '${{ github.actor }}'
         git config --global user.email '${{ github.actor }}@users.noreply.github.com'
@@ -33,16 +31,16 @@ jobs:
 
     - name: Setup ossutil
       run: |
-        curl -o ${{runner.temp}}/ossutil-2.2.0-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.2.0/ossutil-2.2.0-linux-amd64.zip
-        unzip ${{runner.temp}}/ossutil-2.2.0-linux-amd64.zip -d ${{runner.temp}}
-        sudo cp ${{runner.temp}}/ossutil-2.2.0-linux-amd64/ossutil /usr/local/bin/ossutil
+        curl -o ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.2.2/ossutil-2.2.2-linux-amd64.zip
+        unzip ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip -d ${{runner.temp}}
+        sudo cp ${{runner.temp}}/ossutil-2.2.2-linux-amd64/ossutil /usr/local/bin/ossutil
         sudo chmod +x /usr/local/bin/ossutil
         ossutil version
 
     - name: Upload to OSS
       run: |
         rm -rf ./.git ./.github
-        ossutil cp ./ oss://starward-static/ -r -f -j 20
+        ossutil cp ./ oss://starward-static/ -r -f --content-type "application/json" --cache-control "public, s-maxage=86400"
       env:
         OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
         OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}

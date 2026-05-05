@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>1.3</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="OSVersionLessThan17763" xml:space="preserve">
+    <value>Версия вашей операционной системы ниже Windows 10 1809 (сборка 17763). Пожалуйста, обновите Windows до последней версии, чтобы продолжить установку Starward.</value>
+  </data>
+  <data name="ASetupIsAlreadyRunning" xml:space="preserve">
+    <value>Программа установки уже запущена.</value>
+  </data>
+  <data name="StarwardSetup" xml:space="preserve">
+    <value>Установщик Starward</value>
+  </data>
+  <data name="StarwardLaunch" xml:space="preserve">
+    <value>Starward, запуск!</value>
+  </data>
+  <data name="GameLauncherForMiHoYo" xml:space="preserve">
+    <value>Игровой лаунчер miHoYo</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="SpaceRequired" xml:space="preserve">
+    <value>Требуемое пространство</value>
+  </data>
+  <data name="SpaceAvailable" xml:space="preserve">
+    <value>Доступное пространство</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="RemovableDeviceDownloadPortable" xml:space="preserve">
+    <value>Выбранная папка находится на съёмном устройстве. Рекомендуется загрузить портативную версию (Portable).</value>
+  </data>
+  <data name="AnErrorOccurredDuringInstallation" xml:space="preserve">
+    <value>Во время установки произошла ошибка</value>
+  </data>
+  <data name="StarwardUninstaller" xml:space="preserve">
+    <value>Деинсталлятор Starward</value>
+  </data>
+  <data name="UninstallationComplete" xml:space="preserve">
+    <value>Удаление завершено</value>
+  </data>
+  <data name="IAcknowledgeTheAboveRisks" xml:space="preserve">
+    <value>Я подтверждаю указанные выше риски</value>
+  </data>
+  <data name="KeepCachedData" xml:space="preserve">
+    <value>Сохранить кэшированные данные</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="UninstallPathCaution" xml:space="preserve">
+    <value>Путь установки неверен или папка была перемещена. Во избежание случайного удаления файлов функция удаления отключена. Пожалуйста, удалите файлы вручную.</value>
+  </data>
+  <data name="UnstallDatabaseCaution" xml:space="preserve">
+    <value>В директории установки существует файл базы данных StarwardDatabase.db. После удаления личные данные будут потеряны.</value>
+  </data>
+  <data name="UnstallScreenshotCaution" xml:space="preserve">
+    <value>В директории установки существуют файлы скриншотов игры. После удаления эти файлы будут удалены.</value>
+  </data>
+  <data name="AnErrorOccurredDuringUninstallation" xml:space="preserve">
+    <value>Во время удаления произошла ошибка</value>
+  </data>
+  <data name="AllFilesCanBeSafelyDeleted" xml:space="preserve">
+    <value>Все файлы можно безопасно удалить</value>
+  </data>
+  <data name="StarwardUpdater" xml:space="preserve">
+    <value>Обновление Starward</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="TheDestinationFolderDoesNotExistPleaseTryAgain" xml:space="preserve">
+    <value>Папка назначения не существует. Пожалуйста, попробуйте ещё раз.</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheUpdate" xml:space="preserve">
+    <value>Во время обновления произошла ошибка</value>
+  </data>
+  <data name="StarwardIsRunningForceClose" xml:space="preserve">
+    <value>Обнаружено, что Starward ({0}) запущен. Принудительно закрыть?</value>
+  </data>
+  <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
+    <value>Я прочитал и согласен с Политикой конфиденциальности</value>
+  </data>
+</root>

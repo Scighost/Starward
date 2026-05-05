@@ -7,7 +7,7 @@ namespace Starward.RPC.GameInstall;
 /// <summary>
 /// 文件切片流
 /// </summary>
-internal class FileSliceStream : Stream
+public class FileSliceStream : Stream
 {
 
     private readonly FileStream _sourceStream;

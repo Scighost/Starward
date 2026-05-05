@@ -1,4 +1,4 @@
-﻿namespace Starward.RPC.Update;
+﻿namespace Starward.Features.Update;
 
 /// <summary>
 /// 更新状态

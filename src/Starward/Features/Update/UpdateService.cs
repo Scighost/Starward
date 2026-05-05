@@ -1,12 +1,19 @@
-using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
-using Starward.Features.RPC;
-using Starward.RPC.Update;
+using Polly;
+using Polly.Retry;
+using Snap.HPatch;
+using Starward.RPC.GameInstall;
 using Starward.Setup.Core;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,17 +24,58 @@ internal class UpdateService
 
     private readonly ILogger<UpdateService> _logger;
 
-    private readonly RpcService _rpcService;
+    private readonly HttpClient _httpClient;
 
     private readonly ReleaseClient _releaseClient;
 
+    private readonly ResiliencePipeline _polly;
 
-    public UpdateService(ILogger<UpdateService> logger, RpcService rpcService, ReleaseClient releaseClient)
+
+    public UpdateService(ILogger<UpdateService> logger, HttpClient httpClient, ReleaseClient releaseClient)
     {
         _logger = logger;
-        _rpcService = rpcService;
+        _httpClient = httpClient;
         _releaseClient = releaseClient;
+        _polly = new ResiliencePipelineBuilder().AddRetry(new RetryStrategyOptions
+        {
+            MaxRetryAttempts = 5,
+            BackoffType = DelayBackoffType.Linear
+        }).Build();
     }
+
+
+
+    private string _targetPath;
+
+    private string _updateCacheFolder;
+
+    private ReleaseManifest _releaseManifest;
+
+    private ConcurrentDictionary<string, string> _currentVersionFilesHash;
+
+
+
+    public static bool UpdateFinished { get; private set; }
+
+    public UpdateState State { get; private set; }
+
+    public int Progress_TotalFileCount { get; private set; }
+
+    private int _progress_DownloadFileCount;
+    public int Progress_DownloadFileCount => _progress_DownloadFileCount;
+
+    public long Progress_TotalBytes { get; private set; }
+
+    private long _progress_DownloadBytes;
+    public long Progress_DownloadBytes => _progress_DownloadBytes;
+
+    public string? ErrorMessage { get; private set; }
+
+
+
+    private bool _isUpdating;
+
+    private CancellationTokenSource? _cancellationTokenSource;
 
 
 
@@ -63,28 +111,6 @@ internal class UpdateService
 #endif
     }
 
-
-
-    public static bool UpdateFinished { get; private set; }
-
-
-    public UpdateState State { get; private set; }
-
-    public int Progress_TotalFileCount { get; private set; }
-
-    public int Progress_DownloadFileCount { get; private set; }
-
-    public long Progress_TotalBytes { get; private set; }
-
-    public long Progress_DownloadBytes { get; private set; }
-
-    public string? ErrorMessage { get; private set; }
-
-
-
-    private bool _isUpdating;
-
-    private CancellationTokenSource? _cancellationTokenSource;
 
 
     public async Task StartUpdateAsync(ReleaseInfoDetail release)
@@ -133,37 +159,18 @@ internal class UpdateService
 
 
 
-
     private async Task StartInternalAsync(ReleaseInfoDetail release, CancellationToken cancellationToken = default)
     {
         try
         {
-            if (!await _rpcService.EnsureRpcServerRunningAsync())
+            string manifestUrl = release.ManifestUrl;
+            if (release.Diffs?.TryGetValue(AppConfig.AppVersion, out var diff) ?? false)
             {
-                // 操作取消
-                State = UpdateState.Stop;
-                _logger.LogWarning("Start rpc server cancelled.");
-                return;
+                manifestUrl = diff.ManifestUrl;
             }
-            var client = RpcService.CreateRpcClient<Updater.UpdaterClient>();
-            var request = new UpdateRequest
-            {
-                Version = release.Version,
-                Architecture = (int)release.Architecture,
-                InstallType = (int)release.InstallType,
-                TargetPath = Path.GetDirectoryName(AppConfig.StarwardPortableLauncherExecutePath),
-                CurrentVersion = AppConfig.AppVersion,
-            };
-            using var call = client.Update(request, cancellationToken: cancellationToken);
-            await foreach (UpdateProgress progress in call.ResponseStream.ReadAllAsync(cancellationToken))
-            {
-                State = (UpdateState)progress.State;
-                Progress_TotalFileCount = progress.TotalFile;
-                Progress_DownloadFileCount = progress.DownloadFile;
-                Progress_TotalBytes = progress.TotalBytes;
-                Progress_DownloadBytes = progress.DownloadBytes;
-                ErrorMessage = progress.ErrorMessage;
-            }
+            var manifest = await _releaseClient.GetReleaseManifestAsync(manifestUrl, cancellationToken);
+            string targetPath = Path.GetDirectoryName(AppConfig.StarwardPortableLauncherExecutePath)!;
+            await PrepareForUpdateAsync(manifest, targetPath, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -186,11 +193,353 @@ internal class UpdateService
     {
         State = UpdateState.Stop;
         Progress_TotalFileCount = 0;
-        Progress_DownloadFileCount = 0;
+        _progress_DownloadFileCount = 0;
         Progress_TotalBytes = 0;
-        Progress_DownloadBytes = 0;
+        _progress_DownloadBytes = 0;
         ErrorMessage = null;
     }
+
+
+
+    #region Prepare
+
+
+
+    private async Task PrepareForUpdateAsync(ReleaseManifest manifest, string targetPath, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            _logger.LogInformation("Prepare for update starward");
+            State = UpdateState.Pending;
+            _targetPath = targetPath;
+            _releaseManifest = manifest;
+            _updateCacheFolder = Path.Combine(AppConfig.CacheFolder, "update");
+            Directory.CreateDirectory(_updateCacheFolder);
+            await GetCurrentVersionFilesHashAsync(cancellationToken);
+            await UpdateAsync(cancellationToken);
+            _logger.LogInformation("Update finished");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Prepare for update");
+            State = UpdateState.Stop;
+        }
+    }
+
+
+
+    private async Task GetCurrentVersionFilesHashAsync(CancellationToken cancellationToken = default)
+    {
+        if (_currentVersionFilesHash is null)
+        {
+            var files = Directory.GetFiles(AppContext.BaseDirectory, "*", SearchOption.AllDirectories);
+            var releaseFiles = new ConcurrentDictionary<string, string>();
+            await Parallel.ForEachAsync(files, cancellationToken, async (file, token) =>
+            {
+                try
+                {
+                    using var fs = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
+                    lock (releaseFiles)
+                    {
+                        releaseFiles[Convert.ToHexStringLower(sha256)] = file;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Calculate file hash failed: {file}", file);
+                }
+            });
+            _currentVersionFilesHash = releaseFiles;
+        }
+    }
+
+
+
+    #endregion
+
+
+
+    #region Update
+
+
+
+    private async Task UpdateAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            BackupVersionIni();
+            State = UpdateState.Downloading;
+            await DownloadFilesAsync(cancellationToken);
+            State = UpdateState.Pending;
+            await PatchAndVerifyAsync(cancellationToken);
+            DeleteOldFiles();
+            DeleteUpdateCacheFolder();
+            await Task.Delay(1000, cancellationToken);
+            State = UpdateState.Finish;
+            _logger.LogInformation("Update Starward finished");
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Update Starward canceled, restore version.ini");
+            State = UpdateState.Stop;
+            RestoreVersionIni();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update Starward failed, restore version.ini");
+            State = UpdateState.Error;
+            ErrorMessage = ex.Message;
+            RestoreVersionIni();
+        }
+    }
+
+
+
+    private void BackupVersionIni()
+    {
+        var ini = Path.Combine(_targetPath, "version.ini");
+        var backup = Path.Combine(_updateCacheFolder, "version.ini");
+        if (File.Exists(backup))
+        {
+            File.Delete(backup);
+        }
+        if (File.Exists(ini))
+        {
+            File.Copy(ini, Path.Combine(_updateCacheFolder, "version.ini"), true);
+        }
+    }
+
+
+
+    private void RestoreVersionIni()
+    {
+        var ini = Path.Combine(_updateCacheFolder, "version.ini");
+        if (File.Exists(ini))
+        {
+            File.Copy(ini, Path.Combine(_targetPath, "version.ini"), true);
+        }
+    }
+
+
+
+    private async Task DownloadFilesAsync(CancellationToken cancellationToken = default)
+    {
+        _progress_DownloadBytes = 0;
+        _progress_DownloadFileCount = 0;
+        Progress_TotalBytes = 0;
+        Progress_TotalFileCount = 0;
+        if (_releaseManifest.DiffVersion is null)
+        {
+            foreach (var item in _releaseManifest.Files)
+            {
+                if (!(_currentVersionFilesHash?.TryGetValue(item.Hash, out var value) ?? false))
+                {
+                    Progress_TotalBytes += item.CompressedSize;
+                    Progress_TotalFileCount += 1;
+                }
+            }
+        }
+        else
+        {
+            Progress_TotalBytes = _releaseManifest.DiffSize;
+            Progress_TotalFileCount = _releaseManifest.DiffFileCount;
+        }
+
+        List<(string Id, long Size, string Hash, string? Suffix)> list = new();
+        foreach (var item in _releaseManifest.Files)
+        {
+            if (item.Patch is null && !_currentVersionFilesHash!.ContainsKey(item.Hash))
+            {
+                list.Add((item.Id, item.CompressedSize, item.CompressedHash, item.UrlSuffix));
+            }
+            else if (item.Patch?.Id is not null && item.Patch?.PatchHash is not null)
+            {
+                list.Add((item.Patch.Id, item.Patch.PatchSize, item.Patch.PatchHash, item.Patch.UrlSuffix));
+            }
+        }
+        list = list.DistinctBy(x => x.Id).ToList();
+
+        _logger.LogInformation("Update Starward, downloading {count} files, file size: {size}", Progress_TotalFileCount, Progress_TotalBytes);
+        await Parallel.ForEachAsync(list, cancellationToken, async (item, token) =>
+        {
+            await _polly.ExecuteAsync(async (pollyToken) => await DownloadReleaseFileAsync(item, pollyToken), token);
+        });
+        _logger.LogInformation("Update Starward, downloading files finished");
+    }
+
+
+
+    private async Task PatchAndVerifyAsync(CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Update Starward, patching and verifying files");
+        await Parallel.ForEachAsync(_releaseManifest.Files, cancellationToken, async (releaseFile, token) =>
+        {
+            try
+            {
+                await DecompressOrPatchFileAsync(releaseFile, token);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Decompress or patch file failed: {file}", releaseFile.Path);
+            }
+            await _polly.ExecuteAsync(async (pollyToken) => await VerifyAndDownloadFileAsync(releaseFile, pollyToken), token);
+        });
+    }
+
+
+
+    private async Task DownloadReleaseFileAsync((string Id, long Size, string Hash, string? Suffix) item, CancellationToken cancellationToken = default)
+    {
+        string url = _releaseManifest.UrlPrefix + item.Id + (item.Suffix ?? _releaseManifest.UrlSuffix);
+        string path = Path.Combine(_updateCacheFolder, item.Id);
+
+        using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
+        Interlocked.Add(ref _progress_DownloadBytes, fs.Length);
+        if (fs.Length < item.Size)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
+            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+            var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            if (response.Content.Headers.ContentRange?.From is not null)
+            {
+                fs.Position = response.Content.Headers.ContentRange.From.Value;
+            }
+            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+            var buffer = new byte[1 << 16];
+            int length;
+            while ((length = await hs.ReadAsync(buffer, cancellationToken)) != 0)
+            {
+                await fs.WriteAsync(buffer.AsMemory(0, length), cancellationToken);
+                Interlocked.Add(ref _progress_DownloadBytes, length);
+            }
+        }
+        await fs.FlushAsync(cancellationToken);
+        Interlocked.Increment(ref _progress_DownloadFileCount);
+
+        fs.Position = 0;
+        var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
+        if (string.Equals(Convert.ToHexString(sha256), item.Hash, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+        _logger.LogWarning("Checksum failed: {path}", path);
+        fs.Dispose();
+        File.Delete(path);
+        Interlocked.Add(ref _progress_DownloadBytes, -item.Size);
+        Interlocked.Decrement(ref _progress_DownloadFileCount);
+        throw new Exception($"Checksum failed: {path}");
+    }
+
+
+
+    private async Task DecompressOrPatchFileAsync(ReleaseFile releaseFile, CancellationToken cancellationToken = default)
+    {
+        string path = Path.Combine(_targetPath, releaseFile.Path);
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        if (releaseFile.Patch is null && _currentVersionFilesHash.TryGetValue(releaseFile.Hash, out string? oldPath))
+        {
+            File.Copy(oldPath, path, true);
+        }
+        else if (releaseFile.Patch is null)
+        {
+            string downloadPath = Path.Combine(_updateCacheFolder, releaseFile.Id);
+            if (File.Exists(downloadPath))
+            {
+                using var zstdFs = File.OpenRead(downloadPath);
+                using var fs = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
+                using var decompressionStream = new ZstdSharp.DecompressionStream(zstdFs);
+                await decompressionStream.CopyToAsync(fs, cancellationToken);
+            }
+        }
+        else if (_currentVersionFilesHash.TryGetValue(releaseFile.Patch.OldFileHash, out string? oldPath2) && new FileInfo(oldPath2).Length == releaseFile.Patch.OldFileSize)
+        {
+            if (releaseFile.Patch.Id is null)
+            {
+                File.Copy(oldPath2, path, true);
+            }
+            else
+            {
+                string patchPath = Path.Combine(_updateCacheFolder, releaseFile.Patch.Id);
+                if (File.Exists(patchPath))
+                {
+                    using var oldFs = File.Open(oldPath2, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+                    using var newFs = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
+                    using var patchFs = new FileSliceStream(patchPath, releaseFile.Patch.Offset, releaseFile.Patch.Length == 0 ? releaseFile.Patch.PatchSize : releaseFile.Patch.Length);
+                    HPatch.PatchZstandard(oldFs, patchFs, newFs);
+                }
+            }
+        }
+    }
+
+
+
+    private async Task VerifyAndDownloadFileAsync(ReleaseFile releaseFile, CancellationToken cancellationToken = default)
+    {
+        string path = Path.Combine(_targetPath, releaseFile.Path);
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
+        if (fs.Length != releaseFile.Size)
+        {
+            string url = _releaseManifest.UrlPrefix + releaseFile.Id + _releaseManifest.UrlSuffix;
+            using var hs = await _httpClient.GetStreamAsync(url, cancellationToken);
+            fs.SetLength(0);
+            using var zstdStream = new ZstdSharp.DecompressionStream(hs);
+            await zstdStream.CopyToAsync(fs, cancellationToken);
+            fs.Position = 0;
+        }
+        var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
+        if (!string.Equals(Convert.ToHexStringLower(sha256), releaseFile.Hash, StringComparison.OrdinalIgnoreCase))
+        {
+            fs.Dispose();
+            File.Delete(path);
+            throw new Exception($"Checksum failed: {path}");
+        }
+    }
+
+
+
+    private void DeleteOldFiles()
+    {
+        try
+        {
+            if (_releaseManifest.DeleteFiles is null)
+            {
+                return;
+            }
+            foreach (var item in _releaseManifest.DeleteFiles)
+            {
+                string path = Path.Combine(_targetPath, item);
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete old files");
+        }
+    }
+
+
+
+    private void DeleteUpdateCacheFolder()
+    {
+        try
+        {
+            Directory.Delete(_updateCacheFolder, true);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete update cache folder");
+        }
+    }
+
+
+
+    #endregion
 
 
 

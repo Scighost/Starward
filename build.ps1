@@ -1,21 +1,14 @@
 ﻿param(
     [string] $Architecture = "x64",
     [string] $Version = "1.0.0",
-    [string] $Output = "build/Starward",
-    [switch] $Dev
+    [string] $Output = "build/Starward"
 )
 
 $ErrorActionPreference = "Stop";
 
-if ($Dev) {
-    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "$Output/app-$Version" -p:Platform=$Architecture -p:DefineConstants=DEV -p:Version=$Version;
-}
-else {
-    dotnet publish src/Starward -c Release -r "win-$Architecture" -o "$Output/app-$Version" -p:Platform=$Architecture -p:Version=$Version;
-}
-
-$env:Path += ';C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\';
 $env:Path += ';C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\';
+
+dotnet publish src/Starward -c Release -r "win-$Architecture" -o "$Output/app-$Version" -p:Platform=$Architecture -p:Version=$Version;
 
 msbuild src/Starward.Launcher "-property:Configuration=Release;Platform=$Architecture;OutDir=$(Resolve-Path "$Output/")";
 

@@ -17,7 +17,7 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 		<DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<ApplicationIcon>../logo.ico</ApplicationIcon>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' == 'Debug'">false</CsWinRTAotOptimizerEnabled>

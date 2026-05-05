@@ -246,7 +246,7 @@ public sealed partial class MainView : UserControl
     {
         try
         {
-#if CI || DEBUG
+#if DEBUG || DONOT_CHECK_UPDATE
             return;
 #endif
 #pragma warning disable CS0162 // 检测到无法访问的代码

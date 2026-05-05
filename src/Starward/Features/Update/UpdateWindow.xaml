@@ -118,18 +118,6 @@
                 <CheckBox Margin="0,-4,0,0"
                           Content="{x:Bind lang:Lang.UpdateWindow_DisplayUpdateContentAfterRestart}"
                           IsChecked="{x:Bind ShowUpdateContentAfterUpdateRestart, Mode=TwoWay}" />
-                <!--  迁移到安装版  -->
-                <Button x:Name="Button_MigrateToSetup"
-                        Height="36"
-                        Margin="0,8,0,0"
-                        Padding="12,0,12,0"
-                        BorderThickness="0"
-                        Command="{x:Bind MigrateToSetupCommand}"
-                        Content="{x:Bind lang:Lang.UpdateWindow_MigrateToSetup}"
-                        CornerRadius="8"
-                        Style="{ThemeResource AccentButtonStyle}"
-                        Visibility="Collapsed" />
-
             </StackPanel>
 
 

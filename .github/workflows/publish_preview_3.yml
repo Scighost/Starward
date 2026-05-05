@@ -1,0 +1,245 @@
+
+name: Publish Preview 3
+
+on:
+  push:
+    tags: ["*"]
+
+permissions:
+  pull-requests: write
+  contents: write
+
+
+jobs:
+
+  build-pack:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    runs-on: windows-2025-vs2026
+    env:
+      Version: ${{ github.ref_name }}
+      Arch: ${{ matrix.arch }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Build and Pack (Single Arch)
+      run: dotnet run publish.cs -- --version $env:Version --arch $env:Arch --build-only true
+
+    - name: Upload Artifact (Compiled, ${{ env.Arch }})
+      uses: actions/upload-artifact@v7
+      with:
+        name: compiled_${{ env.Version }}_${{ env.Arch }}
+        path: publish/${{ env.Arch }}/Starward/
+        retention-days: 7
+
+    - name: Upload Artifact (Package, ${{ env.Arch }})
+      uses: actions/upload-artifact@v7
+      with:
+        name: package_${{ env.Version }}_${{ env.Arch }}
+        path: |
+          publish/release/package/Starward_Setup_${{ env.Version }}_${{ env.Arch }}.exe
+          publish/release/package/Starward_Portable_${{ env.Version }}_${{ env.Arch }}.7z
+        retention-days: 7
+
+
+  manifest-diff:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    runs-on: windows-2025-vs2026
+    needs: build-pack
+    env:
+      Version: ${{ github.ref_name }}
+      Arch: ${{ matrix.arch }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Download Artifact (Compiled, ${{ env.Arch }})
+      uses: actions/download-artifact@v8
+      with:
+        name: compiled_${{ env.Version }}_${{ env.Arch }}
+        path: publish/${{ env.Arch }}/Starward/
+
+    - name: Download Artifact (Package, ${{ env.Arch }})
+      uses: actions/download-artifact@v8
+      with:
+        name: package_${{ env.Version }}_${{ env.Arch }}
+        path: publish/release/package/
+
+    - name: Build Manifest and Diff (Single Arch)
+      run: dotnet run publish.cs -- --version $env:Version --arch $env:Arch --manifest-only true --diff true
+
+    - name: Upload Artifact (Release Manifest, ${{ env.Arch }})
+      uses: actions/upload-artifact@v7
+      with:
+        name: release_manifest_${{ env.Version }}_${{ env.Arch }}
+        path: publish/release/manifest/
+        retention-days: 7
+
+    - name: Upload Artifact (Release Info, ${{ env.Arch }})
+      uses: actions/upload-artifact@v7
+      with:
+        name: release_info_${{ env.Version }}_${{ env.Arch }}
+        path: publish/release/version/${{ env.Arch }}/
+        retention-days: 7
+
+    - name: Upload Artifact (Release File, ${{ env.Arch }})
+      uses: actions/upload-artifact@v7
+      with:
+        name: release_file_${{ env.Version }}_${{ env.Arch }}
+        path: publish/release/file/
+        retention-days: 7
+
+
+  merge-publish:
+    runs-on: windows-2025-vs2026
+    needs: manifest-diff
+    env:
+      Version: ${{ github.ref_name }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Download Artifact (Package, x64)
+      uses: actions/download-artifact@v8
+      with:
+        name: package_${{ env.Version }}_x64
+        path: publish/release/package/
+
+    - name: Download Artifact (Package, arm64)
+      uses: actions/download-artifact@v8
+      with:
+        name: package_${{ env.Version }}_arm64
+        path: publish/release/package/
+
+    - name: Download Artifact (Manifest, x64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_manifest_${{ env.Version }}_x64
+        path: publish/release/manifest/
+
+    - name: Download Artifact (Manifest, arm64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_manifest_${{ env.Version }}_arm64
+        path: publish/release/manifest/
+
+    - name: Download Artifact (Release Info, x64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_info_${{ env.Version }}_x64
+        path: publish/release/version/x64/
+
+    - name: Download Artifact (Release Info, arm64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_info_${{ env.Version }}_arm64
+        path: publish/release/version/arm64/
+
+    - name: Download Artifact (Release File, x64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_file_${{ env.Version }}_x64
+        path: publish/release/file/
+
+    - name: Download Artifact (Release File, arm64)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_file_${{ env.Version }}_arm64
+        path: publish/release/file/
+
+    - name: Merge release_info
+      run: dotnet run publish.cs -- --version $env:Version --merge-release-info true
+
+    - name: Upload Artifact (Release Info)
+      uses: actions/upload-artifact@v7
+      with:
+        name: release_info_${{ env.Version }}
+        path: publish/release/version/
+        retention-days: 7
+
+    - name: Create Release
+      uses: softprops/action-gh-release@v3
+      with:
+        draft: true
+        prerelease: true
+        files: publish/release/package/*
+
+    - name: Setup ossutil
+      run: |
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.2.2/ossutil-2.2.2-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
+        Move-Item -Path ${{runner.temp}}/ossutil-2.2.2-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
+
+    - name: Upload to OSS
+      run: |
+        ossutil cp ./publish/release/ oss://starward-static/release/ -r -f -j 20
+        ossutil cp ./publish/release/version/ oss://starward-static/release/version/ -r -f --content-type "application/json" --cache-control "public, s-maxage=2592000"
+      env:
+        OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        OSS_REGION: ${{ secrets.OSS_REGION }}
+
+
+  release-metadata:
+    runs-on: ubuntu-latest
+    needs: merge-publish
+    env:
+      Version: ${{ github.ref_name }}
+
+    steps:
+    - name: Checkout Release Metadata
+      uses: actions/checkout@v6
+      with:
+        ref: release-metadata
+        path: metadata
+
+    - name: Download Artifact (Release Info)
+      uses: actions/download-artifact@v8
+      with:
+        name: release_info_${{ env.Version }}
+        path: publish
+
+    - name: Copy File
+      run: cp -f publish/$Version metadata/release/latest-preview
+
+    - name: Create Static Pull Request
+      uses: peter-evans/create-pull-request@v8
+      with:
+        path: metadata
+        branch: update-release-metadata
+        delete-branch: true
+        title: update release metadata ${{ env.Version }}
+        commit-message: update release metadata ${{ env.Version }}
+
+
+
