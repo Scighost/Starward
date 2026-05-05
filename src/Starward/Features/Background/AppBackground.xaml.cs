@@ -377,12 +377,12 @@ public sealed partial class AppBackground : UserControl
             }
             else
             {
-                bool highProfile = VP9Helper.IsVP9HighProfile(file);
-                if (!decoderInstalled || highProfile)
+                bool highProfileOrRgb = VP9Helper.IsVP9HighProfileOrRGB(file);
+                if (!decoderInstalled || highProfileOrRgb)
                 {
                     VP9Helper.RegisterVP9Decoder(true);
                 }
-                if (!decoderInstalled && !highProfile)
+                if (!decoderInstalled && !highProfileOrRgb)
                 {
                     SuggestToInstallVP9Decoder();
                 }
