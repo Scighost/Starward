@@ -478,49 +478,19 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
     if (oldManifest is not null)
     {
         manifest.DiffVersion = oldManifest.Version;
-        manifest.DiffFileCount = manifest.Files.Count(f => f.Patch == null || f.Patch.Id != null);
-        manifest.DiffSize = manifest.Files.Where(f => f.Patch != null).Sum(f => f.Patch!.PatchSize) + manifest.Files.Where(x => x.Patch == null).Sum(x => x.CompressedSize);
         if (type is InstallType.Setup)
         {
             manifest.DeleteFiles = oldManifest.Files.Select(x => x.Path).Except(manifest.Files.Select(f => f.Path)).ToList();
         }
 
 
-        var list = manifest.Files.Where(x => x.Patch?.Id != null).OrderByDescending(x => x.Patch!.Length).ToList();
-        const long MaxPackageSize = 2 * 1024 * 1024; // 2MB
-        // Best Fit Decreasing: 优先放入剩余空间最小但仍能容纳的包，让每个包尽量接近2MB
-        var packages = new List<(List<ReleaseFile> Files, long Size)>();
+        var packages = PackDiffFiles(manifest.Files);
 
-        foreach (var file in list)
+        foreach (var package in packages)
         {
-            long fileSize = file.Patch!.Length;
-            int bestBin = -1;
-            long bestRemainingSpace = long.MaxValue;
-            for (int i = 0; i < packages.Count; i++)
-            {
-                long remaining = MaxPackageSize - packages[i].Size;
-                if (remaining >= fileSize && remaining < bestRemainingSpace)
-                {
-                    bestBin = i;
-                    bestRemainingSpace = remaining;
-                }
-            }
-            if (bestBin >= 0)
-            {
-                packages[bestBin].Files.Add(file);
-                packages[bestBin] = (packages[bestBin].Files, packages[bestBin].Size + fileSize);
-            }
-            else
-            {
-                packages.Add((new List<ReleaseFile> { file }, fileSize));
-            }
-        }
-
-        foreach (var (packageFiles, _) in packages)
-        {
-            using var ms = new MemoryStream();
+            using var ms = new MemoryStream(package.Size > int.MaxValue ? 0 : (int)package.Size);
             long offset = 0;
-            foreach (var file in packageFiles)
+            foreach (var file in package.Files)
             {
                 string diffFilePath = file.Patch!.Id!; // 原id是路径
                 byte[] diffBytes = await File.ReadAllBytesAsync(diffFilePath);
@@ -536,7 +506,7 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
             string packagePath = Path.Join("publish/release/file/", packageId);
             await File.WriteAllBytesAsync(packagePath, packageBytes);
 
-            foreach (var file in packageFiles)
+            foreach (var file in package.Files)
             {
                 file.Patch!.Id = packageId;
                 file.Patch.PatchSize = packageBytes.LongLength;
@@ -544,6 +514,8 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
             }
         }
 
+        manifest.DiffFileCount = manifest.Files.Count(f => f.Patch == null) + packages.Count;
+        manifest.DiffSize = manifest.Files.Where(x => x.Patch == null).Sum(x => x.CompressedSize) + packages.Sum(p => p.Size);
     }
 
     byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(manifest, JsonContext.Default.ReleaseManifest);
@@ -556,6 +528,198 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
     Console.WriteLine("--------------------");
 
     return manifest;
+}
+
+
+static List<(List<ReleaseFile> Files, long Size)> PackDiffFiles(IEnumerable<ReleaseFile> files)
+{
+    const long TargetPackageSize = 2 * 1024 * 1024; // 2MB
+    const long MinPackageSize = 18 * 1024 * 1024 / 10; // 1.8MB
+    const long MaxPackageSize = 22 * 1024 * 1024 / 10; // 2.2MB
+
+    List<ReleaseFile> orderedFiles = files
+        .Where(x => x.Patch?.Id is not null)
+        .OrderByDescending(x => x.Patch!.Length)
+        .ThenBy(x => x.Path, StringComparer.Ordinal)
+        .ToList();
+
+    var oversizedPackages = new List<(List<ReleaseFile> Files, long Size)>();
+    var normalFiles = new List<ReleaseFile>();
+    foreach (var file in orderedFiles)
+    {
+        long fileSize = file.Patch!.Length;
+        if (fileSize >= MaxPackageSize)
+        {
+            oversizedPackages.Add((new List<ReleaseFile> { file }, fileSize));
+        }
+        else
+        {
+            normalFiles.Add(file);
+        }
+    }
+
+    long totalNormalSize = normalFiles.Sum(x => x.Patch!.Length);
+    int initialBinCount = totalNormalSize == 0 ? 0 : (int)Math.Ceiling((double)totalNormalSize / MaxPackageSize);
+
+    var packages = new List<(List<ReleaseFile> Files, long Size)>();
+    for (int i = 0; i < initialBinCount; i++)
+    {
+        packages.Add((new List<ReleaseFile>(), 0));
+    }
+
+    foreach (var file in normalFiles)
+    {
+        long fileSize = file.Patch!.Length;
+
+        int bestPackageIndex = -1;
+        long bestDistance = long.MaxValue;
+        long bestSize = long.MinValue;
+        for (int i = 0; i < packages.Count; i++)
+        {
+            long nextSize = packages[i].Size + fileSize;
+            if (nextSize > MaxPackageSize)
+            {
+                continue;
+            }
+
+            long distance = Math.Abs(TargetPackageSize - nextSize);
+            if (distance < bestDistance || (distance == bestDistance && nextSize > bestSize))
+            {
+                bestDistance = distance;
+                bestSize = nextSize;
+                bestPackageIndex = i;
+            }
+        }
+
+        if (bestPackageIndex >= 0)
+        {
+            packages[bestPackageIndex].Files.Add(file);
+            packages[bestPackageIndex] = (packages[bestPackageIndex].Files, packages[bestPackageIndex].Size + fileSize);
+        }
+        else
+        {
+            packages.Add((new List<ReleaseFile> { file }, fileSize));
+        }
+    }
+
+    MergeUndersizedPackages(packages, MinPackageSize, TargetPackageSize, MaxPackageSize);
+    packages.AddRange(oversizedPackages);
+    packages.RemoveAll(static x => x.Files.Count == 0);
+    return packages;
+}
+
+
+static void MergeUndersizedPackages(List<(List<ReleaseFile> Files, long Size)> packages, long minPackageSize, long targetPackageSize, long maxPackageSize)
+{
+    while (true)
+    {
+        int undersizedIndex = -1;
+        long undersizedSize = long.MaxValue;
+        for (int i = 0; i < packages.Count; i++)
+        {
+            if (packages[i].Size < minPackageSize && packages[i].Size < undersizedSize)
+            {
+                undersizedIndex = i;
+                undersizedSize = packages[i].Size;
+            }
+        }
+
+        if (undersizedIndex < 0)
+        {
+            return;
+        }
+
+        int mergeIndex = -1;
+        long bestDistance = long.MaxValue;
+        long bestMergedSize = long.MinValue;
+        for (int i = 0; i < packages.Count; i++)
+        {
+            if (i == undersizedIndex)
+            {
+                continue;
+            }
+
+            long mergedSize = packages[i].Size + undersizedSize;
+            if (mergedSize > maxPackageSize)
+            {
+                continue;
+            }
+
+            long distance = Math.Abs(targetPackageSize - mergedSize);
+            if (distance < bestDistance || (distance == bestDistance && mergedSize > bestMergedSize))
+            {
+                bestDistance = distance;
+                bestMergedSize = mergedSize;
+                mergeIndex = i;
+            }
+        }
+
+        if (mergeIndex < 0)
+        {
+            if (!TryBorrowForUndersizedPackage(packages, undersizedIndex, minPackageSize, targetPackageSize, maxPackageSize))
+            {
+                return;
+            }
+            continue;
+        }
+
+        packages[mergeIndex].Files.AddRange(packages[undersizedIndex].Files);
+        packages[mergeIndex] = (packages[mergeIndex].Files, packages[mergeIndex].Size + packages[undersizedIndex].Size);
+        packages.RemoveAt(undersizedIndex);
+    }
+}
+
+
+static bool TryBorrowForUndersizedPackage(List<(List<ReleaseFile> Files, long Size)> packages, int undersizedIndex, long minPackageSize, long targetPackageSize, long maxPackageSize)
+{
+    int donorIndex = -1;
+    ReleaseFile? borrowedFile = null;
+    long bestScore = long.MaxValue;
+
+    for (int i = 0; i < packages.Count; i++)
+    {
+        if (i == undersizedIndex || packages[i].Files.Count == 0)
+        {
+            continue;
+        }
+
+        foreach (var file in packages[i].Files)
+        {
+            long fileSize = file.Patch!.Length;
+            long nextUndersized = packages[undersizedIndex].Size + fileSize;
+            long nextDonor = packages[i].Size - fileSize;
+
+            if (nextUndersized > maxPackageSize)
+            {
+                continue;
+            }
+
+            if (nextDonor > 0 && nextDonor < minPackageSize)
+            {
+                continue;
+            }
+
+            long score = Math.Abs(targetPackageSize - nextUndersized) + Math.Abs(targetPackageSize - nextDonor);
+            if (score < bestScore)
+            {
+                bestScore = score;
+                donorIndex = i;
+                borrowedFile = file;
+            }
+        }
+    }
+
+    if (donorIndex < 0 || borrowedFile is null)
+    {
+        return false;
+    }
+
+    long borrowedSize = borrowedFile.Patch!.Length;
+    packages[donorIndex].Files.Remove(borrowedFile);
+    packages[donorIndex] = (packages[donorIndex].Files, packages[donorIndex].Size - borrowedSize);
+    packages[undersizedIndex].Files.Add(borrowedFile);
+    packages[undersizedIndex] = (packages[undersizedIndex].Files, packages[undersizedIndex].Size + borrowedSize);
+    return true;
 }
 
 
