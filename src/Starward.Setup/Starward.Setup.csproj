@@ -39,4 +39,16 @@
 		<NativeLibrary Include="runtimes\$(RuntimeIdentifier)\Snap.HPatch.lib" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<Compile Update="Locale\Lang.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Lang.resx</DependentUpon>
+		</Compile>
+		<EmbeddedResource Update="Locale\Lang.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Lang.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
 </Project>

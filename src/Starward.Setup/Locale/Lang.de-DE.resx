@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>Ich habe die Datenschutzerklärung gelesen und stimme ihr zu</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>Überprüfung fehlgeschlagen; die Sicherheit der Deinstallation kann nicht gewährleistet werden.</value>
+  </data>
 </root>

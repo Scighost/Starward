@@ -106,6 +106,15 @@ namespace Starward.Setup.Locale {
         }
         
         /// <summary>
+        ///   查找类似 Check failed. Unable to guarantee the safety of the uninstallation operation. 的本地化字符串。
+        /// </summary>
+        internal static string CannotGuaranteeSafetyOfUninstallation {
+            get {
+                return ResourceManager.GetString("CannotGuaranteeSafetyOfUninstallation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Change 的本地化字符串。
         /// </summary>
         internal static string Change {

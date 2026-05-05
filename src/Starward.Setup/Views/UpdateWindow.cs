@@ -241,7 +241,7 @@ public class UpdateWindow : WindowBase
                 await Task.Delay(16);
             }
 
-            await task.ConfigureAwait(false);
+            await task;
 
             StackPanel_UpdateProgress.IsVisible = false;
             ProgressRing_Update.IsVisible = false;

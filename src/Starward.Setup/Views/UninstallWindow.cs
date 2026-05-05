@@ -224,7 +224,8 @@ public class UninstallWindow : WindowBase
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
-            UninstallEnabled.Value = true;
+            CheckBox_Caution.IsVisible = true;
+            StackPanel_UninstallInfo.Add(new TextBlock().Text($"● {Lang.CannotGuaranteeSafetyOfUninstallation}").TextWrapping(TextWrapping.Wrap));
         }
         finally
         {
