@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>我已閱讀並同意《私隱政策》</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>檢查失敗，無法保證解除安裝操作的安全性。</value>
+  </data>
 </root>
