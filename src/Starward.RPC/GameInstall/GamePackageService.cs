@@ -748,9 +748,9 @@ internal partial class GamePackageService
             {
                 continue;
             }
-            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            if (manifest.MatchingField.Length is 5 or 10 && manifest.MatchingField.Contains('-'))
             {
-                // 跳过语音包
+                // 跳过语音包 zh-cn or mini-zh-cn
                 continue;
             }
             manifests.Add(manifest);
@@ -779,9 +779,9 @@ internal partial class GamePackageService
             {
                 continue;
             }
-            if (manifest.MatchingField.Length == 5 && manifest.MatchingField[2] == '-')
+            if (manifest.MatchingField.Length is 5 or 10 && manifest.MatchingField.Contains('-'))
             {
-                // 跳过语音包
+                // 跳过语音包 zh-cn or mini-zh-cn
                 continue;
             }
             manifests.Add(manifest);
