@@ -198,4 +198,7 @@
   <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
     <value>ฉันได้อ่านและยอมรับนโยบายความเป็นส่วนตัว</value>
   </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>การตรวจสอบล้มเหลว ไม่สามารถรับประกันความปลอดภัยของกระบวนการถอนการติดตั้งได้</value>
+  </data>
 </root>
