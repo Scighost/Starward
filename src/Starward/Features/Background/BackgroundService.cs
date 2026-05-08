@@ -38,14 +38,14 @@ public class BackgroundService
 
 
     /// <summary>
-    /// 获取背景图文件路径，保存在 UserData\bg
+    /// 获取背景图文件路径，保存在 CacheFolder\bg
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     [return: NotNullIfNotNull(nameof(name))]
     public static string? GetBgFilePath(string? name)
     {
-        return Path.Join(AppConfig.UserDataFolder, "bg", name);
+        return Path.Join(AppConfig.CacheFolder, "bg", name);
     }
 
 
@@ -212,7 +212,7 @@ public class BackgroundService
             return null;
         }
         await CheckBackgroundFileAvailableAsync(file);
-        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
+        string bg = Path.Join(AppConfig.CacheFolder, "bg");
         Directory.CreateDirectory(bg);
         string name = Path.GetFileName(file);
         string path = Path.Combine(bg, name);
@@ -232,7 +232,7 @@ public class BackgroundService
     /// <returns></returns>
     public static async Task<string?> ChangeCustomBackgroundFileAsync(StorageFile file)
     {
-        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
+        string bg = Path.Join(AppConfig.CacheFolder, "bg");
         if (Path.GetDirectoryName(file.Path) != bg)
         {
             if (FileIsSupportedVideo(file.Name))
