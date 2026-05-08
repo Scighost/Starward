@@ -2696,4 +2696,13 @@
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
     <value>从 HoYoLAB 同步全部 (实验)</value>
   </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>初始化过程中发生未知错误</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>应用程序没有权限访问以下文件夹。请以管理员身份重新启动，或移动该文件夹。</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>以管理员身份重启</value>
+  </data>
 </root>
