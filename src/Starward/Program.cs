@@ -1,10 +1,4 @@
 global using Starward.Language;
-using Microsoft.Extensions.Configuration;
-using Starward.Core;
-using Starward.Core.HoYoPlay;
-using Starward.Features.GameLauncher;
-using Starward.Features.UrlProtocol;
-using Starward.RPC;
 using System;
 using System.Collections;
 using System.IO;
@@ -27,47 +21,6 @@ public static class Program
     static void Main(string[] args)
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-        if (args.Length > 0)
-        {
-            IConfiguration config = new ConfigurationBuilder().AddCommandLine(args).Build();
-            if (args[0].ToLower() is "rpc")
-            {
-                RpcRunner.Run(args);
-                return;
-            }
-            if (args[0].ToLower() is "playtime")
-            {
-                int pid = config.GetValue<int>("pid");
-                GameBiz biz = (GameBiz)config.GetValue<string>("biz");
-                if (pid > 0)
-                {
-                    var playtime = AppConfig.GetService<Features.PlayTime.PlayTimeService>();
-                    playtime.LogPlayTimeAsync(biz, pid).GetAwaiter().GetResult();
-                }
-                return;
-            }
-
-            if (args[0].ToLower() is "startgame")
-            {
-                GameBiz biz = (GameBiz)config.GetValue<string>("biz");
-                GameId? gameId = GameId.FromGameBiz(biz);
-                if (gameId is not null)
-                {
-                    AppConfig.GetService<GameLauncherService>().StartGameAsync(gameId).GetAwaiter().GetResult();
-                }
-                return;
-            }
-
-            if (args[0].ToLower().StartsWith("starward://"))
-            {
-                if (UrlProtocolService.HandleUrlProtocolAsync(args[0]).GetAwaiter().GetResult())
-                {
-                    return;
-                }
-            }
-        }
-
 
         global::WinRT.ComWrappersSupport.InitializeComWrappers();
         global::Microsoft.UI.Xaml.Application.Start((p) =>

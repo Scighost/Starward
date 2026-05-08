@@ -1,13 +1,20 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Starward.Core;
+using Starward.Core.HoYoPlay;
+using Starward.Features.GameLauncher;
 using Starward.Features.GamepadControl;
 using Starward.Features.UrlProtocol;
 using Starward.Features.ViewHost;
+using Starward.RPC;
 using System;
 using System.Collections;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
 
 
@@ -61,26 +68,29 @@ public partial class App : Application
 
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs _)
     {
+        string[] args = Environment.GetCommandLineArgs().Skip(1).ToArray();
+
+        if (args[0].ToLower().StartsWith("starward://test/"))
+        {
+            new TestUrlProtocolWindow().Activate();
+            return;
+        }
+
+        await AppConfig.CheckEnviromentAsync();
+
+        if (args.Length > 0 && await HandleStartupAsync(args))
+        {
+            return;
+        }
+
         instance = AppInstance.GetCurrent();
         instance.Activated += AppInstance_Activated;
-        var args = Environment.GetCommandLineArgs();
-        if (args.Length > 1)
-        {
-            if (Uri.TryCreate(args[1], UriKind.Absolute, out Uri? uri))
-            {
-                if (uri.Host is "test")
-                {
-                    new TestUrlProtocolWindow().Activate();
-                    return;
-                }
-            }
-        }
+
         var main = AppInstance.FindOrRegisterForKey("main");
         if (!main.IsCurrent)
         {
             await main.RedirectActivationToAsync(instance.GetActivatedEventArgs());
-            this.Exit();
-            return;
+            Environment.Exit(0);
         }
         if (Environment.GetCommandLineArgs().Contains("--hide"))
         {
@@ -91,6 +101,49 @@ public partial class App : Application
             m_MainWindow = new MainWindow();
             m_MainWindow.Activate();
         }
+    }
+
+
+    private async Task<bool> HandleStartupAsync(string[] args)
+    {
+        IConfiguration config = new ConfigurationBuilder().AddCommandLine(args).Build();
+        if (args[0].ToLower() is "rpc")
+        {
+            RpcRunner.Run(args);
+            Environment.Exit(0);
+        }
+        if (args[0].ToLower() is "playtime")
+        {
+            int pid = config.GetValue<int>("pid");
+            GameBiz biz = (GameBiz)config.GetValue<string>("biz");
+            if (pid > 0)
+            {
+                var playtime = AppConfig.GetService<Features.PlayTime.PlayTimeService>();
+                await playtime.LogPlayTimeAsync(biz, pid);
+            }
+            Environment.Exit(0);
+        }
+
+        if (args[0].ToLower() is "startgame")
+        {
+            GameBiz biz = (GameBiz)config.GetValue<string>("biz");
+            GameId? gameId = GameId.FromGameBiz(biz);
+            if (gameId is not null)
+            {
+                await AppConfig.GetService<GameLauncherService>().StartGameAsync(gameId);
+            }
+            Environment.Exit(0);
+        }
+
+        if (args[0].ToLower().StartsWith("starward://"))
+        {
+            if (await UrlProtocolService.HandleUrlProtocolAsync(args[0]))
+            {
+                Environment.Exit(0);
+            }
+        }
+
+        return false;
     }
 
 

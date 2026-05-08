@@ -13,7 +13,7 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <ContentControl x:Name="MainContentHost"
+        <local:MainView x:Name="MainContentHost"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch" />
 
