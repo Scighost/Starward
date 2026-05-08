@@ -2693,4 +2693,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
     <value>Đồng bộ với HoYoLAB (Thử nghiệm)</value>
   </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>An unknown issue occurred during initialization.</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>The program does not have permission to access the following folder. Please restart as administrator or move the folder.</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>Restart as Administrator</value>
+  </data>
 </root>
