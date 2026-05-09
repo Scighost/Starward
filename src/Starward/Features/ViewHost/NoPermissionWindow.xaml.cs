@@ -86,7 +86,7 @@ public sealed partial class NoPermissionWindow : WindowEx
         }
         catch (Exception ex)
         {
-
+            Debug.WriteLine(ex);
         }
     }
 

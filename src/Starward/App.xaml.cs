@@ -70,7 +70,7 @@ public partial class App : Application
     {
         string[] args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
-        if (args[0].ToLower().StartsWith("starward://test/"))
+        if (args.Length > 0 && args[0].ToLower().StartsWith("starward://test/"))
         {
             new TestUrlProtocolWindow().Activate();
             return;

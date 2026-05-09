@@ -7,7 +7,6 @@ using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameRecord;
-using Starward.Core.GameRecord.ZZZ;
 using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Features.Database;
 using Starward.Features.Gacha.UIGF;
