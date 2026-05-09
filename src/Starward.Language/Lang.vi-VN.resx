@@ -2643,7 +2643,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xoá tệp trùng lặp</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>{0} tệp trùng lặp đã bị xóa.</value>
+    <value>{0} tệp trùng lặp (s) đã bị xóa.</value>
   </data>
   <data name="Common_All" xml:space="preserve">
     <value>Tất cả</value>
