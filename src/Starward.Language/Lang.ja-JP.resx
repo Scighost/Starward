@@ -316,6 +316,9 @@
   <data name="GachaLogPage_UpdateAll" xml:space="preserve">
     <value>更新 (すべて)</value>
   </data>
+  <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
+    <value>米游社から同期（実験）</value>
+  </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
     <value>Sync All from Miyoushe (Experimental)</value>
   </data>
@@ -364,6 +367,24 @@
   </data>
   <data name="GachaLogPage_OperationCanceled" xml:space="preserve">
     <value>操作をキャンセルしました</value>
+  </data>
+  <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
+    <value>この機能は現在ゼンレスゾーンゼロのみ対応しています。</value>
+  </data>
+  <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
+    <value>先に米游社ツールボックスにログインし、米游社アカウントを追加してください。</value>
+  </data>
+  <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
+    <value>現在のアカウントにログイン認証情報がありません。米游社に再ログインしてください。</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
+    <value>米游社アカウントを選択</value>
+  </data>
+  <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
+    <value>複数のゼンレスゾーンゼロロールが見つかりました。ガチャ記録を同期するロールを一つ選択してください。</value>
+  </data>
+  <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
+    <value>先に米游社アカウントを選択してください。</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>ゲーム内のガチャの記録のページを開き、再度お試しください。</value>
@@ -2036,11 +2057,20 @@
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
     <value>グローバルのトップ</value>
   </data>
+  <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
+    <value>最速ステージクリアタイム</value>
+  </data>
+  <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
+    <value>フロンティア効果</value>
+  </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
     <value>敵の詳細</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
     <value>弱点</value>
+  </data>
+  <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
+    <value>耐性</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
     <value>クリア日時</value>
@@ -2568,5 +2598,110 @@
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
     <value>ゲーム内で不正なツールが検出された場合の警告を表示しないようにします。</value>
+  </data>
+  <data name="UpdateWindow_FullPackage" xml:space="preserve">
+    <value>フルパッケージ</value>
+  </data>
+  <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
+    <value>セットアップ版に移行</value>
+  </data>
+  <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
+    <value>重大ノード：第四フロンティア</value>
+  </data>
+  <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
+    <value>重大ノード：第五フロンティア</value>
+  </data>
+  <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
+    <value>VP9 Video ExtensionsをインストールしてCPU使用率を下げることを推奨します。</value>
+  </data>
+  <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
+    <value>挑戦回数</value>
+  </data>
+  <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
+    <value>王手チェックステージ記録</value>
+  </data>
+  <data name="ChallengePeakPage_Cleared" xml:space="preserve">
+    <value>クリア済み</value>
+  </data>
+  <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
+    <value>クリア記録なし</value>
+  </data>
+  <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
+    <value>ナイトステージ記録</value>
+  </data>
+  <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
+    <value>異相アービトレーション</value>
+  </data>
+  <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
+    <value>最新バージョンに更新済みです。</value>
+  </data>
+  <data name="GameLauncherPage_PlayPause" xml:space="preserve">
+    <value>再生 / 一時停止</value>
+  </data>
+  <data name="GameLauncherPage_Gallery" xml:space="preserve">
+    <value>ギャラリー</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
+    <value>重複ファイルを削除</value>
+  </data>
+  <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
+    <value>{0}個の重複ファイルを削除しました。</value>
+  </data>
+  <data name="Common_All" xml:space="preserve">
+    <value>すべて</value>
+  </data>
+  <data name="Common_Video" xml:space="preserve">
+    <value>動画</value>
+  </data>
+  <data name="Common_Time" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="Common_FileSize" xml:space="preserve">
+    <value>ファイルサイズ</value>
+  </data>
+  <data name="Common_Filter" xml:space="preserve">
+    <value>フィルター</value>
+  </data>
+  <data name="Common_Sort" xml:space="preserve">
+    <value>並び替え</value>
+  </data>
+  <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
+    <value>重複ファイルはファイルデータに基づいて識別されます。見た目が似ている画像でも削除されない場合があります。</value>
+  </data>
+  <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
+    <value>VP9 Video Extensionsは一部の形式をサポートしていないため、サムネイル生成や正常な再生ができない可能性があります。</value>
+  </data>
+  <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
+    <value>画像デコード失敗</value>
+  </data>
+  <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
+    <value>WebP Image Extensionをインストールしてください。</value>
+  </data>
+  <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
+    <value>動画デコード失敗</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
+    <value>模擬宇宙ポイント</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
+    <value>カレンシーウォーズポイント</value>
+  </data>
+  <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
+    <value>動画デコードに失敗しました。VP9 Video Extensionsをインストールしてください。</value>
+  </data>
+  <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
+    <value>HoYoLABから同期（実験）</value>
+  </data>
+  <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
+    <value>HoYoLABからすべて同期（実験）</value>
+  </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>初期化中に不明な問題が発生しました。</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>プログラムに以下のフォルダへのアクセス権限がありません。管理者として再起動するか、フォルダを移動してください。</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>管理者として再起動</value>
   </data>
 </root>

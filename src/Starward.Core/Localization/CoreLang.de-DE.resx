@@ -292,4 +292,28 @@
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
     <value>Laufwerkskette</value>
   </data>
+  <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
+    <value>Figuren-Kollaborationssprung</value>
+  </data>
+  <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
+    <value>Lichtkegel-Kollaborationssprung</value>
+  </data>
+  <data name="GachaType_StandardOde" xml:space="preserve">
+    <value>Standard-Ode</value>
+  </data>
+  <data name="GachaType_EventOde" xml:space="preserve">
+    <value>Ereignis-Ode</value>
+  </data>
+  <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
+    <value>Chronaler Nexus</value>
+  </data>
+  <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
+    <value>Arkaner Schlussstein</value>
+  </data>
+  <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
+    <value>Exklusive Wiederaufführung</value>
+  </data>
+  <data name="GachaType_WEngineReverberation" xml:space="preserve">
+    <value>W-Engine-Nachhall</value>
+  </data>
 </root>
