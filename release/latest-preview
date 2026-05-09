@@ -1,121 +1,133 @@
 {
-  "version": "0.17.0-preview.1",
+  "version": "0.17.0-preview.2",
   "releases": {
     "x64-setup": {
-      "version": "0.17.0-preview.1",
+      "version": "0.17.0-preview.2",
       "architecture": "x64",
       "install_type": "setup",
-      "build_time": "2026-05-05T12:49:02.9511824+00:00",
-      "package_url": "https://starward-static.scighost.com/release/package/Starward_Setup_0.17.0-preview.1_x64.exe",
-      "package_size": 78450176,
-      "package_hash": "c6d122836752fcf376266c451c78c93d15ac94c01cb13e36a262a9d873faf8f5",
-      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_setup.json",
+      "build_time": "2026-05-09T11:53:43.1286626+00:00",
+      "package_url": "https://starward-static.scighost.com/release/package/Starward_Setup_0.17.0-preview.2_x64.exe",
+      "package_size": 78848512,
+      "package_hash": "5c6744c6a96ef6d5fe4d6ca8ae41ff84eabc57acefe22ab27c6677f750e3dc2a",
+      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_setup.json",
       "setup": {
-        "url": "https://starward-static.scighost.com/release/pub_res/Starward.Setup_x64_2026.0505.1224.exe",
+        "url": "https://starward-static.scighost.com/release/pub_res/Starward.Setup_x64_2026.0509.1130.exe",
         "file_name": "Starward.Setup.exe",
-        "size": 4240896,
-        "hash": "e9c3c758de3cdb6e2bb297e7cd0d8d2284d0851a0b769168f8015b172561c3cd"
+        "size": 4543488,
+        "hash": "710ba6d3397ab19afb33b1ba9eb719e89067ab92cd0e9c3c4a9f4d1750130973"
       },
-      "diffs": {}
+      "diffs": {
+        "0.17.0-preview.1": {
+          "diff_version": "0.17.0-preview.1",
+          "diff_size": 2493285,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_setup_diff_0.17.0-preview.1.json"
+        }
+      }
     },
     "x64-portable": {
-      "version": "0.17.0-preview.1",
+      "version": "0.17.0-preview.2",
       "architecture": "x64",
       "install_type": "portable",
-      "build_time": "2026-05-05T12:50:16.7768364+00:00",
-      "package_url": "https://starward-static.scighost.com/release/package/Starward_Portable_0.17.0-preview.1_x64.7z",
-      "package_size": 64235029,
-      "package_hash": "ce47890472f8d787f21789d468f0d00059c84eec7e034a44c6920fa8ec361016",
-      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable.json",
+      "build_time": "2026-05-09T11:55:10.626205+00:00",
+      "package_url": "https://starward-static.scighost.com/release/package/Starward_Portable_0.17.0-preview.2_x64.7z",
+      "package_size": 64239316,
+      "package_hash": "a006efd950dc39626caeb8093fc1aaf0a4b5f37b59a3c936314631cbaef4966d",
+      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable.json",
       "diffs": {
+        "0.17.0-preview.1": {
+          "diff_version": "0.17.0-preview.1",
+          "diff_size": 2570181,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.17.0-preview.1.json"
+        },
         "0.16.4": {
           "diff_version": "0.16.4",
-          "diff_size": 2260469,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.16.4.json"
+          "diff_size": 3426325,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.16.4.json"
         },
         "0.16.3": {
           "diff_version": "0.16.3",
-          "diff_size": 7905374,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.16.3.json"
+          "diff_size": 8599348,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.16.3.json"
         },
         "0.16.2": {
           "diff_version": "0.16.2",
-          "diff_size": 11712499,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.16.2.json"
+          "diff_size": 12249617,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.16.2.json"
         },
         "0.16.1": {
           "diff_version": "0.16.1",
-          "diff_size": 13619148,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.16.1.json"
+          "diff_size": 14070136,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.16.1.json"
         },
         "0.16.0": {
           "diff_version": "0.16.0",
-          "diff_size": 36767110,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.16.0.json"
-        },
-        "0.15.9": {
-          "diff_version": "0.15.9",
-          "diff_size": 36916432,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_x64_portable_diff_0.15.9.json"
+          "diff_size": 36805012,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_x64_portable_diff_0.16.0.json"
         }
       }
     },
     "arm64-setup": {
-      "version": "0.17.0-preview.1",
+      "version": "0.17.0-preview.2",
       "architecture": "arm64",
       "install_type": "setup",
-      "build_time": "2026-05-05T12:48:39.9617504+00:00",
-      "package_url": "https://starward-static.scighost.com/release/package/Starward_Setup_0.17.0-preview.1_arm64.exe",
-      "package_size": 73628672,
-      "package_hash": "7c976fcbca7c911680361faa79f5a237c9dd41d7f428775ff0b057b16d730225",
-      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_setup.json",
+      "build_time": "2026-05-09T11:54:10.2490461+00:00",
+      "package_url": "https://starward-static.scighost.com/release/package/Starward_Setup_0.17.0-preview.2_arm64.exe",
+      "package_size": 73726464,
+      "package_hash": "3fbbe5e9521a1319e4cfc208650afcb4be044e44a2ddf9d03c71d94cd229ca78",
+      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_setup.json",
       "setup": {
-        "url": "https://starward-static.scighost.com/release/pub_res/Starward.Setup_arm64_2026.0505.1224.exe",
+        "url": "https://starward-static.scighost.com/release/pub_res/Starward.Setup_arm64_2026.0509.1130.exe",
         "file_name": "Starward.Setup.exe",
-        "size": 10488832,
-        "hash": "41908aff31b073aea7db075bb121c523a17966493768487904ec073ce7f458ea"
+        "size": 10531840,
+        "hash": "22148d540d811aa20084768754e80f2364dfafdc4720d5d3e3f2668a1a06218c"
       },
-      "diffs": {}
+      "diffs": {
+        "0.17.0-preview.1": {
+          "diff_version": "0.17.0-preview.1",
+          "diff_size": 2445255,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_setup_diff_0.17.0-preview.1.json"
+        }
+      }
     },
     "arm64-portable": {
-      "version": "0.17.0-preview.1",
+      "version": "0.17.0-preview.2",
       "architecture": "arm64",
       "install_type": "portable",
-      "build_time": "2026-05-05T12:50:00.0026309+00:00",
-      "package_url": "https://starward-static.scighost.com/release/package/Starward_Portable_0.17.0-preview.1_arm64.7z",
-      "package_size": 60279575,
-      "package_hash": "e24d8f07f071bd669311f865ce79c66f87da429bee84480405b28e4461f645ad",
-      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable.json",
+      "build_time": "2026-05-09T11:55:43.0505894+00:00",
+      "package_url": "https://starward-static.scighost.com/release/package/Starward_Portable_0.17.0-preview.2_arm64.7z",
+      "package_size": 60320202,
+      "package_hash": "9db5d4e7347606fa1f72ac08caa7b4657a7d70198c8e6554451058ca2562b82a",
+      "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable.json",
       "diffs": {
+        "0.17.0-preview.1": {
+          "diff_version": "0.17.0-preview.1",
+          "diff_size": 2445375,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.17.0-preview.1.json"
+        },
         "0.16.4": {
           "diff_version": "0.16.4",
-          "diff_size": 2199867,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.16.4.json"
+          "diff_size": 3350253,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.16.4.json"
         },
         "0.16.3": {
           "diff_version": "0.16.3",
-          "diff_size": 7843074,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.16.3.json"
+          "diff_size": 8635236,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.16.3.json"
         },
         "0.16.2": {
           "diff_version": "0.16.2",
-          "diff_size": 11066003,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.16.2.json"
+          "diff_size": 11634791,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.16.2.json"
         },
         "0.16.1": {
           "diff_version": "0.16.1",
-          "diff_size": 12979457,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.16.1.json"
+          "diff_size": 13500690,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.16.1.json"
         },
         "0.16.0": {
           "diff_version": "0.16.0",
-          "diff_size": 36063470,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.16.0.json"
-        },
-        "0.15.9": {
-          "diff_version": "0.15.9",
-          "diff_size": 36149608,
-          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.1_arm64_portable_diff_0.15.9.json"
+          "diff_size": 36120968,
+          "manifest_url": "https://starward-static.scighost.com/release/manifest/manifest_0.17.0-preview.2_arm64_portable_diff_0.16.0.json"
         }
       }
     }
