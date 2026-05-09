@@ -163,6 +163,28 @@ public static partial class AppConfig
 
 
 
+    public static void SetLanguage(string? lang)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(lang))
+            {
+                var info = new CultureInfo(lang);
+                CultureInfo.CurrentUICulture = info;
+                CultureInfo.DefaultThreadCurrentUICulture = info;
+                Language = lang;
+            }
+            else
+            {
+                CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InstalledUICulture;
+                Language = null;
+            }
+        }
+        catch { }
+    }
+
+
 
     public static void LoadConfiguration()
     {
@@ -200,15 +222,7 @@ public static partial class AppConfig
             EnableLoginAuthTicket = enabled;
             stoken = Regex.Match(text, @"stoken=(.+)").Groups[1].Value.Trim();
             mid = Regex.Match(text, @"mid=(.+)").Groups[1].Value.Trim();
-            if (!string.IsNullOrWhiteSpace(lang))
-            {
-                try
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                    Language = lang;
-                }
-                catch { }
-            }
+            SetLanguage(lang);
         }
     }
 
@@ -224,15 +238,7 @@ public static partial class AppConfig
         EnableLoginAuthTicket = key.GetValue("EnableLoginAuthTicket") is 1;
         stoken = (key.GetValue("stoken") as string)?.Trim();
         mid = (key.GetValue("mid") as string)?.Trim();
-        if (!string.IsNullOrWhiteSpace(lang))
-        {
-            try
-            {
-                CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                Language = lang;
-            }
-            catch { }
-        }
+        SetLanguage(lang);
     }
 
 

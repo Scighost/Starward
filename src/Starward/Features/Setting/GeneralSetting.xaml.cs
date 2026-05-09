@@ -92,15 +92,7 @@ public sealed partial class GeneralSetting : PageBase
                 {
                     var lang = item.Tag as string;
                     _logger.LogInformation("Language change to {lang}", lang);
-                    AppConfig.Language = lang;
-                    if (string.IsNullOrWhiteSpace(lang))
-                    {
-                        CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
-                    }
-                    else
-                    {
-                        CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                    }
+                    AppConfig.SetLanguage(lang);
                     this.Bindings.Update();
                     WeakReferenceMessenger.Default.Send(new LanguageChangedMessage());
                     AppConfig.SaveConfiguration();
@@ -109,7 +101,7 @@ public sealed partial class GeneralSetting : PageBase
         }
         catch (CultureNotFoundException)
         {
-            CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+            AppConfig.SetLanguage(null);
         }
         catch (Exception ex)
         {
