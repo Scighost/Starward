@@ -24,7 +24,7 @@
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' != 'Debug'">true</CsWinRTAotOptimizerEnabled>
 		<CETCompat>false</CETCompat>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.251219" />
