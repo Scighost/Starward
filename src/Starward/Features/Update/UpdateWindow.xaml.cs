@@ -199,11 +199,7 @@ public sealed partial class UpdateWindow : WindowEx
 
     public string ProgressBytesText { get; set => SetProperty(ref field, value); }
 
-    public string ProgressCountText { get; set => SetProperty(ref field, value); }
-
     public string ProgressPercentText { get; set => SetProperty(ref field, value); }
-
-    public string ProgressSpeedText { get; set => SetProperty(ref field, value); }
 
     public string? ErrorMessage { get; set => SetProperty(ref field, value); }
 
@@ -364,12 +360,10 @@ public sealed partial class UpdateWindow : WindowEx
         if (_updateService.Progress_TotalBytes == 0 || _updateService.Progress_DownloadBytes == 0)
         {
             ProgressBytesText = "";
-            ProgressCountText = "";
             return;
         }
         const double mb = 1 << 20;
         ProgressBytesText = $"{_updateService.Progress_DownloadBytes / mb:F2}/{_updateService.Progress_TotalBytes / mb:F2} MB";
-        ProgressCountText = $"{_updateService.Progress_DownloadFileCount}/{_updateService.Progress_TotalFileCount}";
         var progress = (double)_updateService.Progress_DownloadBytes / _updateService.Progress_TotalBytes;
         ProgressPercentText = $"{progress:P1}";
         ProgressBar_Update.Value = progress * 100;

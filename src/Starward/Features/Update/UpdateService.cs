@@ -59,11 +59,6 @@ internal class UpdateService
 
     public UpdateState State { get; private set; }
 
-    public int Progress_TotalFileCount { get; private set; }
-
-    private int _progress_DownloadFileCount;
-    public int Progress_DownloadFileCount => _progress_DownloadFileCount;
-
     public long Progress_TotalBytes { get; private set; }
 
     private long _progress_DownloadBytes;
@@ -192,8 +187,6 @@ internal class UpdateService
     private void ClearState()
     {
         State = UpdateState.Stop;
-        Progress_TotalFileCount = 0;
-        _progress_DownloadFileCount = 0;
         Progress_TotalBytes = 0;
         _progress_DownloadBytes = 0;
         ErrorMessage = null;
@@ -326,9 +319,7 @@ internal class UpdateService
     private async Task DownloadFilesAsync(CancellationToken cancellationToken = default)
     {
         _progress_DownloadBytes = 0;
-        _progress_DownloadFileCount = 0;
         Progress_TotalBytes = 0;
-        Progress_TotalFileCount = 0;
         if (_releaseManifest.DiffVersion is null)
         {
             foreach (var item in _releaseManifest.Files)
@@ -336,14 +327,12 @@ internal class UpdateService
                 if (!(_currentVersionFilesHash?.TryGetValue(item.Hash, out var value) ?? false))
                 {
                     Progress_TotalBytes += item.CompressedSize;
-                    Progress_TotalFileCount += 1;
                 }
             }
         }
         else
         {
             Progress_TotalBytes = _releaseManifest.DiffSize;
-            Progress_TotalFileCount = _releaseManifest.DiffFileCount;
         }
 
         List<(string Id, long Size, string Hash, string? Suffix)> list = new();
@@ -360,7 +349,7 @@ internal class UpdateService
         }
         list = list.DistinctBy(x => x.Id).ToList();
 
-        _logger.LogInformation("Update Starward, downloading {count} files, file size: {size}", Progress_TotalFileCount, Progress_TotalBytes);
+        _logger.LogInformation("Update Starward, downloading {count} files, file size: {size}", _releaseManifest.DiffFileCount, Progress_TotalBytes);
         await Parallel.ForEachAsync(list, cancellationToken, async (item, token) =>
         {
             await _polly.ExecuteAsync(async (pollyToken) => await DownloadReleaseFileAsync(item, pollyToken), token);
@@ -416,7 +405,6 @@ internal class UpdateService
             }
         }
         await fs.FlushAsync(cancellationToken);
-        Interlocked.Increment(ref _progress_DownloadFileCount);
 
         fs.Position = 0;
         var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
@@ -428,7 +416,6 @@ internal class UpdateService
         fs.Dispose();
         File.Delete(path);
         Interlocked.Add(ref _progress_DownloadBytes, -item.Size);
-        Interlocked.Decrement(ref _progress_DownloadFileCount);
         throw new Exception($"Checksum failed: {path}");
     }
 
