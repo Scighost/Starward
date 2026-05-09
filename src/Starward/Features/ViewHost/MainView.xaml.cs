@@ -70,17 +70,19 @@ public sealed partial class MainView : UserControl
 
 
 
-    private void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private async void MainView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         CheckSystemProxy();
         HotkeyManager.InitializeHotkey(this.XamlRoot.GetWindowHandle());
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
         AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
+        LogUploadService.Start();
         if (AppConfig.EnableGamepadController)
         {
-            GamepadController.Initialize();
+            await Task.Delay(1000);
+            var queue = Content.DispatcherQueue;
+            _ = Task.Run(() => GamepadController.Initialize(queue));
         }
-        LogUploadService.Start();
     }
 
 
