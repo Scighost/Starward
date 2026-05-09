@@ -2640,7 +2640,7 @@
     <value>ลบไฟล์ที่ซ้ำกัน</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>ลบไฟล์ที่ซ้ำกัน {0} ไฟล์แล้ว</value>
+    <value>{0} ไฟล์ที่ซ้ำกัน(s) ถูกลบแล้ว</value>
   </data>
   <data name="Common_All" xml:space="preserve">
     <value>ทั้งหมด</value>
