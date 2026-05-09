@@ -1,4 +1,5 @@
-﻿using SharpCompress.Compressors.ZStandard;
+﻿using Microsoft.Win32;
+using SharpCompress.Compressors.ZStandard;
 using Starward.Setup.Core;
 using System.Buffers;
 using System.Net;
@@ -6,11 +7,27 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Starward.Setup.Services;
 
 public class DownloadService
 {
+
+    protected static Guid DeviceId { get; private set; }
+
+    protected static Guid SessionId { get; private set; }
+
+
+
+    static DownloadService()
+    {
+        string? systemBiosVersion = Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System", "SystemBiosVersion", null) as string;
+        string? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string;
+        DeviceId = new(MD5.HashData(Encoding.UTF8.GetBytes($"{systemBiosVersion}{machineGuid}{Environment.MachineName}")));
+        SessionId = Guid.CreateVersion7();
+    }
+
 
 
     protected HttpClient _httpClient;
@@ -31,6 +48,8 @@ public class DownloadService
         string ver = typeof(DownloadService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
         _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
         _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Starward.Setup/{ver}");
+        _httpClient.DefaultRequestHeaders.Add("X-Sw-Device-Id", DeviceId.ToString());
+        _httpClient.DefaultRequestHeaders.Add("X-Sw-Session-Id", SessionId.ToString());
         _releaseClient = new ReleaseClient(_httpClient);
     }
 
