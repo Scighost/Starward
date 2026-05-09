@@ -36,7 +36,7 @@ public static class Program
         string logFile = AppConfig.LogFile;
         if (string.IsNullOrWhiteSpace(logFile))
         {
-            var logFolder = Path.Combine(AppConfig.CacheFolder, "log");
+            string logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "log");
             Directory.CreateDirectory(logFolder);
             logFile = Path.Combine(logFolder, $"Starward_{DateTime.Now:yyMMdd}.log");
         }
