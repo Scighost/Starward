@@ -63,7 +63,6 @@ if (string.Equals(args[0], "res", StringComparison.OrdinalIgnoreCase))
     File.Move("publish/pub_res/Starward.exe", $"publish/pub_res/Starward_arm64_{ver}.exe", true);
 
     await Process.Start("upx", $"publish/pub_res/Starward.Setup_x64_{ver}.exe").EnsureExitSuccessAsync();
-    await Process.Start("upx", $"publish/pub_res/Starward_x64_{ver}.exe").EnsureExitSuccessAsync();
 
     var buildRes = new BuildResource
     {
