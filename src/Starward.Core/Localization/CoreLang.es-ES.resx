@@ -292,4 +292,28 @@
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
     <value>Pista de disco</value>
   </data>
+  <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
+    <value>Salto de Colaboración de Personajes</value>
+  </data>
+  <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
+    <value>Salto de Colaboración de Conos de Luz</value>
+  </data>
+  <data name="GachaType_StandardOde" xml:space="preserve">
+    <value>Oda Estándar</value>
+  </data>
+  <data name="GachaType_EventOde" xml:space="preserve">
+    <value>Oda de Evento</value>
+  </data>
+  <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
+    <value>Nexo Cronal</value>
+  </data>
+  <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
+    <value>Clave Arcana</value>
+  </data>
+  <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
+    <value>Reproyección Exclusiva</value>
+  </data>
+  <data name="GachaType_WEngineReverberation" xml:space="preserve">
+    <value>Reverberación de W-Engine</value>
+  </data>
 </root>
