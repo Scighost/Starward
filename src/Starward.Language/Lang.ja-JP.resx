@@ -2645,7 +2645,7 @@
     <value>重複ファイルを削除</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>{0}個の重複ファイル(s)を削除しました。</value>
+    <value>{0}個の重複ファイルを削除しました。</value>
   </data>
   <data name="Common_All" xml:space="preserve">
     <value>すべて</value>
