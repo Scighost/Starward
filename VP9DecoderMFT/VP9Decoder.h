@@ -144,6 +144,7 @@ private:
 	bool IsValidInputType(IMFMediaType* pType);
 	bool IsValidOutputType(IMFMediaType* pType);
 	DWORD GetOutputBufferSize(const GUID& subtype, UINT32 width, UINT32 height);
+	uint8_t* AcquireScratchBuffer(std::vector<uint8_t>& buffer, size_t bytes);
 	HRESULT ConvertToNV12(const vpx_image_t* img, BYTE* pDest);
 	HRESULT ConvertToARGB32(const vpx_image_t* img, BYTE* pDest);
 
@@ -164,5 +165,12 @@ private:
 	UINT32 m_uiFrameRateDen;
 	GUID m_outputSubtype;
 	GUID m_suggestOutputSubtype;
+
+	std::vector<uint8_t> m_scratch420;
+	std::vector<uint8_t> m_scratchU;
+	std::vector<uint8_t> m_scratchV;
+	std::vector<uint8_t> m_scratchUFull;
+	std::vector<uint8_t> m_scratchVFull;
+	std::vector<uint8_t> m_scratchARGB;
 
 };

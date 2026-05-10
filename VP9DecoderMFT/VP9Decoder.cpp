@@ -614,7 +614,23 @@ HRESULT VP9Decoder::ShutdownDecoder()
 		vpx_codec_destroy(&m_codec);
 		m_bDecoderInitialized = false;
 	}
+
+	m_scratch420.clear();
+	m_scratchU.clear();
+	m_scratchV.clear();
+	m_scratchUFull.clear();
+	m_scratchVFull.clear();
+	m_scratchARGB.clear();
 	return S_OK;
+}
+
+uint8_t* VP9Decoder::AcquireScratchBuffer(std::vector<uint8_t>& buffer, size_t bytes)
+{
+	if (buffer.size() < bytes)
+	{
+		buffer.resize(bytes);
+	}
+	return buffer.data();
 }
 
 HRESULT VP9Decoder::DecodeFrame(IMFSample* pInputSample, IMFSample** ppOutputSample)
@@ -626,18 +642,37 @@ HRESULT VP9Decoder::DecodeFrame(IMFSample* pInputSample, IMFSample** ppOutputSam
 	ComPtr<IMFMediaBuffer> pBuffer;
 	BYTE* pData = NULL;
 	DWORD cbData = 0;
+	bool bufferLocked = false;
 
-	hr = pInputSample->ConvertToContiguousBuffer(&pBuffer);
+	DWORD cBuffers = 0;
+	hr = pInputSample->GetBufferCount(&cBuffers);
+	if (FAILED(hr) || cBuffers == 0)
+		return FAILED(hr) ? hr : E_FAIL;
+
+	if (cBuffers == 1)
+	{
+		hr = pInputSample->GetBufferByIndex(0, &pBuffer);
+	}
+	else
+	{
+		hr = pInputSample->ConvertToContiguousBuffer(&pBuffer);
+	}
+
 	if (FAILED(hr))
 		return hr;
 
 	hr = pBuffer->Lock(&pData, NULL, &cbData);
 	if (FAILED(hr))
 		return hr;
+	bufferLocked = true;
 
 	vpx_codec_err_t err = vpx_codec_decode(&m_codec, pData, cbData, NULL, 0);
 
-	pBuffer->Unlock();
+	if (bufferLocked)
+	{
+		pBuffer->Unlock();
+		bufferLocked = false;
+	}
 
 	if (err != VPX_CODEC_OK)
 	{
@@ -812,6 +847,12 @@ HRESULT VP9Decoder::OnSetOutputType(IMFMediaType* pType)
 HRESULT VP9Decoder::OnFlush()
 {
 	m_pPendingSample.Reset();
+	m_scratch420.clear();
+	m_scratchU.clear();
+	m_scratchV.clear();
+	m_scratchUFull.clear();
+	m_scratchVFull.clear();
+	m_scratchARGB.clear();
 	return S_OK;
 }
 
@@ -953,13 +994,14 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 
 			// 垂直下采样并合并 U/V 到交错格式
 			// 方法：先下采样到临时 I420，再转 NV12
-			std::vector<uint8_t> temp_u((width / 2) * (height / 2));
-			std::vector<uint8_t> temp_v((width / 2) * (height / 2));
+			const size_t uv420Size = static_cast<size_t>(width / 2) * static_cast<size_t>(height / 2);
+			uint8_t* temp_u = AcquireScratchBuffer(m_scratchU, uv420Size);
+			uint8_t* temp_v = AcquireScratchBuffer(m_scratchV, uv420Size);
 
 			libyuv::ScalePlane(
 				src_u, src_stride_u,
 				width / 2, height,
-				temp_u.data(), width / 2,
+				temp_u, width / 2,
 				width / 2, height / 2,
 				libyuv::kFilterBilinear
 			);
@@ -967,15 +1009,15 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			libyuv::ScalePlane(
 				src_v, src_stride_v,
 				width / 2, height,
-				temp_v.data(), width / 2,
+				temp_v, width / 2,
 				width / 2, height / 2,
 				libyuv::kFilterBilinear
 			);
 
 			// 合并 U/V 为交错 UV
 			libyuv::MergeUVPlane(
-				temp_u.data(), width / 2,
-				temp_v.data(), width / 2,
+				temp_u, width / 2,
+				temp_v, width / 2,
 				dst_uv, dst_stride_uv,
 				width / 2, height / 2
 			);
@@ -997,14 +1039,15 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 		else if (img->fmt == VPX_IMG_FMT_I444 && img->cs == VPX_CS_SRGB)
 		{
 			// GBR -> NV12
-			std::vector<uint8_t> argb(width * height * 4);
+			const size_t argbSize = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
+			uint8_t* argb = AcquireScratchBuffer(m_scratchARGB, argbSize);
 
 			for (UINT32 y = 0; y < height; y++)
 			{
 				const uint8_t* src_g_row = src_y + y * src_stride_y;
 				const uint8_t* src_b_row = src_u + y * src_stride_u;
 				const uint8_t* src_r_row = src_v + y * src_stride_v;
-				uint8_t* dst_row = argb.data() + y * width * 4;
+				uint8_t* dst_row = argb + y * width * 4;
 
 				for (UINT32 x = 0; x < width; x++)
 				{
@@ -1016,7 +1059,7 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			}
 
 			result = libyuv::ARGBToNV12(
-				argb.data(), width * 4,
+				argb, width * 4,
 				dst_y, dst_stride_y,
 				dst_uv, dst_stride_uv,
 				width, height);
@@ -1032,13 +1075,14 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			);
 
 			// 水平下采样 U/V
-			std::vector<uint8_t> temp_u((width / 2) * (height / 2));
-			std::vector<uint8_t> temp_v((width / 2) * (height / 2));
+			const size_t uv420Size = static_cast<size_t>(width / 2) * static_cast<size_t>(height / 2);
+			uint8_t* temp_u = AcquireScratchBuffer(m_scratchU, uv420Size);
+			uint8_t* temp_v = AcquireScratchBuffer(m_scratchV, uv420Size);
 
 			libyuv::ScalePlane(
 				src_u, src_stride_u,
 				width, height / 2,
-				temp_u.data(), width / 2,
+				temp_u, width / 2,
 				width / 2, height / 2,
 				libyuv::kFilterBilinear
 			);
@@ -1046,15 +1090,15 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			libyuv::ScalePlane(
 				src_v, src_stride_v,
 				width, height / 2,
-				temp_v.data(), width / 2,
+				temp_v, width / 2,
 				width / 2, height / 2,
 				libyuv::kFilterBilinear
 			);
 
 			// 合并 U/V
 			libyuv::MergeUVPlane(
-				temp_u.data(), width / 2,
-				temp_v.data(), width / 2,
+				temp_u, width / 2,
+				temp_v, width / 2,
 				dst_uv, dst_stride_uv,
 				width / 2, height / 2
 			);
@@ -1113,8 +1157,9 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			{
 				// I010 (10-bit 4:2:0) -> NV12 (8-bit 4:2:0)
 				// 先转为 I420(8-bit)，再转 NV12
-				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
-				uint8_t* temp_y = temp_i420.data();
+				const size_t i420Size = static_cast<size_t>(width) * static_cast<size_t>(height) * 3 / 2;
+				uint8_t* temp_i420 = AcquireScratchBuffer(m_scratch420, i420Size);
+				uint8_t* temp_y = temp_i420;
 				uint8_t* temp_u = temp_y + width * height;
 				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
@@ -1143,8 +1188,9 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			else if (img->fmt == VPX_IMG_FMT_I42216)
 			{
 				// I210 (10-bit 4:2:2) -> NV12 (8-bit 4:2:0)
-				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
-				uint8_t* temp_y = temp_i420.data();
+				const size_t i420Size = static_cast<size_t>(width) * static_cast<size_t>(height) * 3 / 2;
+				uint8_t* temp_i420 = AcquireScratchBuffer(m_scratch420, i420Size);
+				uint8_t* temp_y = temp_i420;
 				uint8_t* temp_u = temp_y + width * height;
 				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
@@ -1173,8 +1219,9 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			else if (img->fmt == VPX_IMG_FMT_I44416)
 			{
 				// I410 (10-bit 4:4:4) -> NV12 (8-bit 4:2:0)
-				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
-				uint8_t* temp_y = temp_i420.data();
+				const size_t i420Size = static_cast<size_t>(width) * static_cast<size_t>(height) * 3 / 2;
+				uint8_t* temp_i420 = AcquireScratchBuffer(m_scratch420, i420Size);
+				uint8_t* temp_y = temp_i420;
 				uint8_t* temp_u = temp_y + width * height;
 				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
@@ -1203,8 +1250,9 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			else if (img->fmt == VPX_IMG_FMT_I44016)
 			{
 				// I440(10-bit) -> NV12(8-bit)
-				std::vector<uint8_t> temp_i420(width * height * 3 / 2);
-				uint8_t* temp_y = temp_i420.data();
+				const size_t i420Size = static_cast<size_t>(width) * static_cast<size_t>(height) * 3 / 2;
+				uint8_t* temp_i420 = AcquireScratchBuffer(m_scratch420, i420Size);
+				uint8_t* temp_y = temp_i420;
 				uint8_t* temp_u = temp_y + width * height;
 				uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
@@ -1218,26 +1266,27 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 				);
 
 				// 转换并水平下采样 U/V
-				std::vector<uint8_t> temp_u_440(width * (height / 2));
-				std::vector<uint8_t> temp_v_440(width * (height / 2));
+				const size_t uv440Size = static_cast<size_t>(width) * static_cast<size_t>(height / 2);
+				uint8_t* temp_u_440 = AcquireScratchBuffer(m_scratchUFull, uv440Size);
+				uint8_t* temp_v_440 = AcquireScratchBuffer(m_scratchVFull, uv440Size);
 
 				libyuv::Convert16To8Plane(
 					src_u_16, src_stride_u,
-					temp_u_440.data(), width,
+					temp_u_440, width,
 					scale,
 					width, height / 2
 				);
 
 				libyuv::Convert16To8Plane(
 					src_v_16, src_stride_v,
-					temp_v_440.data(), width,
+					temp_v_440, width,
 					scale,
 					width, height / 2
 				);
 
 				// 水平下采样
 				libyuv::ScalePlane(
-					temp_u_440.data(), width,
+					temp_u_440, width,
 					width, height / 2,
 					temp_u, width / 2,
 					width / 2, height / 2,
@@ -1245,7 +1294,7 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 				);
 
 				libyuv::ScalePlane(
-					temp_v_440.data(), width,
+					temp_v_440, width,
 					width, height / 2,
 					temp_v, width / 2,
 					width / 2, height / 2,
@@ -1272,8 +1321,9 @@ HRESULT VP9Decoder::ConvertToNV12(const vpx_image_t* img, uint8_t* dst_buffer)
 			// ===== 12-bit 输入 - 手动转换 =====
 
 			// 创建临时 I420(8-bit) 缓冲区
-			std::vector<uint8_t> temp_i420(width * height * 3 / 2);
-			uint8_t* temp_y = temp_i420.data();
+			const size_t i420Size = static_cast<size_t>(width) * static_cast<size_t>(height) * 3 / 2;
+			uint8_t* temp_i420 = AcquireScratchBuffer(m_scratch420, i420Size);
+			uint8_t* temp_y = temp_i420;
 			uint8_t* temp_u = temp_y + width * height;
 			uint8_t* temp_v = temp_u + (width / 2) * (height / 2);
 
@@ -1417,9 +1467,6 @@ HRESULT VP9Decoder::ConvertToARGB32(const vpx_image_t* img, uint8_t* dst_buffer)
 
 	UINT32 width = img->d_w;
 	UINT32 height = img->d_h;
-
-	// RGB24 布局
-	uint8_t* dst = dst_buffer;
 
 	const uint8_t* src_y = img->planes[VPX_PLANE_Y];
 	const uint8_t* src_u = img->planes[VPX_PLANE_U];
