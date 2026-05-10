@@ -20,6 +20,7 @@ using Starward.Features.Update;
 using Starward.Helpers;
 using System;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -65,6 +66,7 @@ public sealed partial class MainView : UserControl
         UpdateNavigationView();
         WeakReferenceMessenger.Default.Register<MainViewNavigateMessage>(this, OnMainViewNavigateMessageReceived);
         WeakReferenceMessenger.Default.Register<BH3GlobalGameServerChangedMessage>(this, OnBH3GlobalGameServerChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, (_, _) => _ = CheckUpdateOrShowRecentUpdateContentAsync());
     }
 
 
@@ -244,16 +246,30 @@ public sealed partial class MainView : UserControl
 
 
 
+    #region Update
+
+
+    private DateTimeOffset _lastCheckUpdateTime;
+
+    private DateTimeOffset _lastShowUpdateTime;
+
+    private SemaphoreSlim _updateLock = new(1, 1);
+
+
     private async Task CheckUpdateOrShowRecentUpdateContentAsync()
     {
-        try
-        {
 #if DEBUG || DONOT_CHECK_UPDATE
-            return;
+        return;
 #endif
 #pragma warning disable CS0162 // 检测到无法访问的代码
-            await Task.Delay(500);
+        if (!await _updateLock.WaitAsync(0))
+        {
+            return;
+        }
+        await Task.Delay(1000);
 #pragma warning restore CS0162 // 检测到无法访问的代码
+        try
+        {
             if (NuGetVersion.TryParse(AppConfig.AppVersion, out var appVersion))
             {
                 _ = NuGetVersion.TryParse(AppConfig.LastAppVersion, out var lastVersion);
@@ -267,20 +283,34 @@ public sealed partial class MainView : UserControl
                     {
                         AppConfig.LastAppVersion = AppConfig.AppVersion;
                     }
+                    _lastCheckUpdateTime = DateTimeOffset.Now - TimeSpan.FromMinutes(55);
                     return;
                 }
             }
-            var release = await AppConfig.GetService<UpdateService>().CheckUpdateAsync(false);
-            if (release != null)
+            DateTimeOffset now = DateTimeOffset.Now;
+            if (now - _lastCheckUpdateTime > TimeSpan.FromHours(1))
             {
-                new UpdateWindow { NewVersion = release }.Activate();
+                var release = await AppConfig.GetService<UpdateService>().CheckUpdateAsync(false);
+                _lastCheckUpdateTime = now;
+                if (release != null && now - _lastShowUpdateTime > TimeSpan.FromHours(6) && now.Date != _lastShowUpdateTime.Date)
+                {
+                    new UpdateWindow { NewVersion = release }.Activate();
+                    _lastShowUpdateTime = now;
+                }
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Check update");
         }
+        finally
+        {
+            _updateLock.Release();
+        }
     }
+
+
+    #endregion
 
 
 
@@ -298,9 +328,6 @@ public sealed partial class MainView : UserControl
         }
         catch { }
     }
-
-
-
 
 
 }
