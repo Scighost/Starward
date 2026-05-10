@@ -34,9 +34,6 @@ internal class SetupService
     public long SetupDownloadBytes { get; private set; }
 
 
-    private ReleaseInfoDetail? _detail;
-
-
 
     private async Task<ReleaseInfoDetail> GetReleaseInfoDetailAsync(CancellationToken cancellationToken = default)
     {
@@ -45,10 +42,9 @@ internal class SetupService
 
 
 
-
     public async Task<string?> DownloadSetupAsync(ReleaseInfoDetail? detail, CancellationToken cancellationToken = default)
     {
-        _detail = detail ??= await GetReleaseInfoDetailAsync(cancellationToken);
+        detail ??= await GetReleaseInfoDetailAsync(cancellationToken);
 
         if (detail?.Setup is null)
         {
@@ -140,7 +136,7 @@ internal class SetupService
             UseShellExecute = true,
             Verb = "runas",
             Arguments = $"""
-                update --InstallFolder "{AppContext.BaseDirectory.TrimEnd('\\')}" --OldVersion "{AppConfig.AppVersion}" --NewVersion "{detail.Version}" --Preview "{AppConfig.EnablePreviewRelease}"
+                update --InstallFolder "{AppContext.BaseDirectory.TrimEnd('\\')}" --OldVersion "{AppConfig.AppVersion}" --NewVersion "{detail.Version}" --Preview "{AppConfig.EnablePreviewRelease}" --pid {Environment.ProcessId}
                 """,
         });
     }

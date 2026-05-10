@@ -185,6 +185,7 @@ public class UpdateWindow : WindowBase
             string? oldVersion = config.GetValue<string>("OldVersion");
             string? newVersion = config.GetValue<string>("NewVersion");
             bool preview = config.GetValue<bool>("Preview");
+            int pid = config.GetValue<int>("pid");
 
             if (!Directory.Exists(installFolder))
             {
@@ -204,6 +205,16 @@ public class UpdateWindow : WindowBase
                     oldVersion = FileVersionInfo.GetVersionInfo(exe).ProductVersion;
                 }
             }
+
+            try
+            {
+                if (pid > 0)
+                {
+                    Process.GetProcessById(pid).Kill();
+                    await Task.Delay(1000);
+                }
+            }
+            catch { }
 
             if (!await CheckProcessAsync())
             {
