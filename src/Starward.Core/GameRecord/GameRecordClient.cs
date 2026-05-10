@@ -484,7 +484,7 @@ public abstract class GameRecordClient
     /// <param name="scheduleType">1 当期，3 最近三期</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role,int scheduleType, CancellationToken cancellationToken = default);
+    public abstract Task<ChallengePeakData> GetStarRailChallengePeakDataAsync(GameRecordRole role, int scheduleType, CancellationToken cancellationToken = default);
 
 
 

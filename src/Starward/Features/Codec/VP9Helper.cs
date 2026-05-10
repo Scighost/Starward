@@ -118,9 +118,9 @@ public partial class VP9Helper
 
 
     /// <summary>
-    /// 判断给定的文件是否是 VP9 编码的 Profile 1/2/3 视频文件（高 Profile）
+    /// 判断给定的文件是否是 VP9 编码的高 Profile 或 RGB 像素格式视频文件
     /// </summary>
-    public static bool IsVP9HighProfile(string filePath)
+    public static bool IsVP9HighProfileOrRGB(string filePath)
     {
         const int ReadSize = 1 << 20;
         byte[]? rented = null;
@@ -166,10 +166,10 @@ public partial class VP9Helper
 
                 if (buffer.Length > 0)
                 {
-                    int profile = ParseVP9Profile(buffer);
-                    if (profile >= 0)
+                    var flags = ParseVP9ProfileFlags(buffer);
+                    if (flags.IsValid)
                     {
-                        return profile != 0;
+                        return flags.IsHighProfile || flags.IsRgb;
                     }
                     // profile == -1 表示无法从当前字节解析帧头，继续查找下一个块
                 }
@@ -246,21 +246,102 @@ public partial class VP9Helper
 
 
     /// <summary>
-    /// 从 VP9 帧头解析 Profile 值（0~3），返回 -1 表示不是有效的 VP9 帧头
+    /// 从 VP9 帧头解析是否为高 Profile 或 RGB 像素格式
     /// </summary>
-    private static int ParseVP9Profile(ReadOnlySpan<byte> buffer)
+    private static VP9ProfileFlags ParseVP9ProfileFlags(ReadOnlySpan<byte> buffer)
     {
-        byte firstByte = buffer[0];
+        var reader = new BitReader(buffer);
 
         // frame_marker 占最高 2 位，固定为 0b10
-        if (((firstByte >> 6) & 0x03) != 2)
+        if (!reader.TryReadBits(2, out int frameMarker) || frameMarker != 2)
         {
-            return -1;
+            return default;
         }
 
-        // profile_low_bit: bit5，profile_high_bit: bit4
-        int profile = ((firstByte >> 3) & 0x02) | ((firstByte >> 5) & 0x01);
-        return profile; // 0~3 均合法
+        if (!reader.TryReadBits(2, out int profileBits))
+        {
+            return default;
+        }
+
+        int profile = ((profileBits & 0x01) << 1) | ((profileBits >> 1) & 0x01);
+        if (profile == 3 && !reader.TryReadBit(out _))
+        {
+            return default;
+        }
+
+        if (!reader.TryReadBit(out bool showExistingFrame))
+        {
+            return default;
+        }
+        if (showExistingFrame)
+        {
+            return new VP9ProfileFlags(true, profile != 0, false);
+        }
+
+        if (!reader.TryReadBit(out bool keyFrame)
+            || !reader.TryReadBit(out bool showFrame)
+            || !reader.TryReadBit(out bool errorResilientMode))
+        {
+            return default;
+        }
+
+        bool intraOnly = false;
+        if (!keyFrame)
+        {
+            if (!showFrame)
+            {
+                if (!reader.TryReadBit(out intraOnly))
+                {
+                    return default;
+                }
+            }
+
+            if (!errorResilientMode)
+            {
+                if (!reader.TryReadBits(2, out _))
+                {
+                    return default;
+                }
+            }
+        }
+
+        bool hasColorConfig = keyFrame || intraOnly;
+        if (!hasColorConfig)
+        {
+            return new VP9ProfileFlags(true, profile != 0, false);
+        }
+
+        if (!reader.TryReadBits(24, out int syncCode) || syncCode != 0x498342)
+        {
+            return default;
+        }
+
+        if (profile >= 2 && !reader.TryReadBit(out _))
+        {
+            return default;
+        }
+
+        if (!reader.TryReadBits(3, out int colorSpace))
+        {
+            return default;
+        }
+
+        bool isRgb = false;
+        if (colorSpace == 7)
+        {
+            if (profile is not (1 or 3))
+            {
+                return default;
+            }
+            if (!reader.TryReadBit(out _)
+                || !reader.TryReadBit(out _))
+            {
+                return default;
+            }
+            isRgb = true;
+        }
+
+        return new VP9ProfileFlags(true, profile != 0, isRgb);
     }
 
 
@@ -284,6 +365,58 @@ public partial class VP9Helper
             }
         }
         return false;
+    }
+
+
+    private readonly record struct VP9ProfileFlags(bool IsValid, bool IsHighProfile, bool IsRgb);
+
+
+    private ref struct BitReader
+    {
+        private readonly ReadOnlySpan<byte> _buffer;
+        private int _bitOffset;
+
+        public BitReader(ReadOnlySpan<byte> buffer)
+        {
+            _buffer = buffer;
+            _bitOffset = 0;
+        }
+
+        public bool TryReadBit(out bool value)
+        {
+            if (!TryReadBits(1, out int bits))
+            {
+                value = false;
+                return false;
+            }
+            value = bits != 0;
+            return true;
+        }
+
+        public bool TryReadBits(int bitCount, out int value)
+        {
+            value = 0;
+            if (bitCount <= 0)
+            {
+                return true;
+            }
+
+            for (int i = 0; i < bitCount; i++)
+            {
+                int byteOffset = _bitOffset >> 3;
+                if (byteOffset >= _buffer.Length)
+                {
+                    value = 0;
+                    return false;
+                }
+
+                int bitInByte = 7 - (_bitOffset & 0x07);
+                int bit = (_buffer[byteOffset] >> bitInByte) & 0x01;
+                value = (value << 1) | bit;
+                _bitOffset++;
+            }
+            return true;
+        }
     }
 
 

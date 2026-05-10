@@ -333,7 +333,7 @@ internal class PlayTimeService
                     {
                         ts_total += Math.Clamp(ts_last_time - ts_start_time, 0, long.MaxValue);
                     }
-                    if (item.State is not PlayTimeState.Stop or PlayTimeState.Error)
+                    if (item.State is not PlayTimeState.Stop and not PlayTimeState.Error)
                     {
                         dic_last_time[pid] = item.TimeStamp;
                         dic_start_time[pid] = item.TimeStamp;

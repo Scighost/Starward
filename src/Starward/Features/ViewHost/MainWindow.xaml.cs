@@ -28,18 +28,14 @@ public sealed partial class MainWindow : WindowEx
     public static new MainWindow Current { get; private set; }
 
 
-    private bool _mainViewLoaded;
-
-
     public MainWindow()
     {
         Current = this;
         MainWindowId = AppWindow.Id;
         this.InitializeComponent();
         InitializeMainWindow();
-        LoadContentView();
+        App.Current.EnsureSystemTray();
         WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
-        WeakReferenceMessenger.Default.Register<WelcomePageFinishedMessage>(this, OnWelcomePageFinished);
         WeakReferenceMessenger.Default.Register<GameStartedMessage>(this, OnGameStarted);
     }
 
@@ -104,44 +100,16 @@ public sealed partial class MainWindow : WindowEx
 
 
 
-    private void LoadContentView()
-    {
-        if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
-        {
-            MainContentHost.Content = new WelcomeView();
-        }
-        else
-        {
-            MainContentHost.Content = new MainView();
-            App.Current.EnsureSystemTray();
-            _mainViewLoaded = true;
-        }
-    }
-
-
-
-    private void OnWelcomePageFinished(object _, WelcomePageFinishedMessage __)
-    {
-        MainContentHost.Content = new MainView();
-        App.Current.EnsureSystemTray();
-        _mainViewLoaded = true;
-    }
-
-
-
     private void OnGameStarted(object _, GameStartedMessage __)
     {
-        if (_mainViewLoaded)
+        StartGameAction action = AppConfig.StartGameAction;
+        if (action is StartGameAction.Hide)
         {
-            StartGameAction action = AppConfig.StartGameAction;
-            if (action is StartGameAction.Hide)
-            {
-                this.Hide();
-            }
-            else if (action is StartGameAction.Minimize)
-            {
-                this.Minimize();
-            }
+            this.Hide();
+        }
+        else if (action is StartGameAction.Minimize)
+        {
+            this.Minimize();
         }
     }
 
@@ -151,11 +119,6 @@ public sealed partial class MainWindow : WindowEx
     {
         try
         {
-            if (!_mainViewLoaded)
-            {
-                App.Current.Exit();
-                return;
-            }
             args.Cancel = true;
             MainWindowCloseOption option = AppConfig.CloseWindowOption;
             if (option is not MainWindowCloseOption.Hide and not MainWindowCloseOption.Exit)
@@ -211,12 +174,9 @@ public sealed partial class MainWindow : WindowEx
 
     private void Content_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
-        if (_mainViewLoaded)
+        if (e.Key is Windows.System.VirtualKey.Escape)
         {
-            if (e.Key is Windows.System.VirtualKey.Escape)
-            {
-                Hide();
-            }
+            Hide();
         }
     }
 

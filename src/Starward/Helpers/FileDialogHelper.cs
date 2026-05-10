@@ -231,17 +231,17 @@ internal static class FileDialogHelper
             types = [new COMDLG_FILTERSPEC { pszName = "All", pszSpec = "*" }];
         }
         else
-        if (count == 1)
-        {
-            types = [new COMDLG_FILTERSPEC { pszName = fileTypeFilter[0].Name, pszSpec = "*" + fileTypeFilter[0].Spec }];
-        }
-        else
-        {
-            count++;
-            types = new COMDLG_FILTERSPEC[count];
-            types[0] = new COMDLG_FILTERSPEC { pszName = "All", pszSpec = string.Join(';', fileTypeFilter.Select(x => $"*{x.Spec}")) };
-            fileTypeFilter.Select(x => new COMDLG_FILTERSPEC { pszName = x.Name, pszSpec = x.Spec }).ToArray().CopyTo(types, 1);
-        }
+            if (count == 1)
+            {
+                types = [new COMDLG_FILTERSPEC { pszName = fileTypeFilter[0].Name, pszSpec = "*" + fileTypeFilter[0].Spec }];
+            }
+            else
+            {
+                count++;
+                types = new COMDLG_FILTERSPEC[count];
+                types[0] = new COMDLG_FILTERSPEC { pszName = "All", pszSpec = string.Join(';', fileTypeFilter.Select(x => $"*{x.Spec}")) };
+                fileTypeFilter.Select(x => new COMDLG_FILTERSPEC { pszName = x.Name, pszSpec = x.Spec }).ToArray().CopyTo(types, 1);
+            }
         dialog.SetFileTypes(count, types);
         return types;
     }

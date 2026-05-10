@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using Starward.Features.Database;
+using Starward.Features.ViewHost;
 using Starward.Helpers;
 using Starward.Setup.Core;
 using System;
@@ -9,6 +10,8 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Vanara.PInvoke;
 
 namespace Starward;
 
@@ -46,7 +49,8 @@ public static partial class AppConfig
 
 
 
-    public static void LoadConfiguration()
+
+    public static async Task CheckEnviromentAsync()
     {
         try
         {
@@ -55,10 +59,17 @@ public static partial class AppConfig
 
             string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
             string portableExe = Path.Join(parentFolder, "Starward.exe");
-            if (Directory.Exists(parentFolder) && File.Exists(portableExe))
+            string portableVersion = Path.Join(parentFolder, "version.ini");
+
+            if (Directory.Exists(parentFolder) && (File.Exists(portableExe) || File.Exists(portableVersion)))
             {
                 InstallType = InstallType.Portable;
                 StarwardPortableLauncherExecutePath = portableExe;
+                if (!HaveWritePermission(parentFolder))
+                {
+                    await new NoPermissionWindow(parentFolder).WaitAsync();
+                    Environment.Exit(0);
+                }
             }
 
             if (IsAppInRemovableStorage && IsPortable)
@@ -80,6 +91,105 @@ public static partial class AppConfig
             {
                 CacheFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward");
             }
+
+            string? userDataFolder = null;
+            if (string.IsNullOrWhiteSpace(ConfigPath))
+            {
+#if DEBUG
+                using RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Starward.Debug");
+#else
+                using RegistryKey key = Registry.CurrentUser.CreateSubKey(@"Software\Starward");
+#endif
+                userDataFolder = (key.GetValue("UserDataFolder") as string)?.Trim();
+            }
+            else if (File.Exists(ConfigPath))
+            {
+                string text = File.ReadAllText(ConfigPath);
+                userDataFolder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
+                if (!string.IsNullOrWhiteSpace(userDataFolder) && !Path.IsPathFullyQualified(userDataFolder))
+                {
+                    userDataFolder = Path.GetFullPath(userDataFolder, Path.GetDirectoryName(ConfigPath)!);
+                }
+            }
+
+            if (Directory.Exists(userDataFolder))
+            {
+                if (HaveWritePermission(userDataFolder))
+                {
+                    UserDataFolder = userDataFolder;
+                    DatabaseService.SetDatabase(userDataFolder);
+                    LoadConfiguration();
+                }
+                else
+                {
+                    await new NoPermissionWindow(userDataFolder).WaitAsync();
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                if (await new WelcomeWindow().WaitAsync())
+                {
+                    LoadConfiguration();
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            User32.MessageBox(HWND.NULL, $"{Lang.AppConfig_AnUnknownIssueOccurredDuringInitialization}\n{ex.Message}", "Starward", User32.MB_FLAGS.MB_OK);
+            Environment.Exit(0);
+        }
+    }
+
+
+    private static bool HaveWritePermission(string folder)
+    {
+        try
+        {
+            string random = Path.Combine(folder, Guid.CreateVersion7().ToString());
+            File.WriteAllBytes(random, "Write permission test."u8);
+            File.Delete(random);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+
+
+    public static void SetLanguage(string? lang)
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(lang))
+            {
+                var info = new CultureInfo(lang);
+                CultureInfo.CurrentUICulture = info;
+                CultureInfo.DefaultThreadCurrentUICulture = info;
+                Language = lang;
+            }
+            else
+            {
+                CultureInfo.CurrentUICulture = CultureInfo.InstalledUICulture;
+                CultureInfo.DefaultThreadCurrentUICulture = CultureInfo.InstalledUICulture;
+                Language = null;
+            }
+        }
+        catch { }
+    }
+
+
+
+    public static void LoadConfiguration()
+    {
+        try
+        {
             Directory.CreateDirectory(CacheFolder);
             FileCache.Initialize(Path.Combine(CacheFolder, "cache"));
             var webviewFolder = Path.Combine(CacheFolder, "webview");
@@ -108,37 +218,11 @@ public static partial class AppConfig
         {
             string text = File.ReadAllText(path);
             string lang = Regex.Match(text, @"Language=(.+)").Groups[1].Value.Trim();
-            string folder = Regex.Match(text, @"UserDataFolder=(.+)").Groups[1].Value.Trim();
             bool.TryParse(Regex.Match(text, @"EnableLoginAuthTicket=(.+)").Groups[1].Value.Trim(), out bool enabled);
             EnableLoginAuthTicket = enabled;
             stoken = Regex.Match(text, @"stoken=(.+)").Groups[1].Value.Trim();
             mid = Regex.Match(text, @"mid=(.+)").Groups[1].Value.Trim();
-            if (!string.IsNullOrWhiteSpace(lang))
-            {
-                try
-                {
-                    CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                    Language = lang;
-                }
-                catch { }
-            }
-            if (!string.IsNullOrWhiteSpace(folder))
-            {
-                string userDataFolder;
-                if (Path.IsPathFullyQualified(folder))
-                {
-                    userDataFolder = folder;
-                }
-                else
-                {
-                    userDataFolder = Path.GetFullPath(folder, Path.GetDirectoryName(path)!);
-                }
-                if (Directory.Exists(userDataFolder))
-                {
-                    UserDataFolder = Path.GetFullPath(userDataFolder);
-                    DatabaseService.SetDatabase(userDataFolder);
-                }
-            }
+            SetLanguage(lang);
         }
     }
 
@@ -151,24 +235,10 @@ public static partial class AppConfig
         using var key = Registry.CurrentUser.CreateSubKey(@"Software\Starward");
 #endif
         string? lang = (key.GetValue("Language") as string)?.Trim();
-        string? folder = (key.GetValue("UserDataFolder") as string)?.Trim();
         EnableLoginAuthTicket = key.GetValue("EnableLoginAuthTicket") is 1;
         stoken = (key.GetValue("stoken") as string)?.Trim();
         mid = (key.GetValue("mid") as string)?.Trim();
-        if (!string.IsNullOrWhiteSpace(lang))
-        {
-            try
-            {
-                CultureInfo.CurrentUICulture = new CultureInfo(lang);
-                Language = lang;
-            }
-            catch { }
-        }
-        if (Directory.Exists(folder))
-        {
-            UserDataFolder = Path.GetFullPath(folder);
-            DatabaseService.SetDatabase(folder);
-        }
+        SetLanguage(lang);
     }
 
 

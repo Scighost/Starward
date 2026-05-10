@@ -1,33 +1,70 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Starward.Features.Database;
+using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using Windows.Graphics;
 using Windows.Graphics.Imaging;
 using Windows.System;
 
 
 namespace Starward.Features.ViewHost;
 
-[INotifyPropertyChanged]
-public sealed partial class WelcomeView : UserControl
+[ObservableObject]
+public sealed partial class WelcomeWindow : WindowEx
 {
 
 
-    public WelcomeView()
+    private TaskCompletionSource<bool> _taskCompletionSource;
+
+
+
+    public WelcomeWindow()
     {
-        this.InitializeComponent();
+        InitializeComponent();
+        InitializeWindow();
+        _taskCompletionSource = new();
     }
 
 
+
+    private void InitializeWindow()
+    {
+        this.Closed += NoPermissionWindow_Closed;
+        ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+        CenterInScreen(1200, 676);
+        AdaptTitleBarButtonColorToActuallTheme();
+        SetDragRectangles(new RectInt32(0, 0, 100000, (int)(48 * UIScale)));
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+        {
+            presenter.IsMaximizable = false;
+            presenter.IsResizable = true;
+        }
+    }
+
+
+
+
+    private void NoPermissionWindow_Closed(object sender, WindowEventArgs args)
+    {
+        _taskCompletionSource.TrySetResult(false);
+    }
+
+
+
+    public async Task<bool> WaitAsync()
+    {
+        this.Activate();
+        return await _taskCompletionSource.Task;
+    }
 
 
 
@@ -43,26 +80,20 @@ public sealed partial class WelcomeView : UserControl
     public bool WebpDecoderSupport { get; set => SetProperty(ref field, value); }
 
 
-    public string? NetworkDelay { get; set => SetProperty(ref field, value); }
-
-
-    public string? NetworkSpeed { get; set => SetProperty(ref field, value); }
-
-
     public bool CanStartStarward { get; set => SetProperty(ref field, value); }
 
 
     public bool IsWin11 { get; set => SetProperty(ref field, value); }
 
 
-    private async void Grid_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+
+    private async void Grid_Loaded(object sender, RoutedEventArgs e)
     {
         IsWin11 = Environment.OSVersion.Version >= new Version(10, 0, 22000);
         InitializeDefaultUserDataFolder();
-        await CheckWritePermissionAsync();
+        CheckWritePermission();
         CheckWebView2Support();
         await CheckWebpDecoderSupportAsync();
-        TestSpeedCommand.Execute(null);
     }
 
 
@@ -74,17 +105,13 @@ public sealed partial class WelcomeView : UserControl
         try
         {
             string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
-            if (AppConfig.IsAppInRemovableStorage && AppConfig.IsPortable)
+            if (AppConfig.IsPortable)
             {
                 UserDataFolder = parentFolder;
             }
             else if (AppConfig.IsAppInRemovableStorage)
             {
                 UserDataFolder = Path.Combine(Path.GetPathRoot(AppContext.BaseDirectory)!, ".StarwardData");
-            }
-            else if (AppConfig.IsPortable)
-            {
-                UserDataFolder = parentFolder;
             }
             else
             {
@@ -103,18 +130,19 @@ public sealed partial class WelcomeView : UserControl
 
 
 
-    private async Task CheckWritePermissionAsync()
+    private void CheckWritePermission()
     {
         try
         {
             UserDataFolderErrorMessage = null;
             CanStartStarward = false;
-            if (!Directory.Exists(UserDataFolder) || !Path.IsPathFullyQualified(UserDataFolder))
+            if (string.IsNullOrWhiteSpace(UserDataFolder) || !Path.IsPathFullyQualified(UserDataFolder))
             {
                 UserDataFolderErrorMessage = Lang.DownloadGamePage_TheFolderDoesNotExist;
                 return;
             }
             string folder = Path.GetFullPath(UserDataFolder);
+            Directory.CreateDirectory(folder);
             if (folder == Path.GetPathRoot(folder))
             {
                 UserDataFolderErrorMessage = Lang.LauncherPage_PleaseDoNotSelectTheRootDirectoryOfADrive;
@@ -126,8 +154,8 @@ public sealed partial class WelcomeView : UserControl
                 UserDataFolderErrorMessage = Lang.SelectDirectoryPage_AutoDeleteAfterUpdate;
                 return;
             }
-            var file = Path.Combine(folder, Random.Shared.Next(int.MaxValue).ToString());
-            await File.WriteAllTextAsync(file, "");
+            var file = Path.Combine(folder, Guid.CreateVersion7().ToString());
+            File.WriteAllBytes(file, "Write permission test."u8);
             File.Delete(file);
             CanStartStarward = true;
         }
@@ -152,11 +180,11 @@ public sealed partial class WelcomeView : UserControl
     {
         try
         {
-            string? folder = await FileDialogHelper.PickFolderAsync(this.XamlRoot);
+            string? folder = await FileDialogHelper.PickFolderAsync(Content.XamlRoot);
             if (Directory.Exists(folder))
             {
                 UserDataFolder = folder;
-                await CheckWritePermissionAsync();
+                CheckWritePermission();
             }
         }
         catch (Exception ex)
@@ -164,46 +192,6 @@ public sealed partial class WelcomeView : UserControl
             Debug.WriteLine(ex);
         }
     }
-
-
-
-
-    [RelayCommand]
-    private async Task TestSpeedAsync()
-    {
-        try
-        {
-            const string url = "https://starward-static.scighost.com/metadata/test/test_100kb";
-            NetworkDelay = null;
-            NetworkSpeed = null;
-            using HttpClient httpClient = new HttpClient(new SocketsHttpHandler { AutomaticDecompression = DecompressionMethods.All })
-            {
-                DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher
-            };
-            var sw = Stopwatch.StartNew();
-            var response = await httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-            sw.Stop();
-            NetworkDelay = $"{sw.ElapsedMilliseconds}ms";
-            sw.Start();
-            var bytes = await response.Content.ReadAsByteArrayAsync();
-            sw.Stop();
-            double speed = bytes.Length / 1024.0 / sw.Elapsed.TotalSeconds;
-            if (speed < 1024)
-            {
-                NetworkSpeed = $"{speed:0.00}KB/s";
-            }
-            else
-            {
-                NetworkSpeed = $"{speed / 1024:0.00}MB/s";
-            }
-        }
-        catch (Exception ex)
-        {
-            NetworkSpeed = Lang.WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates;
-            Debug.WriteLine(ex);
-        }
-    }
-
 
 
 
@@ -271,15 +259,14 @@ public sealed partial class WelcomeView : UserControl
             AppConfig.UserDataFolder = UserDataFolder;
             DatabaseService.SetDatabase(UserDataFolder);
             AppConfig.SaveConfiguration();
-            WeakReferenceMessenger.Default.Send(new WelcomePageFinishedMessage());
+            _taskCompletionSource.SetResult(true);
+            this.Close();
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex);
         }
     }
-
-
 
 
 

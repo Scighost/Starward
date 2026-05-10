@@ -80,7 +80,7 @@ public sealed partial class BackgroundViewPage : PageBase
     {
         try
         {
-            string folder = Path.Join(AppConfig.UserDataFolder, "bg");
+            string folder = Path.Join(AppConfig.CacheFolder, "bg");
             if (Directory.Exists(folder))
             {
                 string[] files = Directory.GetFiles(folder);
@@ -122,7 +122,7 @@ public sealed partial class BackgroundViewPage : PageBase
     {
         try
         {
-            string folder = Path.Join(AppConfig.UserDataFolder, "bg");
+            string folder = Path.Join(AppConfig.CacheFolder, "bg");
             if (Directory.Exists(folder))
             {
                 await Launcher.LaunchFolderPathAsync(folder);
@@ -140,7 +140,7 @@ public sealed partial class BackgroundViewPage : PageBase
     {
         try
         {
-            string folder = Path.Join(AppConfig.UserDataFolder, "bg");
+            string folder = Path.Join(AppConfig.CacheFolder, "bg");
             if (Directory.Exists(folder))
             {
                 int count = 0;

@@ -196,6 +196,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 An unknown issue occurred during initialization. 的本地化字符串。
+        /// </summary>
+        public static string AppConfig_AnUnknownIssueOccurredDuringInitialization {
+            get {
+                return ResourceManager.GetString("AppConfig_AnUnknownIssueOccurredDuringInitialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Always display navigation sidebar icons 的本地化字符串。
         /// </summary>
         public static string AppearanceSettingPage_AlwaysDisplayNavigationSidebarIcons {
@@ -5214,6 +5223,24 @@ namespace Starward.Language {
         public static string MainView_CheckSystemProxy_SystemProxyIsEnabled {
             get {
                 return ResourceManager.GetString("MainView_CheckSystemProxy_SystemProxyIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 The program does not have permission to access the following folder. Please restart as administrator or move the folder. 的本地化字符串。
+        /// </summary>
+        public static string NoPermissionWindow_NoPermissionToFolderRestartOrClose {
+            get {
+                return ResourceManager.GetString("NoPermissionWindow_NoPermissionToFolderRestartOrClose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart as Administrator 的本地化字符串。
+        /// </summary>
+        public static string NoPermissionWindow_RestartAsAdministrator {
+            get {
+                return ResourceManager.GetString("NoPermissionWindow_RestartAsAdministrator", resourceCulture);
             }
         }
         

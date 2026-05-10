@@ -305,15 +305,15 @@
     <value>イベント星願</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>事象凝核</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>綺刻の楔</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>独占再上映</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>音動機再奏</value>
   </data>
 </root>

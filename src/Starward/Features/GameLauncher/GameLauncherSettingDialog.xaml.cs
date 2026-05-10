@@ -411,7 +411,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
         {
-            if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
+            if (task.State is not GameInstallState.Stop and not GameInstallState.Finish)
             {
                 Button_RepairGame.IsEnabled = false;
             }
@@ -589,7 +589,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         {
             if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
             {
-                if (task.State is not GameInstallState.Stop or GameInstallState.Finish)
+                if (task.State is not GameInstallState.Stop and not GameInstallState.Finish)
                 {
                     await _gameInstallService.StopTaskAsync(task);
                     await Task.Delay(1000);
@@ -824,7 +824,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string path = Path.Join(AppConfig.UserDataFolder, "bg", CustomBg);
+            string path = Path.Join(AppConfig.CacheFolder, "bg", CustomBg);
             if (File.Exists(path))
             {
                 await Launcher.LaunchUriAsync(new Uri(path));

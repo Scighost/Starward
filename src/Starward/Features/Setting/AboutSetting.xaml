@@ -2,7 +2,6 @@
 <sf:PageBase x:Class="Starward.Features.Setting.AboutSetting"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:cw="using:CommunityToolkit.WinUI"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.Setting"
@@ -12,28 +11,17 @@
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
-    <Page.Resources>
-        <cw:AttachedDropShadow x:Key="LogoShadow"
-                               CastTo="{x:Bind Border_LogoShadow}"
-                               Opacity="0.4"
-                               Offset="4" />
-    </Page.Resources>
-
     <ScrollViewer>
         <StackPanel>
 
             <!--  Logo  -->
-            <Grid>
-                <Border Name="Border_LogoShadow" />
-                <Image Width="120"
-                       Height="120"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       cw:Effects.Shadow="{StaticResource LogoShadow}"
-                       Source="ms-appx:///Assets/logo.png" />
-            </Grid>
+            <Image Width="160"
+                   Height="160"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Source="ms-appx:///Assets/logo.png" />
 
-            <TextBlock Margin="0,24,0,0"
+            <TextBlock Margin="0,12,0,0"
                        FontSize="24"
                        FontWeight="Bold"
                        Text="Starward" />

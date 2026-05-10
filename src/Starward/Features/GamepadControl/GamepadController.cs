@@ -30,10 +30,11 @@ internal static class GamepadController
     public static IGameInput? GameInputInstance => _gameInput;
 
 
-    public static void Initialize()
+    public static void Initialize(Microsoft.UI.Dispatching.DispatcherQueue? dispatcherQueue = null)
     {
         try
         {
+            _dispatcherQueue ??= dispatcherQueue ?? Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
             bool win11 = Environment.OSVersion.Version.Build >= 22000;
             string GameInputRedist = Path.Combine(Environment.SystemDirectory, "GameInputRedist.dll");
             if (File.Exists(GameInputRedist))
@@ -56,7 +57,6 @@ internal static class GamepadController
             if (SharpGameInput.GameInput.CreateV0(out _gameInput))
             {
                 _inputSimulator = new InputSimulator();
-                _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
                 _inputLoopTimer = new System.Timers.Timer(16);
                 _inputLoopTimer.Elapsed += _inputLoopTimer_Elapsed;
                 _gameInput.RegisterDeviceCallback(null, GameInputKind.Gamepad,

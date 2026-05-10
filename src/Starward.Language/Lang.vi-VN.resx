@@ -1939,10 +1939,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Chọn tập tin</value>
   </data>
   <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
-    <value>Time Needed for Recovery</value>
+    <value>Thời gian cần để hồi phục</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
-    <value>Daily BP</value>
+    <value>BP hàng ngày</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
     <value>Phần thưởng ủy thác hằng ngày</value>
@@ -2008,7 +2008,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Kinh Doanh Tiệm Băng Hình</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
-    <value>Waiting to Open</value>
+    <value>Chờ mở cửa</value>
   </data>
   <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
     <value>Đang kinh doanh</value>
@@ -2038,43 +2038,43 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Bảo Vệ Trụ Shiyu</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
-    <value>Deadly Assault</value>
+    <value>Tấn Công Tử Thần</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
-    <value>Highest Stage Cleared</value>
+    <value>Tầng Cao Nhất Đã Vượt</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
-    <value>4-7 Layer Clear Time</value>
+    <value>Thời Gian Vượt Tầng 4-7</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
-    <value>Clear Time: </value>
+    <value>Thời gian vượt: </value>
   </data>
   <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
-    <value>Total Score:</value>
+    <value>Tổng Điểm:</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
-    <value>Global Top</value>
+    <value>Xếp Hạng Toàn Cầu</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
-    <value>Fastest State Time</value>
+    <value>Thời Gian Nhanh Nhất</value>
   </data>
   <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
-    <value>Frontier Effects</value>
+    <value>Hiệu Ứng Phòng Tuyến</value>
   </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
-    <value>Enemy Details</value>
+    <value>Chi Tiết Kẻ Địch</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
     <value>Điểm yếu</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
-    <value>Resistance</value>
+    <value>Kháng Tính</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>Cleared at</value>
+    <value>Đã Vượt Qua Lúc</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
-    <value>Total Score</value>
+    <value>Tổng Điểm</value>
   </data>
   <data name="PureFictionPage_Score" xml:space="preserve">
     <value>Điểm:</value>
@@ -2248,7 +2248,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Chế độ hiển thị</value>
   </data>
   <data name="ImageViewWindow2_SDRMappedLuminance" xml:space="preserve">
-    <value>SDR Mapped Luminance</value>
+    <value>Độ Sáng Ánh Xạ SDR</value>
   </data>
   <data name="ImageViewWindow2_Auto" xml:space="preserve">
     <value>Tự động</value>
@@ -2371,64 +2371,64 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Mô phỏng nhập liệu bàn phím và chuột bằng tay cầm. Tính năng này cần Starward chạy với quyền admin để hoạt động đúng trong game.</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
-    <value>Press and hold the Guide button to open the Starward main window.</value>
+    <value>Nhấn và giữ nút Guide để mở cửa sổ chính của Starward.</value>
   </data>
   <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
-    <value>Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation.</value>
+    <value>Nhấn đồng thời cả hai nút cần analog để kích hoạt mô phỏng bàn phím và chuột từ tay cầm.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
-    <value>GameInputRedist component detected. Simulated input is unavailable.</value>
+    <value>Đã phát hiện thành phần GameInputRedist. Đầu vào mô phỏng không khả dụng.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
-    <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
+    <value>• Khi ánh xạ nút Guide, phím tắt mặc định của Xbox Game Bar sẽ bị vô hiệu hóa. Các phần mềm khác (như Chế độ Steam Big Picture) cũng có thể phản hồi nút Guide. Nếu có xung đột, bạn phải tự tắt các tính năng đó.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
     <value>• Khi gán sang phím bàn phím, nhập tên các phím như chúng xuất hiện trên bàn phím, cách nhau bởi dấu cách. Ví dụ: để gán một nút cho “Ctrl + Alt + F1”, nhập: "Ctrl Alt F1". Đối với phím số ở bàn phím numpad, thêm tiền tố Pad trước tên phím, ví dụ: Pad8, Pad+. Tính năng này cần Starward chạy với quyền admin để hoạt động chính xác trong trò chơi.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>Nút Share vẫn kích hoạt chụp màn hình Xbox Game Bar và hiện tại chưa có giải pháp tốt.</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>Không thể khởi tạo thành phần GameInput. Tính năng tăng cường tay cầm không khả dụng.</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>Đầu vào mô phỏng từ tay cầm đang hoạt động.</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
-    <value>Show / Hide Button Hints</value>
+    <value>Hiện / Ẩn Gợi Ý Nút</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
-    <value>Mouse Move</value>
+    <value>Di Chuyển Chuột</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
-    <value>Mouse Wheel</value>
+    <value>Con Lăn Chuột</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
-    <value>Mouse Left Button</value>
+    <value>Nút Chuột Trái</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
-    <value>Mouse Right Button</value>
+    <value>Nút Chuột Phải</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
-    <value>Keyboard Esc Key</value>
+    <value>Phím Esc Trên Bàn Phím</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
-    <value>Keyboard Arrow Keys</value>
+    <value>Phím Mũi Tên Trên Bàn Phím</value>
   </data>
   <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
-    <value>Locate Mouse Pointer</value>
+    <value>Định Vị Con Trỏ Chuột</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>Dừng giả lập đầu vào</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value>Thử Chụp ảnh</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>Tự động chuyển đổi sang ảnh SDR</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>Khi chụp ảnh HDR, phiên bản SDR cũng sẽ được lưu lại.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
     <value>Tính năng chụp ảnh màn hình chụp trò chơi đang chạy. Nếu có nhiều trò chơi đang chạy cùng lúc, tính năng sẽ xử lí cửa sổ trò chơi vừa được thao tác gần nhất. Lưu ý các giới hạn sau:
@@ -2442,70 +2442,70 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
 • Con trỏ chuột không thể bị ẩn.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>Nếu bạn muốn chụp ảnh màn hình bằng bộ điều khiển, vui lòng sử dụng chức năng Ánh xạ nút trong trang Cải thiện tay cầm.</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>Tính năng chụp ảnh màn hình không hỗ trợ phiên bản đám mây.</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
-    <value>Switch Windows</value>
+    <value>Chuyển Đổi Cửa Sổ</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
     <value>Tự động sao chép tệp tin chụp màn hình</value>
   </data>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
-    <value>Use Popup Window</value>
+    <value>Sử Dụng Cửa Sổ Bật Lên</value>
   </data>
   <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
-    <value>Image Viewer</value>
+    <value>Trình Xem Ảnh</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
     <value>Xem / Chỉnh sửa ảnh</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Đã phát hiện thành phần Microsoft GameInput. Chức năng nhập liệu mô phỏng không khả dụng khi ứng dụng đang chạy ngầm.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>Một thành phần Microsoft GameInput đã lỗi thời đang được cài đặt. Vui lòng gỡ cài đặt hoặc cập nhật nó.</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Trên Windows 10, thành phần Microsoft GameInput phải được cài đặt để tính năng tăng cường tay cầm hoạt động đúng cách.</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
     <value>Nhấn để tải.</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
-    <value>Copy as JPG</value>
+    <value>Sao chép dưới dạng JPG</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
     <value>Chọn nhiều</value>
   </data>
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
-    <value>Total {0} files.</value>
+    <value>Tổng cộng {0} tệp.</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
-    <value>Keyboard Enter Key</value>
+    <value>Phím Enter Trên Bàn Phím</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
-    <value>Stygian Onslaught</value>
+    <value>Ảo Cảnh Hiểm Ác</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
-    <value>Single Player</value>
+    <value>Người Chơi Đơn</value>
   </data>
   <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
     <value>Co-Op</value>
   </data>
   <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
-    <value>Battle Time</value>
+    <value>Thời gian khiêu chiến</value>
   </data>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
-    <value>Highest Total Damage Dealt</value>
+    <value>Gây Nhiều Sát Thương Nhất</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
     <value>Các tuỳ chọn khác</value>
   </data>
   <data name="ScreenshotSetting_Lossless" xml:space="preserve">
-    <value>Lossless</value>
+    <value>Không Mất Dữ Liệu</value>
   </data>
   <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
     <value>Định dạng và Chất lượng</value>
@@ -2589,7 +2589,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thử Thách Thánh Bài {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
-    <value>Miliastra Wonderland Ode</value>
+    <value>Khúc ca kỳ quan Miliastra</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
     <value>Khởi động game bằng CMD</value>
@@ -2601,37 +2601,37 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Gói đầy đủ</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
-    <value>Migrate to Setup</value>
+    <value>Di Chuyển Sang Bản Cài Đặt</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
-    <value>Critical Node: Fourth Frontier</value>
+    <value>Nút Tới Hạn: Phòng Tuyến Thứ Tư</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
-    <value>Critical Node: Fifth Frontier</value>
+    <value>Nút Tới Hạn: Phòng Tuyến Thứ Năm</value>
   </data>
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
     <value>Khuyến nghị cài đặt Phần Mở rộng Video VP9 để giảm tải cho CPU.</value>
   </data>
   <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
-    <value>Challenge Attempts</value>
+    <value>Số Lần Thử Thách</value>
   </data>
   <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
-    <value>King in Check Stage Records</value>
+    <value>Kỷ Lục Màn King in Check</value>
   </data>
   <data name="ChallengePeakPage_Cleared" xml:space="preserve">
     <value>Đã xóa</value>
   </data>
   <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
-    <value>No Clearance Records</value>
+    <value>Không Có Kỷ Lục Vượt Qua</value>
   </data>
   <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
-    <value>Knight Stage Records</value>
+    <value>Kỷ Lục Màn Hiệp Sĩ</value>
   </data>
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
-    <value>Anomaly Arbitration</value>
+    <value>Trọng Tài Dị Thường</value>
   </data>
   <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
-    <value>Updated to the latest version.</value>
+    <value>Đã cập nhật phiên bản mới nhất.</value>
   </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
     <value>Phát / Tạm dừng</value>
@@ -2643,7 +2643,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xoá tệp trùng lặp</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>{0} duplicate file(s) has been deleted.</value>
+    <value>{0} tệp trùng lặp (s) đã bị xóa.</value>
   </data>
   <data name="Common_All" xml:space="preserve">
     <value>Tất cả</value>
@@ -2664,33 +2664,42 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Sắp xếp</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
-    <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
+    <value>Các tệp trùng lặp được xác định dựa trên dữ liệu tệp. Một số hình ảnh giống nhau về mặt thị giác sẽ không bị xóa.</value>
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
-    <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+    <value>Tiện ích mở rộng video VP9 không hỗ trợ một số định dạng nhất định, điều này có thể gây cản trở việc tạo thumbnail hoặc phát lại video đúng cách.</value>
   </data>
   <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
-    <value>Image decoding failed</value>
+    <value>Giải mã hình ảnh thất bại</value>
   </data>
   <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
-    <value>Please install the WebP Image Extension.</value>
+    <value>Vui lòng cài đặt tiện ích mở rộng hình ảnh WebP.</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
-    <value>Video decoding failed</value>
+    <value>Giải mã video thất bại</value>
   </data>
   <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
-    <value>Simulated Universe Points</value>
+    <value>Điểm Vũ trụ mô phỏng</value>
   </data>
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
-    <value>Currency Wars Points</value>
+    <value>Điểm Chiến Tranh Tiền Tệ</value>
   </data>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
-    <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
+    <value>Quá trình giải mã video thất bại. Vui lòng cài đặt tiện ích mở rộng video VP9.</value>
   </data>
   <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
     <value>Đồng nhất với toàn bộ HoYoLAB (Thử nghiệm)</value>
   </data>
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
     <value>Đồng bộ với HoYoLAB (Thử nghiệm)</value>
+  </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>Đã xảy ra lỗi không xác định trong quá trình khởi tạo.</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>Chương trình không có quyền truy cập thư mục sau. Vui lòng khởi động lại với quyền quản trị viên hoặc di chuyển thư mục.</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>Khởi Động Lại Với Quyền Quản Trị Viên</value>
   </data>
 </root>

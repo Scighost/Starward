@@ -194,16 +194,16 @@
     <value>เซิร์ฟเวอร์จีนดั้งเดิม</value>
   </data>
   <data name="GenshinQueryType_GenesisCrystal" xml:space="preserve">
-    <value>Genesis Crystals</value>
+    <value>คริสตัลกำเนิด</value>
   </data>
   <data name="GenshinQueryType_Primogem" xml:space="preserve">
     <value>Primogems</value>
   </data>
   <data name="GenshinQueryType_OriginalResin" xml:space="preserve">
-    <value>Original Resins</value>
+    <value>เรซินดั้งเดิม</value>
   </data>
   <data name="GenshinQueryType_Artifact" xml:space="preserve">
-    <value>Artifacts</value>
+    <value>อาร์ติแฟกต์</value>
   </data>
   <data name="GenshinQueryType_Weapon" xml:space="preserve">
     <value>อาวุธ</value>
@@ -212,108 +212,108 @@
     <value>Stellar Jade</value>
   </data>
   <data name="StarRailQueryType_OneiricShared" xml:space="preserve">
-    <value>Oneiric Shared</value>
+    <value>หนึ่งไอริกแชร์</value>
   </data>
   <data name="StarRailQueryType_Relic" xml:space="preserve">
-    <value>Relic</value>
+    <value>เรลิก</value>
   </data>
   <data name="StarRailQueryType_LightCone" xml:space="preserve">
-    <value>Light Cone</value>
+    <value>กรวยแสง</value>
   </data>
   <data name="StarRailQueryType_TrailblazePower" xml:space="preserve">
-    <value>Trailblaze Power</value>
+    <value>พลังบุกเบิก</value>
   </data>
   <data name="GameServer_BilibiliServer" xml:space="preserve">
-    <value>Bilibili Server</value>
+    <value>เซิร์ฟเวอร์ Bilibili</value>
   </data>
   <data name="GachaType_ChronicledWish" xml:space="preserve">
-    <value>Chronicled Wish</value>
+    <value>คำอธิษฐานแห่งบันทึก</value>
   </data>
   <data name="Game_ZZZ" xml:space="preserve">
-    <value>Zenless Zone Zero</value>
+    <value>เซนเลส โซน ซีโร่</value>
   </data>
   <data name="GameServer_ZZZCBT3" xml:space="preserve">
-    <value>CBT3</value>
+    <value>ซีบีที3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>ทางการจีน</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>ทางการทั่วโลก</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>คลาวด์จีน</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
-    <value>Bilibili</value>
+    <value>บิลิบิลิ</value>
   </data>
   <data name="GameServer_EuropeAmericas" xml:space="preserve">
-    <value>Europe &amp; Americas</value>
+    <value>ยุโรปและอเมริกา</value>
   </data>
   <data name="GameServer_Japan" xml:space="preserve">
     <value>ประเทศญี่ปุ่น</value>
   </data>
   <data name="GameServer_Korea" xml:space="preserve">
-    <value>Korea</value>
+    <value>เกาหลี</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>เอเชียตะวันออกเฉียงใต้</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>จีนดั้งเดิม</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
-    <value>Standard Channel</value>
+    <value>ช่องทางมาตรฐาน</value>
   </data>
   <data name="GachaType_ExclusiveChannel" xml:space="preserve">
-    <value>Exclusive Channel</value>
+    <value>ช่องทางพิเศษ</value>
   </data>
   <data name="GachaType_WEngineChannel" xml:space="preserve">
-    <value>W-Engine Channel</value>
+    <value>ช่องทาง W-Engine</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
-    <value>Bangboo Channel</value>
+    <value>ช่องทาง Bangboo</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>ฟิล์มขาวดำ</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>ฟิล์ม</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
-    <value>Bundle</value>
+    <value>ชุดรวม</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>พลังงานแบตเตอรี่</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
-    <value>W-Engine</value>
+    <value>ดับเบิลยู-เอ็นจิ้น</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>ดิสก์ไดรฟ์</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>วาร์ปตัวละครร่วมมือ</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>วาร์ปกรวยแสงร่วมมือ</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>บทกวีมาตรฐาน</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>บทกวีกิจกรรม</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>โครนอล เน็กซัส</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>อาร์เคน คีย์สโตน</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>การฉายซ้ำพิเศษ</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>เสียงสะท้อน W-Engine</value>
   </data>
 </root>

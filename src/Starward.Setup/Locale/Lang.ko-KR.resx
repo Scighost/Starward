@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="OSVersionLessThan17763" xml:space="preserve">
+    <value>운영 체제 버전이 Windows 10 1809 (Build 17763)보다 낮습니다. Starward 설치를 계속하려면 Windows를 최신 버전으로 업그레이드하세요.</value>
+  </data>
+  <data name="ASetupIsAlreadyRunning" xml:space="preserve">
+    <value>설치 프로그램이 이미 실행 중입니다</value>
+  </data>
+  <data name="StarwardSetup" xml:space="preserve">
+    <value>Starward 설치 프로그램</value>
+  </data>
+  <data name="StarwardLaunch" xml:space="preserve">
+    <value>Starward, 발사!</value>
+  </data>
+  <data name="GameLauncherForMiHoYo" xml:space="preserve">
+    <value>miHoYo 게임 런처</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>변경</value>
+  </data>
+  <data name="SpaceRequired" xml:space="preserve">
+    <value>필요한 공간</value>
+  </data>
+  <data name="SpaceAvailable" xml:space="preserve">
+    <value>사용 가능한 공간</value>
+  </data>
+  <data name="Install" xml:space="preserve">
+    <value>설치</value>
+  </data>
+  <data name="RemovableDeviceDownloadPortable" xml:space="preserve">
+    <value>선택한 폴더가 이동식 장치에 있습니다. 포터블 버전을 다운로드하는 것을 권장합니다.</value>
+  </data>
+  <data name="AnErrorOccurredDuringInstallation" xml:space="preserve">
+    <value>설치 중 오류가 발생했습니다</value>
+  </data>
+  <data name="StarwardUninstaller" xml:space="preserve">
+    <value>Starward 제거 프로그램</value>
+  </data>
+  <data name="UninstallationComplete" xml:space="preserve">
+    <value>제거 완료</value>
+  </data>
+  <data name="IAcknowledgeTheAboveRisks" xml:space="preserve">
+    <value>위의 위험을 인지합니다</value>
+  </data>
+  <data name="KeepCachedData" xml:space="preserve">
+    <value>캐시 데이터 유지</value>
+  </data>
+  <data name="Uninstall" xml:space="preserve">
+    <value>제거</value>
+  </data>
+  <data name="UninstallPathCaution" xml:space="preserve">
+    <value>설치 경로가 잘못되었거나 폴더가 이동되었습니다. 파일을 실수로 삭제하지 않으려면 제거 기능이 비활성화되어 있습니다. 파일을 수동으로 삭제하세요.</value>
+  </data>
+  <data name="UnstallDatabaseCaution" xml:space="preserve">
+    <value>설치 디렉터리에 데이터베이스 파일 StarwardDatabase.db가 있습니다. 제거 후 개인 데이터가 손실됩니다.</value>
+  </data>
+  <data name="UnstallScreenshotCaution" xml:space="preserve">
+    <value>설치 디렉터리에 게임 스크린샷 파일이 있습니다. 제거 후 이 파일들이 삭제됩니다.</value>
+  </data>
+  <data name="AnErrorOccurredDuringUninstallation" xml:space="preserve">
+    <value>제거 중 오류가 발생했습니다</value>
+  </data>
+  <data name="AllFilesCanBeSafelyDeleted" xml:space="preserve">
+    <value>모든 파일을 안전하게 삭제할 수 있습니다</value>
+  </data>
+  <data name="StarwardUpdater" xml:space="preserve">
+    <value>Starward 업데이터</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="TheDestinationFolderDoesNotExistPleaseTryAgain" xml:space="preserve">
+    <value>대상 폴더가 없습니다. 다시 시도해 주세요.</value>
+  </data>
+  <data name="AnErrorOccurredDuringTheUpdate" xml:space="preserve">
+    <value>업데이트 중 오류가 발생했습니다</value>
+  </data>
+  <data name="StarwardIsRunningForceClose" xml:space="preserve">
+    <value>Starward ({0})가 실행 중입니다. 강제로 종료하시겠습니까?</value>
+  </data>
+  <data name="IHaveReadAndAgreeToThePrivacyPolicy" xml:space="preserve">
+    <value>개인정보 처리방침을 읽고 동의합니다</value>
+  </data>
+  <data name="CannotGuaranteeSafetyOfUninstallation" xml:space="preserve">
+    <value>검사에 실패했습니다. 제거 작업의 안전성을 보장할 수 없습니다.</value>
+  </data>
+</root>

@@ -236,13 +236,13 @@
     <value>CBT3</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>China Official</value>
+    <value>Cina Ufficiale</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
-    <value>Global Official</value>
+    <value>Globale Ufficiale</value>
   </data>
   <data name="GameServer_ChinaCloud" xml:space="preserve">
-    <value>China Cloud</value>
+    <value>Cina Cloud</value>
   </data>
   <data name="GameServer_Bilibili" xml:space="preserve">
     <value>Bilibili</value>
@@ -257,63 +257,63 @@
     <value>Corea</value>
   </data>
   <data name="GameServer_SoutheastAsia" xml:space="preserve">
-    <value>Southeast Asia</value>
+    <value>Sud-est Asiatico</value>
   </data>
   <data name="GameServer_TraditionalChinese" xml:space="preserve">
-    <value>Traditional Chinese</value>
+    <value>Cinese Tradizionale</value>
   </data>
   <data name="GachaType_StandardChannel" xml:space="preserve">
-    <value>Standard Channel</value>
+    <value>Canale Standard</value>
   </data>
   <data name="GachaType_ExclusiveChannel" xml:space="preserve">
-    <value>Exclusive Channel</value>
+    <value>Canale Esclusivo</value>
   </data>
   <data name="GachaType_WEngineChannel" xml:space="preserve">
-    <value>W-Engine Channel</value>
+    <value>Canale W-Engine</value>
   </data>
   <data name="GachaType_BangbooChannel" xml:space="preserve">
     <value>Canale Bangboo</value>
   </data>
   <data name="ZZZQueryType_Monochrome" xml:space="preserve">
-    <value>Monochrome</value>
+    <value>Monocromo</value>
   </data>
   <data name="ZZZQueryType_Ploychrome" xml:space="preserve">
-    <value>Ploychrome</value>
+    <value>Policromo</value>
   </data>
   <data name="ZZZQueryType_Bundle" xml:space="preserve">
-    <value>Bundle</value>
+    <value>Pacchetto</value>
   </data>
   <data name="ZZZQueryType_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Carica Batteria</value>
   </data>
   <data name="ZZZQueryType_WEngine" xml:space="preserve">
-    <value>W-Engine</value>
+    <value>Motore W</value>
   </data>
   <data name="ZZZQueryType_DriveDisc" xml:space="preserve">
-    <value>Drive Disc</value>
+    <value>Disco Drive</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>Salto Collaborativo del Personaggio</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>Salto Collaborativo del Cono di Luce</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>Ode Standard</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>Ode Evento</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>Nesso Cronale</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>Pietra Angolare Arcana</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>Riproiezione Esclusiva</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>Riverbero W-Engine</value>
   </data>
 </root>

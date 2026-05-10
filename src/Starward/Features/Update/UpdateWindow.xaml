@@ -118,18 +118,6 @@
                 <CheckBox Margin="0,-4,0,0"
                           Content="{x:Bind lang:Lang.UpdateWindow_DisplayUpdateContentAfterRestart}"
                           IsChecked="{x:Bind ShowUpdateContentAfterUpdateRestart, Mode=TwoWay}" />
-                <!--  迁移到安装版  -->
-                <Button x:Name="Button_MigrateToSetup"
-                        Height="36"
-                        Margin="0,8,0,0"
-                        Padding="12,0,12,0"
-                        BorderThickness="0"
-                        Command="{x:Bind MigrateToSetupCommand}"
-                        Content="{x:Bind lang:Lang.UpdateWindow_MigrateToSetup}"
-                        CornerRadius="8"
-                        Style="{ThemeResource AccentButtonStyle}"
-                        Visibility="Collapsed" />
-
             </StackPanel>
 
 
@@ -142,10 +130,10 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock Name="TextBlock_Count"
+                <TextBlock Name="TextBlock_Bytes"
                            Grid.Row="0"
                            HorizontalAlignment="Left"
-                           Text="{x:Bind ProgressCountText}"
+                           Text="{x:Bind ProgressBytesText}"
                            Visibility="{x:Bind IsProgressTextVisible}" />
                 <TextBlock Name="TextBlock_Progress"
                            Grid.Row="0"
@@ -156,16 +144,6 @@
                              Grid.Row="1"
                              Visibility="{x:Bind IsProgressBarVisible}"
                              Value="0" />
-                <TextBlock Name="TextBlock_Speed"
-                           Grid.Row="2"
-                           HorizontalAlignment="Left"
-                           Text="{x:Bind ProgressSpeedText}"
-                           Visibility="{x:Bind IsProgressTextVisible}" />
-                <TextBlock Name="TextBlock_Bytes"
-                           Grid.Row="2"
-                           HorizontalAlignment="Right"
-                           Text="{x:Bind ProgressBytesText}"
-                           Visibility="{x:Bind IsProgressTextVisible}" />
                 <TextBlock Grid.Row="2"
                            MaxWidth="360"
                            HorizontalAlignment="Left"

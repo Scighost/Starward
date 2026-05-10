@@ -293,27 +293,27 @@
     <value>Laufwerkskette</value>
   </data>
   <data name="GachaType_CharacterCollaborationWarp" xml:space="preserve">
-    <value>Character Collaboration Warp</value>
+    <value>Figuren-Kollaborationssprung</value>
   </data>
   <data name="GachaType_LightConeCollaborationWarp" xml:space="preserve">
-    <value>Light Cone Collaboration Warp</value>
+    <value>Lichtkegel-Kollaborationssprung</value>
   </data>
   <data name="GachaType_StandardOde" xml:space="preserve">
-    <value>Standard Ode</value>
+    <value>Standard-Ode</value>
   </data>
   <data name="GachaType_EventOde" xml:space="preserve">
-    <value>Event Ode</value>
+    <value>Ereignis-Ode</value>
   </data>
   <data name="GenshinQueryType_ChronalNexus" xml:space="preserve">
-    <value>Chronal Nexus</value>
+    <value>Chronaler Nexus</value>
   </data>
   <data name="GenshinQueryType_ArcaneKeystone" xml:space="preserve">
-    <value>Arcane Keystone</value>
+    <value>Arkaner Schlussstein</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>Exklusive Wiederaufführung</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>W-Engine-Nachhall</value>
   </data>
 </root>

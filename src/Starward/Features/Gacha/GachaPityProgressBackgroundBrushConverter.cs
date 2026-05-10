@@ -24,9 +24,14 @@ internal partial class GachaPityProgressBackgroundBrushConverter : IValueConvert
             var brush = new LinearGradientBrush { StartPoint = new Point(0, 0), EndPoint = new Point(1, 0), Opacity = 0.4 };
             int point = 74;
             double guarantee = 90;
-            if (item.GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or StarRailGachaType.LightConeCollaborationWarp or ZZZGachaType.WEngineChannel or ZZZGachaType.WEngineReverberation)
+            if (item.GachaType is GenshinGachaType.WeaponEventWish or StarRailGachaType.LightConeEventWarp or StarRailGachaType.LightConeCollaborationWarp)
             {
                 point = 63;
+                guarantee = 80;
+            }
+            else if (item.GachaType is ZZZGachaType.WEngineChannel or ZZZGachaType.WEngineReverberation or ZZZGachaType.BangbooChannel)
+            {
+                point = 65;
                 guarantee = 80;
             }
             double offset = pity / guarantee;

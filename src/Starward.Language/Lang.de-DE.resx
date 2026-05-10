@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DownloadGameDialog_PackageSize" xml:space="preserve">
-    <value>Package Size</value>
+    <value>Paketgröße</value>
   </data>
   <data name="DownloadGameDialog_Downloaded" xml:space="preserve">
     <value>Heruntergeladen:</value>
@@ -317,7 +317,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Alles aktualisieren</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
-    <value>Sync from Miyoushe (Experimental)</value>
+    <value>Sync von Miyoushe (Experimentell)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
     <value>Sync All from Miyoushe (Experimental)</value>
@@ -369,22 +369,22 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Vorgang abgebrochen</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>This feature currently supports ZZZ only.</value>
+    <value>Diese Funktion unterstützt derzeit nur ZZZ.</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
-    <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>
+    <value>Bitte melden Sie sich über die Miyoushe-Toolbox an und fügen Sie zuerst Ihr Miyoushe-Konto hinzu.</value>
   </data>
   <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
-    <value>The current account is missing login credentials. Please re-login Miyoushe.</value>
+    <value>Dem aktuellen Konto fehlen Anmeldeinformationen. Bitte melden Sie sich erneut bei Miyoushe an.</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
-    <value>Select Miyoushe account</value>
+    <value>Miyoushe-Konto auswählen</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
-    <value>Multiple ZZZ roles were found. Please choose one role to sync gacha records.</value>
+    <value>Es wurden mehrere ZZZ-Rollen gefunden. Bitte wählen Sie eine Rolle aus, um Gacha-Aufzeichnungen zu synchronisieren.</value>
   </data>
   <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
-    <value>Please select a Miyoushe account first.</value>
+    <value>Bitte wählen Sie zuerst ein Miyoushe-Konto aus.</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>Bitte öffne die Banner-Aufzeichnungen im Spiel und versuche es erneut.</value>
@@ -1656,1042 +1656,1051 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Bestimmte Zeitspanne</value>
   </data>
   <data name="StartGameButton_ResumeDownload" xml:space="preserve">
-    <value>Resume Download</value>
+    <value>Download fortsetzen</value>
   </data>
   <data name="StartGameButton_Waiting" xml:space="preserve">
-    <value>Waiting</value>
+    <value>Warten</value>
   </data>
   <data name="GameLauncherPage_Relocate" xml:space="preserve">
-    <value>Relocate</value>
+    <value>Verschieben</value>
   </data>
   <data name="GameLauncherSettingDialog_RelocateGame" xml:space="preserve">
-    <value>Relocate Game</value>
+    <value>Spiel verschieben</value>
   </data>
   <data name="GameLauncherSettingDialog_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Größe</value>
   </data>
   <data name="GameLauncherSettingDialog_BasicInformation" xml:space="preserve">
-    <value>Basic Information</value>
+    <value>Basisinformationen</value>
   </data>
   <data name="GameLauncherSettingDialog_StartupArguments" xml:space="preserve">
-    <value>Startup Arguments</value>
+    <value>Startargumente</value>
   </data>
   <data name="GameLauncherSettingDialog_CustomBackground" xml:space="preserve">
-    <value>Custom Background</value>
+    <value>Benutzerdefinierter Hintergrund</value>
   </data>
   <data name="GameLauncherSettingDialog_GamePackages" xml:space="preserve">
-    <value>Game Packages</value>
+    <value>Spielpakete</value>
   </data>
   <data name="GameLauncherSettingDialog_CommandLineArgument" xml:space="preserve">
-    <value>Command Line Argument</value>
+    <value>Befehlszeilenargument</value>
   </data>
   <data name="GameLauncherSettingDialog_SeeMoreInformationAboutCommandLineArgument" xml:space="preserve">
-    <value>See more information about command line argument.</value>
+    <value>Weitere Informationen über das Befehlszeilenargument.</value>
   </data>
   <data name="GameLauncherSettingDialog_UseVersionPoster" xml:space="preserve">
-    <value>Use Version Poster</value>
+    <value>Versionsposter verwenden</value>
   </data>
   <data name="GameSelector_ActualSizeOfInstalledGames" xml:space="preserve">
-    <value>Actual Size of Installed Games</value>
+    <value>Tatsächliche Größe installierter Spiele</value>
   </data>
   <data name="GameSelector_StorageSpaceSavedByHardLinks" xml:space="preserve">
-    <value>Storage Space Saved by Hard Links</value>
+    <value>Durch Hardlinks gespeicherter Speicherplatz</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDecodeFile" xml:space="preserve">
-    <value>Cannot decode file.</value>
+    <value>Datei kann nicht dekodiert werden.</value>
   </data>
   <data name="GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs" xml:space="preserve">
-    <value>An unknown error occurred. Please check the logs.</value>
+    <value>Ein unbekannter Fehler ist aufgetreten. Bitte überprüfen Sie die Protokolle.</value>
   </data>
   <data name="GameLauncherSettingDialog_DragAndDropImageOrVideoFiles" xml:space="preserve">
-    <value>Drag and drop image / video files.</value>
+    <value>Bild-/Videodateien per Drag &amp; Drop einfügen.</value>
   </data>
   <data name="GameSelector_Calculating" xml:space="preserve">
-    <value>Calculating</value>
+    <value>Berechnen</value>
     <comment>Calculating storage space usage.</comment>
   </data>
   <data name="SettingPage_General" xml:space="preserve">
-    <value>General</value>
+    <value>Allgemein</value>
     <comment>General Setting</comment>
   </data>
   <data name="SettingPage_ForABetterExperiencePleaseEnableTheFollowingFeaturesInSystemSettings" xml:space="preserve">
-    <value>For a better experience, please enable the following features in system settings.</value>
+    <value>Für eine bessere Erfahrung aktivieren Sie bitte die folgenden Funktionen in den Systemeinstellungen.</value>
   </data>
   <data name="PlayTimeButton_Last7Days" xml:space="preserve">
-    <value>Last 7 Days</value>
+    <value>Letzte 7 Tage</value>
   </data>
   <data name="PlayTimeButton_LastStartup" xml:space="preserve">
-    <value>Last Startup</value>
+    <value>Letzter Start</value>
   </data>
   <data name="UpdateWindow_AutoRestartAfterUpdate" xml:space="preserve">
-    <value>Auto-restart after update</value>
+    <value>Automatischer Neustart nach Update</value>
   </data>
   <data name="UpdateWindow_DisplayUpdateContentAfterRestart" xml:space="preserve">
-    <value>Display update content after restart</value>
+    <value>Update-Inhalt nach Neustart anzeigen</value>
   </data>
   <data name="Common_WebView2ComponentInitializationFailed" xml:space="preserve">
-    <value>WebView2 component initialization failed.</value>
+    <value>Initialisierung der WebView2-Komponente fehlgeschlagen.</value>
   </data>
   <data name="SettingPage_RPCService" xml:space="preserve">
-    <value>RPC Service</value>
+    <value>RPC-Dienst</value>
   </data>
   <data name="SettingPage_RPCService_Desc" xml:space="preserve">
-    <value>The RPC service is an independent process used to avoid restarting when downloading games, updating software, and other features that require administrator privileges.</value>
+    <value>Der RPC-Dienst ist ein unabhängiger Prozess, der verwendet wird, um Neustarts beim Herunterladen von Spielen, Aktualisieren von Software und anderen Funktionen, die Administratorrechte erfordern, zu vermeiden.</value>
   </data>
   <data name="SettingPage_KeepRPCServiceRunningInTheBackground" xml:space="preserve">
-    <value>Keep RPC Service Running in the Background</value>
+    <value>RPC-Dienst im Hintergrund ausführen</value>
   </data>
   <data name="SettingPage_RPCServiceWarningIfAppInRemovableStorage" xml:space="preserve">
-    <value>Detected that the application is in a removable storage device, it is not recommended to keep the RPC service running in the background.</value>
+    <value>Erkannt, dass sich die Anwendung auf einem Wechseldatenträger befindet. Es wird nicht empfohlen, den RPC-Dienst im Hintergrund auszuführen.</value>
   </data>
   <data name="ZZZGachaService_ImportSignalSearchRecordsSuccessfully" xml:space="preserve">
-    <value>Import {0} signal search record(s) successfully.</value>
+    <value>Import {0} Signalsuchdatensatz(e) erfolgreich.</value>
   </data>
   <data name="InstallGameDialog_HardLinkDesc" xml:space="preserve">
-    <value>If the selected path is on the same drive as the clients of other installed servers, multiple clients for different servers can be installed using hard links, which occupy a minimal amount of additional storage space.</value>
+    <value>Wenn der ausgewählte Pfad auf demselben Laufwerk liegt wie die Clients anderer installierter Server, können mithilfe von Hardlinks mehrere Clients für verschiedene Server installiert werden, die nur minimalen zusätzlichen Speicherplatz belegen.</value>
   </data>
   <data name="InstallGameDialog_SupportHardLinks" xml:space="preserve">
-    <value>Support Hard Links</value>
+    <value>Hardlinks unterstützen</value>
   </data>
   <data name="PreDownloadDialog_NoPatchesWarning" xml:space="preserve">
-    <value>There are no patch packagees available. It is recommended to update the game to the latest version before starting pre-install.</value>
+    <value>Es sind keine Patchpakete verfügbar. Es wird empfohlen, das Spiel vor dem Start der Vorinstallation auf die neueste Version zu aktualisieren.</value>
   </data>
   <data name="PreDownloadDialog_StartPreInstall" xml:space="preserve">
-    <value>Start Pre-Install</value>
+    <value>Vorinstallation starten</value>
   </data>
   <data name="GameLauncherSettingDialog_StartRepairing" xml:space="preserve">
-    <value>Start Repairing</value>
+    <value>Reparatur starten</value>
   </data>
   <data name="PreDownloadButton_PreInstallFinished" xml:space="preserve">
-    <value>Pre-Install Finished</value>
+    <value>Vorinstallation abgeschlossen</value>
   </data>
   <data name="Common_Error" xml:space="preserve">
-    <value>Error</value>
+    <value>Fehler</value>
   </data>
   <data name="StartGameButton_InQueue" xml:space="preserve">
-    <value>In Queue</value>
+    <value>In der Warteschlange</value>
   </data>
   <data name="RPCServiceExitedUnexpectedly" xml:space="preserve">
-    <value>RPC service exited unexpectedly.</value>
+    <value>RPC-Dienst wurde unerwartet beendet.</value>
   </data>
   <data name="StartGameButton_Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Installieren</value>
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
-    <value>Verify</value>
+    <value>Überprüfen</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
-    <value>RPC Service is not Running</value>
+    <value>RPC-Dienst wird nicht ausgeführt</value>
   </data>
   <data name="SettingPage_RunService" xml:space="preserve">
-    <value>Run Service</value>
+    <value>Dienst ausführen</value>
   </data>
   <data name="SettingPage_RPCServiceIsRunning" xml:space="preserve">
-    <value>RPC Service is Running</value>
+    <value>RPC-Dienst wird ausgeführt</value>
   </data>
   <data name="SettingPage_StopService" xml:space="preserve">
-    <value>Stop Service</value>
+    <value>Dienst beenden</value>
   </data>
   <data name="SettingPage_CannotConnectRPCService" xml:space="preserve">
-    <value>Cannot Connect RPC Service</value>
+    <value>Verbindung zum RPC-Dienst kann nicht hergestellt werden</value>
   </data>
   <data name="InstallGameDialog_AutomaticallyCreateASubfolder" xml:space="preserve">
-    <value>Automatically Create a Subfolder</value>
+    <value>Automatisch einen Unterordner erstellen</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameWarning" xml:space="preserve">
-    <value>All files in the following folder will be deleted. Please confirm the path before uninstalling.</value>
+    <value>Alle Dateien im folgenden Ordner werden gelöscht. Bitte bestätigen Sie den Pfad vor der Deinstallation.</value>
   </data>
   <data name="GameLauncherSettingDialog_ConfirmUninstall" xml:space="preserve">
-    <value>Confirm Uninstall</value>
+    <value>Deinstallation bestätigen</value>
   </data>
   <data name="GameLauncherSettingDialog_CannotDeleteTheDriveRootDirectory" xml:space="preserve">
-    <value>Cannot delete the drive root directory.</value>
+    <value>Das Stammverzeichnis des Laufwerks kann nicht gelöscht werden.</value>
   </data>
   <data name="PreDownloadDialog_PreInstallIsNotAvailable" xml:space="preserve">
-    <value>Pre-install is not available.</value>
+    <value>Vorinstallation nicht verfügbar.</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNotice" xml:space="preserve">
-    <value>Incompatibility Notice</value>
+    <value>Inkompatibilitätshinweis</value>
   </data>
   <data name="PreDownloadDialog_IncompatibilityNoticeContent" xml:space="preserve">
-    <value>The pre-install files of Starward and HoYoPlay (miHoYo Launcher) are incompatible and cannot recognize each other.</value>
+    <value>Die Vorinstallationsdateien von Starward und HoYoPlay (miHoYo Launcher) sind inkompatibel und können sich nicht gegenseitig erkennen.</value>
   </data>
   <data name="WelcomeView_DearPlayerWelcomeToStarward" xml:space="preserve">
-    <value>Dear Player, welcome to Starward!</value>
+    <value>Liebe Spieler, willkommen bei Starward!</value>
   </data>
   <data name="WelcomeView_WelcomeToStarwardDescription" xml:space="preserve">
-    <value>This is a launcher designed specifically for HoYoverse games, helping you easily manage your games and enjoy a better experience.</value>
+    <value>Dies ist ein Launcher, der speziell für HoYoverse-Spiele entwickelt wurde und Ihnen hilft, Ihre Spiele einfach zu verwalten und eine bessere Erfahrung zu genießen.</value>
   </data>
   <data name="WelcomeView_SelectUserDataFolderDescription" xml:space="preserve">
-    <value>All your personal data will be stored in the folder below. It is important, and you can also click the button below to select a different folder.</value>
+    <value>Alle Ihre persönlichen Daten werden im untenstehenden Ordner gespeichert. Er ist wichtig, und Sie können auch auf die Schaltfläche unten klicken, um einen anderen Ordner auszuwählen.</value>
   </data>
   <data name="WelcomeView_BeforeStartingSomeNecessaryEnvironmentChecksAreRequired" xml:space="preserve">
-    <value>Before starting, some necessary environment checks are required.</value>
+    <value>Vor dem Start sind einige notwendige Umgebungsprüfungen erforderlich.</value>
   </data>
   <data name="WelcomeView_NetworkStatus" xml:space="preserve">
-    <value>Network Status</value>
+    <value>Netzwerkstatus</value>
   </data>
   <data name="WelcomeView_NotInstalled" xml:space="preserve">
-    <value>Not Installed</value>
+    <value>Nicht installiert</value>
   </data>
   <data name="WelcomeView_InstallNow" xml:space="preserve">
-    <value>Install Now</value>
+    <value>Jetzt installieren</value>
   </data>
   <data name="WelcomeView_Installed" xml:space="preserve">
-    <value>Installed</value>
+    <value>Installiert</value>
   </data>
   <data name="WelcomeView_StarwardStart" xml:space="preserve">
-    <value>Starward, Start!</value>
+    <value>Starward, starten!</value>
   </data>
   <data name="GameSelector_ClickToSelectOrSwitchGame" xml:space="preserve">
-    <value>Click to select or switch game.</value>
+    <value>Klicken Sie, um ein Spiel auszuwählen oder zu wechseln.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameUserDataFolderWarning" xml:space="preserve">
-    <value>The Starward data folder is inside the game folder and will be deleted along with it. Please change the data folder location in the settings page and try again.</value>
+    <value>Der Starward-Datenordner befindet sich im Spielordner und wird mit diesem gelöscht. Bitte ändern Sie den Speicherort des Datenordners auf der Einstellungsseite und versuchen Sie es erneut.</value>
   </data>
   <data name="GameLauncherSettingDialog_UninstallGameStarwardProgramFolderWarning" xml:space="preserve">
-    <value>The Starward program is inside the game folder and will be deleted along with the game. Please move the program out of the game folder and try again.</value>
+    <value>Das Starward-Programm befindet sich im Spielordner und wird zusammen mit dem Spiel gelöscht. Bitte verschieben Sie das Programm aus dem Spielordner und versuchen Sie es erneut.</value>
   </data>
   <data name="CloudGameButton_CloudGame" xml:space="preserve">
-    <value>Cloud Game</value>
+    <value>Cloud-Spiel</value>
   </data>
   <data name="GameAccountSwitcher_TheCurrentlyLoggedInAccountIsNotSaved" xml:space="preserve">
-    <value>The currently logged-in account is not saved.</value>
+    <value>Das derzeit angemeldete Konto ist nicht gespeichert.</value>
   </data>
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
-    <value>Registry-based Game Account Switching Feature</value>
+    <value>Registrierungsbasierte Funktion zum Wechseln von Spielkonten</value>
   </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
-    <value>ZZZ Gacha Item Images</value>
+    <value>ZZZ-Gacha-Artikelbilder</value>
   </data>
   <data name="ToolboxSetting_DisplayItemImagesInZZZGachaRecordPage" xml:space="preserve">
-    <value>Display item images in ZZZ gacha record page.</value>
+    <value>Artikelbilder auf der ZZZ-Gacha-Aufzeichnungsseite anzeigen.</value>
   </data>
   <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
     <value>Miyoushe</value>
   </data>
   <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
-    <value>Fetch Data for All Languages</value>
+    <value>Daten für alle Sprachen abrufen</value>
   </data>
   <data name="ZZZGachaInfoWindow_SaveToDatabase" xml:space="preserve">
-    <value>Save to Database</value>
+    <value>In Datenbank speichern</value>
   </data>
   <data name="ZZZGachaInfoWindow_ExportToFolder" xml:space="preserve">
-    <value>Export to Folder</value>
+    <value>In Ordner exportieren</value>
   </data>
   <data name="ZZZGachaInfoWindow_ZZZGachaInfoWindowGuide" xml:space="preserve">
-    <value>This tool is used to update item images in Zenless Zone Zero gacha records.
-Click "Miyoushe" or "HoYoLAB" in the top left corner, log in, and wait for the data to be retrieved. If logging in via HoYoLAB, you also need to click "Fetch Data for All Languages".
-After retrieving the data, you can save it to the database in any language or export it to a folder.
-You are welcome to submit the exported data to the following repository:</value>
+    <value>Dieses Tool wird verwendet, um Artikelbilder in Zenless Zone Zero-Gacha-Aufzeichnungen zu aktualisieren.
+Klicken Sie oben links auf "Miyoushe" oder "HoYoLAB", melden Sie sich an und warten Sie, bis die Daten abgerufen werden. Bei der Anmeldung über HoYoLAB müssen Sie auch auf "Daten für alle Sprachen abrufen" klicken.
+Nach dem Abrufen der Daten können Sie diese in einer beliebigen Sprache in der Datenbank speichern oder in einen Ordner exportieren.
+Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository zu übermitteln:</value>
   </data>
   <data name="SettingPage_Toolbox" xml:space="preserve">
-    <value>Toolbox</value>
+    <value>Werkzeugkasten</value>
   </data>
   <data name="ToolboxSetting_GachaRecordsImportExport" xml:space="preserve">
-    <value>Gacha Records Import &amp; Export</value>
+    <value>Gacha-Aufzeichnungen importieren &amp; exportieren</value>
   </data>
   <data name="UIGFGachaService_UidMismatchDetectedExpected0ButFound1" xml:space="preserve">
-    <value>Uid mismatch detected. Expected: {0}, but found: {1}.</value>
+    <value>Uid-Konflikt erkannt. Erwartet: {0}, aber gefunden: {1}.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessfulButNoRecordItemName" xml:space="preserve">
-    <value>Import successful, but some records are missing item names. Please go to the gacha record settings, change the language, and apply.</value>
+    <value>Import erfolgreich, aber einigen Aufzeichnungen fehlen Artikelnamen. Gehen Sie zu den Gacha-Aufzeichnungseinstellungen, ändern Sie die Sprache und wenden Sie sie an.</value>
   </data>
   <data name="UIGFGachaService_ImportSuccessful" xml:space="preserve">
-    <value>Import successful.</value>
+    <value>Import erfolgreich.</value>
   </data>
   <data name="UIGFGachaService_0FieldIsMissingInAGachaRecord" xml:space="preserve">
-    <value>"{0}" field is missing in a gacha record.</value>
+    <value>Das Feld "{0}" fehlt in einer Gacha-Aufzeichnung.</value>
   </data>
   <data name="GachaImportAndExportWindow_Export" xml:space="preserve">
-    <value>Export</value>
+    <value>Exportieren</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheGachaRecordsToExport" xml:space="preserve">
-    <value>Select the gacha records to export.</value>
+    <value>Wählen Sie die zu exportierenden Gacha-Aufzeichnungen aus.</value>
   </data>
   <data name="GachaImportAndExportWindow_TheLastGachaPull" xml:space="preserve">
-    <value>The Last Gacha Pull</value>
+    <value>Der letzte Gacha-Pull</value>
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
-    <value>Count</value>
+    <value>Anzahl</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
-    <value>Time (Server Time Zone)</value>
+    <value>Zeit (Server-Zeitzone)</value>
   </data>
   <data name="GachaImportAndExportWindow_Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectTheFileToImport" xml:space="preserve">
-    <value>Select the file to import.</value>
+    <value>Wählen Sie die zu importierende Datei aus.</value>
   </data>
   <data name="GachaImportAndExportWindow_Import" xml:space="preserve">
-    <value>Import</value>
+    <value>Importieren</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffsetWarning" xml:space="preserve">
-    <value>Before importing, please ensure that the time of the last gacha pull matches the time displayed in the game. If they do not match, please adjust the time zone offset.</value>
+    <value>Stellen Sie vor dem Importieren sicher, dass die Zeit des letzten Gacha-Pulls mit der im Spiel angezeigten Zeit übereinstimmt. Falls nicht, passen Sie bitte die Zeitzonenverschiebung an.</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeZoneOffset" xml:space="preserve">
-    <value>Time Zone Offset</value>
+    <value>Zeitzonenverschiebung</value>
   </data>
   <data name="GachaImportAndExportWindow_OffsetTime" xml:space="preserve">
-    <value>Offset Time</value>
+    <value>Verschiebungszeit</value>
   </data>
   <data name="GachaImportAndExportWindow_SelectFile" xml:space="preserve">
-    <value>Select File</value>
+    <value>Datei auswählen</value>
   </data>
   <data name="DailyNoteButton_BH3_TimeNeededForRecovery" xml:space="preserve">
-    <value>Time Needed for Recovery</value>
+    <value>Benötigte Zeit für die Wiederherstellung</value>
   </data>
   <data name="DailyNoteButton_BH3_DailyBP" xml:space="preserve">
-    <value>Daily BP</value>
+    <value>Täglicher BP</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommissionRewards" xml:space="preserve">
-    <value>Daily Commission Rewards</value>
+    <value>Tägliche Auftragsbelohnungen</value>
   </data>
   <data name="DailyNoteButton_Genshin_DailyCommission" xml:space="preserve">
-    <value>Daily Commission</value>
+    <value>Täglicher Auftrag</value>
   </data>
   <data name="DailyNoteButton_Genshin_EncounterPoints" xml:space="preserve">
-    <value>Encounter Points</value>
+    <value>Begegnungspunkte</value>
   </data>
   <data name="DailyNoteButton_Genshin_RealmCurrency" xml:space="preserve">
-    <value>Realm Currency</value>
+    <value>Reichswährung</value>
   </data>
   <data name="DailyNoteButton_Genshin_Expedition" xml:space="preserve">
     <value>Expedition</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullTime" xml:space="preserve">
-    <value>Full Time</value>
+    <value>Vollzeit</value>
   </data>
   <data name="DailyNoteButton_StarRail_FullyRecovered" xml:space="preserve">
-    <value>Fully Recovered</value>
+    <value>Vollständig wiederhergestellt</value>
   </data>
   <data name="DailyNoteButton_StarRail_ReservedTrailblazePower" xml:space="preserve">
-    <value>Reserved Trailblaze Power</value>
+    <value>Reservierte Trailblaze-Kraft</value>
   </data>
   <data name="DailyNoteButton_StarRail_DailyTraining" xml:space="preserve">
-    <value>Daily Training</value>
+    <value>Tägliches Training</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Echo of War</value>
+    <value>Echo des Krieges</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
-    <value>Bonus Synchronicity Points</value>
+    <value>Zusätzliche Synchropunkte</value>
   </data>
   <data name="DailyNoteButton_StarRail_OngoingAssignments" xml:space="preserve">
-    <value>Ongoing Assignments</value>
+    <value>Laufende Aufträge</value>
   </data>
   <data name="DailyNoteButton_StarRail_AllFinished" xml:space="preserve">
-    <value>All Finished</value>
+    <value>Alle abgeschlossen</value>
   </data>
   <data name="DailyNoteButton_StarRail_FinishedTime" xml:space="preserve">
-    <value>Finished Time</value>
+    <value>Abschlusszeit</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BatteryCharge" xml:space="preserve">
-    <value>Battery Charge</value>
+    <value>Akkuladung</value>
   </data>
   <data name="DailyNoteButton_ZZZ_DailyMissions" xml:space="preserve">
-    <value>Daily Missions</value>
+    <value>Tägliche Missionen</value>
   </data>
   <data name="DailyNoteButton_ZZZ_EngagementToday" xml:space="preserve">
-    <value>Engagement Today</value>
+    <value>Heutige Aktivität</value>
   </data>
   <data name="DailyNoteButton_ZZZ_ScratchCardMania" xml:space="preserve">
-    <value>Scratch Card Mania</value>
+    <value>Rubbelkarten-Wahn</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Complete" xml:space="preserve">
-    <value>Complete</value>
+    <value>Abgeschlossen</value>
   </data>
   <data name="DailyNoteButton_ZZZ_Incomplete" xml:space="preserve">
-    <value>Incomplete</value>
+    <value>Unvollständig</value>
   </data>
   <data name="DailyNoteButton_ZZZ_VideoStoreManagement" xml:space="preserve">
-    <value>Video Store Management</value>
+    <value>Videothek-Verwaltung</value>
   </data>
   <data name="DailyNoteButton_ZZZ_WaitingToOpen" xml:space="preserve">
-    <value>Waiting to Open</value>
+    <value>Warten auf Öffnung</value>
   </data>
   <data name="DailyNoteButton_ZZZ_CurrentlyOpen" xml:space="preserve">
-    <value>Currently Open</value>
+    <value>Derzeit geöffnet</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RevenueAvailable" xml:space="preserve">
-    <value>Revenue Available</value>
+    <value>Einnahmen verfügbar</value>
   </data>
   <data name="DailyNoteButton_ZZZ_SeasonMissions" xml:space="preserve">
-    <value>Season Missions</value>
+    <value>Saison-Missionen</value>
   </data>
   <data name="DailyNoteButton_ZZZ_BountyCommissionProgress" xml:space="preserve">
-    <value>Bounty Commission Progress</value>
+    <value>Kopfgeldauftragsfortschritt</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RemainingRefreshTime" xml:space="preserve">
-    <value>Remaining Refresh Time</value>
+    <value>Verbleibende Aktualisierungszeit</value>
   </data>
   <data name="DailyNoteButton_ZZZ_RiduWeeklyPoints" xml:space="preserve">
-    <value>Ridu Weekly Points</value>
+    <value>Ridu-Wochenpunkte</value>
   </data>
   <data name="Common_Disabled" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Deaktiviert</value>
   </data>
   <data name="Common_Enabled" xml:space="preserve">
-    <value>Enabled</value>
+    <value>Aktiviert</value>
   </data>
   <data name="HoyolabToolboxPage_ShiyuDefense" xml:space="preserve">
-    <value>Shiyu Defense</value>
+    <value>Shiyu-Verteidigung</value>
   </data>
   <data name="HoyolabToolboxPage_DeadlyAssault" xml:space="preserve">
     <value>Deadly Assault</value>
   </data>
   <data name="ShiyuDefensePage_HighestStageCleared" xml:space="preserve">
-    <value>Highest Stage Cleared</value>
+    <value>Höchste Stufe abgeschlossen</value>
   </data>
   <data name="ShiyuDefensePage_47LayerClearTime" xml:space="preserve">
-    <value>4-7 Layer Clear Time</value>
+    <value>4-7 Schicht-Durchgangszeit</value>
   </data>
   <data name="ShiyuDefensePage_ClearTime" xml:space="preserve">
-    <value>Clear Time: </value>
+    <value>Durchgangszeit: </value>
   </data>
   <data name="ApocalypticShadowPage_TotalScore" xml:space="preserve">
-    <value>Total Score:</value>
+    <value>Gesamtpunktzahl:</value>
   </data>
   <data name="DeadlyAssaultPage_GlobalTopPercent" xml:space="preserve">
     <value>Global Top</value>
   </data>
   <data name="ShiyuDefensePage_FastestStateTime" xml:space="preserve">
-    <value>Fastest State Time</value>
+    <value>Schnellste Durchgangszeit</value>
   </data>
   <data name="ShiyuDefensePage_FrontierEffects" xml:space="preserve">
-    <value>Frontier Effects</value>
+    <value>Verteidigungseffekte</value>
   </data>
   <data name="ShiyuDefensePage_EnemyDetails" xml:space="preserve">
-    <value>Enemy Details</value>
+    <value>Gegnerdetails</value>
   </data>
   <data name="ShiyuDefensePage_Weakness" xml:space="preserve">
-    <value>Weakness</value>
+    <value>Schwäche</value>
   </data>
   <data name="ShiyuDefensePage_Resistance" xml:space="preserve">
-    <value>Resistance</value>
+    <value>Widerstand</value>
   </data>
   <data name="ClearedAt" xml:space="preserve">
-    <value>Cleared at</value>
+    <value>Beendet um</value>
   </data>
   <data name="DeadlyAssaultPage_TotalScore" xml:space="preserve">
-    <value>Total Score</value>
+    <value>Gesamtpunktzahl</value>
   </data>
   <data name="PureFictionPage_Score" xml:space="preserve">
-    <value>Score:</value>
+    <value>Punktzahl:</value>
   </data>
   <data name="GachaLogPage_ImportAndExport" xml:space="preserve">
     <value>Import &amp; Export</value>
   </data>
   <data name="GachaLogPage_HideGachaBanners" xml:space="preserve">
-    <value>Hide Gacha Banners</value>
+    <value>Gacha-Banner ausblenden</value>
   </data>
   <data name="GameSettingPage_EnableHDR" xml:space="preserve">
-    <value>Enable HDR</value>
+    <value>HDR aktivieren</value>
   </data>
   <data name="Common_RestoreDefaults" xml:space="preserve">
-    <value>Restore Defaults</value>
+    <value>Standardwerte wiederherstellen</value>
   </data>
   <data name="GameSettingPage_HDRBrightnessSetting" xml:space="preserve">
-    <value>HDR Brightness Setting</value>
+    <value>HDR-Helligkeitseinstellung</value>
   </data>
   <data name="GameSettingPage_IfYouHaveMultipleMonitorsYouNeedToSetTheHDRSupportedMonitorAsThePrimaryDisplay" xml:space="preserve">
-    <value>If you have multiple monitors, you need to set the HDR-supported monitor as the primary display.</value>
+    <value>Wenn Sie mehrere Monitore haben, müssen Sie den HDR-unterstützten Monitor als primäres Display festlegen.</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDROrWindowsHDRIsNotEnabled" xml:space="preserve">
-    <value>The current monitor does not support HDR or Windows HDR is not enabled.</value>
+    <value>Der aktuelle Monitor unterstützt kein HDR oder Windows HDR ist nicht aktiviert.</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_AdaptToMonitorBrightness" xml:space="preserve">
-    <value>Adapt to Monitor Brightness</value>
+    <value>An Monitorhelligkeit anpassen</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxLuminance" xml:space="preserve">
-    <value>Max Luminance</value>
+    <value>Maximale Leuchtdichte</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SceneryBrightness" xml:space="preserve">
-    <value>Scenery Brightness</value>
+    <value>Szenenhelligkeit</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_UIBrightness" xml:space="preserve">
-    <value>UI Brightness</value>
+    <value>UI-Helligkeit</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MonitorInformation" xml:space="preserve">
-    <value>Monitor Information</value>
+    <value>Monitorinformationen</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_ColorSpace" xml:space="preserve">
-    <value>Color Space</value>
+    <value>Farbraum</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_PeakLuminance" xml:space="preserve">
-    <value>Peak Luminance</value>
+    <value>Spitzenleuchtdichte</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_MaxFullScreenLuminance" xml:space="preserve">
-    <value>Max Full-Screen Luminance</value>
+    <value>Maximale Vollbild-Leuchtdichte</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value>SDR White Luminance</value>
+    <value>SDR-Weißleuchtdichte</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
-    <value>Standard Dynamic Range</value>
+    <value>Standard-Dynamikbereich</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_WideColorGamut" xml:space="preserve">
-    <value>Wide Color Gamut</value>
+    <value>Großer Farbraum</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_HighDynamicRange" xml:space="preserve">
-    <value>High Dynamic Range</value>
+    <value>Hoher Dynamikbereich</value>
   </data>
   <data name="WelcomeView_IfStarwardTakesALongTimeToStartItIsRecommendedToDisableSmartAppControlInWindowsSecurity" xml:space="preserve">
-    <value>If Starward takes a long time to start, it is recommended to disable Smart App Control in Windows Security.</value>
+    <value>Wenn Starward lange zum Starten benötigt, wird empfohlen, die Smart App Control in der Windows-Sicherheit zu deaktivieren.</value>
   </data>
   <data name="WelcomeView_OpenWindowsSecurity" xml:space="preserve">
-    <value>Open Windows Security</value>
+    <value>Windows-Sicherheit öffnen</value>
   </data>
   <data name="WelcomeView_LearnMore" xml:space="preserve">
-    <value>Learn More</value>
+    <value>Mehr erfahren</value>
   </data>
   <data name="WelcomeView_NetworkErrorYouCanContinueUsingStarwardButYouWonTReceiveFutureUpdates" xml:space="preserve">
-    <value>Network error. You can continue using Starward, but you won't receive future updates.</value>
+    <value>Netzwerkfehler. Sie können Starward weiterhin verwenden, erhalten jedoch keine zukünftigen Updates.</value>
   </data>
   <data name="MainView_CheckSystemProxy_SystemProxyIsEnabled" xml:space="preserve">
-    <value>System proxy is enabled.</value>
+    <value>Systemproxy ist aktiviert.</value>
   </data>
   <data name="GameSettingPage_TheCurrentMonitorDoesNotSupportHDR" xml:space="preserve">
-    <value>The current monitor does not support HDR.</value>
+    <value>Der aktuelle Monitor unterstützt kein HDR.</value>
   </data>
   <data name="GameSettingPage_WindowsHDRIsNotTurnedOn" xml:space="preserve">
-    <value>Windows HDR is not turned on.</value>
+    <value>Windows HDR ist nicht eingeschaltet.</value>
   </data>
   <data name="DailyNoteButton_InterKnotMembership" xml:space="preserve">
-    <value>Inter-Knot Membership</value>
+    <value>Inter-Knot-Mitgliedschaft</value>
   </data>
   <data name="DailyNoteButton_PolychromesUnclaimed" xml:space="preserve">
-    <value>Polychromes Unclaimed</value>
+    <value>Polychrome nicht abgeholt</value>
   </data>
   <data name="DailyNoteButton_PolychromesClaimed" xml:space="preserve">
-    <value>Polychromes Claimed</value>
+    <value>Polychrome abgeholt</value>
   </data>
   <data name="DailyNoteButton_0DaySRemaining" xml:space="preserve">
-    <value>{0} Day(s) Remaining</value>
+    <value>{0} Tag(e) verbleibend</value>
   </data>
   <data name="InstallGameDialog_MappedNetworkDrivesAreNotSupportedPleaseUseANetworkSharePathStartingWithDoubleBackslashes" xml:space="preserve">
-    <value>Mapped network drives are not supported. Please use a network share path starting with double backslashes (\\).</value>
+    <value>Gemappte Netzlaufwerke werden nicht unterstützt. Bitte verwenden Sie einen Netzwerkfreigabepfad, der mit doppelten Rückwärtsschrägstrichen (\\) beginnt.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotSaved" xml:space="preserve">
-    <value>Screenshot Saved</value>
+    <value>Screenshot gespeichert</value>
   </data>
   <data name="ScreenshotPage_ManageScreenshotFolders" xml:space="preserve">
-    <value>Manage Screenshot Folders</value>
+    <value>Screenshot-Ordner verwalten</value>
   </data>
   <data name="ScreenshotFolderManageDialog_AddFolder" xml:space="preserve">
-    <value>Add Folder</value>
+    <value>Ordner hinzufügen</value>
   </data>
   <data name="ScreenshotFolderManageDialog_BackingUp" xml:space="preserve">
-    <value>Backing up...</value>
+    <value>Sichern...</value>
   </data>
   <data name="Common_Remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Entfernen</value>
   </data>
   <data name="ScreenshotFolderManageDialog_FailedToBackupScreenshots" xml:space="preserve">
-    <value>Failed to backup screenshots.</value>
+    <value>Sicherung der Screenshots fehlgeschlagen.</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ScreenshotFailed" xml:space="preserve">
-    <value>Screenshot Failed</value>
+    <value>Screenshot fehlgeschlagen</value>
   </data>
   <data name="ScreenCaptureInfoWindow_CheckTheLogForMoreInformation" xml:space="preserve">
-    <value>Check the log for more information.</value>
+    <value>Überprüfen Sie das Protokoll für weitere Informationen.</value>
   </data>
   <data name="GameSettingPage_StarRailFpsTip" xml:space="preserve">
-    <value>Don't change the in-game "Graphics Quality" preset, or the FPS setting may not work. If you set 120 FPS but see 30 FPS in the game settings, that's expected.</value>
+    <value>Ändern Sie nicht die Voreinstellung "Grafikqualität" im Spiel, da die FPS-Einstellung sonst möglicherweise nicht funktioniert. Wenn Sie 120 FPS einstellen, aber in den Spieleinstellungen 30 FPS angezeigt werden, ist das normal.</value>
   </data>
   <data name="ScreenshotFolderManageDialog_ImagesFromTheFollowingFoldersWillBeDisplayedInTheGallery" xml:space="preserve">
-    <value>Images from the following folders will be displayed in the gallery.</value>
+    <value>Bilder aus den folgenden Ordnern werden in der Galerie angezeigt.</value>
   </data>
   <data name="ImageViewWindow2_OpenInExplorer" xml:space="preserve">
-    <value>Open in Explorer</value>
+    <value>Im Explorer öffnen</value>
   </data>
   <data name="ImageViewWindow2_OpenWith" xml:space="preserve">
-    <value>Open with</value>
+    <value>Öffnen mit</value>
   </data>
   <data name="ImageViewWindow2_Previous" xml:space="preserve">
-    <value>Previous</value>
+    <value>Vorheriges</value>
     <comment>Previous Image</comment>
   </data>
   <data name="ImageViewWindow2_Next" xml:space="preserve">
-    <value>Next</value>
+    <value>Nächstes</value>
     <comment>Next Image</comment>
   </data>
   <data name="ImageViewWindow2_ShowGallery" xml:space="preserve">
-    <value>Show Gallery</value>
+    <value>Galerie anzeigen</value>
   </data>
   <data name="ImageViewWindow2_FitToWindow" xml:space="preserve">
-    <value>Fit to Window</value>
+    <value>An Fenster anpassen</value>
     <comment>Zoom image fit to window</comment>
   </data>
   <data name="ImageViewWindow2_CopyFile" xml:space="preserve">
-    <value>Copy File</value>
+    <value>Datei kopieren</value>
   </data>
   <data name="ImageViewWindow2_CopyPath" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>Pfad kopieren</value>
   </data>
   <data name="ImageViewWindow2_CopyImage" xml:space="preserve">
-    <value>Copy Image</value>
+    <value>Bild kopieren</value>
   </data>
   <data name="Common_Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Bearbeiten</value>
   </data>
   <data name="ImageViewWindow2_SaveAs" xml:space="preserve">
-    <value>Save As</value>
+    <value>Speichern unter</value>
   </data>
   <data name="ImageViewWindow2_ImageInformation" xml:space="preserve">
-    <value>Image Information</value>
+    <value>Bildinformationen</value>
   </data>
   <data name="ImageViewWindow2_EditImage" xml:space="preserve">
-    <value>Edit Image</value>
+    <value>Bild bearbeiten</value>
   </data>
   <data name="ImageViewWindow2_DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Anzeigemodus</value>
   </data>
   <data name="ImageViewWindow2_SDRMappedLuminance" xml:space="preserve">
-    <value>SDR Mapped Luminance</value>
+    <value>SDR-zugeordnete Leuchtdichte</value>
   </data>
   <data name="ImageViewWindow2_Auto" xml:space="preserve">
     <value>Auto</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
-    <value>Export Image</value>
+    <value>Bild exportieren</value>
   </data>
   <data name="ImageViewWindow2_ToConvertAnHDRImageToSDRPleaseUseTheEditFeature" xml:space="preserve">
-    <value>To convert an HDR image to SDR, please use the Edit feature.</value>
+    <value>Um ein HDR-Bild in SDR zu konvertieren, verwenden Sie bitte die Funktion "Bearbeiten".</value>
   </data>
   <data name="ImageViewWindow2_DeleteImageFile" xml:space="preserve">
-    <value>Delete Image File</value>
+    <value>Bilddatei löschen</value>
   </data>
   <data name="ImageViewWindow2_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>In die Zwischenablage kopiert.</value>
   </data>
   <data name="ImageViewWindow2_FileDoesNotExist" xml:space="preserve">
-    <value>File does not exist.</value>
+    <value>Datei existiert nicht.</value>
   </data>
   <data name="ImageViewWindow2_OpenWithDefaultApp" xml:space="preserve">
-    <value>Open with Default App</value>
+    <value>Mit Standard-App öffnen</value>
   </data>
   <data name="ImageViewWindow2_NoImageToDisplay" xml:space="preserve">
-    <value>No Image to Display</value>
+    <value>Kein Bild zum Anzeigen</value>
   </data>
   <data name="Common_OpenFiles" xml:space="preserve">
-    <value>Open Files</value>
+    <value>Dateien öffnen</value>
   </data>
   <data name="ImageViewWindow2_OpenNewFiles" xml:space="preserve">
-    <value>Open New Files</value>
+    <value>Neue Dateien öffnen</value>
   </data>
   <data name="ImageViewWindow2_FailedToDisplayImage" xml:space="preserve">
-    <value>Failed to Display Image</value>
+    <value>Bild konnte nicht angezeigt werden</value>
   </data>
   <data name="ImageViewWindow2_FailedToSaveImage" xml:space="preserve">
-    <value>Failed to Save Image</value>
+    <value>Bild konnte nicht gespeichert werden</value>
   </data>
   <data name="ImageViewWindow2_FailedToDeleteImageFile" xml:space="preserve">
-    <value>Failed to Delete Image File</value>
+    <value>Bilddatei konnte nicht gelöscht werden</value>
   </data>
   <data name="ImageViewWindow2_UnableToDeleteTheFile" xml:space="preserve">
-    <value>Unable to Delete the File</value>
+    <value>Datei kann nicht gelöscht werden</value>
   </data>
   <data name="ImageViewWindow2_InsufficientPermissionsOrTheFileIsInUse" xml:space="preserve">
-    <value>Insufficient permissions or the file is in use.</value>
+    <value>Unzureichende Berechtigungen oder die Datei wird verwendet.</value>
   </data>
   <data name="HotkeyInput_ClickToSetShortcutKeys" xml:space="preserve">
-    <value>Click to Set Shortcut Keys</value>
+    <value>Klicken zum Festlegen von Tastenkombinationen</value>
   </data>
   <data name="HotkeyInput_PressTheShortcutKeys" xml:space="preserve">
-    <value>Press the Shortcut Keys</value>
+    <value>Tastenkombination drücken</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUse" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use.</value>
+    <value>Die Tastenkombination ({0}) wird bereits verwendet.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}).</value>
+    <value>Registrierung der Tastenkombination ({0}) fehlgeschlagen.</value>
   </data>
   <data name="HotkeyManager_TheShortcutKeys0IsAlreadyInUsePleaseModifyItInSettingsPage" xml:space="preserve">
-    <value>The shortcut keys ({0}) is already in use. Please modify it in Settings page.</value>
+    <value>Die Tastenkombination ({0}) wird bereits verwendet. Bitte ändern Sie sie in den Einstellungen.</value>
   </data>
   <data name="HotkeyManager_FailedToRegisterTheShortcutKeys0PleaseRetryInSettingsPage" xml:space="preserve">
-    <value>Failed to register the shortcut keys ({0}). Please retry in Settings page.</value>
+    <value>Registrierung der Tastenkombination ({0}) fehlgeschlagen. Bitte versuchen Sie es in den Einstellungen erneut.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotShortcut" xml:space="preserve">
-    <value>Screenshot Shortcut</value>
+    <value>Screenshot-Tastenkombination</value>
   </data>
   <data name="HotkeySetting_OpenMainWindow" xml:space="preserve">
-    <value>Open Main Window</value>
+    <value>Hauptfenster öffnen</value>
   </data>
   <data name="HotkeySetting_FailedToRegisterTheShortcutKeys" xml:space="preserve">
-    <value>Failed to register the shortcut keys.</value>
+    <value>Registrierung der Tastenkombination fehlgeschlagen.</value>
   </data>
   <data name="ScreenshotSetting_TheBuiltInScreenshotFeatureWillSaveImagesToTheFollowingFolder" xml:space="preserve">
-    <value>The built-in screenshot feature will save images to the following folder.</value>
+    <value>Die integrierte Screenshot-Funktion speichert Bilder im folgenden Ordner.</value>
   </data>
   <data name="Common_ChangeFolder" xml:space="preserve">
-    <value>Change Folder</value>
+    <value>Ordner ändern</value>
   </data>
   <data name="HotkeySetting_SingleKeyShortcutsTips" xml:space="preserve">
-    <value>If you register single-key shortcuts (F1–F12), you need to run Starward with administrator privileges; otherwise, the shortcuts may not work in the game.</value>
+    <value>Wenn Sie Einzeltasten-Tastenkombinationen (F1–F12) registrieren, müssen Sie Starward mit Administratorrechten ausführen; andernfalls funktionieren die Tastenkombinationen möglicherweise nicht im Spiel.</value>
   </data>
   <data name="SettingPage_KeyboardShortcuts" xml:space="preserve">
-    <value>Keyboard Shortcuts</value>
+    <value>Tastaturkürzel</value>
   </data>
   <data name="SettingPage_ControllerEnhancement" xml:space="preserve">
-    <value>Controller Enhancement</value>
+    <value>Controller-Verbesserung</value>
   </data>
   <data name="GamepadControlSetting_SimulateInput" xml:space="preserve">
-    <value>Simulate Input</value>
+    <value>Eingabe simulieren</value>
   </data>
   <data name="GamepadControlSetting_GuideButton" xml:space="preserve">
-    <value>Guide Button</value>
+    <value>Guide-Taste</value>
   </data>
   <data name="GamepadControlSetting_NoAction" xml:space="preserve">
-    <value>No Action</value>
+    <value>Keine Aktion</value>
   </data>
   <data name="GamepadControlSetting_GameScreenshot" xml:space="preserve">
-    <value>Game Screenshot</value>
+    <value>Spiel-Screenshot</value>
   </data>
   <data name="GamepadControlSetting_KeyboardKeys" xml:space="preserve">
-    <value>Keyboard Keys</value>
+    <value>Tastaturtasten</value>
   </data>
   <data name="GamepadControlSetting_EnterKeyText" xml:space="preserve">
-    <value>Enter key text</value>
+    <value>Tastentext eingeben</value>
   </data>
   <data name="GamepadControlSetting_ShareButton" xml:space="preserve">
-    <value>Share Button</value>
+    <value>Teilen-Taste</value>
   </data>
   <data name="GamepadControlSetting_ButtonMapping" xml:space="preserve">
-    <value>Button Mapping</value>
+    <value>Tastenzuordnung</value>
   </data>
   <data name="GamepadControlSetting_UnrecognizedKey" xml:space="preserve">
-    <value>Unrecognized key</value>
+    <value>Nicht erkannte Taste</value>
   </data>
   <data name="GamepadControlSetting_OnlySupportXboxControllerProtocol" xml:space="preserve">
-    <value>Only Xbox protocol controllers are supported. Compatibility with other types of controllers is not guaranteed.</value>
+    <value>Es werden nur Controller mit Xbox-Protokoll unterstützt. Die Kompatibilität mit anderen Controllertypen ist nicht gewährleistet.</value>
   </data>
   <data name="GamepadControlSetting_SimulateInputDesc" xml:space="preserve">
-    <value>Simulate keyboard and mouse input using a game controller. This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>Simuliert Tastatur- und Mauseingaben mit einem Gamecontroller. Diese Funktion erfordert, dass Starward mit Administratorrechten ausgeführt wird, um in Spielen korrekt zu funktionieren.</value>
   </data>
   <data name="GamepadControlSetting_LongPressGuideButtonDesc" xml:space="preserve">
-    <value>Press and hold the Guide button to open the Starward main window.</value>
+    <value>Halten Sie die Guide-Taste gedrückt, um das Starward-Hauptfenster zu öffnen.</value>
   </data>
   <data name="GamepadControlSetting_BothThumbsticksDesc" xml:space="preserve">
-    <value>Press both thumbstick buttons simultaneously to activate controller-based keyboard and mouse simulation.</value>
+    <value>Drücken Sie beide Daumensticktasten gleichzeitig, um die controllerbasierte Tastatur- und Maussimulation zu aktivieren.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistComponentDetectedSimulatedInputIsUnavailable" xml:space="preserve">
-    <value>GameInputRedist component detected. Simulated input is unavailable.</value>
+    <value>GameInputRedist-Komponente erkannt. Simulierte Eingabe ist nicht verfügbar.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingGuideDesc" xml:space="preserve">
-    <value>• When mapping the Guide button, the default Xbox Game Bar shortcut will be disabled. Other software (such as Steam Big Picture Mode) may also respond to the Guide button. If conflicts occur, you must manually disable those features.</value>
+    <value>• Wenn Sie die Guide-Taste zuordnen, wird die Standardtastenkombination der Xbox Game Bar deaktiviert. Andere Software (z. B. der Steam-Big-Picture-Modus) kann ebenfalls auf die Guide-Taste reagieren. Bei Konflikten müssen Sie diese Funktionen manuell deaktivieren.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingKeyboardDesc" xml:space="preserve">
-    <value>• When mapping to keyboard keys, enter the key names as they appear on the keyboard, separated by spaces. For example, to map a button to "Ctrl + Alt + F1", input: "Ctrl Alt F1". For numpad keys, add Pad before the key, such as: Pad8, Pad+ . This feature requires Starward to run with administrator privileges to work correctly in games.</value>
+    <value>• Wenn Sie auf Tastaturtasten abbilden, geben Sie die Tastennamen ein, wie sie auf der Tastatur erscheinen, getrennt durch Leerzeichen. Beispiel: Um eine Taste auf "Strg + Alt + F1" abzubilden, geben Sie "Strg Alt F1" ein. Für Nummerntasten fügen Sie vor der Taste "Pad" hinzu, z. B.: Pad8, Pad+. Diese Funktion erfordert, dass Starward mit Administratorrechten ausgeführt wird, um in Spielen korrekt zu funktionieren.</value>
   </data>
   <data name="GamepadControlSetting_ButtonMappingShareDesc" xml:space="preserve">
-    <value>The Share button still triggers Xbox Game Bar screenshots, and there's currently no good solution.</value>
+    <value>• Die Teilen-Taste löst weiterhin Xbox Game Bar-Screenshots aus, und es gibt derzeit keine gute Lösung.</value>
   </data>
   <data name="GamepadControlSetting_FailedToInitializeTheGameInputComponentControllerEnhancementIsUnavailable" xml:space="preserve">
-    <value>Failed to initialize the GameInput component. Controller enhancement is unavailable.</value>
+    <value>Initialisierung der GameInput-Komponente fehlgeschlagen. Controller-Verbesserung ist nicht verfügbar.</value>
   </data>
   <data name="SimulateInputTipsWindow_ControllerSimulatedInputIsActive" xml:space="preserve">
-    <value>Controller simulated input is active.</value>
+    <value>Controller-Simulierteingabe ist aktiv.</value>
   </data>
   <data name="SimulateInputTipsWindow_ShowHideButtonHints" xml:space="preserve">
-    <value>Show / Hide Button Hints</value>
+    <value>Tastenhinweise anzeigen/ausblenden</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseMove" xml:space="preserve">
-    <value>Mouse Move</value>
+    <value>Maus bewegen</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseWheel" xml:space="preserve">
-    <value>Mouse Wheel</value>
+    <value>Mausrad</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseLeftButton" xml:space="preserve">
-    <value>Mouse Left Button</value>
+    <value>Linke Maustaste</value>
   </data>
   <data name="SimulateInputTipsWindow_MouseRightButton" xml:space="preserve">
-    <value>Mouse Right Button</value>
+    <value>Rechte Maustaste</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEscKey" xml:space="preserve">
-    <value>Keyboard Esc Key</value>
+    <value>Tastatur-Esc-Taste</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardArrowKeys" xml:space="preserve">
-    <value>Keyboard Arrow Keys</value>
+    <value>Tastatur-Pfeiltasten</value>
   </data>
   <data name="SimulateInputTipsWindow_LocateMousePointer" xml:space="preserve">
-    <value>Locate Mouse Pointer</value>
+    <value>Mauszeiger lokalisieren</value>
   </data>
   <data name="SimulateInputTipsWindow_StopSimualteInput" xml:space="preserve">
-    <value>Stop Simualte Input</value>
+    <value>Simulierte Eingabe beenden</value>
   </data>
   <data name="ScreenshotSetting_TestScreenshot" xml:space="preserve">
-    <value>Test Screenshot</value>
+    <value>Screenshot testen</value>
   </data>
   <data name="ScreenshotSetting_AutoConvertToSDRImage" xml:space="preserve">
-    <value>Auto Convert to SDR Image</value>
+    <value>Automatisch in SDR-Bild konvertieren</value>
   </data>
   <data name="ScreenshotSetting_WhenCapturingHDRImagesSDRVersionWillAlsoBeSaved" xml:space="preserve">
-    <value>When capturing HDR images, SDR version will also be saved.</value>
+    <value>Bei der Aufnahme von HDR-Bildern wird auch eine SDR-Version gespeichert.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotFetureDescAndLimit" xml:space="preserve">
-    <value>The screenshot feature captures the currently running game. If multiple games are running, the most recently focused game will be selected. Note the following limitations:
-• Minimized game windows cannot be captured.
-• Parts of the game window that extend beyond the screen will not be included.
-• In rare cases, a non-game window may be captured instead.</value>
+    <value>Die Screenshot-Funktion erfasst das aktuell ausgeführte Spiel. Wenn mehrere Spiele ausgeführt werden, wird das zuletzt fokussierte Spiel ausgewählt. Beachten Sie die folgenden Einschränkungen:
+• Minimierte Spielfenster können nicht erfasst werden.
+• Teile des Spielfensters, die über den Bildschirm hinausragen, werden nicht einbezogen.
+• In seltenen Fällen kann stattdessen ein Nicht-Spielfenster erfasst werden.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWin10Limit" xml:space="preserve">
-    <value>On Windows 10, the screenshot feature has the following additional limitations:
-• A colored border may appear around the game window during capture.
-• The mouse pointer cannot be hidden.</value>
+    <value>Unter Windows 10 gelten für die Screenshot-Funktion die folgenden zusätzlichen Einschränkungen:
+• Während der Aufnahme kann ein farbiger Rahmen um das Spielfenster erscheinen.
+• Der Mauszeiger kann nicht ausgeblendet werden.</value>
   </data>
   <data name="ScreenshotSetting_ScreenshotWithGamepadSuggestion" xml:space="preserve">
-    <value>If you want to capture screenshots with a controller, please use Button Mapping in the Controller Enhancement page.</value>
+    <value>Wenn Sie mit einem Controller Screenshots machen möchten, verwenden Sie bitte die Tastenbelegung auf der Seite „Controller-Erweiterung“.</value>
   </data>
   <data name="TheScreenshotFeatureDoesNotSupportCloudGame" xml:space="preserve">
-    <value>The screenshot feature does not support cloud game.</value>
+    <value>Die Screenshot-Funktion unterstützt keine Cloud-Spiele.</value>
   </data>
   <data name="SimulateInputTipsWindow_SwitchWindows" xml:space="preserve">
-    <value>Switch Windows</value>
+    <value>Fenster wechseln</value>
   </data>
   <data name="ScreenshotSetting_AutoCopyScreenshotFile" xml:space="preserve">
-    <value>Auto Copy Screenshot File</value>
+    <value>Screenshot-Datei automatisch kopieren</value>
   </data>
   <data name="GameSettingPage_UsePopupWindow" xml:space="preserve">
-    <value>Use Popup Window</value>
+    <value>Popup-Fenster verwenden</value>
   </data>
   <data name="ToolboxSetting_ImageViewer" xml:space="preserve">
-    <value>Image Viewer</value>
+    <value>Bildbetrachter</value>
   </data>
   <data name="ToolboxSetting_ViewOrEditImage" xml:space="preserve">
-    <value>View / Edit Image</value>
+    <value>Bild anzeigen / bearbeiten</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistInstalled" xml:space="preserve">
-    <value>Microsoft GameInput component detected. Simulated input is unavailable when the app is running in the background.</value>
+    <value>Microsoft GameInput-Komponente erkannt. Simulierte Eingabe ist nicht verfügbar, wenn die App im Hintergrund ausgeführt wird.</value>
   </data>
   <data name="GamepadControlSetting_GameInputRedistOutdate" xml:space="preserve">
-    <value>An outdated Microsoft GameInput component is installed. Please uninstall or update it.</value>
+    <value>Eine veraltete Microsoft GameInput-Komponente ist installiert. Bitte deinstallieren oder aktualisieren Sie sie.</value>
   </data>
   <data name="GamepadControlSetting_NeedInstallGameInputRedistOnWin10" xml:space="preserve">
-    <value>On Windows 10, the Microsoft GameInput component must be installed for the controller enhancement feature to work properly.</value>
+    <value>Unter Windows 10 muss die Microsoft GameInput-Komponente installiert sein, damit die Controller-Erweiterung ordnungsgemäß funktioniert.</value>
   </data>
   <data name="GamepadControlSetting_ClickToDownload" xml:space="preserve">
-    <value>Click to download.</value>
+    <value>Zum Herunterladen klicken.</value>
   </data>
   <data name="ImageViewWindow2_CopyAsJPG" xml:space="preserve">
-    <value>Copy as JPG</value>
+    <value>Als JPG kopieren</value>
   </data>
   <data name="ScreenshotPage_MultiSelect" xml:space="preserve">
-    <value>Multi Select</value>
+    <value>Mehrfachauswahl</value>
   </data>
   <data name="ScreenshotPage_Total0Files" xml:space="preserve">
-    <value>Total {0} files.</value>
+    <value>Insgesamt {0} Dateien.</value>
   </data>
   <data name="SimulateInputTipsWindow_KeyboardEnterKey" xml:space="preserve">
-    <value>Keyboard Enter Key</value>
+    <value>Tastatur-Eingabetaste</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
     <value>Stygian Onslaught</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
-    <value>Single Player</value>
+    <value>Einzelspieler</value>
   </data>
   <data name="StygianOnslaughtPage_CoOp" xml:space="preserve">
-    <value>Co-Op</value>
+    <value>Ko-Op</value>
   </data>
   <data name="StygianOnslaughtPage_BattleTime" xml:space="preserve">
-    <value>Battle Time</value>
+    <value>Kampfzeit</value>
   </data>
   <data name="StygianOnslaughtPage_HighestTotalDamageDealt" xml:space="preserve">
-    <value>Highest Total Damage Dealt</value>
+    <value>Höchster verursachter Gesamtschaden</value>
   </data>
   <data name="ScreenshotSetting_OtherOptions" xml:space="preserve">
-    <value>Other Options</value>
+    <value>Weitere Optionen</value>
   </data>
   <data name="ScreenshotSetting_Lossless" xml:space="preserve">
-    <value>Lossless</value>
+    <value>Verlustfrei</value>
   </data>
   <data name="ScreenshotSetting_FormatAndQuality" xml:space="preserve">
-    <value>Format and Quality</value>
+    <value>Format und Qualität</value>
   </data>
   <data name="ScreenCaptureInfoWindow_ProcessingImage" xml:space="preserve">
-    <value>Processing Image</value>
+    <value>Bild wird verarbeitet</value>
   </data>
   <data name="ScreenshotPage_BatchConvert" xml:space="preserve">
-    <value>Batch Convert</value>
+    <value>Stapelkonvertierung</value>
   </data>
   <data name="ImageBatchConvertWindow_Quality" xml:space="preserve">
-    <value>Quality</value>
+    <value>Qualität</value>
   </data>
   <data name="ImageBatchConvertWindow_StartConvert" xml:space="preserve">
-    <value>Start Convert</value>
+    <value>Konvertierung starten</value>
   </data>
   <data name="Common_Clear" xml:space="preserve">
-    <value>Clear</value>
+    <value>Löschen</value>
   </data>
   <data name="ImageBatchConvertWindow_OutputFolder" xml:space="preserve">
-    <value>Output Folder</value>
+    <value>Ausgabeordner</value>
   </data>
   <data name="ImageBatchConvertWindow_OriginalFileFolder" xml:space="preserve">
-    <value>Original File Folder</value>
+    <value>Ordner der Originaldatei</value>
   </data>
   <data name="ImageBatchConvertWindow_SameAsOriginalFileFormat" xml:space="preserve">
-    <value>Same as original file format</value>
+    <value>Gleich wie ursprüngliches Dateiformat</value>
   </data>
   <data name="ImageBatchConvertWindow_SelectOutputFormat" xml:space="preserve">
-    <value>Select Output Format</value>
+    <value>Ausgabeformat auswählen</value>
   </data>
   <data name="ImageBatchConvertWindow_NoReadOrWritePermission" xml:space="preserve">
-    <value>No read or write permission</value>
+    <value>Keine Lese- oder Schreibberechtigung</value>
   </data>
   <data name="ImageBatchConvertWindow_ConvertFailed" xml:space="preserve">
-    <value>Convert failed</value>
+    <value>Konvertierung fehlgeschlagen</value>
   </data>
   <data name="ImageBatchConvertWindow_IfOutputFileExists" xml:space="preserve">
-    <value>If Output File Exists</value>
+    <value>Wenn Ausgabedatei vorhanden</value>
   </data>
   <data name="ImageBatchConvertWindow_SkipDefault" xml:space="preserve">
-    <value>Skip (Default)</value>
+    <value>Überspringen (Standard)</value>
   </data>
   <data name="ImageBatchConvertWindow_Overwrite" xml:space="preserve">
-    <value>Overwrite</value>
+    <value>Überschreiben</value>
   </data>
   <data name="ImageBatchConvertWindow_Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Umbenennen</value>
   </data>
   <data name="Common_Success" xml:space="preserve">
-    <value>Success</value>
+    <value>Erfolg</value>
   </data>
   <data name="Common_Failed" xml:space="preserve">
-    <value>Failed</value>
+    <value>Fehlgeschlagen</value>
   </data>
   <data name="ImageBatchConvertWindow_ImageBatchConvert" xml:space="preserve">
-    <value>Image Batch Convert</value>
+    <value>Bildstapelkonvertierung</value>
   </data>
   <data name="ScreenshotSetting_ClearThumbnailCache" xml:space="preserve">
-    <value>Clear Thumbnail Cache</value>
+    <value>Miniaturansicht-Cache leeren</value>
   </data>
   <data name="ScreenshotSetting_ClearSuccessfully" xml:space="preserve">
-    <value>Clear Successfully</value>
+    <value>Erfolgreich gelöscht</value>
   </data>
   <data name="ScreenshotSetting_ClearFailed" xml:space="preserve">
-    <value>Clear Failed</value>
+    <value>Löschen fehlgeschlagen</value>
   </data>
   <data name="ScreenshotSetting_HighQualityAVIFAndJPEGXLImageFormatsSaveApproximately85OfStorageSpace" xml:space="preserve">
-    <value>High-quality AVIF and JPEG XL image formats save approximately 85% of storage space.</value>
+    <value>Hochwertige AVIF- und JPEG-XL-Bildformate sparen etwa 85% Speicherplatz.</value>
   </data>
   <data name="Common_CopiedToClipboard" xml:space="preserve">
-    <value>Copied to clipboard.</value>
+    <value>In die Zwischenablage kopiert.</value>
   </data>
   <data name="ImaginariumTheaterPage_LunarMode" xml:space="preserve">
-    <value>Lunar Mode</value>
+    <value>Lunar-Modus</value>
   </data>
   <data name="ImaginariumTheaterPage_Arcana" xml:space="preserve">
-    <value>Arcana</value>
+    <value>Arkana</value>
   </data>
   <data name="ImaginariumTheaterPage_ArcanaChallenge0" xml:space="preserve">
-    <value>Arcana Challenge {0}</value>
+    <value>Arkana-Herausforderung {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
     <value>Miliastra Wonderland Ode</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
-    <value>Launch Game using CMD</value>
+    <value>Spiel mit CMD starten</value>
   </data>
   <data name="GameLauncherSettingDialog_AvoidShowingAlertsAboutDetectingIllegalToolInTheGame" xml:space="preserve">
-    <value>Avoid showing alerts about detecting illegal tool in the game.</value>
+    <value>Vermeidet Warnungen über die Erkennung illegaler Tools im Spiel.</value>
   </data>
   <data name="UpdateWindow_FullPackage" xml:space="preserve">
-    <value>Full Package</value>
+    <value>Vollständiges Paket</value>
   </data>
   <data name="UpdateWindow_MigrateToSetup" xml:space="preserve">
-    <value>Migrate to Setup</value>
+    <value>Zu Setup migrieren</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
-    <value>Critical Node: Fourth Frontier</value>
+    <value>Kritischer Knoten: Vierte Grenze</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
-    <value>Critical Node: Fifth Frontier</value>
+    <value>Kritischer Knoten: Fünfte Grenze</value>
   </data>
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
-    <value>It is recommended to install the VP9 Video Extensions to reduce CPU usage.</value>
+    <value>Es wird empfohlen, die VP9-Videoerweiterungen zu installieren, um die CPU-Auslastung zu reduzieren.</value>
   </data>
   <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
-    <value>Challenge Attempts</value>
+    <value>Herausforderungsversuche</value>
   </data>
   <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
-    <value>King in Check Stage Records</value>
+    <value>König im Schach – Etappenrekorde</value>
   </data>
   <data name="ChallengePeakPage_Cleared" xml:space="preserve">
-    <value>Cleared</value>
+    <value>Bestanden</value>
   </data>
   <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
-    <value>No Clearance Records</value>
+    <value>Keine Bestehensaufzeichnungen</value>
   </data>
   <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
-    <value>Knight Stage Records</value>
+    <value>Ritter-Etappenrekorde</value>
   </data>
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
-    <value>Anomaly Arbitration</value>
+    <value>Anomalie-Schiedsgericht</value>
   </data>
   <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
-    <value>Updated to the latest version.</value>
+    <value>Auf die neueste Version aktualisiert.</value>
   </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
-    <value>Play / Pause</value>
+    <value>Wiedergabe / Pause</value>
   </data>
   <data name="GameLauncherPage_Gallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>Galerie</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
-    <value>Delete Duplicate Files</value>
+    <value>Doppelte Dateien löschen</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>{0} duplicate file(s) has been deleted.</value>
+    <value>{0} doppelte Datei(en) wurde(n) gelöscht.</value>
   </data>
   <data name="Common_All" xml:space="preserve">
-    <value>All</value>
+    <value>Alle</value>
   </data>
   <data name="Common_Video" xml:space="preserve">
     <value>Video</value>
   </data>
   <data name="Common_Time" xml:space="preserve">
-    <value>Time</value>
+    <value>Zeit</value>
   </data>
   <data name="Common_FileSize" xml:space="preserve">
-    <value>File Size</value>
+    <value>Dateigröße</value>
   </data>
   <data name="Common_Filter" xml:space="preserve">
     <value>Filter</value>
   </data>
   <data name="Common_Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Sortieren</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
-    <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
+    <value>Doppelte Dateien werden anhand der Dateidaten identifiziert. Einige optisch ähnliche Bilder werden nicht entfernt.</value>
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
-    <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+    <value>Die VP9-Videoerweiterung unterstützt bestimmte Formate nicht, was die Generierung von Miniaturansichten oder die ordnungsgemäße Wiedergabe verhindern kann.</value>
   </data>
   <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
-    <value>Image decoding failed</value>
+    <value>Bilddecodierung fehlgeschlagen</value>
   </data>
   <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
-    <value>Please install the WebP Image Extension.</value>
+    <value>Bitte installieren Sie die WebP-Bilderweiterung.</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
-    <value>Video decoding failed</value>
+    <value>Videodecodierung fehlgeschlagen</value>
   </data>
   <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
-    <value>Simulated Universe Points</value>
+    <value>Simuliertes Universum Punkte</value>
   </data>
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
-    <value>Currency Wars Points</value>
+    <value>Currency Wars Punkte</value>
   </data>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
-    <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
+    <value>Videodecodierung fehlgeschlagen. Bitte installieren Sie die VP9-Videoerweiterung.</value>
   </data>
   <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
-    <value>Sync from HoYoLAB (Experimental)</value>
+    <value>Sync von HoYoLAB (Experimentell)</value>
   </data>
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
-    <value>Sync All from HoYoLAB (Experimental)</value>
+    <value>Alle von HoYoLAB synchronisieren (Experimentell)</value>
+  </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>Während der Initialisierung ist ein unbekanntes Problem aufgetreten.</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>Das Programm hat keine Berechtigung, auf den folgenden Ordner zuzugreifen. Bitte starten Sie es als Administrator neu oder verschieben Sie den Ordner.</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>Als Administrator neu starten</value>
   </data>
 </root>

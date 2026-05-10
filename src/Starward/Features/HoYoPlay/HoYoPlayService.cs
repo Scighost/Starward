@@ -102,9 +102,9 @@ public class HoYoPlayService
                     urls.Add(info.Display.Background.Url);
                 }
             }
-            if (AppConfig.UserDataFolder is not null)
+            if (AppConfig.CacheFolder is not null)
             {
-                string bg = Path.Combine(AppConfig.UserDataFolder, "bg");
+                string bg = Path.Combine(AppConfig.CacheFolder, "bg");
                 Directory.CreateDirectory(bg);
                 await Parallel.ForEachAsync(infos, async (info, _) =>
                 {

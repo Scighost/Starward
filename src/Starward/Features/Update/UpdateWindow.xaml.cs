@@ -10,7 +10,6 @@ using NuGet.Versioning;
 using Starward.Features.RPC;
 using Starward.Features.Setting;
 using Starward.Frameworks;
-using Starward.RPC.Update;
 using Starward.Setup.Core;
 using Starward.Setup.Core.Github;
 using System;
@@ -64,7 +63,7 @@ public sealed partial class UpdateWindow : WindowEx
     private void InitializeWindow()
     {
         AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-        Title = "Starward - Update";
+        Title = "Starward · Update";
         RootGrid.RequestedTheme = ShouldAppsUseDarkMode() ? ElementTheme.Dark : ElementTheme.Light;
         SystemBackdrop = new DesktopAcrylicBackdrop();
         AdaptTitleBarButtonColorToActuallTheme();
@@ -128,10 +127,6 @@ public sealed partial class UpdateWindow : WindowEx
             IsUpdateNowEnabled = false;
             ErrorMessage = Lang.UpdatePage_YouNeedToManuallyDownloadTheNewVersionPackage;
         }
-        if (NewVersion?.Setup is not null && AppConfig.IsPortable && !AppConfig.IsAppInRemovableStorage)
-        {
-            Button_MigrateToSetup.Visibility = Visibility.Visible;
-        }
         if (UpdateService.UpdateFinished)
         {
             Finish(skipRestart: true);
@@ -146,7 +141,6 @@ public sealed partial class UpdateWindow : WindowEx
         _timer.Stop();
         _timer.Tick -= _timer_Tick;
         _updateService.StopUpdate();
-        _migrateCts?.Cancel();
         WeakReferenceMessenger.Default.UnregisterAll(this);
         this.Closed -= UpdateWindow_Closed;
     }
@@ -205,11 +199,7 @@ public sealed partial class UpdateWindow : WindowEx
 
     public string ProgressBytesText { get; set => SetProperty(ref field, value); }
 
-    public string ProgressCountText { get; set => SetProperty(ref field, value); }
-
     public string ProgressPercentText { get; set => SetProperty(ref field, value); }
-
-    public string ProgressSpeedText { get; set => SetProperty(ref field, value); }
 
     public string? ErrorMessage { get; set => SetProperty(ref field, value); }
 
@@ -243,6 +233,8 @@ public sealed partial class UpdateWindow : WindowEx
 
 
 
+    private CancellationTokenSource _updateCts;
+
 
     [RelayCommand]
     private async Task UpdateNowAsync()
@@ -259,9 +251,9 @@ public sealed partial class UpdateWindow : WindowEx
                 if (AppConfig.InstallType is InstallType.Setup && NewVersion.Setup is not null)
                 {
                     Button_Restart.IsEnabled = false;
-                    _migrateCts?.Cancel();
-                    _migrateCts = new CancellationTokenSource();
-                    CancellationToken cancellationToken = _migrateCts.Token;
+                    _updateCts?.Cancel();
+                    _updateCts = new CancellationTokenSource();
+                    CancellationToken cancellationToken = _updateCts.Token;
                     IsProgressTextVisible = true;
                     IsProgressBarVisible = true;
 
@@ -278,6 +270,9 @@ public sealed partial class UpdateWindow : WindowEx
                         await Task.Delay(100);
                     }
                     await task;
+                    Button_Restart.IsEnabled = true;
+                    IsProgressTextVisible = false;
+                    IsProgressBarVisible = false;
                 }
                 if (AppConfig.IsPortable)
                 {
@@ -286,10 +281,16 @@ public sealed partial class UpdateWindow : WindowEx
                 }
             }
         }
-        catch (OperationCanceledException) { }
+        catch (OperationCanceledException)
+        {
+            Button_UpdateNow.IsEnabled = true;
+            Button_RemindLatter.IsEnabled = true;
+        }
         catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
         {
             ErrorMessage = Lang.GachaLogPage_OperationCanceled;
+            Button_UpdateNow.IsEnabled = true;
+            Button_RemindLatter.IsEnabled = true;
         }
         catch (Exception ex)
         {
@@ -359,12 +360,10 @@ public sealed partial class UpdateWindow : WindowEx
         if (_updateService.Progress_TotalBytes == 0 || _updateService.Progress_DownloadBytes == 0)
         {
             ProgressBytesText = "";
-            ProgressCountText = "";
             return;
         }
         const double mb = 1 << 20;
         ProgressBytesText = $"{_updateService.Progress_DownloadBytes / mb:F2}/{_updateService.Progress_TotalBytes / mb:F2} MB";
-        ProgressCountText = $"{_updateService.Progress_DownloadFileCount}/{_updateService.Progress_TotalFileCount}";
         var progress = (double)_updateService.Progress_DownloadBytes / _updateService.Progress_TotalBytes;
         ProgressPercentText = $"{progress:P1}";
         ProgressBar_Update.Value = progress * 100;
@@ -471,65 +470,6 @@ public sealed partial class UpdateWindow : WindowEx
     {
         Button_UpdateRemindLatter.Opacity = 0;
     }
-
-
-
-
-    private CancellationTokenSource _migrateCts;
-
-
-    [RelayCommand]
-    private async Task MigrateToSetupAsync()
-    {
-        try
-        {
-            if (NewVersion?.Setup is null)
-            {
-                Button_MigrateToSetup.Visibility = Visibility.Collapsed;
-                return;
-            }
-            ErrorMessage = null;
-            Button_UpdateNow.IsEnabled = false;
-            Button_Restart.IsEnabled = false;
-            _migrateCts?.Cancel();
-            _migrateCts = new CancellationTokenSource();
-            CancellationToken cancellationToken = _migrateCts.Token;
-            IsProgressTextVisible = true;
-            IsProgressBarVisible = true;
-
-            var task = _setupService.MigrateToSetupAsync(NewVersion, cancellationToken);
-
-            const double MB = 1 << 20;
-            while (!task.IsCompleted)
-            {
-                if (_setupService.SetupTotalBytes > 0)
-                {
-                    TextBlock_Bytes.Text = $"{_setupService.SetupDownloadBytes / MB:F2}/{_setupService.SetupTotalBytes / MB:F2} MB";
-                    ProgressBar_Update.Value = _setupService.SetupDownloadBytes * 100.0 / _setupService.SetupTotalBytes;
-                }
-                await Task.Delay(100);
-            }
-            await task;
-        }
-        catch (OperationCanceledException) { }
-        catch (Win32Exception ex) when (ex.NativeErrorCode == 1223)
-        {
-            ErrorMessage = Lang.GachaLogPage_OperationCanceled;
-        }
-        catch (Exception ex)
-        {
-            ErrorMessage = ex.Message;
-            _logger.LogError(ex, "Migrate to Setup");
-        }
-        finally
-        {
-            Button_UpdateNow.IsEnabled = true;
-            Button_Restart.IsEnabled = true;
-            IsProgressTextVisible = false;
-            IsProgressBarVisible = false;
-        }
-    }
-
 
 
 

@@ -161,6 +161,25 @@ public class GachaNoUp
             Name = "符玄",
             NoUpTimes = [(new DateTime(2025, 4, 8, 18, 00, 00), DateTime.MaxValue)],
         });
+        // 4.2版本，自定义非UP五星角色
+        hkrpg11.Items.Add(1006, new GachaNoUpItem
+        {
+            Id = 1006,
+            Name = "银狼",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
+        });
+        hkrpg11.Items.Add(1221, new GachaNoUpItem
+        {
+            Id = 1221,
+            Name = "云璃",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
+        });
+        hkrpg11.Items.Add(1302, new GachaNoUpItem
+        {
+            Id = 1302,
+            Name = "银枝",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
+        });
         Dictionary.Add("hkrpg11", hkrpg11);
 
         GachaNoUp hkrpg12 = new GachaNoUp { Game = GameBiz.hkrpg, GachaType = StarRailGachaType.LightConeEventWarp };
@@ -269,6 +288,25 @@ public class GachaNoUp
             Id = 1208,
             Name = "符玄",
             NoUpTimes = [(new DateTime(2025, 7, 11), DateTime.MaxValue)],
+        });
+        // 4.2版本，自定义非UP五星角色
+        hkrpg21.Items.Add(1006, new GachaNoUpItem
+        {
+            Id = 1006,
+            Name = "银狼",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1221, new GachaNoUpItem
+        {
+            Id = 1221,
+            Name = "云璃",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
+        });
+        hkrpg21.Items.Add(1302, new GachaNoUpItem
+        {
+            Id = 1302,
+            Name = "银枝",
+            NoUpTimes = [(new DateTime(2026, 4, 21, 18, 00, 00), DateTime.MaxValue)],
         });
         Dictionary.Add("hkrpg21", hkrpg21);
 

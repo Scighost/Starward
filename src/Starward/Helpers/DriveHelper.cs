@@ -95,7 +95,7 @@ internal abstract class DriveHelper
         }
         else
         {
-            if (!Kernel32.GetVolumeInformation(root, out string volumeName, out uint volumeSerialNumber, out uint maximumComponentLength, out Kernel32.FileSystemFlags fileSystemFlags, out string fileSystemName))
+            if (!Kernel32.GetVolumeInformation(root, out string? volumeName, out uint volumeSerialNumber, out uint maximumComponentLength, out Kernel32.FileSystemFlags fileSystemFlags, out string? fileSystemName))
             {
                 Kernel32.GetLastError().ThrowIfFailed($"Failed to get volume information for path '{path}'.");
             }

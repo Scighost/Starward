@@ -22,18 +22,10 @@ public static partial class AppConfig
 
     static AppConfig()
     {
-        LoadConfiguration();
-        GetDeviceId();
-        SessionId = Guid.CreateVersion7();
-    }
-
-
-
-    private static void GetDeviceId()
-    {
         string? systemBiosVersion = Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System", "SystemBiosVersion", null) as string;
         string? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string;
         DeviceId = new(MD5.HashData(Encoding.UTF8.GetBytes($"{systemBiosVersion}{machineGuid}{Environment.MachineName}")));
+        SessionId = Guid.CreateVersion7();
     }
 
 

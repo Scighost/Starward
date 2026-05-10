@@ -311,9 +311,9 @@
     <value>찬란한 쐐기석</value>
   </data>
   <data name="GachaType_ExclusiveRescreening" xml:space="preserve">
-    <value>Exclusive Rescreening</value>
+    <value>독점 재상영</value>
   </data>
   <data name="GachaType_WEngineReverberation" xml:space="preserve">
-    <value>W-Engine Reverberation</value>
+    <value>W-엔진 반향</value>
   </data>
 </root>

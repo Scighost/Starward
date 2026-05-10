@@ -224,7 +224,7 @@
     <value>取消</value>
   </data>
   <data name="DownloadGamePage_SoftwareWillBeExitedSoon" xml:space="preserve">
-    <value>程式即將離開</value>
+    <value>程式即將關閉</value>
   </data>
   <data name="DownloadGamePage_RepeatStart" xml:space="preserve">
     <value>重複啟動</value>
@@ -239,7 +239,7 @@
     <value>權限不足</value>
   </data>
   <data name="DownloadGamePage_PleaseStartAsAdministrator" xml:space="preserve">
-    <value>請使用系統管理員身份開始</value>
+    <value>請以系統管理員身份啟動</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
     <value>開始</value>
@@ -317,10 +317,10 @@
     <value>更新 (全部)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyoushe" xml:space="preserve">
-    <value>Sync from Miyoushe (Experimental)</value>
+    <value>從米遊社同步（實驗性功能）</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync All from Miyoushe (Experimental)</value>
+    <value>從米遊社同步全部（實驗性功能）</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>輸入URL</value>
@@ -369,22 +369,22 @@
     <value>操作已取消</value>
   </data>
   <data name="GachaLogPage_OnlySupportZZZCNServer" xml:space="preserve">
-    <value>This feature currently supports ZZZ only.</value>
+    <value>此功能目前僅支援絕區零。</value>
   </data>
   <data name="GachaLogPage_PleaseLoginMiyousheAndAddZZZRole" xml:space="preserve">
-    <value>Please log in via Miyoushe toolbox and add your Miyoushe account first.</value>
+    <value>請現在米遊社工具箱新增您的米遊社帳號。</value>
   </data>
   <data name="GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe" xml:space="preserve">
-    <value>The current account is missing login credentials. Please re-login Miyoushe.</value>
+    <value>當前帳號缺少登入憑證, 請重新登入米遊社。</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRole" xml:space="preserve">
-    <value>Select Miyoushe account</value>
+    <value>選擇米遊社帳號</value>
   </data>
   <data name="GachaLogPage_SelectMiyousheRoleDescription" xml:space="preserve">
-    <value>Multiple ZZZ roles were found. Please choose one role to sync gacha records.</value>
+    <value>檢測到多個米遊社帳號。 請先選擇一個帳號再同步抽卡紀錄。</value>
   </data>
   <data name="GachaLogPage_PleaseSelectMiyousheRole" xml:space="preserve">
-    <value>Please select a Miyoushe account first.</value>
+    <value>請先選擇一個米遊社帳號。</value>
   </data>
   <data name="GachaLogPage_PleaseOpenTheGachaRecordsPageInGameAndTryAgain" xml:space="preserve">
     <value>請在遊戲中打開抽卡記錄頁面後再重試。</value>
@@ -2607,93 +2607,102 @@
     <value>遷移到安裝版</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
-    <value>Critical Node: Fourth Frontier</value>
+    <value>劇變節點第四防線</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
-    <value>Critical Node: Fifth Frontier</value>
+    <value>劇變節點第五防線</value>
   </data>
   <data name="ItIsRecommendedToInstallTheVP9VideoExtensionsToReduceCPUUsage" xml:space="preserve">
-    <value>It is recommended to install the VP9 Video Extensions to reduce CPU usage.</value>
+    <value>建議安裝VP9影片擴展, 以降低CPU佔用率。</value>
   </data>
   <data name="ChallengePeakPage_ChallengeAttempts" xml:space="preserve">
-    <value>Challenge Attempts</value>
+    <value>挑戰次數</value>
   </data>
   <data name="ChallengePeakPage_KingInCheckStageRecords" xml:space="preserve">
-    <value>King in Check Stage Records</value>
+    <value>王棋通關戰績</value>
   </data>
   <data name="ChallengePeakPage_Cleared" xml:space="preserve">
-    <value>Cleared</value>
+    <value>已通關</value>
   </data>
   <data name="ChallengePeakPage_NoClearanceRecords" xml:space="preserve">
-    <value>No Clearance Records</value>
+    <value>暫無通關紀錄</value>
   </data>
   <data name="ChallengePeakPage_KnightStageRecords" xml:space="preserve">
-    <value>Knight Stage Records</value>
+    <value>騎士關卡戰績</value>
   </data>
   <data name="GameRecordPage_AnomalyArbitration" xml:space="preserve">
-    <value>Anomaly Arbitration</value>
+    <value>異相仲裁</value>
   </data>
   <data name="AboutSetting_UpdatedToTheLatestVersion" xml:space="preserve">
-    <value>Updated to the latest version.</value>
+    <value>已更新至最新版本。</value>
   </data>
   <data name="GameLauncherPage_PlayPause" xml:space="preserve">
-    <value>Play / Pause</value>
+    <value>播放/暫停</value>
   </data>
   <data name="GameLauncherPage_Gallery" xml:space="preserve">
-    <value>Gallery</value>
+    <value>相簿</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFiles" xml:space="preserve">
-    <value>Delete Duplicate Files</value>
+    <value>刪除重複檔案</value>
   </data>
   <data name="BackgroundViewPage_0DuplicateFileSHasBeenDeleted" xml:space="preserve">
-    <value>{0} duplicate file(s) has been deleted.</value>
+    <value>已刪除{0}個重複檔案。</value>
   </data>
   <data name="Common_All" xml:space="preserve">
-    <value>All</value>
+    <value>全部</value>
   </data>
   <data name="Common_Video" xml:space="preserve">
-    <value>Video</value>
+    <value>影片</value>
   </data>
   <data name="Common_Time" xml:space="preserve">
-    <value>Time</value>
+    <value>時間</value>
   </data>
   <data name="Common_FileSize" xml:space="preserve">
-    <value>File Size</value>
+    <value>檔案大小</value>
   </data>
   <data name="Common_Filter" xml:space="preserve">
-    <value>Filter</value>
+    <value>篩選</value>
   </data>
   <data name="Common_Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>排序</value>
   </data>
   <data name="BackgroundViewPage_DeleteDuplicateFilesTip" xml:space="preserve">
-    <value>Duplicate files are identified based on file data. Some visually similar images will not be removed.</value>
+    <value>刪除重複檔案是基於檔案數據。 部分相似圖片不會被刪除。</value>
   </data>
   <data name="BackgroundViewPage_VP9VideoExtensionsTip" xml:space="preserve">
-    <value>The VP9 Video Extensions does not support certain formats, which may prevent thumbnail generation or proper playback.</value>
+    <value>VP9影片擴展不支持部分格式，可能無法獲取部分影片封面或正常播放。</value>
   </data>
   <data name="AppBackground_ImageDecodingFailed" xml:space="preserve">
-    <value>Image decoding failed</value>
+    <value>圖片解碼失敗</value>
   </data>
   <data name="AppBackground_PleaseInstallTheWebPImageExtension" xml:space="preserve">
-    <value>Please install the WebP Image Extension.</value>
+    <value>請安裝WebP圖片擴展。</value>
   </data>
   <data name="AppBackground_VideoDecodingFailed" xml:space="preserve">
-    <value>Video decoding failed</value>
+    <value>影片解碼失敗</value>
   </data>
   <data name="DailyNoteButton_StarRail_SimulatedUniversePoints" xml:space="preserve">
-    <value>Simulated Universe Points</value>
+    <value>模擬宇宙積分</value>
   </data>
   <data name="DailyNoteButton_StarRail_CurrencyWarsPoints" xml:space="preserve">
-    <value>Currency Wars Points</value>
+    <value>貨幣戰爭積分</value>
   </data>
   <data name="AppBackground_VideoDecodingFailedPleaseInstallTheVP9VideoExtensions" xml:space="preserve">
-    <value>Video decoding failed. Please install the VP9 Video Extensions.</value>
+    <value>影片解碼失敗，請安裝VP9影片擴展。</value>
   </data>
   <data name="GachaLogPage_SyncFromHoYoLAB" xml:space="preserve">
-    <value>Sync from HoYoLAB (Experimental)</value>
+    <value>從HoYoLAB同步（實驗性功能）</value>
   </data>
   <data name="GachaLogPage_SyncAllFromHoYoLAB" xml:space="preserve">
-    <value>Sync All from HoYoLAB (Experimental)</value>
+    <value>從HoYoLAB同步全部（實驗性功能）</value>
+  </data>
+  <data name="AppConfig_AnUnknownIssueOccurredDuringInitialization" xml:space="preserve">
+    <value>初始化過程中發生未知問題。</value>
+  </data>
+  <data name="NoPermissionWindow_NoPermissionToFolderRestartOrClose" xml:space="preserve">
+    <value>程式沒有權限存取以下資料夾。請以系統管理員身分重新啟動，或移動該資料夾。</value>
+  </data>
+  <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
+    <value>以系統管理員身分重新啟動</value>
   </data>
 </root>
