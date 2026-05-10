@@ -1,26 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <Version>0.5.10</Version>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <Version>0.6.1</Version>
     <Authors>Scighost</Authors>
     <Description>Assets of Starward.</Description>
     <PackageProjectUrl>https://github.com/Scighost/Starward/tree/large-resource</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Assets\**">
-      <PackagePath>build\Assets\</PackagePath>
+    <Content Include="Assets\**">
+      <PackagePath>contentFiles\any\any\Assets\</PackagePath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
       <Pack>true</Pack>
-    </None>
-    <None Include="Starward.Assets.targets">
-      <PackagePath>build\</PackagePath>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <Pack>true</Pack>
-    </None>
+    </Content>
   </ItemGroup>
 
 </Project>
