@@ -258,7 +258,7 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
         {
             Console.WriteLine("Compressing portable package...");
             File.Copy($"publish/pub_res/Starward_{arch.ToLower()}.exe", Path.Join(rootPath, "Starward.exe"), true);
-            compressor.CompressDirectory(rootPath, $"publish/release/package/Starward_Portable_{version}_{arch.ToLower()}.7z");
+            compressor.CompressDirectory(Path.GetDirectoryName(rootPath.TrimEnd('/', '\\'))!, $"publish/release/package/Starward_Portable_{version}_{arch.ToLower()}.7z");
         }
         Console.WriteLine("Compression completed.");
         Console.WriteLine("--------------------");
