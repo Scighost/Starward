@@ -6,6 +6,7 @@
 		<LangVersion>preview</LangVersion>
 		<!--<SelfContained>true</SelfContained>-->
 		<!--<ApplicationIcon>logo.ico</ApplicationIcon>-->
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
 		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>

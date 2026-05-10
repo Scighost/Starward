@@ -1,4 +1,5 @@
-﻿using Vanara.PInvoke;
+﻿using System.Runtime.InteropServices;
+using Vanara.PInvoke;
 
 namespace Starward.Setup.Services;
 
@@ -35,7 +36,7 @@ public static class DriveHelper
 
 
 
-    public static bool IsDeviceRemovableOrOnUSB(string path)
+    public static unsafe bool IsDeviceRemovableOrOnUSB(string path)
     {
         try
         {
@@ -50,18 +51,28 @@ public static class DriveHelper
             {
                 return false;
             }
-            Kernel32.STORAGE_PROPERTY_QUERY query = new()
+            STORAGE_PROPERTY_QUERY query = new()
             {
                 PropertyId = Kernel32.STORAGE_PROPERTY_ID.StorageDeviceProperty,
                 QueryType = Kernel32.STORAGE_QUERY_TYPE.PropertyStandardQuery,
             };
-            bool result = Kernel32.DeviceIoControl(hDevice, Kernel32.IOControlCode.IOCTL_STORAGE_QUERY_PROPERTY, query, out Kernel32.STORAGE_DEVICE_DESCRIPTOR_MGD desc);
-            if (result)
+            Span<byte> buffer = stackalloc byte[512];
+            fixed (byte* pBuffer = buffer)
             {
-                if (desc.BusType == Kernel32.STORAGE_BUS_TYPE.BusTypeUsb)
+                bool result = Kernel32.DeviceIoControl(hDevice,
+                                                       Kernel32.IOControlCode.IOCTL_STORAGE_QUERY_PROPERTY,
+                                                       (nint)(&query),
+                                                       (uint)sizeof(STORAGE_PROPERTY_QUERY),
+                                                       (nint)pBuffer,
+                                                       (uint)buffer.Length,
+                                                       out uint bytesReturned,
+                                                       IntPtr.Zero);
+                if (!result || bytesReturned < sizeof(STORAGE_DEVICE_DESCRIPTOR))
                 {
-                    return true;
+                    return false;
                 }
+                STORAGE_DEVICE_DESCRIPTOR* desc = (STORAGE_DEVICE_DESCRIPTOR*)pBuffer;
+                return desc->BusType == Kernel32.STORAGE_BUS_TYPE.BusTypeUsb;
             }
         }
         catch { }
@@ -96,6 +107,35 @@ public static class DriveHelper
             root += '\\';
         }
         return root;
+    }
+
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STORAGE_PROPERTY_QUERY
+    {
+        public Kernel32.STORAGE_PROPERTY_ID PropertyId;
+        public Kernel32.STORAGE_QUERY_TYPE QueryType;
+        public byte AdditionalParameters;
+    }
+
+
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STORAGE_DEVICE_DESCRIPTOR
+    {
+        public uint Version;
+        public uint Size;
+        public byte DeviceType;
+        public byte DeviceTypeModifier;
+        public byte RemovableMedia;
+        public byte CommandQueueing;
+        public uint VendorIdOffset;
+        public uint ProductIdOffset;
+        public uint ProductRevisionOffset;
+        public uint SerialNumberOffset;
+        public Kernel32.STORAGE_BUS_TYPE BusType;
+        public uint RawPropertiesLength;
     }
 
 
