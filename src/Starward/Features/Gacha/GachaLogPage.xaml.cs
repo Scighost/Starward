@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
@@ -25,6 +26,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 
@@ -42,6 +44,13 @@ public sealed partial class GachaLogPage : PageBase
 
 
     private GachaLogService _gachaLogService;
+
+
+    private bool _isDragging;
+
+    private Point _dragStartPoint;
+
+    private double _dragStartHorizontalOffset;
 
 
 
@@ -193,6 +202,57 @@ public sealed partial class GachaLogPage : PageBase
             ScrollViewer_GachaStats.ChangeView(ScrollViewer_GachaStats.HorizontalOffset - delta, null, null);
             e.Handled = true;
         }
+    }
+
+
+
+    private void ScrollViewer_GachaStats_PointerPressed(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is not ScrollViewer scrollViewer) return;
+        // 仅响应左键按下
+        var pointerPoint = e.GetCurrentPoint(scrollViewer);
+        if (!pointerPoint.Properties.IsLeftButtonPressed) return;
+        _isDragging = true;
+        _dragStartPoint = pointerPoint.Position;
+        _dragStartHorizontalOffset = scrollViewer.HorizontalOffset;
+        scrollViewer.CapturePointer(e.Pointer);
+    }
+
+
+
+    private void ScrollViewer_GachaStats_PointerMoved(object sender, PointerRoutedEventArgs e)
+    {
+        if (!_isDragging || sender is not ScrollViewer scrollViewer) return;
+        var pointerPoint = e.GetCurrentPoint(scrollViewer);
+        if (!pointerPoint.Properties.IsLeftButtonPressed) return;
+        // 计算偏移
+        double deltaX = _dragStartPoint.X - pointerPoint.Position.X;
+        double targetOffset = _dragStartHorizontalOffset + deltaX;
+        // 限制滚动边界
+        targetOffset = Math.Max(0, Math.Min(targetOffset, scrollViewer.ScrollableWidth));
+        scrollViewer.ChangeView(targetOffset, null, null, true);
+    }
+
+
+
+    private void ScrollViewer_GachaStats_PointerReleased(object sender, PointerRoutedEventArgs e)
+    {
+        ResetDragState(sender as ScrollViewer, e);
+    }
+
+
+
+    private void ScrollViewer_GachaStats_PointerExited(object sender, PointerRoutedEventArgs e)
+    {
+        ResetDragState(sender as ScrollViewer, e);
+    }
+
+
+
+    private void ResetDragState(ScrollViewer? scrollViewer, PointerRoutedEventArgs e)
+    {
+        _isDragging = false;
+        scrollViewer?.ReleasePointerCapture(e.Pointer);
     }
 
 
