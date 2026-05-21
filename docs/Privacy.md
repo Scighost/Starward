@@ -2,4 +2,4 @@ English | [简体中文](./Privacy.zh-CN.md) | [Tiếng Việt](./Privacy.vi-VN.
 
 # Privacy Policy
 
-All data acquired and generated during your use of Starward is stored on your personal device and we won't collect any information from you.
+All data acquired and generated during your use of Starward is stored exclusively on your personal device. For usage analytics purposes, we only generate and use anonymized statistical identifiers derived from device information, and we do not collect any personal or private information.
