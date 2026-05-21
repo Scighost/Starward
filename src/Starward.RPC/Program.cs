@@ -10,7 +10,9 @@ using Starward.Core.HoYoPlay;
 using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
 using Starward.Setup.Core;
+using Starward.Shared;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Net;
@@ -26,8 +28,13 @@ public static class RpcRunner
 {
 
 
+    public static string MutexAndPipeName => $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppConfig.AppVersion}";
+
     public static void Run(string[] args)
     {
+
+        AppConfig.CheckEnviromentAsync().GetAwaiter().GetResult();
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Configuration["Serilog:MinimumLevel:Override:Microsoft.AspNetCore"] = "Warning";
@@ -47,7 +54,7 @@ public static class RpcRunner
             return;
         }
 
-        using Mutex mutex = new Mutex(true, AppConfig.MutexAndPipeName, out bool createdNew);
+        using Mutex mutex = new Mutex(true, MutexAndPipeName, out bool createdNew);
         if (!createdNew)
         {
             Log.Warning("Another instance is running, exit process!");
@@ -71,7 +78,7 @@ public static class RpcRunner
 
         builder.WebHost.ConfigureKestrel(serverOptions =>
         {
-            serverOptions.ListenNamedPipe(AppConfig.MutexAndPipeName, listenOptions =>
+            serverOptions.ListenNamedPipe(MutexAndPipeName, listenOptions =>
             {
                 listenOptions.Protocols = HttpProtocols.Http2;
             });

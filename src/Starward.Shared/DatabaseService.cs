@@ -1,18 +1,11 @@
 using Dapper;
 using Microsoft.Data.Sqlite;
-using SharpSevenZip;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
 
-namespace Starward.Features.Database;
+namespace Starward.Shared;
 
-internal static class DatabaseService
+public static class DatabaseService
 {
 
 
@@ -87,51 +80,6 @@ internal static class DatabaseService
     }
 
 
-
-    public static void AutoBackupToAppDataLocal()
-    {
-        try
-        {
-#if DEBUG
-            return;
-#endif
-#pragma warning disable CS0162 // 检测到无法访问的代码
-            string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
-#pragma warning restore CS0162 // 检测到无法访问的代码
-            Directory.CreateDirectory(folder);
-            string file = Path.Combine(folder, $"StarwardDatabase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
-            string archive = Path.ChangeExtension(file, ".7z");
-            string archive_tmp = archive + "_tmp";
-            string[] files = Directory.GetFiles(folder, "StarwardDatabase_AutoBackup_*.7z");
-            if (files.Length == 0)
-            {
-                BackupDatabase(file);
-                new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
-                File.Move(archive_tmp, archive, true);
-                File.Delete(file);
-            }
-            else
-            {
-                string last = files.OrderByDescending(File.GetLastWriteTime).First();
-                if (DateTime.Now - File.GetLastWriteTime(last) > TimeSpan.FromDays(7))
-                {
-                    BackupDatabase(file);
-                    new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
-                    File.Move(archive_tmp, archive, true);
-                    File.Delete(file);
-                    File.Delete(last);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
-    }
-
-
-
-
     private class KVT
     {
 
@@ -151,9 +99,6 @@ internal static class DatabaseService
 
         public DateTime Time { get; set; }
     }
-
-
-
 
 
     public static T? GetValue<T>(string key, out DateTime time, T? defaultValue = default)

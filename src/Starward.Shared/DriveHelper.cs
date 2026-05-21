@@ -1,18 +1,19 @@
-using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
-namespace Starward.Helpers;
+namespace Starward.Shared;
 
-internal abstract class DriveHelper
+public static class DriveHelper
 {
-
 
     public static unsafe bool IsDeviceRemovableOrOnUSB(string path)
     {
         try
         {
+            if (!Directory.Exists(path))
+            {
+                return false;
+            }
             DriveInfo drive = new DriveInfo(path);
             if (drive.DriveType is DriveType.Removable)
             {
@@ -53,7 +54,6 @@ internal abstract class DriveHelper
     }
 
 
-
     private static string? GetPathRoot(string path)
     {
         string? root = Path.GetPathRoot(Path.GetFullPath(path));
@@ -74,7 +74,6 @@ internal abstract class DriveHelper
         }
         return (DriveType)Kernel32.GetDriveType(root);
     }
-
 
 
     public static long GetDriveAvailableSpace(string path)
@@ -112,6 +111,30 @@ internal abstract class DriveHelper
         }
     }
 
+
+    public static string GetSizeText(long size)
+    {
+        const double KB = 1 << 10;
+        const double MB = 1 << 20;
+        const double GB = 1 << 30;
+        return size switch
+        {
+            >= (1 << 30) => $"{size / GB:F2} GB",
+            >= (1 << 20) => $"{size / MB:F2} MB",
+            _ => $"{size / KB:F2} KB",
+        };
+    }
+
+
+    public static string GetDriveAvailableSpaceText(string path)
+    {
+        var drive = new DriveInfo(path);
+        if (drive.IsReady)
+        {
+            return GetSizeText(drive.AvailableFreeSpace);
+        }
+        return "-";
+    }
 
 
     [StructLayout(LayoutKind.Sequential)]

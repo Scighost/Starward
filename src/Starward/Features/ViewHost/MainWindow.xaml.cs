@@ -4,14 +4,18 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using SharpSevenZip;
 using Starward.Features.Background;
-using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.Overlay;
 using Starward.Features.Screenshot;
 using Starward.Frameworks;
+using Starward.Shared;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
@@ -147,13 +151,55 @@ public sealed partial class MainWindow : WindowEx
             {
                 Close();
                 AppInstance.GetCurrent().UnregisterKey();
-                Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
+                Task backupTask = Task.Run(AutoBackupToAppDataLocal);
                 Task timeTask = Task.Delay(30000);
                 await Task.WhenAny(backupTask, timeTask);
                 App.Current.Exit();
             }
         }
         catch { }
+    }
+
+
+    public static void AutoBackupToAppDataLocal()
+    {
+        try
+        {
+#if DEBUG
+            return;
+#endif
+#pragma warning disable CS0162 // 检测到无法访问的代码
+            string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
+#pragma warning restore CS0162 // 检测到无法访问的代码
+            Directory.CreateDirectory(folder);
+            string file = Path.Combine(folder, $"StarwardDatabase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
+            string archive = Path.ChangeExtension(file, ".7z");
+            string archive_tmp = archive + "_tmp";
+            string[] files = Directory.GetFiles(folder, "StarwardDatabase_AutoBackup_*.7z");
+            if (files.Length == 0)
+            {
+                DatabaseService.BackupDatabase(file);
+                new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
+                File.Move(archive_tmp, archive, true);
+                File.Delete(file);
+            }
+            else
+            {
+                string last = files.OrderByDescending(File.GetLastWriteTime).First();
+                if (DateTime.Now - File.GetLastWriteTime(last) > TimeSpan.FromDays(7))
+                {
+                    DatabaseService.BackupDatabase(file);
+                    new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
+                    File.Move(archive_tmp, archive, true);
+                    File.Delete(file);
+                    File.Delete(last);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+        }
     }
 
 

@@ -14,6 +14,7 @@
   <Project Path="src/Starward.RPC/Starward.RPC.csproj" />
   <Project Path="src/Starward.Setup.Core/Starward.Setup.Core.csproj" />
   <Project Path="src/Starward.Setup/Starward.Setup.csproj" />
+  <Project Path="src/Starward.Shared/Starward.Shared.csproj" />
   <Project Path="src/Starward/Starward.csproj">
     <Platform Solution="*|Any CPU" Project="x64" />
     <Platform Solution="*|ARM64" Project="ARM64" />

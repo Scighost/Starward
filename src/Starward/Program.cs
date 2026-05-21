@@ -8,14 +8,11 @@ namespace Starward;
 
 #if DISABLE_XAML_GENERATED_MAIN
 
-/// <summary>
-/// Program class
-/// </summary>
 public static class Program
 {
 
 
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.UI.Xaml.Markup.Compiler", " 3.0.0.2411")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.UI.Xaml.Markup.Compiler", " 3.0.0.2602")]
     //[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.STAThreadAttribute]
     static void Main(string[] args)
@@ -33,7 +30,7 @@ public static class Program
 
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
-        string logFile = AppConfig.LogFile;
+        string? logFile = AppConfig.LogFile;
         if (string.IsNullOrWhiteSpace(logFile))
         {
             string logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "log");
@@ -57,5 +54,4 @@ public static class Program
 }
 
 #endif
-
 

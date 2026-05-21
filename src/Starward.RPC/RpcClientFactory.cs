@@ -1,5 +1,6 @@
 using Grpc.Core;
 using Grpc.Net.Client;
+using Starward.Shared;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -17,7 +18,7 @@ public static class RpcClientFactory
 
     public static bool CheckRpcServerRunning()
     {
-        using Mutex mutex = new(true, AppConfig.MutexAndPipeName, out bool createdNew);
+        using Mutex mutex = new(true, GetMutexAndPipeName(), out bool createdNew);
         return !createdNew;
     }
 
@@ -56,7 +57,7 @@ public static class RpcClientFactory
 
     private static GrpcChannel CreateChannel()
     {
-        var connectionFactory = new NamedPipesConnectionFactory(AppConfig.MutexAndPipeName);
+        var connectionFactory = new NamedPipesConnectionFactory(GetMutexAndPipeName());
         var socketsHttpHandler = new SocketsHttpHandler
         {
             ConnectCallback = connectionFactory.ConnectAsync,
@@ -77,6 +78,11 @@ public static class RpcClientFactory
         return (T)Activator.CreateInstance(typeof(T), CreateChannel())!;
     }
 
+
+    private static string GetMutexAndPipeName()
+    {
+        return $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppConfig.AppVersion}";
+    }
 
 
 }

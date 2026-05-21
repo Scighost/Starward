@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Shared;
 using System;
 using System.IO;
 using System.Linq;

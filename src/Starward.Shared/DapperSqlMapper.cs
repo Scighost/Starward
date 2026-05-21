@@ -2,19 +2,14 @@
 using Starward.Core;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Text.Json;
 
-namespace Starward.Features.Database;
+namespace Starward.Shared;
 
 
 internal class DapperSqlMapper
 {
-
-    private static JsonSerializerOptions JsonSerializerOptions = new JsonSerializerOptions { Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping, PropertyNameCaseInsensitive = true };
-
 
     public class DateTimeOffsetHandler : SqlMapper.TypeHandler<DateTimeOffset>
     {
@@ -46,7 +41,7 @@ internal class DapperSqlMapper
             {
                 if (!string.IsNullOrWhiteSpace(str))
                 {
-                    return JsonSerializer.Deserialize<List<TravelersDiaryPrimogemsMonthGroupStats>>(str, JsonSerializerOptions)!;
+                    return JsonSerializer.Deserialize<List<TravelersDiaryPrimogemsMonthGroupStats>>(str)!;
                 }
             }
             return new();
@@ -54,7 +49,7 @@ internal class DapperSqlMapper
 
         public override void SetValue(IDbDataParameter parameter, List<TravelersDiaryPrimogemsMonthGroupStats>? value)
         {
-            parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            parameter.Value = JsonSerializer.Serialize(value);
         }
     }
 
@@ -67,7 +62,7 @@ internal class DapperSqlMapper
             {
                 if (!string.IsNullOrWhiteSpace(str))
                 {
-                    return JsonSerializer.Deserialize<List<TrailblazeCalendarMonthDataGroupBy>>(str, JsonSerializerOptions)!;
+                    return JsonSerializer.Deserialize<List<TrailblazeCalendarMonthDataGroupBy>>(str)!;
                 }
             }
             return new();
@@ -75,7 +70,7 @@ internal class DapperSqlMapper
 
         public override void SetValue(IDbDataParameter parameter, List<TrailblazeCalendarMonthDataGroupBy>? value)
         {
-            parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            parameter.Value = JsonSerializer.Serialize(value);
         }
     }
 
@@ -96,7 +91,7 @@ internal class DapperSqlMapper
 
         public override void SetValue(IDbDataParameter parameter, List<string>? value)
         {
-            parameter.Value = JsonSerializer.Serialize(value, JsonSerializerOptions);
+            parameter.Value = JsonSerializer.Serialize(value);
         }
     }
 

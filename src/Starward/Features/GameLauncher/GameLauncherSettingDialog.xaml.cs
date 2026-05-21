@@ -14,6 +14,7 @@ using Starward.Features.GameSelector;
 using Starward.Features.HoYoPlay;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -2,7 +2,7 @@ using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
-using Starward.Features.Database;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,26 +1,31 @@
 using Microsoft.Win32;
-using Starward.Features.Database;
-using Starward.Features.ViewHost;
-using Starward.Helpers;
+using Starward.Language;
 using Starward.Setup.Core;
-using System;
 using System.Globalization;
-using System.IO;
 using System.Reflection;
-using System.Security.Principal;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 
-namespace Starward;
+namespace Starward.Shared;
 
-public static partial class AppConfig
+public class AppConfig
 {
 
-    public static string? StarwardPortableLauncherExecutePath { get; private set; }
 
-    public static string AppVersion { get; private set; }
+    public static Func<string, Task> ShowNoPermissionWindowAsync { get; set; } = _ => Task.CompletedTask;
+
+    public static Func<Task<bool>> ShowWelcomeWindowAsync { get; set; } = () => Task.FromResult(false);
+
+    public static JsonSerializerOptions JsonSerializerOptions { get; } = new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
+
+    public static string AppVersion { get; private set; } = string.Empty;
+
+    public static bool IsAdmin { get; private set; }
 
     public static InstallType InstallType { get; set; }
 
@@ -30,16 +35,27 @@ public static partial class AppConfig
 
     public static string CacheFolder { get; private set; }
 
-    public static string ConfigPath { get; private set; }
+    public static string? ConfigPath { get; private set; }
+
+    public static string? StarwardLauncherExecutePath { get; private set; }
+
+    public static string? StarwardPortableLauncherExecutePath { get; private set; }
+
+    public static string StarwardExecutePath => Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Starward.exe");
+
+    public static Guid DeviceId { get; private set; }
+
+    public static Guid SessionId { get; private set; }
+
+
+    public const string StartupMagic = "zb8L3ShgFjeyDxeA";
+
 
     public static string? Language { get; set; }
 
     public static string? UserDataFolder { get; set; }
 
-    public static bool IsAdmin { get; private set; }
-
-    public static string LogFile { get; private set; }
-
+    public static string? LogFile { get; set; }
 
     public static bool? EnableLoginAuthTicket { get; set; }
 
@@ -50,11 +66,21 @@ public static partial class AppConfig
 
 
 
+    static AppConfig()
+    {
+        AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
+        string? systemBiosVersion = Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System", "SystemBiosVersion", null) as string;
+        string? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string;
+        DeviceId = new Guid(MD5.HashData(Encoding.UTF8.GetBytes($"{systemBiosVersion}{machineGuid}{Environment.MachineName}")));
+        SessionId = Guid.CreateVersion7();
+    }
+
+
+
     public static async Task CheckEnviromentAsync()
     {
         try
         {
-            AppVersion = typeof(AppConfig).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
             IsAppInRemovableStorage = DriveHelper.IsDeviceRemovableOrOnUSB(AppContext.BaseDirectory);
 
             string? parentFolder = new DirectoryInfo(AppContext.BaseDirectory).Parent?.FullName;
@@ -67,7 +93,7 @@ public static partial class AppConfig
                 StarwardPortableLauncherExecutePath = portableExe;
                 if (!HaveWritePermission(parentFolder))
                 {
-                    await new NoPermissionWindow(parentFolder).WaitAsync();
+                    await ShowNoPermissionWindowAsync(parentFolder);
                     Environment.Exit(0);
                 }
             }
@@ -122,13 +148,13 @@ public static partial class AppConfig
                 }
                 else
                 {
-                    await new NoPermissionWindow(userDataFolder).WaitAsync();
+                    await ShowNoPermissionWindowAsync(userDataFolder);
                     Environment.Exit(0);
                 }
             }
             else
             {
-                if (await new WelcomeWindow().WaitAsync())
+                if (await ShowWelcomeWindowAsync())
                 {
                     LoadConfiguration();
                 }
@@ -146,7 +172,8 @@ public static partial class AppConfig
     }
 
 
-    private static bool HaveWritePermission(string folder)
+
+    public static bool HaveWritePermission(string folder)
     {
         try
         {
@@ -191,13 +218,8 @@ public static partial class AppConfig
         try
         {
             Directory.CreateDirectory(CacheFolder);
-            FileCache.Initialize(Path.Combine(CacheFolder, "cache"));
             var webviewFolder = Path.Combine(CacheFolder, "webview");
             Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", webviewFolder, EnvironmentVariableTarget.Process);
-
-            using WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
-            IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
             if (string.IsNullOrWhiteSpace(ConfigPath))
             {
@@ -307,6 +329,10 @@ public static partial class AppConfig
     {
         try
         {
+            if (string.IsNullOrWhiteSpace(ConfigPath))
+            {
+                return;
+            }
             StringBuilder sb = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(UserDataFolder))
             {
@@ -341,12 +367,6 @@ public static partial class AppConfig
         }
         catch { }
     }
-
-
-
-
-
-
 
 
 

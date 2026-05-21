@@ -21,7 +21,7 @@ using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
 using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
-using Starward.Features.Database;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

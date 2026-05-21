@@ -15,6 +15,7 @@ using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

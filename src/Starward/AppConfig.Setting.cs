@@ -1,8 +1,8 @@
 using Dapper;
 using Starward.Core;
-using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.ViewHost;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace Starward;
 
-public static partial class AppConfig
+public partial class AppConfig : Shared.AppConfig
 {
 
 

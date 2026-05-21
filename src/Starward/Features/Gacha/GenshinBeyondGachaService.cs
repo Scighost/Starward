@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Localization;
-using Starward.Features.Database;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

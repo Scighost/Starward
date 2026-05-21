@@ -5,7 +5,7 @@ using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
-using Starward.Features.Database;
+using Starward.Shared;
 using System;
 using System.Collections.Generic;
 using System.IO;

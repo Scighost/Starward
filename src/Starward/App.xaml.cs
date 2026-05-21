@@ -42,7 +42,7 @@ public partial class App : Application
 
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        string logFile = AppConfig.LogFile;
+        string? logFile = AppConfig.LogFile;
         if (string.IsNullOrWhiteSpace(logFile))
         {
             string logFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Starward", "log");

@@ -4,7 +4,7 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
-using Starward.Helpers;
+using Starward.Shared;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;

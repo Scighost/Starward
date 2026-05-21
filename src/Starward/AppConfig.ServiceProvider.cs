@@ -10,7 +10,6 @@ using Starward.Core.GameRecord;
 using Starward.Core.HoYoPlay;
 using Starward.Core.SelfQuery;
 using Starward.Features.Background;
-using Starward.Features.Database;
 using Starward.Features.Gacha;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameAccount;
@@ -24,6 +23,7 @@ using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Update;
 using Starward.Setup.Core;
+using Starward.Shared;
 using System;
 using System.IO;
 using System.Net;
@@ -31,7 +31,7 @@ using System.Net.Http;
 
 namespace Starward;
 
-public static partial class AppConfig
+public partial class AppConfig : Shared.AppConfig
 {
 
     private static IServiceProvider _serviceProvider;
@@ -52,7 +52,7 @@ public static partial class AppConfig
             var sc = new ServiceCollection();
             sc.AddMemoryCache();
             sc.AddLogging(c => c.AddSerilog(Log.Logger));
-            sc.AddHttpClient().ConfigureHttpClientDefaults(ConfigDefaultHttpClient);
+            sc.AddHttpClient().ConfigureHttpClientDefaults(AppConfigExtension.ConfigDefaultHttpClient);
 
             sc.AddSingleton<HoYoPlayClient>();
             sc.AddSingleton<GameNoticeClient>();
@@ -117,16 +117,24 @@ public static partial class AppConfig
     }
 
 
-    private static void ConfigDefaultHttpClient(this IHttpClientBuilder builder)
+
+
+
+}
+
+
+file static class AppConfigExtension
+{
+    public static void ConfigDefaultHttpClient(this IHttpClientBuilder builder)
     {
         builder.RemoveAllLoggers();
         builder.ConfigureHttpClient(client =>
         {
             client.DefaultRequestHeaders.Clear();
 #if DEBUG
-            client.DefaultRequestHeaders.Add("User-Agent", $"Starward.Debug/{AppVersion}");
+            client.DefaultRequestHeaders.Add("User-Agent", $"Starward.Debug/{AppConfig.AppVersion}");
 #else
-            client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
+            client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppConfig.AppVersion}");
 #endif
             client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         });
@@ -140,20 +148,20 @@ public static partial class AppConfig
     }
 
 
-    private static void ConfigStarwardHttpClient(this IHttpClientBuilder builder)
+    public static void ConfigStarwardHttpClient(this IHttpClientBuilder builder)
     {
         builder.RemoveAllLoggers();
         builder.ConfigureHttpClient(client =>
         {
             client.DefaultRequestHeaders.Clear();
 #if DEBUG
-            client.DefaultRequestHeaders.Add("User-Agent", $"Starward.Debug/{AppVersion}");
+            client.DefaultRequestHeaders.Add("User-Agent", $"Starward.Debug/{AppConfig.AppVersion}");
 #else
-            client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppVersion}");
+            client.DefaultRequestHeaders.Add("User-Agent", $"Starward/{AppConfig.AppVersion}");
 #endif
-            client.DefaultRequestHeaders.Add("X-Sw-Device-Id", DeviceId.ToString());
-            client.DefaultRequestHeaders.Add("X-Sw-Session-Id", SessionId.ToString());
-            client.DefaultRequestHeaders.Add("X-Sw-App-Version", AppVersion);
+            client.DefaultRequestHeaders.Add("X-Sw-Device-Id", AppConfig.DeviceId.ToString());
+            client.DefaultRequestHeaders.Add("X-Sw-Session-Id", AppConfig.SessionId.ToString());
+            client.DefaultRequestHeaders.Add("X-Sw-App-Version", AppConfig.AppVersion);
             client.DefaultRequestHeaders.Add("X-Sw-App-Type", "Desktop");
             client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         });
@@ -165,6 +173,5 @@ public static partial class AppConfig
             PooledConnectionLifetime = TimeSpan.FromMinutes(10),
         });
     }
-
 
 }
