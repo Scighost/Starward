@@ -469,6 +469,17 @@
                               Glyph="&#xE74E;"
                               IsTextScaleFactorEnabled="False" />
                 </Button>
+                <!--  图钉固定  -->
+                <Button Padding="4"
+                        VerticalAlignment="Center"
+                        Command="{x:Bind PinToolbarCommand}"
+                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ToolbarPinTooltip, Mode=OneWay}">
+                    <FontIcon FontSize="16"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Glyph="{x:Bind PinGlyph, Mode=OneWay}"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
                 <!--  播放/暂停  -->
                 <Button Padding="4"
                         Command="{x:Bind StartOrStopVideoBackgroundCommand}"

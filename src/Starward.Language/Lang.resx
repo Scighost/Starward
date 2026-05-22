@@ -2705,4 +2705,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>Restart as Administrator</value>
   </data>
+  <data name="GameLauncherPage_PinToolbar" xml:space="preserve">
+    <value>Pin Toolbar</value>
+  </data>
+  <data name="GameLauncherPage_UnpinToolbar" xml:space="preserve">
+    <value>Unpin Toolbar</value>
+  </data>
 </root>

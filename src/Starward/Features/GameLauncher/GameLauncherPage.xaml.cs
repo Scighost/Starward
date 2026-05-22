@@ -56,6 +56,16 @@ public sealed partial class GameLauncherPage : PageBase
         _dispatchTimer = DispatcherQueue.CreateTimer();
         _dispatchTimer.Interval = TimeSpan.FromMilliseconds(100);
         _dispatchTimer.Tick += UpdateGameInstallTaskProgress;
+        if (AppConfig.ToolbarPinned)
+        {
+            PinGlyph = PinnedGlyph;
+            ToolbarPinTooltip = Lang.GameLauncherPage_UnpinToolbar;
+        }
+        else
+        {
+            PinGlyph = UnpinnedGlyph;
+            ToolbarPinTooltip = Lang.GameLauncherPage_PinToolbar;
+        }
     }
 
 
@@ -834,12 +844,20 @@ public sealed partial class GameLauncherPage : PageBase
 
     private const string PauseIcon = "\uE62E";
 
+    private const string PinnedGlyph = "\uE77A";
+
+    private const string UnpinnedGlyph = "\uE718";
+
 
     public List<GameBackground> BackgroundImages { get; set => SetProperty(ref field, value); }
 
     public bool CanStopVideo { get; set => SetProperty(ref field, value); }
 
     public string StartStopButtonIcon { get; set => SetProperty(ref field, value); }
+
+    public string PinGlyph { get; set => SetProperty(ref field, value); }
+
+    public string ToolbarPinTooltip { get; set => SetProperty(ref field, value); }
 
 
     private int currentBackgroundImageIndex;
@@ -874,6 +892,7 @@ public sealed partial class GameLauncherPage : PageBase
             if (BackgroundImages.Count > 1)
             {
                 Border_SwitchBackgroundImage.Visibility = Visibility.Visible;
+                Border_SwitchBackgroundImage.Opacity = AppConfig.ToolbarPinned ? 1 : 0;
                 GameBackground? currentBackground = await _backgroundService.GetSuggestedGameBackgroundAsync(CurrentGameId);
                 if (currentBackground != null && BackgroundImages.FirstOrDefault(x => x.Id == currentBackground.Id) is GameBackground current)
                 {
@@ -927,7 +946,29 @@ public sealed partial class GameLauncherPage : PageBase
 
     private void Border_SwitchBackgroundImage_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
     {
-        Border_SwitchBackgroundImage.Opacity = 0;
+        if (!AppConfig.ToolbarPinned)
+        {
+            Border_SwitchBackgroundImage.Opacity = 0;
+        }
+    }
+
+
+    [RelayCommand]
+    private void PinToolbar()
+    {
+        AppConfig.ToolbarPinned = !AppConfig.ToolbarPinned;
+        if (AppConfig.ToolbarPinned)
+        {
+            PinGlyph = PinnedGlyph;
+            ToolbarPinTooltip = Lang.GameLauncherPage_UnpinToolbar;
+            Border_SwitchBackgroundImage.Opacity = 1;
+        }
+        else
+        {
+            PinGlyph = UnpinnedGlyph;
+            ToolbarPinTooltip = Lang.GameLauncherPage_PinToolbar;
+            Border_SwitchBackgroundImage.Opacity = 0;
+        }
     }
 
 
@@ -1055,6 +1096,7 @@ public sealed partial class GameLauncherPage : PageBase
         }
         catch { }
     }
+
 
 
     #endregion
