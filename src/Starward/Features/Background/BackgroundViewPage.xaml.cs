@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -160,6 +161,7 @@ public sealed partial class BackgroundViewPage : PageBase
                 });
                 DeleteInfoText = string.Format(Lang.BackgroundViewPage_0DuplicateFileSHasBeenDeleted, count);
                 LoadBackgroundItems();
+                WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
             }
         }
         catch (Exception ex)
@@ -386,6 +388,7 @@ public sealed partial class BackgroundViewPage : PageBase
                 BackgroundImages?.Remove(item);
             }
             UpdateSelectCountText();
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
         }
         catch (UnauthorizedAccessException ex)
         {

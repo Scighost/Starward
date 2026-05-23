@@ -400,3 +400,10 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
+/.claude
+/src/Starward/Starward.csproj.lscache
+/src/Starward.Core/Starward.Core.csproj.lscache
+/src/Starward.Language/Starward.Language.csproj.lscache
+/src/Starward.RPC/Starward.RPC.csproj.lscache
+/src/Starward.Setup/Starward.Setup.csproj.lscache
+/src/Starward.Setup.Core/Starward.Setup.Core.csproj.lscache
