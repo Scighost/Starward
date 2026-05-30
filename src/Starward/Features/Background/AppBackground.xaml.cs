@@ -168,6 +168,8 @@ public sealed partial class AppBackground : UserControl
             {
                 DisposeVideoResource();
                 BackgroundImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Image/UI_CutScene_1130320101A.png"));
+                CurrentGameBackground = null;
+                WeakReferenceMessenger.Default.Send(new BackgroundDisplayedMessage(null));
                 return;
             }
 
@@ -244,14 +246,20 @@ public sealed partial class AppBackground : UserControl
                     _lastBackgroundFile = filePath;
                     _lastScale = this.XamlRoot.GetUIScaleFactor();
                     CurrentGameBackground = gameBackground;
-                    if (!apiCancelled && gameBackground?.Type is not GameBackground.BACKGROUND_TYPE_CUSTOM)
+                    if (!apiCancelled && gameBackground is not null)
                     {
+                        // 记录最后使用的背景（包括自定义背景），用于下次启动、切换游戏或移动显示器时恢复。
                         AppConfig.SetBg(CurrentGameId.GameBiz, Path.GetFileName(filePath));
-                        var list = await _backgroundService.GetGameBackgroundsAsync(CurrentGameId);
-                        AppConfig.SetGameBackgroundIds(CurrentGameId.GameBiz, string.Join(',', list.Select(x => x.Id)));
+                        if (gameBackground.Type is not GameBackground.BACKGROUND_TYPE_CUSTOM)
+                        {
+                            var list = await _backgroundService.GetGameBackgroundsAsync(CurrentGameId);
+                            AppConfig.SetGameBackgroundIds(CurrentGameId.GameBiz, string.Join(',', list.Select(x => x.Id)));
+                        }
                     }
                 }
             }
+            // 通知启动器页面当前实际显示的背景，使播放/暂停按钮状态与之保持一致。
+            WeakReferenceMessenger.Default.Send(new BackgroundDisplayedMessage(CurrentGameBackground));
         }
         catch (OperationCanceledException) { }
         catch (COMException ex) when (ex.HResult == -2003292277)
@@ -357,9 +365,21 @@ public sealed partial class AppBackground : UserControl
 
     private CanvasImageSource? _videoImageSource;
 
-    private int videoBgVolume = AppConfig.VideoBgVolume;
-
     private SemaphoreSlim _videoSemaphore = new SemaphoreSlim(1, 1);
+
+
+    /// <summary>
+    /// 背景视频的实际音量（0-100）。每个游戏区服独立设置，关闭自定义背景时静音。
+    /// </summary>
+    private int GetEffectiveVideoVolume()
+    {
+        if (CurrentGameId is null)
+        {
+            return 0;
+        }
+        var biz = CurrentGameId.GameBiz;
+        return AppConfig.GetEnableCustomBg(biz) ? AppConfig.GetVideoBgVolume(biz) : 0;
+    }
 
 
     private void StartMediaPlayer(string file)
@@ -392,7 +412,7 @@ public sealed partial class AppBackground : UserControl
         _mediaPlayer = new MediaPlayer
         {
             IsLoopingEnabled = true,
-            Volume = videoBgVolume / 100.0,
+            Volume = GetEffectiveVideoVolume() / 100.0,
             IsMuted = false,
             IsVideoFrameServerEnabled = true,
             Source = MediaSource.CreateFromUri(new Uri(file))
@@ -613,8 +633,10 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            videoBgVolume = message.Volume;
-            _mediaPlayer?.Volume = message.Volume / 100d;
+            if (_mediaPlayer is not null)
+            {
+                _mediaPlayer.Volume = message.Volume / 100d;
+            }
         }
         catch { }
     }

@@ -66,12 +66,6 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
-    public static int VideoBgVolume
-    {
-        get => Math.Clamp(GetValue(0), 0, 100);
-        set => SetValue(value);
-    }
-
     [Obsolete("已不用", true)]
     public static bool UseOneBg
     {
@@ -587,6 +581,23 @@ public static partial class AppConfig
     public static void SetGameBackgroundIds(GameBiz biz, string? value)
     {
         SetValue(value, $"game_background_ids_{biz}");
+    }
+
+
+    /// <summary>
+    /// 背景视频音量，每个游戏区服独立设置
+    /// </summary>
+    public static int GetVideoBgVolume(GameBiz biz)
+    {
+        return Math.Clamp(GetValue(0, $"video_bg_volume_{biz}"), 0, 100);
+    }
+
+    /// <summary>
+    /// 背景视频音量，每个游戏区服独立设置
+    /// </summary>
+    public static void SetVideoBgVolume(GameBiz biz, int value)
+    {
+        SetValue(value, $"video_bg_volume_{biz}");
     }
 
 

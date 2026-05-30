@@ -133,6 +133,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     private async void GameLauncherSettingDialog_Loaded(object sender, RoutedEventArgs e)
     {
         CurrentGameBiz = CurrentGameId?.GameBiz ?? GameBiz.None;
+        WeakReferenceMessenger.Default.Register<AccentColorChangedMessage>(this, OnAccentColorChanged);
         CheckCanRepairGame();
         await InitializeBasicInfoAsync();
         InitializeStartArgument();
@@ -143,9 +144,33 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void GameLauncherSettingDialog_Unloaded(object sender, RoutedEventArgs e)
     {
+        WeakReferenceMessenger.Default.UnregisterAll(this);
         LatestPackageGroups = null!;
         PreInstallPackageGroups = null!;
         FlipView_Settings.Items.Clear();
+    }
+
+
+    /// <summary>
+    /// 自定义背景的强调色变化后，刷新对话框自身的视觉树，
+    /// 使“选择”等使用强调色的控件实时生效
+    /// </summary>
+    private void OnAccentColorChanged(object _, AccentColorChangedMessage __)
+    {
+        try
+        {
+            if (this.Content is FrameworkElement ele)
+            {
+                ele.RequestedTheme = ele.ActualTheme switch
+                {
+                    ElementTheme.Light => ElementTheme.Dark,
+                    ElementTheme.Dark => ElementTheme.Light,
+                    _ => ElementTheme.Default,
+                };
+                ele.RequestedTheme = ElementTheme.Default;
+            }
+        }
+        catch { }
     }
 
 
@@ -757,6 +782,19 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     partial void OnEnableCustomBgChanged(bool value)
     {
         AppConfig.SetEnableCustomBg(CurrentGameBiz, value);
+        if (value)
+        {
+            // 启用自定义背景时，将其记录为当前使用的背景。
+            string? customBg = AppConfig.GetCustomBg(CurrentGameBiz);
+            if (!string.IsNullOrWhiteSpace(customBg))
+            {
+                AppConfig.SetBg(CurrentGameBiz, customBg);
+            }
+        }
+        // 音量随自定义背景开关联动：关闭时静音，开启时恢复该游戏的音量。
+        WeakReferenceMessenger.Default.Send(new VideoBgVolumeChangedMessage(value ? _videoBgVolume : 0));
+        OnPropertyChanged(nameof(VideoBgVolume));
+        OnPropertyChanged(nameof(VideoBgVolumeButtonIcon));
         WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
     }
 
@@ -777,7 +815,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         _EnableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
         CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
+        _videoBgVolume = AppConfig.GetVideoBgVolume(CurrentGameBiz);
         OnPropertyChanged(nameof(EnableCustomBg));
+        OnPropertyChanged(nameof(VideoBgVolume));
+        OnPropertyChanged(nameof(VideoBgVolumeButtonIcon));
     }
 
 
@@ -799,6 +840,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             }
             CustomBg = name;
             AppConfig.SetCustomBg(CurrentGameBiz, name);
+            AppConfig.SetBg(CurrentGameBiz, name);
             WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
         }
         catch (COMException ex)
@@ -849,20 +891,27 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
     /// <summary>
-    /// 视频背景音量
+    /// 视频背景音量，每个游戏区服独立设置。关闭自定义背景时显示为 0 且不可调整。
     /// </summary>
+    private int _videoBgVolume;
     public int VideoBgVolume
     {
-        get; set
+        get => EnableCustomBg ? _videoBgVolume : 0;
+        set
         {
-            if (SetProperty(ref field, value))
+            // 关闭自定义背景时不可调整。
+            if (!EnableCustomBg)
+            {
+                return;
+            }
+            if (SetProperty(ref _videoBgVolume, value))
             {
                 OnPropertyChanged(nameof(VideoBgVolumeButtonIcon));
                 WeakReferenceMessenger.Default.Send(new VideoBgVolumeChangedMessage(value));
-                AppConfig.VideoBgVolume = value;
+                AppConfig.SetVideoBgVolume(CurrentGameBiz, value);
             }
         }
-    } = AppConfig.VideoBgVolume;
+    }
 
 
 
@@ -933,6 +982,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 }
                 CustomBg = name;
                 AppConfig.SetCustomBg(CurrentGameBiz, name);
+                AppConfig.SetBg(CurrentGameBiz, name);
                 if (EnableCustomBg)
                 {
                     WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());

@@ -73,6 +73,7 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
         WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        WeakReferenceMessenger.Default.Register<BackgroundDisplayedMessage>(this, OnBackgroundDisplayed);
     }
 
 
@@ -780,6 +781,7 @@ public sealed partial class GameLauncherPage : PageBase
                 }
                 AppConfig.SetCustomBg(CurrentGameBiz, name);
                 AppConfig.SetEnableCustomBg(CurrentGameBiz, true);
+                AppConfig.SetBg(CurrentGameBiz, name);
                 WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
             }
         }
@@ -862,6 +864,43 @@ public sealed partial class GameLauncherPage : PageBase
         {
             _ = InitializeBackgameImageSwitcherAsync();
         }
+    }
+
+
+    /// <summary>
+    /// 避免出现“显示静态海报但仍有播放/暂停按钮”的不一致状态。
+    /// </summary>
+    private void OnBackgroundDisplayed(object _, BackgroundDisplayedMessage message)
+    {
+        try
+        {
+            if (BackgroundImages is null)
+            {
+                return;
+            }
+            GameBackground? actual = message.GameBackground;
+            if (actual is not null && BackgroundImages.FirstOrDefault(x => x.Id == actual.Id) is GameBackground match)
+            {
+                int index = BackgroundImages.IndexOf(match);
+                if (index >= 0 && index != currentBackgroundImageIndex)
+                {
+                    currentBackgroundImageIndex = index;
+                    OnPropertyChanged(nameof(CurrentBackgroundImageIndex));
+                }
+                CanStopVideo = match.Type is GameBackground.BACKGROUND_TYPE_VIDEO;
+                if (CanStopVideo)
+                {
+                    match.StopVideo = actual.StopVideo;
+                    StartStopButtonIcon = actual.StopVideo ? PlayIcon : PauseIcon;
+                }
+            }
+            else
+            {
+                // 当前显示的是静态海报、回退图片或自定义图片等，没有可播放的视频。
+                CanStopVideo = false;
+            }
+        }
+        catch { }
     }
 
 

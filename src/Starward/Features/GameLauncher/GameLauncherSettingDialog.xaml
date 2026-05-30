@@ -568,6 +568,7 @@
                                     Height="32"
                                     Padding="0"
                                     Command="{x:Bind MuteCommand}"
+                                    IsEnabled="{x:Bind EnableCustomBg}"
                                     Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                 <Grid>
                                     <FontIcon FontSize="16"
@@ -579,6 +580,7 @@
                             <Slider Grid.Column="1"
                                     Width="200"
                                     HorizontalAlignment="Left"
+                                    IsEnabled="{x:Bind EnableCustomBg}"
                                     Maximum="100"
                                     Minimum="0"
                                     Value="{x:Bind VideoBgVolume, Mode=TwoWay}" />

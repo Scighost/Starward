@@ -100,12 +100,23 @@ public class BackgroundService
         {
             return null;
         }
-        if (TryGetCustomBgFilePath(gameId, out string? path))
+
+        string? lastBg = AppConfig.GetBg(gameId.GameBiz);
+        string? customBg = AppConfig.GetCustomBg(gameId.GameBiz);
+        if (!(lastBg == customBg && !AppConfig.GetEnableCustomBg(gameId.GameBiz)))
         {
-            return path;
+            string? path = GetBgFilePath(lastBg);
+            if (File.Exists(path))
+            {
+                return path;
+            }
         }
-        path = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
-        return File.Exists(path) ? path : null;
+        // 回退到自定义背景
+        if (TryGetCustomBgFilePath(gameId, out string? custom))
+        {
+            return custom;
+        }
+        return null;
     }
 
 
@@ -136,13 +147,15 @@ public class BackgroundService
 
     public async Task<GameBackground?> GetSuggestedGameBackgroundAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        if (TryGetCustomBgFilePath(gameId, out string? file))
+        string? lastBg = AppConfig.GetBg(gameId.GameBiz);
+        string? customBg = AppConfig.GetCustomBg(gameId.GameBiz);
+        // 上次使用的是自定义背景（或刚启用自定义背景尚未记录），直接返回，无需联网。
+        if (TryGetCustomBgFilePath(gameId, out string? file) && (string.IsNullOrWhiteSpace(lastBg) || lastBg == customBg))
         {
             return GameBackground.FromCustomFile(file);
         }
         List<GameBackground> backgrounds = await GetGameBackgroundsAsync(gameId, cancellationToken);
         GameBackground? bg = null;
-        string? lastBg = AppConfig.GetBg(gameId.GameBiz);
         string? lastBgIds = AppConfig.GetGameBackgroundIds(gameId.GameBiz);
         string firstBgId = backgrounds.FirstOrDefault()?.Id ?? string.Empty;
         if (!string.IsNullOrWhiteSpace(lastBg) && (lastBgIds?.StartsWith(firstBgId) ?? false))
