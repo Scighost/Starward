@@ -46,7 +46,7 @@ public class DownloadService
     protected void RecreateHttpClient()
     {
         string ver = typeof(DownloadService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
-        _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All });
+        _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
         _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Starward.Setup/{ver}");
         _httpClient.DefaultRequestHeaders.Add("X-Sw-Device-Id", DeviceId.ToString());
         _httpClient.DefaultRequestHeaders.Add("X-Sw-Session-Id", SessionId.ToString());
@@ -116,22 +116,18 @@ public class DownloadService
     {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-        Interlocked.Add(ref _downloadBytes, fs.Length);
         if (fs.Length < size)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
                 request.Headers.Range = new RangeHeaderValue(fs.Length, null);
                 var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellation).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
                 if (response.Content.Headers.ContentRange?.From is not null)
                 {
                     fs.Position = response.Content.Headers.ContentRange.From.Value;
-                }
-                else
-                {
-                    Interlocked.Add(ref _downloadBytes, -fs.Length);
+                    Interlocked.Add(ref _downloadBytes, fs.Position);
                 }
                 using var hs = await response.Content.ReadAsStreamAsync(cancellation).ConfigureAwait(false);
                 byte[] buffer = ArrayPool<byte>.Shared.Rent(1 << 16);
@@ -155,6 +151,10 @@ public class DownloadService
                 Interlocked.Add(ref _downloadBytes, -fs.Length);
                 throw;
             }
+        }
+        else
+        {
+            Interlocked.Add(ref _downloadBytes, fs.Length);
         }
     }
 
@@ -195,10 +195,10 @@ public class DownloadService
     {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-        Interlocked.Add(ref _downloadBytes, fs.Length);
         if (fs.Length < size)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            fs.Position = 0;
+            var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
             var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellation).ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             using var hs = await response.Content.ReadAsStreamAsync(cancellation).ConfigureAwait(false);
@@ -210,7 +210,6 @@ public class DownloadService
                 while ((read = await ds.ReadAsync(buffer, cancellation).ConfigureAwait(false)) > 0)
                 {
                     await fs.WriteAsync(buffer.AsMemory(0, read), cancellation).ConfigureAwait(false);
-                    long p = fs.Position;
                     Interlocked.Add(ref _downloadBytes, read);
                 }
                 await fs.FlushAsync(cancellation).ConfigureAwait(false);
@@ -220,11 +219,15 @@ public class DownloadService
                 ArrayPool<byte>.Shared.Return(buffer);
             }
         }
+        else
+        {
+            Interlocked.Add(ref _downloadBytes, fs.Length);
+        }
     }
 
 
 
-    protected void CopySetupFile(string installFolder)
+    protected static void CopySetupFile(string installFolder)
     {
         if (Path.Combine(installFolder, "Starward.Setup.exe") != Environment.ProcessPath)
         {

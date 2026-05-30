@@ -216,7 +216,7 @@ public class UpdateWindow : WindowBase
             }
             catch { }
 
-            if (!await CheckProcessAsync())
+            if (!await CheckProcessAsync(installFolder))
             {
                 ProgressRing_Update.IsVisible = false;
                 Button_Update.IsVisible = true;

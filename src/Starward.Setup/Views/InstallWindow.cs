@@ -1,5 +1,6 @@
 ﻿using Aprillz.MewUI;
 using Aprillz.MewUI.Controls;
+using Microsoft.Win32;
 using SharpCompress.Common;
 using Starward.Setup.Locale;
 using Starward.Setup.Services;
@@ -236,10 +237,31 @@ public class InstallWindow : WindowBase
     protected override void OnLoaded()
     {
         base.OnLoaded();
-        SetInstallFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Starward"));
+        SetDefaultInstallFolder();
         _ = PrepareManifestAsync();
+        if (SilentMode)
+        {
+            StartInstall();
+        }
     }
 
+
+    private void SetDefaultInstallFolder()
+    {
+        try
+        {
+            string? folder = Registry.GetValue(@"HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Starward", "InstallLocation", null) as string;
+            if (!Directory.Exists(folder) || !string.Equals(new DirectoryInfo(folder).Name, "Starward", StringComparison.OrdinalIgnoreCase))
+            {
+                folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Starward");
+            }
+            SetInstallFolder(folder);
+        }
+        catch
+        {
+            SetInstallFolder(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Starward"));
+        }
+    }
 
 
     private async Task PrepareManifestAsync(CancellationToken cancellation = default)
@@ -301,12 +323,17 @@ public class InstallWindow : WindowBase
         const double MB = 1 << 20;
         try
         {
-            if (new DirectoryInfo(InstallFolder.Value).Name is not "Starward")
+            if (!string.Equals(new DirectoryInfo(InstallFolder.Value).Name, "Starward", StringComparison.OrdinalIgnoreCase))
             {
+                if (SilentMode)
+                {
+                    Console.Error.WriteLine("Silent install failed: invalid install folder.");
+                    Environment.Exit(1);
+                }
                 return;
             }
 
-            if (!await CheckProcessAsync())
+            if (!await CheckProcessAsync(InstallFolder.Value))
             {
                 return;
             }
@@ -347,11 +374,23 @@ public class InstallWindow : WindowBase
             await File.WriteAllTextAsync(Path.Combine(InstallFolder.Value, "StarwardInstallFolder"), InstallFolder.Value);
             CreateShortcut();
             ChangeState(InstallState.Finished);
+            if (SilentMode)
+            {
+                Environment.Exit(0);
+            }
         }
         catch (Exception ex)
         {
             ChangeState(InstallState.None);
-            await MessageBox.NotifyAsync($"{Lang.AnErrorOccurredDuringInstallation}:\n{ex.Message}", PromptIconKind.Error, owner: this);
+            if (SilentMode)
+            {
+                Console.Error.WriteLine($"Silent install failed: {ex}");
+                Environment.Exit(1);
+            }
+            else
+            {
+                await MessageBox.NotifyAsync($"{Lang.AnErrorOccurredDuringInstallation}:\n{ex.Message}", PromptIconKind.Error, owner: this);
+            }
         }
     }
 

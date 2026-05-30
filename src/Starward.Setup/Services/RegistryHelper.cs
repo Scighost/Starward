@@ -17,9 +17,8 @@ public static class RegistryHelper
         subkey.SetValue("InstallLocation", folder, RegistryValueKind.String);
         subkey.SetValue("EstimatedSize", (int)(size / 1024), RegistryValueKind.DWord);
         subkey.SetValue("InstallDate", $"{DateTime.Now:yyyyMMdd}", RegistryValueKind.String);
-        subkey.SetValue("UninstallString", $"""
-            "{setupExe}" uninstall
-            """, RegistryValueKind.String);
+        subkey.SetValue("UninstallString", $"\"{setupExe}\" uninstall", RegistryValueKind.String);
+        subkey.SetValue("QuietUninstallString", $"\"{setupExe}\" uninstall /S", RegistryValueKind.String);
     }
 
 

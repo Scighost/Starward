@@ -183,6 +183,11 @@ public class UninstallWindow : WindowBase
             if (!canUninstall)
             {
                 StackPanel_UninstallInfo.Add(new TextBlock().FontSize(14).Text(Lang.UninstallPathCaution).TextWrapping(TextWrapping.Wrap));
+                if (SilentMode)
+                {
+                    Console.Error.WriteLine($"Silent uninstall failed: {Lang.UninstallPathCaution}");
+                    Environment.Exit(1);
+                }
                 return;
             }
 
@@ -214,11 +219,24 @@ public class UninstallWindow : WindowBase
                 {
                     StackPanel_UninstallInfo.Add(new TextBlock().Text(text).TextWrapping(TextWrapping.Wrap));
                 }
+
+                if (SilentMode)
+                {
+                    Console.Error.WriteLine($"Silent uninstall failed: {string.Join(" ", textList)}");
+                    Environment.Exit(1);
+                    return;
+                }
             }
             else
             {
                 UninstallEnabled.Value = true;
                 StackPanel_UninstallInfo.Add(new TextBlock().FontSize(14).Text(Lang.AllFilesCanBeSafelyDeleted).TextWrapping(TextWrapping.Wrap));
+            }
+
+            if (SilentMode)
+            {
+                UninstallEnabled.Value = true;
+                Uninstall();
             }
         }
         catch (Exception ex)
@@ -240,7 +258,7 @@ public class UninstallWindow : WindowBase
     {
         try
         {
-            if (!await CheckProcessAsync())
+            if (!await CheckProcessAsync(Path.GetDirectoryName(Environment.ProcessPath)))
             {
                 return;
             }
@@ -280,6 +298,11 @@ public class UninstallWindow : WindowBase
                 StartClearProcess();
             });
             await Task.Delay(1000);
+
+            if (SilentMode)
+            {
+                Environment.Exit(0);
+            }
 
             StackPanel_UninstallInfo.IsVisible = false;
             ProgressRing_Uninstalling.IsVisible = false;

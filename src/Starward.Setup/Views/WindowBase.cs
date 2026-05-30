@@ -9,6 +9,10 @@ namespace Starward.Setup.Views;
 public class WindowBase : Window
 {
 
+
+    public bool SilentMode { get; } = Environment.GetCommandLineArgs().Any(x => string.Equals(x, "/S", StringComparison.OrdinalIgnoreCase));
+
+
     const double DefaultTitleBarHeight = 32;
 
     const double ButtonWidth = 40;
@@ -172,9 +176,13 @@ public class WindowBase : Window
 
 
 
-    protected async Task<bool> CheckProcessAsync()
+    protected async Task<bool> CheckProcessAsync(string? baseFolder = null)
     {
-        var ps = Process.GetProcessesByName("Starward").Where(p => p.Id != Environment.ProcessId);
+        if (!string.IsNullOrEmpty(baseFolder))
+        {
+            baseFolder = Path.GetFullPath(baseFolder)?.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+        }
+        var ps = Process.GetProcessesByName("Starward").Where(p => p.Id != Environment.ProcessId).Where(x => x.MainModule?.FileName.StartsWith(baseFolder ?? "") ?? true);
         if (ps.Any())
         {
             bool close = await MessageBox.AskYesNoAsync(string.Format(Lang.StarwardIsRunningForceClose, string.Join(",", ps.Select(x => x.Id))), PromptIconKind.Warning, owner: this);
