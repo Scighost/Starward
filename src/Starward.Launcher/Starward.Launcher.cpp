@@ -1,135 +1,154 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 
-#include <iostream>
 #include <filesystem>
+#include <string>
 #include <Windows.h>
 #include "INIReader.h"
 
 #pragma comment(linker, "/subsystem:windows /entry:wmainCRTStartup")
 
-using namespace std::filesystem;
-
-
-//HANDLE stdOut;
-//
-//
-//void Log(std::wstring output)
-//{
-//	if (stdOut)
-//	{
-//		SYSTEMTIME time;
-//		GetSystemTime(&time);
-//		std::wstring timeStr = std::format(L"[{:02}:{:02}:{:02}.{:03}] ", time.wHour, time.wMinute, time.wSecond, time.wMilliseconds);
-//		WriteConsole(stdOut, timeStr.c_str(), timeStr.length(), NULL, NULL);
-//		WriteConsole(stdOut, output.c_str(), output.length(), NULL, NULL);
-//		WriteConsole(stdOut, L"\r\n", 2, NULL, NULL);
-//	}
-//}
-
-
-int wmain(int argc, wchar_t* argv[])
+static std::wstring ArgToCommandLine(int argc, wchar_t *argv[])
 {
-	/*for (size_t i = 0; i < argc; i++)
+	std::wstring result;
+
+	auto append_quoted_arg = [&result](const wchar_t *arg)
 	{
-		if (!wcscmp(argv[i], L"--trace"))
+		std::wstring value = arg ? arg : L"";
+		bool need_quotes = value.empty() || value.find_first_of(L" \t\n\v\r\"") != std::wstring::npos;
+		if (!need_quotes)
 		{
-			AllocConsole();
+			result.append(value);
+			return;
 		}
+
+		result.push_back(L'"');
+		size_t backslash_count = 0;
+		for (wchar_t ch : value)
+		{
+			if (ch == L'\\')
+			{
+				backslash_count++;
+				continue;
+			}
+
+			if (ch == L'"')
+			{
+				result.append(backslash_count * 2 + 1, L'\\');
+				result.push_back(L'"');
+				backslash_count = 0;
+				continue;
+			}
+
+			if (backslash_count > 0)
+			{
+				result.append(backslash_count, L'\\');
+				backslash_count = 0;
+			}
+			result.push_back(ch);
+		}
+
+		if (backslash_count > 0)
+		{
+			result.append(backslash_count * 2, L'\\');
+		}
+		result.push_back(L'"');
+	};
+
+	for (int i = 1; i < argc; i++)
+	{
+		if (!result.empty())
+		{
+			result.push_back(L' ');
+		}
+		append_quoted_arg(argv[i]);
 	}
 
-	stdOut = GetStdHandle(STD_OUTPUT_HANDLE);*/
+	return result;
+}
 
-	std::wstring run_exe;
+int wmain(int argc, wchar_t *argv[])
+{
+	std::filesystem::path run_exe;
 
-	auto base_folder = path(argv[0]).parent_path();
-	auto version = path(base_folder).append("version.ini");
-	if (exists(version))
+	const std::filesystem::path base_folder = std::filesystem::path(argv[0]).parent_path();
+	const std::filesystem::path version_file = base_folder / "version.ini";
+	if (std::filesystem::exists(version_file))
 	{
-		INIReader ini(version.string());
+		INIReader ini(version_file.string());
 		if (ini.ParseError() == 0)
 		{
-			auto exe_path = ini.Get("", "exe_path", "");
-			if (exe_path.length())
+			std::string version_text = ini.Get("", "version", "");
+			if (!version_text.empty())
 			{
-				auto target_exe = path(base_folder).append(exe_path);
-				if (exists(target_exe))
+				std::filesystem::path target_exe = base_folder / ("app-" + version_text) / "Starward.exe";
+				if (std::filesystem::exists(target_exe))
 				{
-					run_exe = target_exe.wstring();
+					run_exe = target_exe;
 				}
 			}
 		}
 	}
-	else
-	{
-		//Log(L"version.ini not found");
-	}
 
-	if (!run_exe.length())
+	if (run_exe.empty())
 	{
-		path target_exe;
-		file_time_type last_time;
-		for (auto folder : directory_iterator(base_folder))
+		std::filesystem::path target_exe;
+		std::filesystem::file_time_type last_time{};
+		bool found = false;
+		for (const std::filesystem::directory_entry &folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
 		{
 			if (folder.is_directory())
 			{
-				auto exe = path(folder).append(L"Starward.exe");
-				if (exists(exe))
+				std::wstring folder_name = folder.path().filename().wstring();
+				if (!folder_name.starts_with(L"app-"))
 				{
-					auto time = last_write_time(exe);
-					if (time > last_time)
+					continue;
+				}
+
+				std::filesystem::path exe = folder.path() / L"Starward.exe";
+				if (std::filesystem::exists(exe))
+				{
+					std::filesystem::file_time_type time = std::filesystem::last_write_time(exe);
+					if (!found || time > last_time)
 					{
 						target_exe = exe;
 						last_time = time;
+						found = true;
 					}
 				}
 			}
 		}
-		run_exe = target_exe.wstring();
+		run_exe = target_exe;
 	}
 
-	//Log(L"run_exe: " + run_exe);
-
-	if (run_exe.length())
+	if (!run_exe.empty())
 	{
-		std::wstring arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
-		//Log(L"arg: " + arg);
-		STARTUPINFO si;
-		PROCESS_INFORMATION pi;
-		ZeroMemory(&si, sizeof(si));
+		std::wstring arg = ArgToCommandLine(argc, argv);
+		STARTUPINFOW si{};
 		si.cb = sizeof(si);
-		ZeroMemory(&pi, sizeof(pi));
-		//Log(L"Starting process");
-		CreateProcess(run_exe.c_str(), (LPWSTR)arg.c_str(), NULL, NULL, false, 0, NULL, NULL, &si, &pi);
-		//Log(std::format(L"Process started ({})", GetProcessId(pi.hProcess)));
-		CloseHandle(pi.hProcess);
-		CloseHandle(pi.hThread);
-
-		auto base_name = path(run_exe).parent_path().filename().wstring();
-		for (auto folder : directory_iterator(base_folder))
+		PROCESS_INFORMATION pi{};
+		if (CreateProcess(run_exe.c_str(), arg.empty() ? NULL : arg.data(), NULL, NULL, false, 0, NULL, NULL, &si, &pi))
 		{
-			auto folder_name = folder.path().filename().wstring();
-			if (folder.is_directory() && folder_name.starts_with(L"app-") && folder_name.compare(base_name))
+			CloseHandle(pi.hProcess);
+			CloseHandle(pi.hThread);
+
+			std::wstring base_name = run_exe.parent_path().filename().wstring();
+			for (const std::filesystem::directory_entry &folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
 			{
-				//Log(std::format(L"Removing old version: {}", folder_name));
-				remove_all(folder);
+				std::wstring folder_name = folder.path().filename().wstring();
+				if (folder.is_directory() && folder_name.starts_with(L"app-") && folder_name != base_name)
+				{
+					std::filesystem::remove_all(folder);
+				}
 			}
 		}
 	}
 	else
 	{
-		//Log(L"Starward.exe not found");
 		SetProcessDPIAware();
-		auto ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
+		int ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
 		if (ok == IDOK)
 		{
 			ShellExecute(NULL, NULL, L"https://github.com/Scighost/Starward", NULL, NULL, SW_SHOWNORMAL);
 		}
 	}
-
-	/*if (stdOut)
-	{
-		Log(L"Wait for 10s to exit...");
-		Sleep(10000);
-	}*/
 }
-

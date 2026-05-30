@@ -220,7 +220,7 @@ if (doCompile)
 
         Console.WriteLine($"Building {archName} release...");
         await Process.Start("dotnet", $"publish src/Starward -c Release -r win-{archName} -o {archPath}/Starward/app-{version} -p:Platform={archName} -p:Version={version}").EnsureExitSuccessAsync();
-        await File.WriteAllTextAsync($"{archPath}/Starward/version.ini", $@"exe_path=app-{version}\Starward.exe");
+        await File.WriteAllTextAsync($"{archPath}/Starward/version.ini", $"version={version}");
     }
 }
 

@@ -12,6 +12,6 @@ dotnet publish src/Starward -c Release -r "win-$Architecture" -o "$Output/app-$V
 
 msbuild src/Starward.Launcher "-property:Configuration=Release;Platform=$Architecture;OutDir=$(Resolve-Path "$Output/")";
 
-Add-Content "$Output/version.ini" -Value "exe_path=app-$Version\Starward.exe";
+Set-Content "$Output/version.ini" -Value "version=$Version";
 
 Remove-Item "$Output/Starward.pdb" -Force;

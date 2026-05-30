@@ -43,7 +43,7 @@ jobs:
         New-Item -Path "build/Starward/" -Type Directory
         msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform;OutDir=$(Resolve-Path "build/Starward/")"
         dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-build.$sha" -p:Platform=$env:Platform -p:Version="0.0.1-build.$sha" -p:DefineConstants=DONOT_CHECK_UPDATE
-        Add-Content "build/Starward/version.ini" -Value "exe_path=app-build.$sha\Starward.exe"
+        Set-Content "build/Starward/version.ini" -Value "version=build.$sha"
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v7
