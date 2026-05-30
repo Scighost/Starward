@@ -31,9 +31,9 @@ jobs:
 
     - name: Setup ossutil
       run: |
-        curl -o ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.2.2/ossutil-2.2.2-linux-amd64.zip
-        unzip ${{runner.temp}}/ossutil-2.2.2-linux-amd64.zip -d ${{runner.temp}}
-        sudo cp ${{runner.temp}}/ossutil-2.2.2-linux-amd64/ossutil /usr/local/bin/ossutil
+        curl -o ${{runner.temp}}/ossutil-2.3.0-linux-amd64.zip https://gosspublic.alicdn.com/ossutil/v2/2.3.0/ossutil-2.3.0-linux-amd64.zip
+        unzip ${{runner.temp}}/ossutil-2.3.0-linux-amd64.zip -d ${{runner.temp}}
+        sudo cp ${{runner.temp}}/ossutil-2.3.0-linux-amd64/ossutil /usr/local/bin/ossutil
         sudo chmod +x /usr/local/bin/ossutil
         ossutil version
 

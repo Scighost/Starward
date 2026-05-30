@@ -78,9 +78,9 @@ jobs:
 
     - name: Setup ossutil
       run: |
-        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.2.0/ossutil-2.2.0-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.3.0/ossutil-2.3.0-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
         Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
-        Move-Item -Path ${{runner.temp}}/ossutil-2.2.0-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
+        Move-Item -Path ${{runner.temp}}/ossutil-2.3.0-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
 
     - name: Upload to OSS
       run: ossutil cp ./build/release/ oss://starward-static/release/ -r -f -j 20

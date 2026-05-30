@@ -5,9 +5,13 @@ on:
   push:
     tags: ["*"]
 
+env:
+  ENABLE_SIGNPATH: ${{ vars.ENABLE_SIGNPATH || 'false' }}
+
 permissions:
   pull-requests: write
   contents: write
+  actions: read
 
 
 jobs:
@@ -34,8 +38,59 @@ jobs:
     - name: Setup MSBuild
       uses: microsoft/setup-msbuild@v3
 
-    - name: Build and Pack (Single Arch)
-      run: dotnet run publish.cs -- --version $env:Version --arch $env:Arch --build-only true
+    - name: Compile App (Single Arch)
+      run: dotnet run publish.cs -- compile --version $env:Version --arch $env:Arch
+
+    - name: Upload unsigned Starward binaries
+      if: env.ENABLE_SIGNPATH == 'true'
+      id: upload-unsigned-bin
+      uses: actions/upload-artifact@v7
+      with:
+        name: unsigned_starward_bin_${{ env.Version }}_${{ env.Arch }}
+        path: |
+          publish/${{ env.Arch }}/Starward/app-${{ env.Version }}/Starward*.exe
+          publish/${{ env.Arch }}/Starward/app-${{ env.Version }}/Starward*.dll
+        if-no-files-found: error
+        retention-days: 7
+
+    - name: Sign Starward binaries with SignPath
+      if: env.ENABLE_SIGNPATH == 'true'
+      uses: signpath/github-action-submit-signing-request@v2
+      with:
+        api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+        organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        github-artifact-id: '${{ steps.upload-unsigned-bin.outputs.artifact-id }}'
+        wait-for-completion: true
+        wait-for-completion-timeout-in-seconds: 3600
+        output-artifact-directory: publish/${{ env.Arch }}/Starward/app-${{ env.Version }}
+
+    - name: Pack (Single Arch, Skip Compile)
+      run: dotnet run publish.cs -- pack --version $env:Version --arch $env:Arch
+
+    - name: Upload unsigned setup artifact
+      if: env.ENABLE_SIGNPATH == 'true'
+      id: upload-unsigned-setup
+      uses: actions/upload-artifact@v7
+      with:
+        name: unsigned_setup_${{ env.Version }}_${{ env.Arch }}
+        path: publish/release/package/Starward_Setup_${{ env.Version }}_${{ env.Arch }}.exe
+        if-no-files-found: error
+        retention-days: 7
+
+    - name: Sign setup with SignPath
+      if: env.ENABLE_SIGNPATH == 'true'
+      uses: signpath/github-action-submit-signing-request@v2
+      with:
+        api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+        organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        github-artifact-id: '${{ steps.upload-unsigned-setup.outputs.artifact-id }}'
+        wait-for-completion: true
+        wait-for-completion-timeout-in-seconds: 3600
+        output-artifact-directory: publish/release/package
 
     - name: Upload Artifact (Compiled, ${{ env.Arch }})
       uses: actions/upload-artifact@v7
@@ -90,7 +145,7 @@ jobs:
         path: publish/release/package/
 
     - name: Build Manifest and Diff (Single Arch)
-      run: dotnet run publish.cs -- --version $env:Version --arch $env:Arch --manifest-only true --diff true
+      run: dotnet run publish.cs -- manifest --version $env:Version --arch $env:Arch --diff true
 
     - name: Upload Artifact (Release Manifest, ${{ env.Arch }})
       uses: actions/upload-artifact@v7
@@ -178,7 +233,7 @@ jobs:
         path: publish/release/file/
 
     - name: Merge release_info
-      run: dotnet run publish.cs -- --version $env:Version --merge-release-info true
+      run: dotnet run publish.cs -- merge --version $env:Version
 
     - name: Upload Artifact (Release Info)
       uses: actions/upload-artifact@v7
@@ -196,9 +251,9 @@ jobs:
 
     - name: Setup ossutil
       run: |
-        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.2.2/ossutil-2.2.2-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.3.0/ossutil-2.3.0-windows-amd64.zip -OutFile ${{runner.temp}}/ossutil.zip
         Expand-Archive -Path ${{runner.temp}}/ossutil.zip -DestinationPath ${{runner.temp}}
-        Move-Item -Path ${{runner.temp}}/ossutil-2.2.2-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
+        Move-Item -Path ${{runner.temp}}/ossutil-2.3.0-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
 
     - name: Upload to OSS
       run: |

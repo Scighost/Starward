@@ -1,9 +1,9 @@
 #:property BuiltInComInteropSupport = true
-#:package Microsoft.Extensions.Configuration.Binder@10.0.7
-#:package Microsoft.Extensions.Configuration.CommandLine@10.0.7
+#:package Microsoft.Extensions.Configuration.Binder@10.0.8
+#:package Microsoft.Extensions.Configuration.CommandLine@10.0.8
 #:package Polly@8.6.6
-#:package SharpSevenZip@2.0.45
-#:package System.IO.Hashing@10.0.7
+#:package SharpSevenZip@2.0.47
+#:package System.IO.Hashing@10.0.8
 #:package ZstdSharp.Port@0.8.8
 #:project src/Starward.Setup.Core/Starward.Setup.Core.csproj
 
@@ -27,15 +27,37 @@ using System.Text.Json.Serialization;
 const string UrlPrefix = "https://starward-static.scighost.com/release";
 
 
-if (args.Length is 0)
+var knownCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 {
-    Console.WriteLine("No parameters input.");
-    return 0;
+    "res",
+    "compile",
+    "pack",
+    "manifest",
+    "merge",
+};
+
+string command = "full";
+string[] optionArgs = args;
+
+if (args.Length > 0 && !args[0].StartsWith('-'))
+{
+    if (knownCommands.Contains(args[0]))
+    {
+        command = args[0].ToLowerInvariant();
+        optionArgs = args[1..];
+    }
+    else
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Error: Unknown subcommand '{args[0]}'. Supported subcommands: res, compile, pack, manifest, merge.");
+        Console.ResetColor();
+        return 0;
+    }
 }
 
-var config = new ConfigurationBuilder().AddCommandLine(args).Build();
+var config = new ConfigurationBuilder().AddCommandLine(optionArgs).Build();
 
-if (string.Equals(args[0], "res", StringComparison.OrdinalIgnoreCase))
+if (string.Equals(command, "res", StringComparison.OrdinalIgnoreCase))
 {
     bool noBuild = config.GetValue<bool>("no-build");
     string tag = config.GetValue<string>("tag") ?? DateTimeOffset.UtcNow.ToString("yyyy.MMdd.HHmm");
@@ -107,20 +129,18 @@ if (string.Equals(args[0], "res", StringComparison.OrdinalIgnoreCase))
 }
 
 string? version = config.GetValue<string>("version");
-bool skipCompile = config.GetValue<bool>("skip-compile");
-bool enableDiff = config.GetValue<bool>("diff");
-string? archOption = config.GetValue<string>("arch");
-bool buildOnly = config.GetValue<bool>("build-only");
-bool manifestOnly = config.GetValue<bool>("manifest-only");
-bool mergeReleaseInfo = config.GetValue<bool>("merge-release-info");
+bool rawEnableDiff = config.GetValue<bool>("diff");
+string? rawArchOption = config.GetValue<string>("arch");
 
-if (buildOnly && manifestOnly)
+bool enableDiff = (string.Equals(command, "manifest", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(command, "full", StringComparison.OrdinalIgnoreCase))
+                && rawEnableDiff;
+
+string? archOption = command switch
 {
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine("Error: --build-only and --manifest-only cannot be used together.");
-    Console.ResetColor();
-    return 0;
-}
+    "compile" or "pack" or "manifest" or "full" => rawArchOption,
+    _ => null,
+};
 
 List<Architecture> targetArchitectures = [];
 if (string.IsNullOrWhiteSpace(archOption))
@@ -148,16 +168,43 @@ if (string.IsNullOrWhiteSpace(version))
     return 0;
 }
 
-if (mergeReleaseInfo)
+bool doCompile = false;
+bool doPackage = false;
+bool doManifest = false;
+bool doMerge = false;
+
+switch (command)
+{
+    case "compile":
+        doCompile = true;
+        break;
+    case "pack":
+        doPackage = true;
+        break;
+    case "manifest":
+        doManifest = true;
+        break;
+    case "merge":
+        doMerge = true;
+        break;
+    case "full":
+        doCompile = true;
+        doPackage = true;
+        doManifest = true;
+        doMerge = true;
+        break;
+    default:
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine($"Error: Unsupported execution mode '{command}'.");
+        Console.ResetColor();
+        return 0;
+}
+
+if (doMerge && !doCompile && !doPackage && !doManifest)
 {
     await MergeReleaseInfoFilesAsync(version, targetArchitectures);
     return 0;
 }
-
-
-bool doCompile = !skipCompile && !manifestOnly;
-bool doPackage = !manifestOnly;
-bool doManifest = !buildOnly;
 
 
 if (doCompile)
@@ -189,7 +236,7 @@ if (doPackage || doManifest)
 string hdiffz = string.Empty;
 if (doManifest)
 {
-    hdiffz = await _client.GetHdiffzAsnyc();
+    hdiffz = await _client.GetHdiffzAsync();
 }
 
 ConcurrentDictionary<string, (string XXHash, string SHA256, string CompressedHash)> _hashCache = new();
@@ -214,7 +261,7 @@ foreach (var arch in targetArchitectures)
 if (doManifest)
 {
     await WritePartialReleaseInfoFilesAsync(version, targetArchitectures, release_info);
-    if (targetArchitectures.Count > 1)
+    if (doMerge)
     {
         await MergeReleaseInfoFilesAsync(version, targetArchitectures);
     }
@@ -910,6 +957,7 @@ public class BuildClient
             response.EnsureSuccessStatusCode();
             using var hs = await response.Content.ReadAsStreamAsync(token);
             await hs.CopyToAsync(fs, token);
+            fs.SetLength(fs.Position);
             fs.Position = 0;
             fileHash = Convert.ToHexStringLower(await SHA256.HashDataAsync(fs, cancellation));
             if (!string.Equals(fileHash, hash, StringComparison.OrdinalIgnoreCase))
@@ -937,6 +985,7 @@ public class BuildClient
             using var hs = await response.Content.ReadAsStreamAsync(token);
             using var zstd = new ZstdSharp.DecompressionStream(hs);
             await zstd.CopyToAsync(fs, token);
+            fs.SetLength(fs.Position);
             fs.Position = 0;
             fileHash = Convert.ToHexStringLower(await SHA256.HashDataAsync(fs, cancellation));
             if (!string.Equals(fileHash, hash, StringComparison.OrdinalIgnoreCase))
@@ -947,7 +996,7 @@ public class BuildClient
     }
 
 
-    public async Task<string> GetHdiffzAsnyc(CancellationToken cancellation = default)
+    public async Task<string> GetHdiffzAsync(CancellationToken cancellation = default)
     {
         try
         {
