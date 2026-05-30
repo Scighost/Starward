@@ -37,63 +37,67 @@ var config = new ConfigurationBuilder().AddCommandLine(args).Build();
 
 if (string.Equals(args[0], "res", StringComparison.OrdinalIgnoreCase))
 {
-    string ver = DateTimeOffset.UtcNow.ToString("yyyy.MMdd.HHmm");
+    bool noBuild = config.GetValue<bool>("no-build");
+    string tag = config.GetValue<string>("tag") ?? DateTimeOffset.UtcNow.ToString("yyyy.MMdd.HHmm");
 
     if (File.Exists("src/Starward.Setup/Assets/Starward.7z"))
     {
         File.Delete("src/Starward.Setup/Assets/Starward.7z");
     }
 
-    Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + @";C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\");
+    if (!noBuild)
+    {
+        Environment.SetEnvironmentVariable("PATH", Environment.GetEnvironmentVariable("PATH") + @";C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\");
 
-    await Process.Start("dotnet", $"publish src/Starward.Setup -o publish/pub_res/ -r win-x64 -p:Version={ver}").EnsureExitSuccessAsync();
-    File.Move("publish/pub_res/Starward.Setup.exe", $"publish/pub_res/Starward.Setup_x64_{ver}.exe", true);
+        await Process.Start("dotnet", $"publish src/Starward.Setup -o publish/pub_res/ -r win-x64 -p:Version={tag}").EnsureExitSuccessAsync();
+        File.Move("publish/pub_res/Starward.Setup.exe", $"publish/pub_res/Starward.Setup_x64_{tag}.exe", true);
 
-    await Process.Start("dotnet", $"publish src/Starward.Setup -o publish/pub_res/ -r win-arm64 -p:Version={ver}").EnsureExitSuccessAsync();
-    File.Move("publish/pub_res/Starward.Setup.exe", $"publish/pub_res/Starward.Setup_arm64_{ver}.exe", true);
+        await Process.Start("dotnet", $"publish src/Starward.Setup -o publish/pub_res/ -r win-arm64 -p:Version={tag}").EnsureExitSuccessAsync();
+        File.Move("publish/pub_res/Starward.Setup.exe", $"publish/pub_res/Starward.Setup_arm64_{tag}.exe", true);
 
-    await Process.Start("msbuild", $"""
-        src/Starward.Launcher -property:Configuration=Release;Platform=x64;Version={ver};OutDir={Path.GetFullPath("publish/pub_res/")}
+        await Process.Start("msbuild", $"""
+        src/Starward.Launcher -property:Configuration=Release;Platform=x64;Version={tag};OutDir={Path.GetFullPath("publish/pub_res/")}
         """).EnsureExitSuccessAsync();
-    File.Move("publish/pub_res/Starward.exe", $"publish/pub_res/Starward_x64_{ver}.exe", true);
+        File.Move("publish/pub_res/Starward.exe", $"publish/pub_res/Starward_x64_{tag}.exe", true);
 
-    await Process.Start("msbuild", $"""
-        src/Starward.Launcher -property:Configuration=Release;Platform=arm64;Version={ver};OutDir={Path.GetFullPath("publish/pub_res/")}
+        await Process.Start("msbuild", $"""
+        src/Starward.Launcher -property:Configuration=Release;Platform=arm64;Version={tag};OutDir={Path.GetFullPath("publish/pub_res/")}
         """).EnsureExitSuccessAsync();
-    File.Move("publish/pub_res/Starward.exe", $"publish/pub_res/Starward_arm64_{ver}.exe", true);
+        File.Move("publish/pub_res/Starward.exe", $"publish/pub_res/Starward_arm64_{tag}.exe", true);
 
-    await Process.Start("upx", $"publish/pub_res/Starward.Setup_x64_{ver}.exe").EnsureExitSuccessAsync();
+        await Process.Start("upx", $"publish/pub_res/Starward.Setup_x64_{tag}.exe").EnsureExitSuccessAsync();
+    }
 
     var buildRes = new BuildResource
     {
-        Tag = ver,
+        Tag = tag,
         SetupX64 = new ReleaseSetup
         {
             FileName = "Starward.Setup.exe",
-            Size = new FileInfo($"publish/pub_res/Starward.Setup_x64_{ver}.exe").Length,
-            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward.Setup_x64_{ver}.exe"))),
-            Url = $"{UrlPrefix}/pub_res/Starward.Setup_x64_{ver}.exe",
+            Size = new FileInfo($"publish/pub_res/Starward.Setup_x64_{tag}.exe").Length,
+            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward.Setup_x64_{tag}.exe"))),
+            Url = $"{UrlPrefix}/pub_res/Starward.Setup_x64_{tag}.exe",
         },
         SetupArm64 = new ReleaseSetup
         {
             FileName = "Starward.Setup.exe",
-            Size = new FileInfo($"publish/pub_res/Starward.Setup_arm64_{ver}.exe").Length,
-            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward.Setup_arm64_{ver}.exe"))),
-            Url = $"{UrlPrefix}/pub_res/Starward.Setup_arm64_{ver}.exe",
+            Size = new FileInfo($"publish/pub_res/Starward.Setup_arm64_{tag}.exe").Length,
+            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward.Setup_arm64_{tag}.exe"))),
+            Url = $"{UrlPrefix}/pub_res/Starward.Setup_arm64_{tag}.exe",
         },
         LauncherX64 = new ReleaseSetup
         {
             FileName = "Starward.exe",
-            Size = new FileInfo($"publish/pub_res/Starward_x64_{ver}.exe").Length,
-            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward_x64_{ver}.exe"))),
-            Url = $"{UrlPrefix}/pub_res/Starward_x64_{ver}.exe",
+            Size = new FileInfo($"publish/pub_res/Starward_x64_{tag}.exe").Length,
+            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward_x64_{tag}.exe"))),
+            Url = $"{UrlPrefix}/pub_res/Starward_x64_{tag}.exe",
         },
         LauncherArm64 = new ReleaseSetup
         {
             FileName = "Starward.exe",
-            Size = new FileInfo($"publish/pub_res/Starward_arm64_{ver}.exe").Length,
-            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward_arm64_{ver}.exe"))),
-            Url = $"{UrlPrefix}/pub_res/Starward_arm64_{ver}.exe",
+            Size = new FileInfo($"publish/pub_res/Starward_arm64_{tag}.exe").Length,
+            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/pub_res/Starward_arm64_{tag}.exe"))),
+            Url = $"{UrlPrefix}/pub_res/Starward_arm64_{tag}.exe",
         }
     };
 

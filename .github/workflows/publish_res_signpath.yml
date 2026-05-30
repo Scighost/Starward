@@ -1,0 +1,86 @@
+name: Publish PubRes With SignPath
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  build-sign-pubres:
+    runs-on: windows-2025-vs2026
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Install UPX
+      shell: pwsh
+      run: |
+        Invoke-WebRequest https://github.com/upx/upx/releases/download/v5.1.1/upx-5.1.1-win64.zip -OutFile $env:RUNNER_TEMP/upx.zip
+        Expand-Archive -Path $env:RUNNER_TEMP/upx.zip -DestinationPath $env:RUNNER_TEMP/upx
+        Move-Item -Path $env:RUNNER_TEMP/upx/upx-5.1.1-win64/upx.exe -Destination C:/Windows/System32/upx.exe -Force
+
+    - name: Build pub_res
+      shell: pwsh
+      run: dotnet run publish.cs -- res
+
+    - name: Detect pub_res tag
+      id: detect-tag
+      shell: pwsh
+      run: |
+        $pubRes = Get-Content -Path "publish/pub_res/pub_res.json" -Raw | ConvertFrom-Json
+        $tag = [string]$pubRes.Tag
+        "tag=$tag" >> $env:GITHUB_OUTPUT
+        Write-Host "Detected tag: $tag"
+
+    - name: Upload unsigned artifact
+      id: upload-unsigned
+      uses: actions/upload-artifact@v7
+      with:
+        name: pub_res_unsigned_${{ steps.detect-tag.outputs.tag }}
+        path: |
+          publish/pub_res/Starward.Setup_x64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward.Setup_arm64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward_x64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward_arm64_${{ steps.detect-tag.outputs.tag }}.exe
+        if-no-files-found: error
+
+    - name: Sign with SignPath
+      uses: signpath/github-action-submit-signing-request@v2
+      with:
+        api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
+        organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
+        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        github-artifact-id: '${{ steps.upload-unsigned.outputs.artifact-id }}'
+        wait-for-completion: true
+        output-artifact-directory: publish/pub_res
+        wait-for-completion-timeout-in-seconds: 3600
+
+    - name: Rebuild pub_res.json from signed files
+      shell: pwsh
+      run: |
+        $tag = "${{ steps.detect-tag.outputs.tag }}"
+        dotnet run publish.cs -- res --tag $tag --no-build true
+
+    - name: Upload signed pub_res artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: pub_res_signed_${{ steps.detect-tag.outputs.tag }}
+        path: |
+          publish/pub_res/Starward.Setup_x64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward.Setup_arm64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward_x64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/Starward_arm64_${{ steps.detect-tag.outputs.tag }}.exe
+          publish/pub_res/pub_res.json
+        if-no-files-found: error
