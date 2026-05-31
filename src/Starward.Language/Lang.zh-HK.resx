@@ -2704,4 +2704,7 @@
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>以系統管理員身份重啟</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>色彩管理</value>
+  </data>
 </root>
