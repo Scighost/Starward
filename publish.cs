@@ -123,7 +123,9 @@ if (string.Equals(command, "res", StringComparison.OrdinalIgnoreCase))
         }
     };
 
-    await File.WriteAllBytesAsync("publish/pub_res/pub_res.json", JsonSerializer.SerializeToUtf8Bytes(buildRes, JsonContext.Default.BuildResource));
+    byte[] buildResJsonBytes = JsonSerializer.SerializeToUtf8Bytes(buildRes, JsonContext.Default.BuildResource);
+    await File.WriteAllBytesAsync("publish/pub_res/pub_res.json", buildResJsonBytes);
+    await File.WriteAllBytesAsync($"publish/pub_res/pub_res_{tag}.json", buildResJsonBytes);
 
     return 0;
 }

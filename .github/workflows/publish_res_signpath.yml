@@ -78,9 +78,27 @@ jobs:
       with:
         name: pub_res_signed_${{ steps.detect-tag.outputs.tag }}
         path: |
+          publish/pub_res/pub_res.json
+          publish/pub_res/pub_res_${{ steps.detect-tag.outputs.tag }}.json
           publish/pub_res/Starward.Setup_x64_${{ steps.detect-tag.outputs.tag }}.exe
           publish/pub_res/Starward.Setup_arm64_${{ steps.detect-tag.outputs.tag }}.exe
           publish/pub_res/Starward_x64_${{ steps.detect-tag.outputs.tag }}.exe
           publish/pub_res/Starward_arm64_${{ steps.detect-tag.outputs.tag }}.exe
-          publish/pub_res/pub_res.json
         if-no-files-found: error
+
+    - name: Setup ossutil
+      if: ${{ vars.ENABLE_PUBRES_UPLOAD == 'true' }}
+      run: |
+        Invoke-WebRequest https://gosspublic.alicdn.com/ossutil/v2/2.3.0/ossutil-2.3.0-windows-amd64.zip -OutFile $env:RUNNER_TEMP/ossutil.zip
+        Expand-Archive -Path $env:RUNNER_TEMP/ossutil.zip -DestinationPath $env:RUNNER_TEMP
+        Move-Item -Path $env:RUNNER_TEMP/ossutil-2.3.0-windows-amd64/ossutil.exe -Destination C:/Windows/System32/ossutil.exe -Force
+        ossutil version
+
+    - name: Upload signed pub_res to OSS
+      if: ${{ vars.ENABLE_PUBRES_UPLOAD == 'true' }}
+      run: |
+        ossutil cp ./publish/pub_res/ oss://starward-static/pub_res/ -r -f -j 20
+      env:
+        OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+        OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+        OSS_REGION: ${{ secrets.OSS_REGION }}

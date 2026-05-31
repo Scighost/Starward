@@ -5,9 +5,6 @@ on:
   push:
     tags: ["*"]
 
-env:
-  ENABLE_SIGNPATH: ${{ vars.ENABLE_SIGNPATH || 'false' }}
-
 permissions:
   pull-requests: write
   contents: write
@@ -42,7 +39,7 @@ jobs:
       run: dotnet run publish.cs -- compile --version $env:Version --arch $env:Arch
 
     - name: Upload unsigned Starward binaries
-      if: env.ENABLE_SIGNPATH == 'true'
+      if: ${{ vars.ENABLE_SIGNPATH == 'true' }}
       id: upload-unsigned-bin
       uses: actions/upload-artifact@v7
       with:
@@ -54,13 +51,13 @@ jobs:
         retention-days: 7
 
     - name: Sign Starward binaries with SignPath
-      if: env.ENABLE_SIGNPATH == 'true'
+      if: ${{ vars.ENABLE_SIGNPATH == 'true' }}
       uses: signpath/github-action-submit-signing-request@v2
       with:
         api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
         organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
-        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
-        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        project-slug: '${{ vars.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}'
         github-artifact-id: '${{ steps.upload-unsigned-bin.outputs.artifact-id }}'
         wait-for-completion: true
         wait-for-completion-timeout-in-seconds: 3600
@@ -70,7 +67,7 @@ jobs:
       run: dotnet run publish.cs -- pack --version $env:Version --arch $env:Arch
 
     - name: Upload unsigned setup artifact
-      if: env.ENABLE_SIGNPATH == 'true'
+      if: ${{ vars.ENABLE_SIGNPATH == 'true' }}
       id: upload-unsigned-setup
       uses: actions/upload-artifact@v7
       with:
@@ -80,13 +77,13 @@ jobs:
         retention-days: 7
 
     - name: Sign setup with SignPath
-      if: env.ENABLE_SIGNPATH == 'true'
+      if: ${{ vars.ENABLE_SIGNPATH == 'true' }}
       uses: signpath/github-action-submit-signing-request@v2
       with:
         api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
         organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
-        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
-        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        project-slug: '${{ vars.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}'
         github-artifact-id: '${{ steps.upload-unsigned-setup.outputs.artifact-id }}'
         wait-for-completion: true
         wait-for-completion-timeout-in-seconds: 3600
