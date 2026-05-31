@@ -65,9 +65,9 @@ Sau đó, tôi muốn gửi lời cảm ơn đặc biệt tới [@neon-nyan](htt
 
 Tiếp theo, xin gửi lời cảm ơn sâu sắc đến nhà phát triển chính của [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). Sự trợ giúp của anh ấy là vô giá trong quá trình phát triển Starward.
 
-Ngoài ra, cảm ơn CloudFlare vì đã cung cấp dịch vụ CDN miễn phí, góp phần mang lại trải nghiệm cập nhật tuyệt vời cho mọi người.
+Ngoài ra, cảm ơn [CloudFlare](https://www.cloudflare.com/) vì đã cung cấp dịch vụ CDN miễn phí và [SignPath Foundation](https://signpath.org/) vì đã cung cấp dịch vụ ký mã miễn phí cho các dự án mã nguồn mở.
 
-<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<img alt="cloudflare" height="72px" src="https://github.com/user-attachments/assets/c1fba88e-4cd1-45df-b681-bf5634215f41" />&nbsp;&nbsp;&nbsp;&nbsp;<img alt="signpath foundation" height="72px" src="https://github.com/user-attachments/assets/052c654a-13fa-4e7a-8f1d-9f57c83f438b" />
 
 Và các [thư viện bên thứ ba](./docs/ThirdParty.md) được sử dụng trong dự án này.
 

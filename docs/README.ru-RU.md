@@ -66,9 +66,9 @@ Starward использует [Crowdin](https://crowdin.com/project/starward) д
 
 Далее, огромная благодарность основному разработчику [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). Его помощь была бесценной в ходе разработки Starward."
 
-Затем, спасибо CloudFlare за предоставление бесплатного CDN.
+Затем, спасибо [CloudFlare](https://www.cloudflare.com/) за предоставление бесплатного CDN и [SignPath Foundation](https://signpath.org/) за предоставление бесплатной подписи кода для проектов с открытым исходным кодом.
 
-<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<img alt="cloudflare" height="72px" src="https://github.com/user-attachments/assets/c1fba88e-4cd1-45df-b681-bf5634215f41" />&nbsp;&nbsp;&nbsp;&nbsp;<img alt="signpath foundation" height="72px" src="https://github.com/user-attachments/assets/052c654a-13fa-4e7a-8f1d-9f57c83f438b" />
 
 А также [сторонние библиотеки](./docs/ThirdParty.md), используемые в этом проекте.
 

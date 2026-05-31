@@ -74,9 +74,9 @@ Then, I want to express my special thanks to [@neon-nyan](https://github.com/neo
 
 Next, a big thanks to the main developer of [Snap Hutao](https://github.com/DGP-Studio/Snap.Hutao), [@Lightczx](https://github.com/Lightczx). His assistance has been invaluable during the development of Starward.
 
-Additionally, thanks CloudFlare for providing free CDN services, contributing to a great update experience for everyone.
+Additionally, thanks [CloudFlare](https://www.cloudflare.com/) for providing free CDN services and [SignPath Foundation](https://signpath.org/) for providing free code signing for open-source projects.
 
-<img alt="cloudflare" width="300px" src="https://user-images.githubusercontent.com/61003590/246605903-f19b5ae7-33f8-41ac-8130-6d0069fde27a.png" />
+<img alt="cloudflare" height="72px" src="https://github.com/user-attachments/assets/c1fba88e-4cd1-45df-b681-bf5634215f41" />&nbsp;&nbsp;&nbsp;&nbsp;<img alt="signpath foundation" height="72px" src="https://github.com/user-attachments/assets/052c654a-13fa-4e7a-8f1d-9f57c83f438b" />
 
 And the [third-party libraries](./docs/ThirdParty.md) used in this project.
 
