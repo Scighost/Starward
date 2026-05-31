@@ -2705,4 +2705,7 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>Riavvia come amministratore</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>Gestione colore</value>
+  </data>
 </root>

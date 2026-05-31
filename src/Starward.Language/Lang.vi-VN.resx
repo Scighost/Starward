@@ -2702,4 +2702,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>Khởi Động Lại Với Quyền Quản Trị Viên</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>Quản lý màu sắc</value>
+  </data>
 </root>

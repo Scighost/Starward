@@ -2703,4 +2703,7 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>Als Administrator neu starten</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>Farbverwaltung</value>
+  </data>
 </root>

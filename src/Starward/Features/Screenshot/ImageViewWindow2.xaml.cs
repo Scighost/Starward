@@ -883,13 +883,16 @@ public sealed partial class ImageViewWindow2 : Window
         {
             displayMode = 2;
         }
-        output = new ColorMatrixEffect
+        if (AppConfig.EnableScreenshotColorManagement)
         {
-            Source = output,
-            ColorMatrix = ToMatrix5x4(ColorPrimaries.GetColorTransferMatrix(ImageColorPrimaries, MonitorColorPrimaries)),
-            ClampOutput = false,
-            BufferPrecision = CanvasBufferPrecision.Precision16Float,
-        };
+            output = new ColorMatrixEffect
+            {
+                Source = output,
+                ColorMatrix = ToMatrix5x4(ColorPrimaries.GetColorTransferMatrix(ImageColorPrimaries, MonitorColorPrimaries)),
+                ClampOutput = false,
+                BufferPrecision = CanvasBufferPrecision.Precision16Float,
+            };
+        }
         return output;
     }
 
@@ -1363,11 +1366,12 @@ public sealed partial class ImageViewWindow2 : Window
 
             using var ms = new MemoryStream();
             string extension = Path.GetExtension(path).ToLowerInvariant();
+            bool writeColorProfile = AppConfig.EnableScreenshotColorManagement;
             Task task = Path.GetExtension(path).ToLowerInvariant() switch
             {
-                ".png" => ImageSaver.SaveAsPngAsync(bitmap, ms, colorPrimaries),
-                ".avif" => ImageSaver.SaveAsAvifAsync(bitmap, ms, colorPrimaries, 90),
-                ".jxl" => ImageSaver.SaveAsJxlAsync(bitmap, ms, colorPrimaries, 1f),
+                ".png" => ImageSaver.SaveAsPngAsync(bitmap, ms, colorPrimaries, null, writeColorProfile),
+                ".avif" => ImageSaver.SaveAsAvifAsync(bitmap, ms, colorPrimaries, 90, null, writeColorProfile),
+                ".jxl" => ImageSaver.SaveAsJxlAsync(bitmap, ms, colorPrimaries, 1f, null, writeColorProfile),
                 ".jpg" => ImageSaver.SaveAsUhdrAsync(bitmap, ms, maxCLL, outputNits),
                 _ => throw new ArgumentOutOfRangeException($"File extension '{extension}' is not supported."),
             };

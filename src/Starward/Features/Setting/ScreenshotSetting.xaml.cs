@@ -263,6 +263,18 @@ public sealed partial class ScreenshotSetting : PageBase
 
 
 
+    public bool EnableScreenshotColorManagement
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableScreenshotColorManagement = value;
+            }
+        }
+    } = AppConfig.EnableScreenshotColorManagement;
+
+
     [RelayCommand]
     private async Task TestCaptureAsync()
     {
@@ -291,6 +303,7 @@ public sealed partial class ScreenshotSetting : PageBase
                 sdrWhiteLevel = (float)colorInfo.SdrWhiteLevelInNits;
                 hdr = maxCLL > sdrWhiteLevel + 5;
             }
+            bool writeColorProfile = EnableScreenshotColorManagement || hdr;
             int quality = ScreenshotQuality switch
             {
                 0 => 80,
@@ -307,7 +320,9 @@ public sealed partial class ScreenshotSetting : PageBase
             };
 
             byte[] xmpData = ScreenCaptureService.BuildXMPMetadata(frameTime);
-            ColorPrimaries colorPrimaries = await ScreenCaptureService.GetColorPrimariesFromDisplayInformationAsync(displayInfo);
+            ColorPrimaries colorPrimaries = writeColorProfile
+                ? await ScreenCaptureService.GetColorPrimariesFromDisplayInformationAsync(displayInfo)
+                : ColorPrimaries.BT709;
             Directory.CreateDirectory(Path.Combine(ScreenshotFolder, "Starward"));
             CanvasRenderTarget? renderTarget = null;
             string extension = ScreenshotForamt switch
@@ -330,19 +345,19 @@ public sealed partial class ScreenshotSetting : PageBase
             }
             else if (canvasBitmap.Format is DirectXPixelFormat.R16G16B16A16Float)
             {
-                using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-                {
-                    Source = canvasBitmap,
-                    InputWhiteLevel = 80,
-                    OutputWhiteLevel = sdrWhiteLevel,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
-                using SrgbGammaEffect gammaEffect = new()
-                {
-                    Source = whiteLevelEffect,
-                    GammaMode = SrgbGammaMode.OETF,
-                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                };
+                    using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                    {
+                        Source = canvasBitmap,
+                        InputWhiteLevel = 80,
+                        OutputWhiteLevel = sdrWhiteLevel,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
+                    using SrgbGammaEffect gammaEffect = new()
+                    {
+                        Source = whiteLevelEffect,
+                        GammaMode = SrgbGammaMode.OETF,
+                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                    };
                 renderTarget = new(CanvasDevice.GetSharedDevice(),
                                    canvasBitmap.SizeInPixels.Width,
                                    canvasBitmap.SizeInPixels.Height,
@@ -368,15 +383,15 @@ public sealed partial class ScreenshotSetting : PageBase
             using MemoryStream ms = new();
             if (extension is "png")
             {
-                await ImageSaver.SaveAsPngAsync(canvasBitmap, ms, colorPrimaries, xmpData);
+                await ImageSaver.SaveAsPngAsync(canvasBitmap, ms, colorPrimaries, xmpData, writeColorProfile);
             }
             else if (extension is "avif")
             {
-                await ImageSaver.SaveAsAvifAsync(canvasBitmap, ms, colorPrimaries, quality, xmpData);
+                await ImageSaver.SaveAsAvifAsync(canvasBitmap, ms, colorPrimaries, quality, xmpData, writeColorProfile);
             }
             else if (extension is "jxl")
             {
-                await ImageSaver.SaveAsJxlAsync(canvasBitmap, ms, colorPrimaries, distance, xmpData);
+                await ImageSaver.SaveAsJxlAsync(canvasBitmap, ms, colorPrimaries, distance, xmpData, writeColorProfile);
             }
             else
             {

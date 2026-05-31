@@ -131,9 +131,14 @@ internal class ScreenCaptureService
         DateTimeOffset frameTime = DateTimeOffset.Now;
         (CanvasBitmap canvasBitmap, float maxCLL) = await ProceedImageAsync(frame, runningGame, colorInfo).ConfigureAwait(false);
         ColorPrimaries colorPrimaries;
-        if (maxCLL > colorInfo.SdrWhiteLevelInNits + 5)
+        bool hdr = maxCLL > colorInfo.SdrWhiteLevelInNits + 5;
+        if (hdr)
         {
             colorPrimaries = ColorPrimaries.BT2020;
+        }
+        else if (!AppConfig.EnableScreenshotColorManagement)
+        {
+            colorPrimaries = ColorPrimaries.BT709;
         }
         else
         {
@@ -302,6 +307,7 @@ internal class ScreenCaptureService
             string fileName = $"{runningGame.Process.ProcessName}_{captureItem.FrameTime:yyyyMMdd_HHmmssff}.{extension}";
             string filePath = Path.Combine(screenshotFolder, fileName);
             byte[] xmpData = BuildXMPMetadata(captureItem.FrameTime);
+            bool writeColorProfile = AppConfig.EnableScreenshotColorManagement || captureItem.HDR;
 
             using MemoryStream ms = new();
             await _encodeSlim.WaitAsync().ConfigureAwait(false);
@@ -309,7 +315,10 @@ internal class ScreenCaptureService
             {
                 if (extension is "png")
                 {
-                    await ImageSaver.SaveAsPngAsync(captureItem.CanvasBitmap, ms, captureItem.ColorPrimaries, xmpData).ConfigureAwait(false);
+                    ColorPrimaries colorPrimaries = (!captureItem.HDR && !AppConfig.EnableScreenshotColorManagement)
+                        ? ColorPrimaries.BT709
+                        : captureItem.ColorPrimaries;
+                    await ImageSaver.SaveAsPngAsync(captureItem.CanvasBitmap, ms, colorPrimaries, xmpData, writeColorProfile).ConfigureAwait(false);
                 }
                 else if (extension is "avif")
                 {
@@ -320,7 +329,10 @@ internal class ScreenCaptureService
                         2 => 100,
                         _ => 90,
                     };
-                    await ImageSaver.SaveAsAvifAsync(captureItem.CanvasBitmap, ms, captureItem.ColorPrimaries, quality, xmpData).ConfigureAwait(false);
+                    ColorPrimaries colorPrimaries = (!captureItem.HDR && !AppConfig.EnableScreenshotColorManagement)
+                        ? ColorPrimaries.BT709
+                        : captureItem.ColorPrimaries;
+                    await ImageSaver.SaveAsAvifAsync(captureItem.CanvasBitmap, ms, colorPrimaries, quality, xmpData, writeColorProfile).ConfigureAwait(false);
                 }
                 else if (extension is "jxl")
                 {
@@ -331,7 +343,10 @@ internal class ScreenCaptureService
                         2 => 0,
                         _ => 1,
                     };
-                    await ImageSaver.SaveAsJxlAsync(captureItem.CanvasBitmap, ms, captureItem.ColorPrimaries, distance, xmpData).ConfigureAwait(false);
+                    ColorPrimaries colorPrimaries = (!captureItem.HDR && !AppConfig.EnableScreenshotColorManagement)
+                        ? ColorPrimaries.BT709
+                        : captureItem.ColorPrimaries;
+                    await ImageSaver.SaveAsJxlAsync(captureItem.CanvasBitmap, ms, colorPrimaries, distance, xmpData, writeColorProfile).ConfigureAwait(false);
                 }
                 else
                 {

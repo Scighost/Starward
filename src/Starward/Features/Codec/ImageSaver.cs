@@ -45,7 +45,7 @@ internal static class ImageSaver
 
 
 
-    public static async Task SaveAsPngAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, byte[]? xmpData = null)
+    public static async Task SaveAsPngAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         uint width = bitmap.SizeInPixels.Width;
         uint height = bitmap.SizeInPixels.Height;
@@ -53,7 +53,7 @@ internal static class ImageSaver
         if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized or DirectXPixelFormat.B8G8R8A8UIntNormalized)
         {
             byte[] pixelBytes = bitmap.GetPixelBytes();
-            await SaveAsPngAsync(stream, width, height, bitmap.Format, pixelBytes, colorPrimaries, xmpData).ConfigureAwait(false);
+            await SaveAsPngAsync(stream, width, height, bitmap.Format, pixelBytes, colorPrimaries, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
         {
@@ -68,7 +68,7 @@ internal static class ImageSaver
                 ds.DrawImage(effect);
             }
             byte[] pixelBytes = renderTarget.GetPixelBytes();
-            await SaveAsPngAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, xmpData).ConfigureAwait(false);
+            await SaveAsPngAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else
         {
@@ -77,7 +77,7 @@ internal static class ImageSaver
     }
 
 
-    public static async Task SaveAsPngAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, byte[]? xmpData = null)
+    public static async Task SaveAsPngAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         BitmapPixelFormat format = pixelFormat switch
         {
@@ -93,43 +93,46 @@ internal static class ImageSaver
         PngChunk? chrmChunk = null;
         PngChunk? itxtChunk = null;
 
-        if (colorPrimaries.TryGetDefinedPrimaries(out int id))
+        if (writeColorProfile)
         {
-            if (id == 1)
+            if (colorPrimaries.TryGetDefinedPrimaries(out int id))
             {
-                srgbChunk = new PngChunk(1, PngChunkType.sRGB);
+                if (id == 1)
+                {
+                    srgbChunk = new PngChunk(1, PngChunkType.sRGB);
+                }
+                cicpChunk = new PngChunk(4, PngChunkType.cICP);
+                ref PngcICPChunk cicp = ref cicpChunk.GetcICPChunk();
+                cicp.ColorPrimaries = (byte)id;
+                cicp.TransferFunction = (byte)(id == 9 ? 16 : 13);
+                cicp.MatrixCoefficients = 0;
+                cicp.FullRangeFlag = 1;
+                cicpChunk.UpdateCrc32();
             }
-            cicpChunk = new PngChunk(4, PngChunkType.cICP);
-            ref PngcICPChunk cicp = ref cicpChunk.GetcICPChunk();
-            cicp.ColorPrimaries = (byte)id;
-            cicp.TransferFunction = (byte)(id == 9 ? 16 : 13);
-            cicp.MatrixCoefficients = 0;
-            cicp.FullRangeFlag = 1;
-            cicpChunk.UpdateCrc32();
-        }
-        else
-        {
-            chrmChunk = new PngChunk(32, PngChunkType.cHRM);
-            ref PngcHRMChunk chrm = ref chrmChunk.GetcHRMChunk();
-            chrm.WhitePointX = colorPrimaries.White.X;
-            chrm.WhitePointY = colorPrimaries.White.Y;
-            chrm.RedX = colorPrimaries.Red.X;
-            chrm.RedY = colorPrimaries.Red.Y;
-            chrm.GreenX = colorPrimaries.Green.X;
-            chrm.GreenY = colorPrimaries.Green.Y;
-            chrm.BlueX = colorPrimaries.Blue.X;
-            chrm.BlueY = colorPrimaries.Blue.Y;
-            chrmChunk.UpdateCrc32();
+            else
+            {
+                chrmChunk = new PngChunk(32, PngChunkType.cHRM);
+                ref PngcHRMChunk chrm = ref chrmChunk.GetcHRMChunk();
+                chrm.WhitePointX = colorPrimaries.White.X;
+                chrm.WhitePointY = colorPrimaries.White.Y;
+                chrm.RedX = colorPrimaries.Red.X;
+                chrm.RedY = colorPrimaries.Red.Y;
+                chrm.GreenX = colorPrimaries.Green.X;
+                chrm.GreenY = colorPrimaries.Green.Y;
+                chrm.BlueX = colorPrimaries.Blue.X;
+                chrm.BlueY = colorPrimaries.Blue.Y;
+                chrmChunk.UpdateCrc32();
 
-            using var iccdata = new MemoryStream();
-            using var zlib = new ZLibStream(iccdata, CompressionMode.Compress);
-            zlib.Write(ICCHelper.CreateIccData(colorPrimaries));
-            zlib.Flush();
-            Span<byte> chunkContent = new byte[13 + iccdata.Length];
-            "ICC Profile"u8.CopyTo(chunkContent);
-            iccdata.Position = 0;
-            iccdata.ReadExactly(chunkContent[13..]);
-            iccpChunk = new PngChunk(PngChunkType.iCCP, chunkContent);
+                using var iccdata = new MemoryStream();
+                using var zlib = new ZLibStream(iccdata, CompressionMode.Compress);
+                zlib.Write(ICCHelper.CreateIccData(colorPrimaries));
+                zlib.Flush();
+                Span<byte> chunkContent = new byte[13 + iccdata.Length];
+                "ICC Profile"u8.CopyTo(chunkContent);
+                iccdata.Position = 0;
+                iccdata.ReadExactly(chunkContent[13..]);
+                iccpChunk = new PngChunk(PngChunkType.iCCP, chunkContent);
+            }
         }
         if (xmpData is not null)
         {
@@ -179,7 +182,11 @@ internal static class ImageSaver
                 }
                 write = true;
             }
-            if (currentChunk.Type != PngChunkType.sRGB && currentChunk.Type != PngChunkType.gAMA)
+            if (currentChunk.Type != PngChunkType.sRGB
+                && currentChunk.Type != PngChunkType.gAMA
+                && currentChunk.Type != PngChunkType.cICP
+                && currentChunk.Type != PngChunkType.iCCP
+                && currentChunk.Type != PngChunkType.cHRM)
             {
                 stream.Write(currentChunk.ChunkData.Span);
             }
@@ -191,7 +198,7 @@ internal static class ImageSaver
 
 
 
-    public static async Task SaveAsAvifAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, int quality, byte[]? xmpData = null)
+    public static async Task SaveAsAvifAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, int quality, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         uint width = bitmap.SizeInPixels.Width;
         uint height = bitmap.SizeInPixels.Height;
@@ -199,7 +206,7 @@ internal static class ImageSaver
         if (bitmap.Format is DirectXPixelFormat.R8G8B8A8UIntNormalized or DirectXPixelFormat.B8G8R8A8UIntNormalized)
         {
             byte[] pixelBytes = bitmap.GetPixelBytes();
-            await SaveAsAvifAsync(stream, width, height, bitmap.Format, pixelBytes, colorPrimaries, quality, xmpData).ConfigureAwait(false);
+            await SaveAsAvifAsync(stream, width, height, bitmap.Format, pixelBytes, colorPrimaries, quality, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
         {
@@ -214,7 +221,7 @@ internal static class ImageSaver
                 ds.DrawImage(effect);
             }
             byte[] pixelBytes = renderTarget.GetPixelBytes();
-            await SaveAsAvifAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, quality, xmpData).ConfigureAwait(false);
+            await SaveAsAvifAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, quality, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else
         {
@@ -223,7 +230,7 @@ internal static class ImageSaver
     }
 
 
-    public static async Task SaveAsAvifAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, int quality, byte[]? xmpData = null)
+    public static async Task SaveAsAvifAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, int quality, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         quality = Math.Clamp(quality, 0, 100);
         bool floatPixel = pixelFormat is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float;
@@ -257,7 +264,7 @@ internal static class ImageSaver
             rgb.SetPixelBytes(pixelBytes);
             using var image = new avifImageWrapper(width, height, Math.Clamp(depth, 8, 12), avifPixelFormat.YUV444);
 
-            if (colorPrimaries.TryGetDefinedPrimaries(out int id))
+            if (writeColorProfile && colorPrimaries.TryGetDefinedPrimaries(out int id))
             {
                 if (id == 9)
                 {
@@ -272,12 +279,18 @@ internal static class ImageSaver
                     image.MatrixCoefficients = avifMatrixCoefficients.BT709;
                 }
             }
-            else
+            else if (writeColorProfile)
             {
                 image.ColorPrimaries = avifColorPrimaries.Unspecified;
                 image.TransferCharacteristics = avifTransferCharacteristics.Unspecified;
                 image.MatrixCoefficients = avifMatrixCoefficients.Unspecified;
                 image.SetProfileICC(ICCHelper.CreateIccData(colorPrimaries));
+            }
+            else
+            {
+                image.ColorPrimaries = avifColorPrimaries.Unspecified;
+                image.TransferCharacteristics = avifTransferCharacteristics.Unspecified;
+                image.MatrixCoefficients = avifMatrixCoefficients.Unspecified;
             }
 
             if (xmpData is not null)
@@ -293,7 +306,7 @@ internal static class ImageSaver
 
 
 
-    public static async Task SaveAsJxlAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, float distance, byte[]? xmpData = null)
+    public static async Task SaveAsJxlAsync(CanvasBitmap bitmap, Stream stream, ColorPrimaries colorPrimaries, float distance, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         uint width = bitmap.SizeInPixels.Width;
         uint height = bitmap.SizeInPixels.Height;
@@ -314,7 +327,7 @@ internal static class ImageSaver
             {
                 pixelBytes = bitmap.GetPixelBytes();
             }
-            await SaveAsJxlAsync(stream, width, height, DirectXPixelFormat.R8G8B8A8UIntNormalized, pixelBytes, colorPrimaries, distance, xmpData).ConfigureAwait(false);
+            await SaveAsJxlAsync(stream, width, height, DirectXPixelFormat.R8G8B8A8UIntNormalized, pixelBytes, colorPrimaries, distance, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else if (bitmap.Format is DirectXPixelFormat.R16G16B16A16Float or DirectXPixelFormat.R32G32B32A32Float)
         {
@@ -329,7 +342,7 @@ internal static class ImageSaver
                 ds.DrawImage(effect);
             }
             byte[] pixelBytes = renderTarget.GetPixelBytes();
-            await SaveAsJxlAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, distance, xmpData).ConfigureAwait(false);
+            await SaveAsJxlAsync(stream, width, height, DirectXPixelFormat.R16G16B16A16UIntNormalized, pixelBytes, ColorPrimaries.BT2020, distance, xmpData, writeColorProfile).ConfigureAwait(false);
         }
         else
         {
@@ -338,7 +351,7 @@ internal static class ImageSaver
     }
 
 
-    public static async Task SaveAsJxlAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, float distance, byte[]? xmpData = null)
+    public static async Task SaveAsJxlAsync(Stream stream, uint width, uint height, DirectXPixelFormat pixelFormat, byte[] pixelBytes, ColorPrimaries colorPrimaries, float distance, byte[]? xmpData = null, bool writeColorProfile = true)
     {
         distance = Math.Clamp(distance, 0, 25);
         bool lossless = distance == 0;
@@ -361,39 +374,45 @@ internal static class ImageSaver
         };
 
         JxlColorEncoding colorEncoding = default;
-        if (colorPrimaries.TryGetDefinedPrimaries(out int id))
+        if (writeColorProfile)
         {
-            if (id == 9)
+            if (colorPrimaries.TryGetDefinedPrimaries(out int id))
             {
-                colorEncoding = JxlColorEncoding.HDR10;
+                if (id == 9)
+                {
+                    colorEncoding = JxlColorEncoding.HDR10;
+                }
+                else
+                {
+                    colorEncoding.Primaries = (JxlPrimaries)id;
+                    colorEncoding.TransferFunction = JxlTransferFunction.sRGB;
+                }
+                colorEncoding.WhitePoint = JxlWhitePoint.D65;
             }
             else
             {
-                colorEncoding.Primaries = (JxlPrimaries)id;
+                colorEncoding.Primaries = JxlPrimaries.Custom;
+                colorEncoding.PrimariesRedXY = new JxlPoint(colorPrimaries.Red.X, colorPrimaries.Red.Y);
+                colorEncoding.PrimariesGreenXY = new JxlPoint(colorPrimaries.Green.X, colorPrimaries.Green.Y);
+                colorEncoding.PrimariesBlueXY = new JxlPoint(colorPrimaries.Blue.X, colorPrimaries.Blue.Y);
+                colorEncoding.WhitePoint = JxlWhitePoint.Custom;
+                colorEncoding.WhitePointXY = new JxlPoint(colorPrimaries.White.X, colorPrimaries.White.Y);
                 colorEncoding.TransferFunction = JxlTransferFunction.sRGB;
             }
-            colorEncoding.WhitePoint = JxlWhitePoint.D65;
-        }
-        else
-        {
-            colorEncoding.Primaries = JxlPrimaries.Custom;
-            colorEncoding.PrimariesRedXY = new JxlPoint(colorPrimaries.Red.X, colorPrimaries.Red.Y);
-            colorEncoding.PrimariesGreenXY = new JxlPoint(colorPrimaries.Green.X, colorPrimaries.Green.Y);
-            colorEncoding.PrimariesBlueXY = new JxlPoint(colorPrimaries.Blue.X, colorPrimaries.Blue.Y);
-            colorEncoding.WhitePoint = JxlWhitePoint.Custom;
-            colorEncoding.WhitePointXY = new JxlPoint(colorPrimaries.White.X, colorPrimaries.White.Y);
-            colorEncoding.TransferFunction = JxlTransferFunction.sRGB;
-        }
-        if (floatPixel)
-        {
-            colorEncoding.TransferFunction = JxlTransferFunction.Linear;
+            if (floatPixel)
+            {
+                colorEncoding.TransferFunction = JxlTransferFunction.Linear;
+            }
         }
 
         await Task.Run(() =>
         {
             using var encoder = new JxlEncoder();
             encoder.SetBasicInfo(new JxlBasicInfo(width, height, format, true) { UsesOriginalProfile = lossless });
-            encoder.SetColorEncoding(colorEncoding);
+            if (writeColorProfile)
+            {
+                encoder.SetColorEncoding(colorEncoding);
+            }
             if (xmpData is not null)
             {
                 encoder.AddBox(JxlBoxType.XMP, xmpData, false);

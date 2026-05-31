@@ -352,6 +352,15 @@ public static partial class AppConfig
     }
 
     /// <summary>
+    /// 截图链路色彩管理（HDR 模式始终启用）
+    /// </summary>
+    public static bool EnableScreenshotColorManagement
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
+    /// <summary>
     /// 0: PNG, 1: AVIF, 2: JPEG XL
     /// </summary>
     public static int ScreenCaptureSavedFormat
