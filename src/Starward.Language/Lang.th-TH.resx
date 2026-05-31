@@ -2699,4 +2699,7 @@
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>เริ่มต้นใหม่ในฐานะผู้ดูแลระบบ</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>การจัดการสี</value>
+  </data>
 </root>
