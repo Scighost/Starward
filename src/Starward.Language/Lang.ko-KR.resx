@@ -2705,4 +2705,7 @@
   <data name="NoPermissionWindow_RestartAsAdministrator" xml:space="preserve">
     <value>관리자로 다시 시작</value>
   </data>
+  <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
+    <value>색상 관리</value>
+  </data>
 </root>
