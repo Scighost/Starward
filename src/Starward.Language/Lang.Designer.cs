@@ -2079,6 +2079,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Delete Cache Folder 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_DeleteCacheFolder {
+            get {
+                return ResourceManager.GetString("GachaLogPage_DeleteCacheFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Deleted {0} gacha record(s) of UID {1}. 的本地化字符串。
         /// </summary>
         public static string GachaLogPage_DeletedGachaRecordsOfUid {
@@ -2237,6 +2246,15 @@ namespace Starward.Language {
         public static string GachaLogPage_PleaseSelectMiyousheRole {
             get {
                 return ResourceManager.GetString("GachaLogPage_PleaseSelectMiyousheRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Restart game after deleting the cache folder. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_RestartGameAfterDeletingTheCacheFolder {
+            get {
+                return ResourceManager.GetString("GachaLogPage_RestartGameAfterDeletingTheCacheFolder", resourceCulture);
             }
         }
         
@@ -5891,9 +5909,9 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 - Open menu in game.
-        ///- Click Feedback (Genshin) or Bug Report (Star Rail).
-        ///- Copy the URL of web and paste into the box below. 的本地化字符串。
+        ///   查找类似 - Open menu in game and click the feedback button
+        ///- In the service center, go to currency records (Genshin) or self-query (other) page
+        ///- Copy the link of the page and paste it into the box below 的本地化字符串。
         /// </summary>
         public static string SelfQueryPage_InputURLSteps {
             get {
@@ -5911,7 +5929,7 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Steps to get URL: 的本地化字符串。
+        ///   查找类似 Steps to get the link: 的本地化字符串。
         /// </summary>
         public static string SelfQueryPage_StepsToGetURL {
             get {

@@ -2708,4 +2708,10 @@
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>色彩管理</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>删除缓存文件夹后重启游戏</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>删除缓存文件夹</value>
+  </data>
 </root>

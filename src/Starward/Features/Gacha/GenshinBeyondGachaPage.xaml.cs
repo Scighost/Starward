@@ -191,10 +191,10 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
                     {
                         errorCount = 0;
                         InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning,
-                                                                     Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
-                                                                     null,
-                                                                     Lang.GachaLogPage_ClearURLCacheFiles,
-                                                                     () => _ = DeleteGachaCacheFileAsync());
+                                                              Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
+                                                              Lang.GachaLogPage_RestartGameAfterDeletingTheCacheFolder,
+                                                              Lang.GachaLogPage_DeleteCacheFolder,
+                                                              () => _ = DeleteGachaCacheFolderAsync());
                     }
                     else
                     {
@@ -275,10 +275,10 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
                 {
                     errorCount = 0;
                     InAppToast.MainWindow?.ShowWithButton(InfoBarSeverity.Warning,
-                                                                 Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
-                                                                 null,
-                                                                 Lang.GachaLogPage_ClearURLCacheFiles,
-                                                                 () => _ = DeleteGachaCacheFileAsync());
+                                                          Lang.GachaLogPage_AlwaysFailedToGetGachaRecords,
+                                                          Lang.GachaLogPage_RestartGameAfterDeletingTheCacheFolder,
+                                                          Lang.GachaLogPage_DeleteCacheFolder,
+                                                          () => _ = DeleteGachaCacheFolderAsync());
                 }
                 else
                 {
@@ -372,23 +372,20 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
 
 
     [RelayCommand]
-    private async Task DeleteGachaCacheFileAsync()
+    private async Task DeleteGachaCacheFolderAsync()
     {
         try
         {
             var installPath = GameLauncherService.GetGameInstallPath(CurrentGameId);
             if (Directory.Exists(installPath))
             {
-                var path = GenshinBeyondGachaClient.GetGachaCacheFilePath(CurrentGameBiz, installPath);
-                if (File.Exists(path))
+                var webCachesPath = GenshinBeyondGachaClient.GetWebCachesFolderPath(CurrentGameBiz, installPath);
+                if (Directory.Exists(webCachesPath))
                 {
-                    var file = await StorageFile.GetFileFromPathAsync(path);
-                    if (file != null)
-                    {
-                        var option = new FolderLauncherOptions();
-                        option.ItemsToSelect.Add(file);
-                        await Launcher.LaunchFolderAsync(await file.GetParentAsync(), option);
-                    }
+                    var folder = await StorageFolder.GetFolderFromPathAsync(webCachesPath);
+                    var option = new FolderLauncherOptions();
+                    option.ItemsToSelect.Add(folder);
+                    await Launcher.LaunchFolderAsync(await folder.GetParentAsync(), option);
                 }
             }
         }

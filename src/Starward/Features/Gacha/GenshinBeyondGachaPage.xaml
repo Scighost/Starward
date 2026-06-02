@@ -106,11 +106,16 @@
                             <TextBlock Margin="0,8,0,0"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind lang:Lang.GachaLogPage_AuthkeyTimeoutAlwaysOccurs}" />
-                            <Button Command="{x:Bind DeleteGachaCacheFileCommand}">
+                            <TextBlock Margin="0,-4,0,0"
+                                       FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       Text="{x:Bind lang:Lang.GachaLogPage_RestartGameAfterDeletingTheCacheFolder}"
+                                       TextWrapping="Wrap" />
+                            <Button Command="{x:Bind DeleteGachaCacheFolderCommand}">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <FontIcon FontSize="16" Glyph="&#xEA99;" />
-                                    <!--  清除 URL 缓存文件  -->
-                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ClearURLCacheFiles}" />
+                                    <!--  删除缓存文件夹  -->
+                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_DeleteCacheFolder}" />
                                 </StackPanel>
                             </Button>
 

@@ -2705,4 +2705,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>Quản lý màu sắc</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>Khởi động lại trò chơi sau khi xóa thư mục bộ nhớ đệm.</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>Xóa thư mục bộ nhớ đệm</value>
+  </data>
 </root>

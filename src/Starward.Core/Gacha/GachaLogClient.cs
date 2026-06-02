@@ -123,6 +123,21 @@ public abstract class GachaLogClient
 
 
 
+    public static string GetWebCachesFolderPath(GameBiz gameBiz, string? installPath)
+    {
+        string prefix = gameBiz.Value switch
+        {
+            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => @"YuanShen_Data\webCaches",
+            GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
+            GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => @"StarRail_Data\webCaches",
+            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => @"ZenlessZoneZero_Data\webCaches",
+            _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
+        };
+        return Path.Join(installPath, prefix);
+    }
+
+
+
     public static string GetGachaCacheFilePath(GameBiz gameBiz, string? installPath)
     {
         string file = gameBiz.Value switch
@@ -138,15 +153,7 @@ public abstract class GachaLogClient
         {
             lastWriteTime = File.GetLastWriteTime(file);
         }
-        string prefix = gameBiz.Value switch
-        {
-            GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => @"YuanShen_Data\webCaches",
-            GameBiz.hk4e_global => @"GenshinImpact_Data\webCaches",
-            GameBiz.hkrpg_cn or GameBiz.hkrpg_global or GameBiz.hkrpg_bilibili => @"StarRail_Data\webCaches",
-            GameBiz.nap_cn or GameBiz.nap_global or GameBiz.nap_bilibili => @"ZenlessZoneZero_Data\webCaches",
-            _ => throw new ArgumentOutOfRangeException($"Unknown region {gameBiz}"),
-        };
-        string webCache = Path.Join(installPath, prefix);
+        string webCache = GetWebCachesFolderPath(gameBiz, installPath);
         if (Directory.Exists(webCache))
         {
             foreach (var item in Directory.GetDirectories(webCache))

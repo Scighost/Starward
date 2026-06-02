@@ -2708,4 +2708,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>Color Management</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>Restart game after deleting the cache folder.</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>Delete Cache Folder</value>
+  </data>
 </root>
