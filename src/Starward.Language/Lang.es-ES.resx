@@ -1120,12 +1120,12 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
     <value>Eliminar datos de este mes</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Pasos para obtener la URL:</value>
+    <value>Pasos para obtener el enlace:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Abrir el menú en el juego.
-- Haz clic en Feedback (Genshin) o Informe de error (Star Rail).
-- Copia la URL de la página web y pégala en el cuadro de abajo.</value>
+    <value>- Abre el menú en el juego y haz clic en el botón de feedback
+- En el centro de servicios, entra a la página de registros de moneda (Genshin) o autoconsulta (otro)
+- Copia el enlace de la página web y pégalo en el cuadro de abajo</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Nota: El idioma de los registros sigue la configuración de idioma del juego y no se puede cambiar.</value>
