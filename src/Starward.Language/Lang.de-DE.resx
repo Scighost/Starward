@@ -2706,4 +2706,10 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>Farbverwaltung</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>Starten Sie das Spiel neu, nachdem Sie den Cache-Ordner gelöscht haben.</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>Cache-Ordner löschen</value>
+  </data>
 </root>
