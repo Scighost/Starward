@@ -2708,4 +2708,10 @@
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>색상 관리</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>캐시 폴더를 삭제한 후 게임을 다시 시작하세요.</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>캐시 폴더 삭제</value>
+  </data>
 </root>
