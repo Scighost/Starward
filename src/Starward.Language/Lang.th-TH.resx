@@ -1119,12 +1119,12 @@
     <value>ลบข้อมูลของเดือนนี้</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>ขั้นตอนการรับ URL:</value>
+    <value>ขั้นตอนการรับลิงก์:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- เปิดเมนูในเกม
-- คลิก รายงานปัญหา​ (ในเกม Genshin) หรือ แจ้งปัญหา​ (ในเกม Honkai: Star Rail)
-- คัดลอก URL ของหน้าเว็บและวางลงในช่องด้านล่าง</value>
+    <value>- เปิดเมนูในเกมแล้วคลิกปุ่มรายงานปัญหา
+- เข้าสู่ศูนย์บริการแล้วไปที่หน้าบันทึกสกุลเงิน (Genshin) หรือแบบสอบถามตนเอง (อื่นๆ)
+- คัดลอกลิงก์ของหน้าเว็บและวางลงในช่องด้านล่าง</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>หมายเหตุ:​ ภาษาของบันทึกจะอิงตามภาษาที่ตั้งค่าไว้ในเกม และไม่สามารถเปลี่ยนแปลงแยกต่างหากได้</value>
