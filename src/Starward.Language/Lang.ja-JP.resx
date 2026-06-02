@@ -1119,12 +1119,12 @@
     <value>今月のデータを削除する</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>URLを取得する手順:</value>
+    <value>リンクを取得する手順:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- ゲーム内のメニューを開きます。
-- フィードバック(原神)またはバグの報告(崩壊:スターレイル)をクリックします。
-- WebのURLをコピーし、下のボックスに貼り付けます。</value>
+    <value>- ゲーム内のメニューを開き、フィードバックボタンをクリックします
+- サービスセンターで通貨記録(原神)またはセルフクエリ(その他)ページに入ります
+- Webのリンクをコピーし、下のボックスに貼り付けます</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>注意: 記録の表示言語はゲーム内の言語設定に従っている為、変更する事はできません。</value>
