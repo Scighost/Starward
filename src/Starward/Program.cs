@@ -1,6 +1,7 @@
 global using Starward.Language;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -21,6 +22,7 @@ public static class Program
     static void Main(string[] args)
     {
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
 
         global::WinRT.ComWrappersSupport.InitializeComWrappers();
         global::Microsoft.UI.Xaml.Application.Start((p) =>
