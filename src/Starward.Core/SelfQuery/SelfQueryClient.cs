@@ -74,11 +74,11 @@ public class SelfQueryClient
         authQuery = new Uri(url).Query;
         if (gameBiz.ToGame() == GameBiz.hk4e)
         {
-            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://webstatic.mihoyo.com/event/user-game-search/hk4e/index.html"))
             {
                 prefixUrl = "https://public-operation-hk4e.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/event/user-game-search/hk4e/index.html"))
             {
                 prefixUrl = "https://public-operation-hk4e-sg.hoyoverse.com";
             }
@@ -90,11 +90,11 @@ public class SelfQueryClient
         }
         if (gameBiz.ToGame() == GameBiz.hkrpg)
         {
-            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://webstatic.mihoyo.com/hkrpg/event/self-help-query/index.html"))
             {
                 prefixUrl = "https://api-takumi.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/hkrpg/event/self-help-query/index.html"))
             {
                 prefixUrl = "https://public-operation-hkrpg-sg.hoyoverse.com";
             }
@@ -106,11 +106,11 @@ public class SelfQueryClient
         }
         if (gameBiz.ToGame() == GameBiz.nap)
         {
-            if (url.StartsWith("https://webstatic.mihoyo.com/csc-service-center-fe/index.html") || url.StartsWith("https://webstatic.mihoyo.com/static/mihoyo-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://webstatic.mihoyo.com/static/nap-self-help-query-fe/index.html"))
             {
                 prefixUrl = "https://public-operation-nap.mihoyo.com";
             }
-            if (url.StartsWith("https://cs.hoyoverse.com/csc-service-center-fe/index.html") || url.StartsWith("https://cs.hoyoverse.com/static/hoyoverse-new-csc-service-hall-fe/index.html"))
+            if (url.StartsWith("https://cs.hoyoverse.com/static/nap-self-help-query-fe/index.html"))
             {
                 prefixUrl = "https://public-operation-nap-sg.hoyoverse.com";
             }
@@ -194,7 +194,7 @@ public class SelfQueryClient
 
 
     /// <summary>
-    /// Ç§ĞÇÆæÓò×°°ç²¿¼ş
+    /// åƒæ˜Ÿå¥‡åŸŸè£…æ‰®éƒ¨ä»¶
     /// </summary>
     /// <param name="type"></param>
     /// <param name="endId"></param>
@@ -210,7 +210,7 @@ public class SelfQueryClient
 
 
     /// <summary>
-    /// Ç§ĞÇÆæÓò×°°çÌ××°
+    /// åƒæ˜Ÿå¥‡åŸŸè£…æ‰®å¥—è£…
     /// </summary>
     /// <param name="type"></param>
     /// <param name="endId"></param>
@@ -226,7 +226,7 @@ public class SelfQueryClient
 
 
     /// <summary>
-    /// ¼ÍĞĞ
+    /// çºªè¡Œ
     /// </summary>
     /// <param name="type"></param>
     /// <param name="endId"></param>
@@ -248,7 +248,7 @@ public class SelfQueryClient
 
 
     /// <summary>
-    /// ¼ÍÓÎ
+    /// çºªæ¸¸
     /// </summary>
     /// <param name="type"></param>
     /// <param name="endId"></param>

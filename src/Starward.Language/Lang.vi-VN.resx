@@ -1120,12 +1120,12 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Xóa dữ liệu tháng này</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Các bước để lấy URL:</value>
+    <value>Các bước để lấy liên kết:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Mở menu trong trò chơi.
-- Nhấn Phản hồi (Genshin) hoặc Báo lỗi (Star Rail).
-- Sao chép URL của trang web và dán vào ô bên dưới.</value>
+    <value>- Mở menu trong trò chơi, nhấn nút Phản hồi
+- Vào trung tâm dịch vụ, chọn trang Ghi nhận tiền tệ (Genshin) hoặc Truy vấn tự phục vụ (khác)
+- Sao chép liên kết của trang web và dán vào ô bên dưới</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Lưu ý: Ngôn ngữ bản ghi sẽ tuân theo cài đặt ngôn ngữ trong trò chơi và không thể thay đổi.</value>

@@ -1120,12 +1120,12 @@ Do you accept the risk and continue to use it?</value>
     <value>Delete this Month's Data</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Steps to get URL:</value>
+    <value>Steps to get the link:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Open menu in game.
-- Click Feedback (Genshin) or Bug Report (Star Rail).
-- Copy the URL of web and paste into the box below.</value>
+    <value>- Open menu in game and click the feedback button
+- In the service center, go to currency records (Genshin) or self-query (other) page
+- Copy the link of the page and paste it into the box below</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Note: Records language follows language setting in game and cannot be changed.</value>

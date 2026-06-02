@@ -1118,12 +1118,12 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Monatsdaten löschen</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Schritte um die URL zu erhalten:</value>
+    <value>Schritte um den Link zu erhalten:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Menü im Spiel öffnen.
-- Klicken Sie auf Feedback (Genshin) oder Bug-Report (Star Rail).
-- Kopieren Sie die URL und fügen Sie sie in das untenstehende Feld ein.</value>
+    <value>- Öffnen Sie das Menü im Spiel und klicken Sie auf die Feedback-Schaltfläche
+- Gehen Sie im Servicecenter zur Seite Währungsaufzeichnungen (Genshin) oder Selbstabfrage (Andere)
+- Kopieren Sie den Link der Seite und fügen Sie ihn in das Feld unten ein</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Hinweis: Die Aufzeichnungssprache folgt der Spracheinstellung im Spiel und kann nicht geändert werden.</value>

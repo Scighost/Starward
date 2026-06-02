@@ -1119,12 +1119,12 @@
     <value>Delete 今個月嘅資料</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value> 攞 URL 的步驟：</value>
+    <value>攞連結的步驟：</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- 係遊戲中打開選單
-- 撳意見回饋 (原神) 或問題通報 (星穹鐵道) 
-- 複製網頁嘅 URL 之後 paste 係下面嘅輸入框入面</value>
+    <value>- 係遊戲中打開選單，撳意見回饋按鍵
+- 係服務中心入面進入貨幣紀錄(原神)或自助查詢(其他)頁面
+- 複製網頁嘅連結之後 paste 係下面嘅輸入框入面</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>注意：本地 account 記錄嘅語言跟隨遊戲入面嘅語言設定，而且無辦法被更改。</value>

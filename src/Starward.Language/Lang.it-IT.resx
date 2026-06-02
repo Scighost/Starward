@@ -1120,12 +1120,12 @@ Do you accept the risk and continue to use it?</value>
     <value>Elimina i dati di questo mese</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Passi per ottenere l'URL:</value>
+    <value>Passi per ottenere il link:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Aprire il menu nel gioco.
-- Fare clic su Feedback (Genshin) o Bug Report (Star Rail).
-- Copiare l'URL del web e incollarlo nella casella sottostante.</value>
+    <value>- Aprire il menu nel gioco e fare clic sul pulsante feedback
+- Nel centro servizi, accedere alla pagina dei registri valuta (Genshin) o auto-consultazione (altro)
+- Copiare il link della pagina e incollarlo nella casella sottostante</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Nota: La lingua dei record segue l'impostazione della lingua nel gioco e non può essere modificata.</value>

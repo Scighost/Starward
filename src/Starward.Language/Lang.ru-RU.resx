@@ -1120,12 +1120,12 @@
     <value>Удалить данные за этот месяц</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>Шаги для получения URL:</value>
+    <value>Шаги для получения ссылки:</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- Откройте меню в игре.
-- Нажмите "Поддержка" (Genshin) или "Сообщить о проблеме" (Star Rail).
-- Скопируйте URL-адрес веб-сайта и вставьте в поле ниже.</value>
+    <value>- Откройте меню в игре и нажмите кнопку обратной связи
+- В центре обслуживания перейдите на страницу записей валюты (Genshin) или самообслуживания (другое)
+- Скопируйте ссылку на страницу и вставьте в поле ниже</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>Примечание: Язык записей соответствует настройкам языка в игре и не может быть изменён.</value>
