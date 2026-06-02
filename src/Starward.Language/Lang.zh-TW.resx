@@ -1120,12 +1120,12 @@
     <value>刪除本月資料</value>
   </data>
   <data name="SelfQueryPage_StepsToGetURL" xml:space="preserve">
-    <value>取得 URL 的步驟：</value>
+    <value>取得連結的步驟：</value>
   </data>
   <data name="SelfQueryPage_InputURLSteps" xml:space="preserve">
-    <value>- 在遊戲中開啟選單
-- 點選意見回饋 (原神) 或問題通報 (星穹鐵道) 
-- 複製網頁的 URL 並貼上到下方輸入框中</value>
+    <value>- 在遊戲中開啟選單，點選意見回饋按鍵
+- 在服務中心中進入貨幣紀錄(原神)或自助查詢(其他)頁面
+- 複製網頁的連結並貼上到下方輸入框中</value>
   </data>
   <data name="SelfQueryPage_InputURLNote" xml:space="preserve">
     <value>注意：本地帳號記錄的語言跟隨遊戲中的語言設定，並且無法被更改。</value>
