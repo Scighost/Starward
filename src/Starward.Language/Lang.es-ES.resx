@@ -2708,4 +2708,10 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="ScreenshotSetting_ColorManagement" xml:space="preserve">
     <value>Gestión del color</value>
   </data>
+  <data name="GachaLogPage_RestartGameAfterDeletingTheCacheFolder" xml:space="preserve">
+    <value>Reinicie el juego después de eliminar la carpeta de caché.</value>
+  </data>
+  <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
+    <value>Eliminar carpeta de caché</value>
+  </data>
 </root>
