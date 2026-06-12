@@ -1,3 +1,4 @@
+using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.ZZZ.ShiyuDefense;
@@ -18,4 +19,8 @@ public class ShiyuDefenseV2FifthLayerChallengeInfo : ShiyuDefenseV2FourthLayerCh
 
     [JsonPropertyName("max_score")]
     public int MaxScore { get; set; }
+
+    [JsonPropertyName("challenge_time")]
+    [JsonConverter(typeof(DateTimeObjectJsonConverter))]
+    public DateTime ChallengeTime { get; set; }
 }

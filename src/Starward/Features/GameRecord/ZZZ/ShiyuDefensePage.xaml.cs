@@ -193,4 +193,23 @@ public sealed partial class ShiyuDefensePage : PageBase
     }
 
 
+    public static Visibility ChallengeTimeVisibility(DateTime dateTime)
+    {
+        return dateTime.Year == 1 ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+
+    public string GetFourthLayerChallengeTime(ShiyuDefenseInfoV2 info)
+    {
+        if (info is null)
+        {
+            return "";
+        }
+        var time = info.Brief.ChallengeTime;
+        if (time.Year == 1)
+        {
+            time = info.FourthLayerDetail.ChallengeTime;
+        }
+        return time.ToString("yyyy-MM-dd HH:mm:ss");
+    }
 }
