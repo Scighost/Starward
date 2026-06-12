@@ -255,7 +255,8 @@ internal static class DatabaseService
         Sql_v15,
         Sql_v16,
         Sql_v17,
-        Sql_v18
+        Sql_v18,
+        Sql_v19
     ];
 
 
@@ -1008,6 +1009,18 @@ internal static class DatabaseService
         );
 
         PRAGMA USER_VERSION = 18;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v19 = """
+        BEGIN TRANSACTION;
+
+        ALTER TABLE StarRailApocalypticShadowInfo ADD COLUMN ExtraStarNum INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE StarRailApocalypticShadowInfo ADD COLUMN TierceBossIcon TEXT;
+        ALTER TABLE StarRailPureFictionInfo ADD COLUMN ExtraStarNum INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE StarRailForgottenHallInfo ADD COLUMN ExtraStarNum INTEGER DEFAULT 0 NOT NULL;
+
+        PRAGMA USER_VERSION = 19;
         COMMIT TRANSACTION;
         """;
 

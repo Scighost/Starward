@@ -27,8 +27,14 @@ public class ApocalypticShadowInfo
     [JsonPropertyName("lower_boss_icon")]
     public string LowerBossIcon { get; set; }
 
+    [JsonPropertyName("tierce_boss_icon")]
+    public string? TierceBossIcon { get; set; }
+
     [JsonPropertyName("star_num")]
     public int StarNum { get; set; }
+
+    [JsonPropertyName("extra_star_num")]
+    public int ExtraStarNum { get; set; }
 
     [JsonPropertyName("max_floor")]
     public string MaxFloor { get; set; }

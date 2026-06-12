@@ -614,14 +614,16 @@ public class HyperionClient : GameRecordClient
                 data.EndTime = data.Metas[0].EndTime;
                 data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
                 data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
+                data.TierceBossIcon = data.Metas[0].TierceBoss?.Icon;
             }
             if (schedule == 2 && data.Metas.Count > 1)
             {
                 data.ScheduleId = data.Metas[1].ScheduleId;
                 data.BeginTime = data.Metas[1].BeginTime;
                 data.EndTime = data.Metas[1].EndTime;
-                data.UpperBossIcon = data.Metas[0].UpperBoss.Icon;
-                data.LowerBossIcon = data.Metas[0].LowerBoss.Icon;
+                data.UpperBossIcon = data.Metas[1].UpperBoss.Icon;
+                data.LowerBossIcon = data.Metas[1].LowerBoss.Icon;
+                data.TierceBossIcon = data.Metas[1].TierceBoss?.Icon;
             }
         }
         return data;

@@ -154,4 +154,8 @@ public sealed partial class ForgottenHallPage : PageBase
         TextBlock_Battles.SetValue(Grid.ColumnSpanProperty, 2);
     }
 
+
+    public static bool HasExtraDisplayStar(int starNum) => starNum > 3;
+
+
 }

@@ -160,4 +160,28 @@ public sealed partial class ApocalypticShadowPage : PageBase
 
 
 
+    public static bool HasExtraDisplayStar(int starNum) => starNum > 3;
+
+
+
+
+    partial void OnCurrentApocalypticShadowChanged(ApocalypticShadowInfo? value)
+    {
+        if (BossPanelGrid is null)
+        {
+            return;
+        }
+        if (value?.Meta?.TierceBoss != null)
+        {
+            BossPanelGrid.ColumnDefinitions[2].Width = new GridLength(1, GridUnitType.Star);
+        }
+        else
+        {
+            BossPanelGrid.ColumnDefinitions[2].Width = new GridLength(0);
+        }
+    }
+
+
+
+
 }
