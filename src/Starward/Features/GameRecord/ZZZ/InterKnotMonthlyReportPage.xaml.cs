@@ -370,4 +370,12 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
 
 
 
+    public static int GetPolychromeCount(InterKnotReportMonthData monthData)
+    {
+        return monthData?.List?.FirstOrDefault(a => a.DataType == InterKnotReportDataType.PolychromesData)?.Count ?? 0;
+    }
+
+
+
+
 }
