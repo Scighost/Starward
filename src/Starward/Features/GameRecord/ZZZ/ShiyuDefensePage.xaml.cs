@@ -195,7 +195,7 @@ public sealed partial class ShiyuDefensePage : PageBase
 
     public static Visibility ChallengeTimeVisibility(DateTime dateTime)
     {
-        return dateTime.Year == 1 ? Visibility.Collapsed : Visibility.Visible;
+        return dateTime == DateTime.MinValue ? Visibility.Collapsed : Visibility.Visible;
     }
 
 
@@ -203,10 +203,10 @@ public sealed partial class ShiyuDefensePage : PageBase
     {
         if (info is null)
         {
-            return "";
+            return string.Empty;
         }
         var time = info.Brief.ChallengeTime;
-        if (time.Year == 1)
+        if (time == DateTime.MinValue)
         {
             time = info.FourthLayerDetail.ChallengeTime;
         }
