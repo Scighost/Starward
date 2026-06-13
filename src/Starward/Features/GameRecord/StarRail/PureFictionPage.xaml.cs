@@ -155,7 +155,7 @@ public sealed partial class PureFictionPage : PageBase
     }
 
 
-    public static bool HasExtraDisplayStar(int starNum) => starNum > 3;
+    public static bool FloorHasExtraStar(int starNum) => starNum > 3;
 
 
 }

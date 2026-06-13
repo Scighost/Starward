@@ -20,6 +20,7 @@
         <BitmapImage x:Key="StarIcon" UriSource="ms-appx:///Assets/Image/IconChallengeStarYellow.png" />
         <BitmapImage x:Key="StarwardModeStarIcon" UriSource="ms-appx:///Assets/Image/IconChallengeStarStarward.png" />
         <BitmapImage x:Key="StarwardModeNodeBg" UriSource="ms-appx:///Assets/Image/StarwardModeNodeBg.png" />
+        <BitmapImage x:Key="StarwardModeCrown" UriSource="ms-appx:///Assets/Image/StarwardModeCrown.png" />
         <sfg:RarityToSRBgConverter x:Key="RarityToSRBgConverter" />
     </Page.Resources>
 
@@ -294,11 +295,11 @@
                                                     VerticalAlignment="Center"
                                                     Background="{ThemeResource TextFillColorSecondaryBrush}"
                                                     Opacity="0.25"
-                                                    x:Load="{x:Bind local:ForgottenHallPage.HasExtraDisplayStar(StarNum)}" />
+                                                    x:Load="{x:Bind local:ForgottenHallPage.FloorHasExtraStar(StarNum)}" />
                                             <!--  额外星星  -->
                                             <ItemsControl x:Name="ExtraStarsControl"
                                                           ItemsSource="{x:Bind linq:Enumerable.Range(0, ExtraStarNum)}"
-                                                          x:Load="{x:Bind local:ForgottenHallPage.HasExtraDisplayStar(StarNum)}">
+                                                          x:Load="{x:Bind local:ForgottenHallPage.FloorHasExtraStar(StarNum)}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <StackPanel Orientation="Horizontal" />
@@ -468,7 +469,10 @@
                                            Source="{StaticResource StarwardModeNodeBg}" />
                                     <StackPanel Grid.Row="0"
                                                 Orientation="Horizontal">
-                                        <TextBlock>
+                                        <Image MaxHeight="14"
+                                           Margin="4,1,0,0"
+                                           Source="{StaticResource StarwardModeCrown}" />
+                                        <TextBlock Margin="6,0,0,0">
                                             <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                             <Run Text="3" />
                                         </TextBlock>
