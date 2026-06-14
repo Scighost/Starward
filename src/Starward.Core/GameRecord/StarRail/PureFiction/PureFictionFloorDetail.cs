@@ -20,6 +20,9 @@ public class PureFictionFloorDetail
     [JsonPropertyName("node_2")]
     public PureFictionNode Node2 { get; set; }
 
+    [JsonPropertyName("node_3")]
+    public PureFictionNode? Node3 { get; set; }
+
     [JsonPropertyName("maze_id")]
     public int MazeId { get; set; }
 
@@ -27,7 +30,13 @@ public class PureFictionFloorDetail
     public bool IsFast { get; set; }
 
     [JsonIgnore]
-    public int TotalScore => Node1.Score + Node2.Score;
+    public int TotalScore => Node1.Score + Node2.Score + (Node3?.Score ?? 0);
+
+    [JsonIgnore]
+    public int NormalStarNum => Math.Min(StarNum, 3);
+
+    [JsonIgnore]
+    public int ExtraStarNum => Math.Max(0, StarNum - 3);
 
 
     [JsonExtensionData]

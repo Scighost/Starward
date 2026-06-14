@@ -19,6 +19,9 @@ public class ForgottenHallFloorDetail
     [JsonPropertyName("node_2")]
     public ForgottenHallNode Node2 { get; set; }
 
+    [JsonPropertyName("node_3")]
+    public ForgottenHallNode? Node3 { get; set; }
+
     [JsonPropertyName("is_chaos")]
     public bool IsChaos { get; set; }
 
@@ -44,7 +47,7 @@ public class ForgottenHallFloorDetail
             {
                 return true;
             }
-            else if (Node1?.Avatars?.Count == 0 && Node2?.Avatars?.Count == 0)
+            else if (Node1?.Avatars?.Count == 0 && Node2?.Avatars?.Count == 0 && (Node3?.Avatars?.Count ?? 0) == 0)
             {
                 return true;
             }
@@ -54,6 +57,12 @@ public class ForgottenHallFloorDetail
             }
         }
     }
+
+    [JsonIgnore]
+    public int NormalStarNum => Math.Min(StarNum, 3);
+
+    [JsonIgnore]
+    public int ExtraStarNum => Math.Max(0, StarNum - 3);
 
 
     [JsonExtensionData]

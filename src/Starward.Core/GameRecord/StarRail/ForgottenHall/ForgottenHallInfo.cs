@@ -25,6 +25,9 @@ public class ForgottenHallInfo
     [JsonPropertyName("star_num")]
     public int StarNum { get; set; }
 
+    [JsonPropertyName("extra_star_num")]
+    public int ExtraStarNum { get; set; }
+
     [JsonPropertyName("max_floor")]
     public string MaxFloor { get; set; }
 

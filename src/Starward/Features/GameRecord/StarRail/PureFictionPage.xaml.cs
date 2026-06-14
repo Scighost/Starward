@@ -154,4 +154,8 @@ public sealed partial class PureFictionPage : PageBase
         TextBlock_Battles.SetValue(Grid.ColumnSpanProperty, 2);
     }
 
+
+    public static bool FloorHasExtraStar(int starNum) => starNum > 3;
+
+
 }

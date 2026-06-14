@@ -29,6 +29,9 @@ public class ApocalypticShadowMeta
     [JsonPropertyName("lower_boss")]
     public ApocalypticShadowBossMeta LowerBoss { get; set; }
 
+    [JsonPropertyName("tierce_boss")]
+    public ApocalypticShadowBossMeta? TierceBoss { get; set; }
+
 
     [JsonExtensionData]
     public Dictionary<string, object>? ExtensionData { get; set; }
