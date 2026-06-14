@@ -908,7 +908,8 @@
                             </StackPanel>
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="{x:Bind CurrentShiyuDefenseV2.Brief.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                       Text="{x:Bind CurrentShiyuDefenseV2.Brief.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}"
+                                       Visibility="{x:Bind local:ShiyuDefensePage.ChallengeTimeVisibility(CurrentShiyuDefenseV2.Brief.ChallengeTime)}"/>
                         </StackPanel>
 
                         <Image Height="44"
@@ -919,7 +920,8 @@
                         <TextBlock HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
                                    FontSize="12"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Visibility="{x:Bind CurrentShiyuDefenseV2.Brief.BattleTime, Converter={StaticResource Int32NotZeroToVisibilityConverter}}">
                             <Run Text="{x:Bind lang:Lang.ShiyuDefensePage_ClearTime}" />
                             <Run Text="{x:Bind local:ShiyuDefensePage.PerformancesTime(CurrentShiyuDefenseV2.Brief.BattleTime)}" />
                         </TextBlock>
@@ -998,12 +1000,21 @@
                                                 </Flyout>
                                             </Button.Flyout>
                                         </Button>
-                                        <!--  通关时间  -->
+                                        <!--  通关时长  -->
                                         <TextBlock Margin="0,4,0,0"
                                                    FontSize="12"
-                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Visibility="{x:Bind BattleTime, Converter={StaticResource Int32NotZeroToVisibilityConverter}}">
                                             <Run Text="{x:Bind lang:Lang.ShiyuDefensePage_ClearTime}" />
                                             <Run Text="{x:Bind local:ShiyuDefensePage.PerformancesTime(BattleTime)}" />
+                                        </TextBlock>
+                                        <!--  通关时刻  -->
+                                        <TextBlock Margin="0,4,0,0"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   Visibility="{x:Bind local:ShiyuDefensePage.ChallengeTimeVisibility(ChallengeTime)}">
+                                            <Run Text="{x:Bind lang:Lang.ClearedAt}" />
+                                            <Run Text="{x:Bind ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                         </TextBlock>
                                     </StackPanel>
 
@@ -1191,10 +1202,10 @@
                                     </Flyout>
                                 </Button.Flyout>
                             </Button>
-                            <!--  通关时间  -->
+                            <!--  通关时刻  -->
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="{x:Bind CurrentShiyuDefenseV2.Brief.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                       Text="{x:Bind GetFourthLayerChallengeTime(CurrentShiyuDefenseV2)}"/>
                         </StackPanel>
                         <!--  评分图  -->
                         <Image Height="32"
@@ -1231,11 +1242,13 @@
                                     </Grid.RowDefinitions>
 
                                     <!--  通关时长  -->
-                                    <TextBlock Margin="2,0,0,0" FontSize="12">
+                                    <TextBlock Margin="2,0,0,0" 
+                                               FontSize="12"
+                                               Visibility="{x:Bind BattleTime, Converter={StaticResource Int32NotZeroToVisibilityConverter}}">
                                         <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ShiyuDefensePage_ClearTime}" />
                                         <Run Text="{x:Bind local:ShiyuDefensePage.PerformancesTime(BattleTime)}" />
                                     </TextBlock>
-
+                                    
                                     <StackPanel Grid.Row="1"
                                                 HorizontalAlignment="Left"
                                                 Orientation="Horizontal"
