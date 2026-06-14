@@ -902,8 +902,8 @@ internal class GameRecordService
             return new List<InterKnotReportSummary>();
         }
         using var dapper = DatabaseService.CreateConnection();
-        var list = dapper.Query<InterKnotReportSummary>("SELECT * FROM ZZZInterKnotReportSummary WHERE Uid = @Uid ORDER BY DataMonth DESC;", new { role.Uid });
-        return list.ToList();
+        var values = dapper.Query<string>("SELECT Value FROM ZZZInterKnotReportSummary WHERE Uid = @Uid ORDER BY DataMonth DESC;", new { role.Uid });
+        return values.Select(v => JsonSerializer.Deserialize<InterKnotReportSummary>(v)!).ToList();
     }
 
 

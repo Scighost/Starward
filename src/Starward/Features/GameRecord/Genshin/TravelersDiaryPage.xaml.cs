@@ -128,7 +128,7 @@ public sealed partial class TravelersDiaryPage : PageBase
             }
             CurrentSummary = await _gameRecordService.GetTravelersDiarySummaryAsync(gameRole);
             MenuFlyout_GetDetails.Items.Clear();
-            foreach (int month in CurrentSummary.OptionalMonth)
+            foreach (int month in Enumerable.Reverse(CurrentSummary.OptionalMonth))
             {
                 MenuFlyout_GetDetails.Items.Add(new MenuFlyoutItem
                 {

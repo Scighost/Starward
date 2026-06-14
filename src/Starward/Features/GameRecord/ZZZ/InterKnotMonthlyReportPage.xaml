@@ -114,7 +114,20 @@
                           Background="{ThemeResource CustomOverlayAcrylicBrush}"
                           CornerRadius="4"
                           RowSpacing="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
                         <TextBlock FontSize="16" Text="{x:Bind DataMonth}" />
+                        <Image Grid.Row="1"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Left"
+                               Source="ms-appx:///Assets/Image/IconCurrency.png" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="24,0,0,0"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind local:InterKnotMonthlyReportPage.GetPolychromeCount(MonthData)}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
