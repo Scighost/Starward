@@ -38,6 +38,7 @@
             <scv:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
             <scv:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
             <scv:WhiteSpaceStringToVisibilityConverter x:Key="WhiteSpaceStringToVisibilityConverter" />
+            <scv:Int32NotZeroToVisibilityConverter x:Key="Int32NotZeroToVisibilityConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"
