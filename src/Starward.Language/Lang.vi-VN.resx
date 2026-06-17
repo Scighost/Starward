@@ -2711,4 +2711,22 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
     <value>Xóa thư mục bộ nhớ đệm</value>
   </data>
+  <data name="GameLauncherPage_GraphicsQualityEnhancement" xml:space="preserve">
+    <value>Nâng cao chất lượng đồ họa</value>
+  </data>
+  <data name="GameLauncherPage_LaunchWithDX12" xml:space="preserve">
+    <value>Khởi chạy với DX12</value>
+  </data>
+  <data name="GameLauncherPage_DetailsGt" xml:space="preserve">
+    <value>Chi tiết &gt;</value>
+  </data>
+  <data name="DX12IntroDialog_DX12EffectDetails" xml:space="preserve">
+    <value>Chi tiết hiệu ứng DX12</value>
+  </data>
+  <data name="DX12IntroDialog_RegularGraphics" xml:space="preserve">
+    <value>Đồ họa thường</value>
+  </data>
+  <data name="DX12IntroDialog_DX12EnhancedGraphics" xml:space="preserve">
+    <value>DX12 Đồ họa nâng cao</value>
+  </data>
 </root>

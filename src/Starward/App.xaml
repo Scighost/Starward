@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/Features/GameLauncher/CompactCheckBoxStyle.xaml" />
 
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
@@ -37,8 +38,6 @@
             <scv:CollectionToVisibilityConverter x:Key="CollectionToVisibilityConverter" />
             <scv:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter" />
             <scv:WhiteSpaceStringToVisibilityConverter x:Key="WhiteSpaceStringToVisibilityConverter" />
-            <scv:Int32NotZeroToVisibilityConverter x:Key="Int32NotZeroToVisibilityConverter" />
-            <scv:Int32ZeroToVisibilityConverter x:Key="Int32ZeroToVisibilityConverter" />
 
             <!--  Custom Acrylic  -->
             <AcrylicBrush x:Key="CustomAcrylicBrush"

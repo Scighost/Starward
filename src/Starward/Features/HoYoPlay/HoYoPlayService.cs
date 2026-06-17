@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -285,6 +286,42 @@ public class HoYoPlayService
     }
 
 
+
+    public async Task<List<GameDXConfig>> GetGameDXConfigsAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    {
+        string lang = CultureInfo.CurrentUICulture.Name;
+        var launcherId = LauncherId.FromGameId(gameIds.First())!;
+        var gpuInfos = GetGPUInfos();
+        var response = await _client.GetDXConfigsAsync(launcherId, lang, gameIds, gpuInfos, cancellationToken);
+        return response.DXConfigs;
+    }
+
+
+    private static List<GPUInfo> GetGPUInfos()
+    {
+        var gpuInfos = new List<GPUInfo>();
+        try
+        {
+            using var searcher = new ManagementObjectSearcher("SELECT Name, DriverVersion FROM Win32_VideoController");
+            foreach (ManagementObject obj in searcher.Get().Cast<ManagementObject>())
+            {
+                var name = obj["Name"]?.ToString();
+                var driverVersion = obj["DriverVersion"]?.ToString();
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    gpuInfos.Add(new GPUInfo
+                    {
+                        Name = name,
+                        DriverVersion = driverVersion ?? "",
+                    });
+                }
+            }
+        }
+        catch
+        {
+        }
+        return gpuInfos;
+    }
 
 
 }

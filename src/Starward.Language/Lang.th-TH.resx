@@ -2708,4 +2708,22 @@
   <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
     <value>ลบโฟลเดอร์แคช</value>
   </data>
+  <data name="GameLauncherPage_GraphicsQualityEnhancement" xml:space="preserve">
+    <value>เพิ่มคุณภาพกราฟิก</value>
+  </data>
+  <data name="GameLauncherPage_LaunchWithDX12" xml:space="preserve">
+    <value>เปิดตัวด้วย DX12</value>
+  </data>
+  <data name="GameLauncherPage_DetailsGt" xml:space="preserve">
+    <value>รายละเอียด &gt;</value>
+  </data>
+  <data name="DX12IntroDialog_DX12EffectDetails" xml:space="preserve">
+    <value>รายละเอียดเอฟเฟกต์ DX12</value>
+  </data>
+  <data name="DX12IntroDialog_RegularGraphics" xml:space="preserve">
+    <value>กราฟิกปกติ</value>
+  </data>
+  <data name="DX12IntroDialog_DX12EnhancedGraphics" xml:space="preserve">
+    <value>DX12 กราฟิกที่เพิ่มประสิทธิภาพ</value>
+  </data>
 </root>

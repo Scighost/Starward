@@ -668,4 +668,29 @@ public class HoYoPlayClient
 
 
 
+    /// <summary>
+    /// 获取 DirectX 配置
+    /// </summary>
+    /// <param name="launcherId"></param>
+    /// <param name="language"></param>
+    /// <param name="gameIds"></param>
+    /// <param name="gpuInfos"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<GetDXConfigsResponse> GetDXConfigsAsync(string launcherId, string language, IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default)
+    {
+        string url = BuildUrl("getDXConfigs", launcherId, language);
+        var request = new HttpRequestMessage(HttpMethod.Post, url);
+        request.Content = JsonContent.Create(new GetDXConfigsRequest
+        {
+            LauncherId = launcherId,
+            GameIds = gameIds.Select(x => x.Id).ToList(),
+            Language = LanguageUtil.FilterLanguage(language),
+            GPUInfo = gpuInfos.ToList(),
+        }, HoYoPlayJsonContext.Default.GetDXConfigsRequest);
+        return await CommonSendAsync<GetDXConfigsResponse>(request, cancellationToken);
+    }
+
+
+
 }

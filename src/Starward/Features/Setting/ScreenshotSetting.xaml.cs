@@ -345,19 +345,19 @@ public sealed partial class ScreenshotSetting : PageBase
             }
             else if (canvasBitmap.Format is DirectXPixelFormat.R16G16B16A16Float)
             {
-                    using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
-                    {
-                        Source = canvasBitmap,
-                        InputWhiteLevel = 80,
-                        OutputWhiteLevel = sdrWhiteLevel,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
-                    using SrgbGammaEffect gammaEffect = new()
-                    {
-                        Source = whiteLevelEffect,
-                        GammaMode = SrgbGammaMode.OETF,
-                        BufferPrecision = CanvasBufferPrecision.Precision16Float,
-                    };
+                using WhiteLevelAdjustmentEffect whiteLevelEffect = new()
+                {
+                    Source = canvasBitmap,
+                    InputWhiteLevel = 80,
+                    OutputWhiteLevel = sdrWhiteLevel,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
+                using SrgbGammaEffect gammaEffect = new()
+                {
+                    Source = whiteLevelEffect,
+                    GammaMode = SrgbGammaMode.OETF,
+                    BufferPrecision = CanvasBufferPrecision.Precision16Float,
+                };
                 renderTarget = new(CanvasDevice.GetSharedDevice(),
                                    canvasBitmap.SizeInPixels.Width,
                                    canvasBitmap.SizeInPixels.Height,

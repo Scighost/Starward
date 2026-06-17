@@ -371,6 +371,10 @@ internal partial class GameLauncherService
             {
                 arg += " -popupwindow";
             }
+            if (AppConfig.GetEnableDX12(gameId.GameBiz))
+            {
+                arg += " -use-d3d12";
+            }
 
             if (gameId.GameBiz.Game is GameBiz.hk4e)
             {

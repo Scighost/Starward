@@ -1665,6 +1665,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 DX12 Effect Details 的本地化字符串。
+        /// </summary>
+        public static string DX12IntroDialog_DX12EffectDetails {
+            get {
+                return ResourceManager.GetString("DX12IntroDialog_DX12EffectDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DX12 Enhanced Graphics 的本地化字符串。
+        /// </summary>
+        public static string DX12IntroDialog_DX12EnhancedGraphics {
+            get {
+                return ResourceManager.GetString("DX12IntroDialog_DX12EnhancedGraphics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Regular Graphics 的本地化字符串。
+        /// </summary>
+        public static string DX12IntroDialog_RegularGraphics {
+            get {
+                return ResourceManager.GetString("DX12IntroDialog_RegularGraphics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 After Starting Game 的本地化字符串。
         /// </summary>
         public static string ExperienceSettingPage_AfterStartingGame {
@@ -2484,11 +2511,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Details &gt; 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_DetailsGt {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_DetailsGt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Gallery 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_Gallery {
             get {
                 return ResourceManager.GetString("GameLauncherPage_Gallery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Graphics Quality Enhancement 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_GraphicsQualityEnhancement {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_GraphicsQualityEnhancement", resourceCulture);
             }
         }
         
@@ -2507,6 +2552,15 @@ namespace Starward.Language {
         public static string GameLauncherPage_HardLinkUpdateToLatest {
             get {
                 return ResourceManager.GetString("GameLauncherPage_HardLinkUpdateToLatest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launch with DX12 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_LaunchWithDX12 {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_LaunchWithDX12", resourceCulture);
             }
         }
         
