@@ -372,6 +372,11 @@ internal partial class GameLauncherService
                 arg += " -popupwindow";
             }
 
+            if (gameId.GameBiz.Game is GameBiz.nap && AppConfig.EnableZZZDX12)
+            {
+                arg += " -use-d3d12";
+            }
+
             if (gameId.GameBiz.Game is GameBiz.hk4e)
             {
                 GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);

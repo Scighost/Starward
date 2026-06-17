@@ -3062,6 +3062,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Launch with DirectX 12 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_EnableZZZDX12 {
+            get {
+                return ResourceManager.GetString("GameSettingPage_EnableZZZDX12", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Environment Detail 的本地化字符串。
         /// </summary>
         public static string GameSettingPage_EnvironmentDetail {
@@ -3365,6 +3374,15 @@ namespace Starward.Language {
         public static string GameSettingPage_WindowsHDRIsNotTurnedOn {
             get {
                 return ResourceManager.GetString("GameSettingPage_WindowsHDRIsNotTurnedOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launch with DirectX 12 to enable ray tracing, super resolution, and frame generation features. If the current environment runs abnormally, uncheck to launch in DirectX 11 compatibility mode. ※ Some graphics features require specific graphics cards and latest drivers. 的本地化字符串。
+        /// </summary>
+        public static string GameSettingPage_ZZZDX12Tip {
+            get {
+                return ResourceManager.GetString("GameSettingPage_ZZZDX12Tip", resourceCulture);
             }
         }
         
