@@ -2714,22 +2714,4 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
     <value>Delete Cache Folder</value>
   </data>
-  <data name="GameLauncherPage_GraphicsQualityEnhancement" xml:space="preserve">
-    <value>Graphics Quality Enhancement</value>
-  </data>
-  <data name="GameLauncherPage_LaunchWithDX12" xml:space="preserve">
-    <value>Launch with DX12</value>
-  </data>
-  <data name="GameLauncherPage_DetailsGt" xml:space="preserve">
-    <value>Details &gt;</value>
-  </data>
-  <data name="DX12IntroDialog_DX12EffectDetails" xml:space="preserve">
-    <value>DX12 Effect Details</value>
-  </data>
-  <data name="DX12IntroDialog_RegularGraphics" xml:space="preserve">
-    <value>Regular Graphics</value>
-  </data>
-  <data name="DX12IntroDialog_DX12EnhancedGraphics" xml:space="preserve">
-    <value>DX12 Enhanced Graphics</value>
-  </data>
 </root>
