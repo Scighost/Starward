@@ -4,14 +4,17 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 
 namespace Starward.Features.HoYoPlay;
 
@@ -289,11 +292,16 @@ public class HoYoPlayService
 
     public async Task<List<GameDXConfig>> GetGameDXConfigsAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
     {
-        string lang = CultureInfo.CurrentUICulture.Name;
-        var launcherId = LauncherId.FromGameId(gameIds.First())!;
-        var gpuInfos = GetGPUInfos();
-        var response = await _client.GetDXConfigsAsync(launcherId, lang, gameIds, gpuInfos, cancellationToken);
-        return response.DXConfigs;
+        string key = $"{nameof(GameDXConfig)}_{string.Join(',', gameIds.Select(x => x.Id))}";
+        if (!_memoryCache.TryGetValue(key, out List<GameDXConfig>? dxConfigs))
+        {
+            string lang = CultureInfo.CurrentUICulture.Name;
+            var launcherId = LauncherId.FromGameId(gameIds.First())!;
+            var gpuInfos = GetGPUInfos();
+            dxConfigs = await _client.GetDXConfigsAsync(launcherId, lang, gameIds, gpuInfos, cancellationToken);
+            _memoryCache.Set(key, dxConfigs, TimeSpan.FromMinutes(5));
+        }
+        return dxConfigs!;
     }
 
 
@@ -302,25 +310,68 @@ public class HoYoPlayService
         var gpuInfos = new List<GPUInfo>();
         try
         {
-            using var searcher = new ManagementObjectSearcher("SELECT Name, DriverVersion FROM Win32_VideoController");
-            foreach (ManagementObject obj in searcher.Get().Cast<ManagementObject>())
+            using SetupAPI.SafeHDEVINFO devInfo = SetupAPI.SetupDiGetClassDevs(SetupAPI.GUID_DEVCLASS_DISPLAY, null, HWND.NULL, SetupAPI.DIGCF.DIGCF_PRESENT);
+            if (!devInfo.IsInvalid)
             {
-                var name = obj["Name"]?.ToString();
-                var driverVersion = obj["DriverVersion"]?.ToString();
-                if (!string.IsNullOrWhiteSpace(name))
+                foreach (SetupAPI.SP_DEVINFO_DATA devInfoData in SetupAPI.SetupDiEnumDeviceInfo(devInfo))
                 {
+                    string? name = GetDeviceName(devInfo, devInfoData);
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        name = GetDeviceProperty(devInfo, devInfoData, SetupAPI.DEVPKEY_Device_FriendlyName);
+                    }
+                    if (string.IsNullOrWhiteSpace(name))
+                    {
+                        continue;
+                    }
+                    string? version = GetDeviceProperty(devInfo, devInfoData, SetupAPI.DEVPKEY_Device_DriverVersion);
                     gpuInfos.Add(new GPUInfo
                     {
                         Name = name,
-                        DriverVersion = driverVersion ?? "",
+                        DriverVersion = version ?? "",
                     });
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Debug.WriteLine(ex);
         }
         return gpuInfos;
+    }
+
+
+    private static unsafe string? GetDeviceName(SetupAPI.SafeHDEVINFO devInfo, SetupAPI.SP_DEVINFO_DATA devInfoData)
+    {
+        string? value = null;
+        SetupAPI.SetupDiGetDeviceRegistryProperty(devInfo, devInfoData, SetupAPI.SPDRP.SPDRP_DEVICEDESC, out _, nint.Zero, 0, out uint requiredSize);
+        if (requiredSize > 0)
+        {
+            void* buffer = NativeMemory.Alloc(requiredSize);
+            if (SetupAPI.SetupDiGetDeviceRegistryProperty(devInfo, devInfoData, SetupAPI.SPDRP.SPDRP_DEVICEDESC, out _, (nint)buffer, requiredSize, out requiredSize))
+            {
+                value = Encoding.Unicode.GetString(new ReadOnlySpan<byte>(buffer, (int)requiredSize)).TrimEnd('\0');
+            }
+            NativeMemory.Free(buffer);
+        }
+        return value;
+    }
+
+
+    private static unsafe string? GetDeviceProperty(SetupAPI.SafeHDEVINFO devInfo, SetupAPI.SP_DEVINFO_DATA devInfoData, SetupAPI.DEVPROPKEY propKey)
+    {
+        string? value = null;
+        SetupAPI.SetupDiGetDeviceProperty(devInfo, devInfoData, propKey, out _, nint.Zero, 0, out uint requiredSize);
+        if (requiredSize > 0)
+        {
+            void* buffer = NativeMemory.Alloc(requiredSize);
+            if (SetupAPI.SetupDiGetDeviceProperty(devInfo, devInfoData, propKey, out _, (nint)buffer, requiredSize, out requiredSize))
+            {
+                value = Encoding.Unicode.GetString(new ReadOnlySpan<byte>(buffer, (int)requiredSize)).TrimEnd('\0');
+            }
+            NativeMemory.Free(buffer);
+        }
+        return value;
     }
 
 

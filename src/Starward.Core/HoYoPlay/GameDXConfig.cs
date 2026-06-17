@@ -97,7 +97,7 @@ public class GetDXConfigsRequest
 /// <summary>
 /// 获取 DX 配置的响应数据
 /// </summary>
-public class GetDXConfigsResponse
+internal class GetDXConfigsResponse
 {
 
     [JsonPropertyName("dx_configs")]

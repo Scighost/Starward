@@ -677,7 +677,7 @@ public class HoYoPlayClient
     /// <param name="gpuInfos"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<GetDXConfigsResponse> GetDXConfigsAsync(string launcherId, string language, IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default)
+    public async Task<List<GameDXConfig>> GetDXConfigsAsync(string launcherId, string language, IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default)
     {
         string url = BuildUrl("getDXConfigs", launcherId, language);
         var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -688,7 +688,8 @@ public class HoYoPlayClient
             Language = LanguageUtil.FilterLanguage(language),
             GPUInfo = gpuInfos.ToList(),
         }, HoYoPlayJsonContext.Default.GetDXConfigsRequest);
-        return await CommonSendAsync<GetDXConfigsResponse>(request, cancellationToken);
+        GetDXConfigsResponse response = await CommonSendAsync<GetDXConfigsResponse>(request, cancellationToken);
+        return response.DXConfigs;
     }
 
 
