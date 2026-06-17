@@ -2718,9 +2718,6 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="GameLauncherPage_LaunchWithDX12" xml:space="preserve">
     <value>Mit DX12 starten</value>
   </data>
-  <data name="GameLauncherPage_DetailsGt" xml:space="preserve">
-    <value>Details &gt;</value>
-  </data>
   <data name="DX12IntroDialog_DX12EffectDetails" xml:space="preserve">
     <value>DX12 Effektdetails</value>
   </data>
