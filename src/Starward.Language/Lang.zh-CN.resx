@@ -2714,4 +2714,10 @@
   <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
     <value>删除缓存文件夹</value>
   </data>
+  <data name="GameSettingPage_EnableZZZDX12" xml:space="preserve">
+    <value>使用DX12启动</value>
+  </data>
+  <data name="GameSettingPage_ZZZDX12Tip" xml:space="preserve">
+    <value>选择 DirectX 12 启动可体验光线追踪、超分辨率及帧生成功能。若当前环境运行异常，请取消勾选以 DirectX 11 兼容模式启动。 ※ 部分图形功能需特定显卡及最新显卡驱动支持。</value>
+  </data>
 </root>

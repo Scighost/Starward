@@ -393,6 +393,15 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    /// <summary>
+    /// 绝区零使用DX12启动
+    /// </summary>
+    public static bool EnableZZZDX12
+    {
+        get => GetValue<bool>();
+        set => SetValue(value);
+    }
+
 
     #endregion
 

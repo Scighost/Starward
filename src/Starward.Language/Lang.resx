@@ -2714,4 +2714,10 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GachaLogPage_DeleteCacheFolder" xml:space="preserve">
     <value>Delete Cache Folder</value>
   </data>
+  <data name="GameSettingPage_EnableZZZDX12" xml:space="preserve">
+    <value>Launch with DirectX 12</value>
+  </data>
+  <data name="GameSettingPage_ZZZDX12Tip" xml:space="preserve">
+    <value>Launch with DirectX 12 to enable ray tracing, super resolution, and frame generation features. If the current environment runs abnormally, uncheck to launch in DirectX 11 compatibility mode. ※ Some graphics features require specific graphics cards and latest drivers.</value>
+  </data>
 </root>

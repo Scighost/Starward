@@ -203,6 +203,19 @@ public sealed partial class GameSettingPage : PageBase
     }
 
 
+    public bool EnableZZZDX12
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                IsApplyButtonEnable = true;
+            }
+        }
+    }
+
+
     public bool HDRNotSupported { get; set => SetProperty(ref field, value); }
 
     public bool HDRNotEnabled { get; set => SetProperty(ref field, value); }
@@ -237,6 +250,12 @@ public sealed partial class GameSettingPage : PageBase
                 _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
                 _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
                 UpdateHdrState(_displayInformation);
+            }
+            if (CurrentGameBiz.Game is GameBiz.nap)
+            {
+                IsGraphicsSettingEnable = true;
+                StackPanel_ZZZDX12.Visibility = Visibility.Visible;
+                EnableZZZDX12 = AppConfig.EnableZZZDX12;
             }
             StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
             UsePopupWindow = AppConfig.GetUsePopupWindow(CurrentGameBiz);
@@ -434,6 +453,10 @@ public sealed partial class GameSettingPage : PageBase
                 {
                     AppConfig.EnableGenshinHDR = EnableGenshinHDR;
                     GameSettingService.SetGenshinEnableHDR(CurrentGameBiz, EnableGenshinHDR);
+                }
+                if (CurrentGameBiz.Game is GameBiz.nap)
+                {
+                    AppConfig.EnableZZZDX12 = EnableZZZDX12;
                 }
             }
             // 游戏运行时应用的设置无法生效

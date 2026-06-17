@@ -138,6 +138,17 @@
                                  Visibility="{x:Bind HDRNotEnabled}" />
                     </StackPanel>
 
+                    <!--  绝区零 DX12  -->
+                    <StackPanel x:Name="StackPanel_ZZZDX12"
+                                Spacing="8"
+                                Visibility="Collapsed">
+                        <TextBlock FontWeight="Bold" Text="DX12" />
+                        <CheckBox Content="{x:Bind lang:Lang.GameSettingPage_EnableZZZDX12}" IsChecked="{x:Bind EnableZZZDX12, Mode=TwoWay}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GameSettingPage_ZZZDX12Tip}"
+                                   TextWrapping="Wrap" />
+                    </StackPanel>
+
                 </StackPanel>
 
 
