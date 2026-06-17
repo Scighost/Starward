@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Starward.Features.Background;
 using Starward.Features.ViewHost;
 using Starward.Frameworks;
 using System;
@@ -190,6 +191,28 @@ public sealed partial class GeneralSetting : PageBase
             }
         }
     } = AppConfig.EnableGameAccountSwitcher;
+
+
+
+    #endregion
+
+
+
+    #region 自动播放视频背景
+
+
+
+    public bool VideoBgAutoPlay
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.VideoBgAutoPlay = value;
+                WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+            }
+        }
+    } = AppConfig.VideoBgAutoPlay;
 
 
 
