@@ -2729,4 +2729,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DX12IntroDialog_DX12EnhancedGraphics" xml:space="preserve">
     <value>DX12 Đồ họa nâng cao</value>
   </data>
+  <data name="FileManageSetting_LauncherBackground" xml:space="preserve">
+    <value>Nền trình khởi chạy</value>
+  </data>
+  <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
+    <value>Dọn dẹp tệp nền trình khởi chạy</value>
+  </data>
 </root>

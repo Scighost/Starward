@@ -157,6 +157,8 @@
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_Browser}" />
                     <LineBreak />
                     <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
+                    <LineBreak />
+                    <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileManageSetting_LauncherBackground}" />
                 </TextBlock>
                 <TextBlock>
                     <Run Text="{x:Bind LogCacheSize}" />
@@ -166,6 +168,8 @@
                     <Run Text="{x:Bind WebCacheSize}" />
                     <LineBreak />
                     <Run Text="{x:Bind GameCacheSize}" />
+                    <LineBreak />
+                    <Run Text="{x:Bind LauncherBackgroundSize}" />
                 </TextBlock>
             </StackPanel>
             <!--  清理缓存  -->
@@ -189,6 +193,10 @@
                               IsIndeterminate="{x:Bind ClearCacheCommand.IsRunning}"
                               Visibility="{x:Bind ClearCacheCommand.IsRunning}" />
             </StackPanel>
+            <!--  清理启动器背景文件  -->
+            <CheckBox Margin="0,4,0,0"
+                      Content="{x:Bind lang:Lang.FileManageSetting_CleanUpLauncherBackgroundFiles}"
+                      IsChecked="{x:Bind ClearLauncherBackground, Mode=TwoWay}" />
 
 
 

@@ -1782,6 +1782,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Clean up Launcher Background Files 的本地化字符串。
+        /// </summary>
+        public static string FileManageSetting_CleanUpLauncherBackgroundFiles {
+            get {
+                return ResourceManager.GetString("FileManageSetting_CleanUpLauncherBackgroundFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launcher Background 的本地化字符串。
+        /// </summary>
+        public static string FileManageSetting_LauncherBackground {
+            get {
+                return ResourceManager.GetString("FileManageSetting_LauncherBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Browser 的本地化字符串。
         /// </summary>
         public static string FileSettingPage_Browser {

@@ -9,6 +9,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -301,6 +302,7 @@ public sealed partial class FileManageSetting : PageBase
     #region Cache
 
 
+    public bool ClearLauncherBackground { get; set => SetProperty(ref field, value); }
 
     public string LogCacheSize { get; set => SetProperty(ref field, value); } = "0.00 KB";
 
@@ -309,6 +311,8 @@ public sealed partial class FileManageSetting : PageBase
     public string WebCacheSize { get; set => SetProperty(ref field, value); } = "0.00 KB";
 
     public string GameCacheSize { get; set => SetProperty(ref field, value); } = "0.00 KB";
+
+    public string LauncherBackgroundSize { get; set => SetProperty(ref field, value); } = "0.00 KB";
 
 
     /// <summary>
@@ -324,6 +328,7 @@ public sealed partial class FileManageSetting : PageBase
             ImageCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "cache"));
             WebCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "webview"));
             GameCacheSize = await GetFolderSizeStringAsync(Path.Combine(local, "game"));
+            LauncherBackgroundSize = await GetFolderSizeStringAsync(Path.Combine(local, "bg"));
         }
         catch (Exception ex)
         {
@@ -371,6 +376,7 @@ public sealed partial class FileManageSetting : PageBase
             await DeleteFolderAsync(Path.Combine(local, "webview"));
             await DeleteFolderAsync(Path.Combine(local, "update"));
             await DeleteFolderAsync(Path.Combine(local, "game"));
+            await ClearUpLauncherBackgroundFileAsync();
         }
         catch (Exception ex)
         {
@@ -396,6 +402,42 @@ public sealed partial class FileManageSetting : PageBase
             }
         }
     });
+
+
+
+    private async Task ClearUpLauncherBackgroundFileAsync()
+    {
+        if (!ClearLauncherBackground)
+        {
+            return;
+        }
+        string bg = Path.Combine(AppConfig.CacheFolder, "bg");
+        if (Directory.Exists(bg))
+        {
+            try
+            {
+                string[] files = Directory.GetFiles(bg);
+                foreach (var file in files)
+                {
+
+                    string name = Path.GetFileNameWithoutExtension(file);
+                    if (Regex.IsMatch(name, @"^[a-fA-F0-9]{32}_\d+$"))
+                    {
+                        try
+                        {
+                            // 视频文件在播放时会被占用
+                            File.Delete(file);
+                        }
+                        catch { }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Clear up launcher background file");
+            }
+        }
+    }
 
 
     #endregion
