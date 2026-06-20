@@ -102,7 +102,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                 }
                 else
                 {
-                    baseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Starward/Games");
+                    baseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "miHoYo");
                 }
             }
             string target = Path.Combine(baseFolder, CurrentGameId.GameBiz);
