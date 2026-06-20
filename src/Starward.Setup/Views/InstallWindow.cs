@@ -1,6 +1,5 @@
 ﻿using Aprillz.MewUI;
 using Aprillz.MewUI.Controls;
-using Microsoft.Win32;
 using SharpCompress.Common;
 using Starward.Setup.Locale;
 using Starward.Setup.Services;
@@ -250,7 +249,7 @@ public class InstallWindow : WindowBase
     {
         try
         {
-            string? folder = Registry.GetValue(@"HKLM\Software\Microsoft\Windows\CurrentVersion\Uninstall\Starward", "InstallLocation", null) as string;
+            string? folder = RegistryHelper.GetInstallLocation();
             if (!Directory.Exists(folder) || !string.Equals(new DirectoryInfo(folder).Name, "Starward", StringComparison.OrdinalIgnoreCase))
             {
                 folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Starward");
@@ -459,10 +458,15 @@ public class InstallWindow : WindowBase
 
     private void CreateShortcut()
     {
-        CreateShortcutInternal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Starward.lnk"));
         string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Programs), "Starward");
         Directory.CreateDirectory(folder);
         CreateShortcutInternal(Path.Combine(folder, "Starward.lnk"));
+        try
+        {
+            // 创建桌面快捷方式可能被安全软件拦截
+            CreateShortcutInternal(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Starward.lnk"));
+        }
+        catch { }
     }
 
 
