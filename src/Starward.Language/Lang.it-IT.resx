@@ -2732,4 +2732,10 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
   <data name="DX12IntroDialog_DX12EnhancedGraphics" xml:space="preserve">
     <value>DX12 Grafica migliorata</value>
   </data>
+  <data name="FileManageSetting_LauncherBackground" xml:space="preserve">
+    <value>Sfondo del launcher</value>
+  </data>
+  <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
+    <value>Pulisci file di sfondo del launcher</value>
+  </data>
 </root>
