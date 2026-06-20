@@ -7,66 +7,8 @@
 
 #pragma comment(linker, "/subsystem:windows /entry:wmainCRTStartup")
 
-static std::wstring ArgToCommandLine(int argc, wchar_t *argv[])
-{
-	std::wstring result;
 
-	auto append_quoted_arg = [&result](const wchar_t *arg)
-	{
-		std::wstring value = arg ? arg : L"";
-		bool need_quotes = value.empty() || value.find_first_of(L" \t\n\v\r\"") != std::wstring::npos;
-		if (!need_quotes)
-		{
-			result.append(value);
-			return;
-		}
-
-		result.push_back(L'"');
-		size_t backslash_count = 0;
-		for (wchar_t ch : value)
-		{
-			if (ch == L'\\')
-			{
-				backslash_count++;
-				continue;
-			}
-
-			if (ch == L'"')
-			{
-				result.append(backslash_count * 2 + 1, L'\\');
-				result.push_back(L'"');
-				backslash_count = 0;
-				continue;
-			}
-
-			if (backslash_count > 0)
-			{
-				result.append(backslash_count, L'\\');
-				backslash_count = 0;
-			}
-			result.push_back(ch);
-		}
-
-		if (backslash_count > 0)
-		{
-			result.append(backslash_count * 2, L'\\');
-		}
-		result.push_back(L'"');
-	};
-
-	for (int i = 1; i < argc; i++)
-	{
-		if (!result.empty())
-		{
-			result.push_back(L' ');
-		}
-		append_quoted_arg(argv[i]);
-	}
-
-	return result;
-}
-
-int wmain(int argc, wchar_t *argv[])
+int wmain(int argc, wchar_t* argv[])
 {
 	std::filesystem::path run_exe;
 
@@ -94,7 +36,7 @@ int wmain(int argc, wchar_t *argv[])
 		std::filesystem::path target_exe;
 		std::filesystem::file_time_type last_time{};
 		bool found = false;
-		for (const std::filesystem::directory_entry &folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
+		for (const std::filesystem::directory_entry& folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
 		{
 			if (folder.is_directory())
 			{
@@ -122,17 +64,17 @@ int wmain(int argc, wchar_t *argv[])
 
 	if (!run_exe.empty())
 	{
-		std::wstring arg = ArgToCommandLine(argc, argv);
 		STARTUPINFOW si{};
 		si.cb = sizeof(si);
 		PROCESS_INFORMATION pi{};
-		if (CreateProcess(run_exe.c_str(), arg.empty() ? NULL : arg.data(), NULL, NULL, false, 0, NULL, NULL, &si, &pi))
+		std::wstring arg = std::wstring(GetCommandLine()).substr(std::wstring(argv[0]).length() + 2);
+		if (CreateProcess(run_exe.c_str(), (LPWSTR)arg.c_str(), NULL, NULL, false, 0, NULL, NULL, &si, &pi))
 		{
 			CloseHandle(pi.hProcess);
 			CloseHandle(pi.hThread);
 
 			std::wstring base_name = run_exe.parent_path().filename().wstring();
-			for (const std::filesystem::directory_entry &folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
+			for (const std::filesystem::directory_entry& folder : std::filesystem::directory_iterator(base_folder, std::filesystem::directory_options::skip_permission_denied))
 			{
 				std::wstring folder_name = folder.path().filename().wstring();
 				if (folder.is_directory() && folder_name.starts_with(L"app-") && folder_name != base_name)
