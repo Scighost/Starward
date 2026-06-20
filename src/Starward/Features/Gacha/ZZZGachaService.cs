@@ -373,11 +373,7 @@ internal class ZZZGachaService : GachaLogService
     {
         using var dapper = DatabaseService.CreateConnection();
         var list = GetGachaLogItemEx(uid);
-        foreach (var item in list)
-        {
-            item.RankType += 1;
-        }
-        var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\GachaLog.xlsx");
+        var template = Path.Combine(AppContext.BaseDirectory, @"Assets\Template\ZZZGachaLog.xlsx");
         if (File.Exists(template))
         {
             await MiniExcel.SaveAsByTemplateAsync(output, template, new { list });
