@@ -580,7 +580,7 @@ public sealed partial class UpdateWindow : WindowEx
         {
             if (NuGetVersion.TryParse(release.TagName, out var version))
             {
-                if (version > startVersion && version <= endVersion)
+                if (version >= startVersion && version <= endVersion)
                 {
                     // 只显示最新的几个连续的预览版，最新稳定版之前的预览版不显示
                     if (!version.IsPrerelease && !release.Prerelease)
