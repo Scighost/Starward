@@ -447,12 +447,11 @@
 
                                 <!--  节点3  -->
                                 <Grid x:Name="Node3Root"
-                                      Height="144"
+                                      Height="132"
                                       Padding="20,0,20,0"
                                       VerticalAlignment="Top"
                                       x:Load="{x:Bind Node3, Converter={StaticResource ObjectToBoolConverter}}">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
@@ -463,30 +462,28 @@
 
                                     <Image Grid.Row="0"
                                            MaxHeight="18"
-                                           Margin="0,-5,0,-1"
+                                           Margin="0,3,0,-1"
                                            Stretch="Fill"
-                                           VerticalAlignment="Bottom"
+                                           VerticalAlignment="Top"
                                            Source="{StaticResource StarwardModeNodeBg}" />
                                     <StackPanel Grid.Row="0"
                                                 Orientation="Horizontal">
                                         <Image MaxHeight="14"
                                            Margin="4,1,0,0"
                                            Source="{StaticResource StarwardModeCrown}" />
-                                        <TextBlock Margin="6,0,0,0">
+                                        <TextBlock FontSize="12"
+                                                   VerticalAlignment="Center"
+                                                   Margin="6,2,0,0">
                                             <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                             <Run Text="3" />
+                                            <Run Text="" />
+                                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                         </TextBlock>
                                     </StackPanel>
-                                    <TextBlock Grid.Row="1"
-                                               Grid.ColumnSpan="2"
-                                               Margin="0,4,0,0"
-                                               FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind Node3.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
 
-                                    <ItemsControl Grid.Row="2"
+                                    <ItemsControl Grid.Row="1"
                                                   Grid.ColumnSpan="2"
-                                                  Margin="0,4,0,4"
+                                                  Margin="0,0,0,4"
                                                   HorizontalAlignment="Center"
                                                   ItemsSource="{x:Bind Node3.Avatars}">
                                         <ItemsControl.ItemsPanel>
