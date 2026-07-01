@@ -6395,6 +6395,15 @@ namespace Starward.Language {
                 return ResourceManager.GetString("SettingPage_RegistryBasedGameAccountSwitchingFeature", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 Automatically play the video background 的本地化字符串。
+        /// </summary>
+        public static string SettingPage_AutoPlayVideoBackground {
+            get {
+                return ResourceManager.GetString("SettingPage_AutoPlayVideoBackground", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Release History 的本地化字符串。

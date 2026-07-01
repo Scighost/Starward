@@ -58,6 +58,11 @@
                           OffContent="{x:Bind lang:Lang.SettingPage_RegistryBasedGameAccountSwitchingFeature}"
                           OnContent="{x:Bind lang:Lang.SettingPage_RegistryBasedGameAccountSwitchingFeature}" />
 
+            <ToggleSwitch Margin="0,12,0,0"
+                          IsOn="{x:Bind VideoBgAutoPlay, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.SettingPage_AutoPlayVideoBackground}"
+                          OnContent="{x:Bind lang:Lang.SettingPage_AutoPlayVideoBackground}" />
+
 
             <MenuFlyoutSeparator Margin="0,20,0,0" />
 

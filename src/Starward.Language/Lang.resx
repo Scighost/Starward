@@ -1863,6 +1863,9 @@ Do you accept the risk and continue to use it?</value>
   <data name="SettingPage_RegistryBasedGameAccountSwitchingFeature" xml:space="preserve">
     <value>Registry-based Game Account Switching Feature</value>
   </data>
+  <data name="SettingPage_AutoPlayVideoBackground" xml:space="preserve">
+    <value>Automatically play the video background</value>
+  </data>
   <data name="ToolboxSetting_ZZZGachaItemImages" xml:space="preserve">
     <value>ZZZ Gacha Item Images</value>
   </data>
