@@ -106,14 +106,14 @@ public class StarRailDailyNote
     /// <summary>
     /// 当前模拟/差分宇宙积分
     /// </summary>
-    [JsonPropertyName("current_rogue_score")]
-    public int CurrentRogueScore { get; set; }
+    //[JsonPropertyName("current_rogue_score")]
+    //public int CurrentRogueScore { get; set; }
 
     /// <summary>
     /// 模拟/差分宇宙每周最大积分
     /// </summary>
-    [JsonPropertyName("max_rogue_score")]
-    public int MaxRogueScore { get; set; }
+    //[JsonPropertyName("max_rogue_score")]
+    //public int MaxRogueScore { get; set; }
 
     /// <summary>
     /// 历战余响剩余次数（周本）
@@ -174,15 +174,29 @@ public class StarRailDailyNote
     /// <summary>
     /// 货币战争当前积分
     /// </summary>
-    [JsonPropertyName("grid_fight_weekly_cur")]
-    public int GridFightWeeklyCurrent { get; set; }
+    //[JsonPropertyName("grid_fight_weekly_cur")]
+    //public int GridFightWeeklyCurrent { get; set; }
 
 
     /// <summary>
     /// 货币战争最大积分
     /// </summary>
-    [JsonPropertyName("grid_fight_weekly_max")]
-    public int GridFightWeeklyMax { get; set; }
+    //[JsonPropertyName("grid_fight_weekly_max")]
+    //public int GridFightWeeklyMax { get; set; }
+
+
+    /// <summary>
+    /// 当前周期积分
+    /// </summary>
+    [JsonPropertyName("period_score")]
+    public int PeriodScore { get; set; }
+
+
+    /// <summary>
+    /// 周期积分最大值
+    /// </summary>
+    [JsonPropertyName("period_max_score")]
+    public int PeriodMaxScore { get; set; }
 
 
 }
