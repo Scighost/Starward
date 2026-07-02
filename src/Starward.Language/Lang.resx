@@ -1975,7 +1975,7 @@ You are welcome to submit the exported data to the following repository:</value>
     <value>Daily Training</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Echo of War</value>
+    <value>Echo of War Remaining</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>Bonus Synchronicity Points</value>
@@ -2737,5 +2737,8 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>Clean up Launcher Background Files</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>Accumulated Points</value>
   </data>
 </root>

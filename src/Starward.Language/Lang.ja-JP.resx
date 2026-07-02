@@ -1974,7 +1974,7 @@
     <value>日常訓練</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>歴戦余韻</value>
+    <value>歴戦余韻残り</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>追加適合値</value>
@@ -2736,5 +2736,8 @@
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>ランチャー背景ファイルをクリーンアップ</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>累積ポイント</value>
   </data>
 </root>

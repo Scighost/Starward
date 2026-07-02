@@ -1975,7 +1975,7 @@
     <value>일일 활약도</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>전쟁의 여운</value>
+    <value>전쟁의 여운 남음</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>추가 적합값</value>
@@ -2737,5 +2737,8 @@
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>런처 배경 파일 정리</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>누적 포인트</value>
   </data>
 </root>

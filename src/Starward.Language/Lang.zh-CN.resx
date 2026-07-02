@@ -1975,7 +1975,7 @@
     <value>每日实训</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>历战余响</value>
+    <value>历战余响剩余</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>额外拟合值</value>
@@ -2737,5 +2737,8 @@
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>清理启动器背景文件</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>周期积分</value>
   </data>
 </root>
