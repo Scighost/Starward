@@ -500,7 +500,7 @@
                                             <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                             <Run Text="3" />
                                             <Run Text="" />
-                                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node3.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                         </TextBlock>
                                     </StackPanel>
                                     <TextBlock Grid.Row="0"
