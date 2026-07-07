@@ -473,7 +473,7 @@
                                            Source="{StaticResource StarwardModeCrown}" />
                                         <TextBlock FontSize="12"
                                                    VerticalAlignment="Center"
-                                                   Margin="6,2,0,0">
+                                                   Margin="6,3,0,0">
                                             <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                             <Run Text="3" />
                                             <Run Text="" />
