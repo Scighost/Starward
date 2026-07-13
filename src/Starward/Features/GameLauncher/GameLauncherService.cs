@@ -314,6 +314,17 @@ internal partial class GameLauncherService
     /// <returns></returns>
     public async Task<Process?> StartGameAsync(GameId gameId, string? installPath = null)
     {
+        return await StartGameAsync(gameId, installPath, AppConfig.GetStartArgument(gameId.GameBiz), AppConfig.GetEnableThirdPartyTool(gameId.GameBiz));
+    }
+
+
+
+    /// <summary>
+    /// 启动游戏
+    /// </summary>
+    /// <returns></returns>
+    public async Task<Process?> StartGameAsync(GameId gameId, string? installPath, string? arg, bool enableThirdPartyTool)
+    {
         const int ERROR_CANCELLED = 0x000004C7;
         try
         {
@@ -321,7 +332,7 @@ internal partial class GameLauncherService
             {
                 throw new Exception($"Game is running: {existingProcess.ProcessName}.exe ({existingProcess.Id}).");
             }
-            string? exe = null, arg = null, verb = null;
+            string? exe = null, verb = null;
             if (Directory.Exists(installPath))
             {
                 var e = Path.Join(installPath, await GetGameExeNameAsync(gameId));
@@ -331,7 +342,7 @@ internal partial class GameLauncherService
                 }
             }
             bool thirdPartyTool = false;
-            if (string.IsNullOrWhiteSpace(exe) && AppConfig.GetEnableThirdPartyTool(gameId.GameBiz))
+            if (string.IsNullOrWhiteSpace(exe) && enableThirdPartyTool)
             {
                 exe = GetThirdPartyToolPath(gameId);
                 if (File.Exists(exe))
@@ -358,7 +369,7 @@ internal partial class GameLauncherService
                     throw new FileNotFoundException("Game exe not found", name);
                 }
             }
-            arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
+            arg = arg?.Trim();
             if (AppConfig.EnableLoginAuthTicket is true)
             {
                 string? ticket = await _gameAuthLoginService.CreateAuthTicketByGameBiz(gameId);

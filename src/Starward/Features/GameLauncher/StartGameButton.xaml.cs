@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Starward.RPC.GameInstall;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 
@@ -31,6 +32,23 @@ public sealed partial class StartGameButton : UserControl
 
 
     public ICommand SettingCommand { get; set => SetProperty(ref field, value); }
+
+
+    private List<GameLaunchConfig> _GameLaunchConfigs;
+    public List<GameLaunchConfig> GameLaunchConfigs
+    {
+        get => _GameLaunchConfigs;
+        set
+        {
+            if (SetProperty(ref _GameLaunchConfigs, value))
+            {
+                UpdateConfigsFlyout();
+            }
+        }
+    }
+
+
+    public ICommand StartGameWithConfigCommand { get; set => SetProperty(ref field, value); }
 
 
     public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
@@ -133,10 +151,18 @@ public sealed partial class StartGameButton : UserControl
         else if (sender as Button == Button_GameAction)
         {
             ActionButtonPointerOver = true;
+            if (GameState is GameState.StartGame && GameLaunchConfigs?.Count > 0)
+            {
+                VisualStateManager.GoToState(this, "ActionPointerOver", true);
+            }
         }
         else if (sender as Button == Button_Setting)
         {
             SettingButtonPointerOver = true;
+        }
+        else if (sender as Button == Button_ConfigFlyout)
+        {
+            ActionButtonPointerOver = true;
         }
     }
 
@@ -150,12 +176,43 @@ public sealed partial class StartGameButton : UserControl
         else if (sender as Button == Button_GameAction)
         {
             ActionButtonPointerOver = false;
+            if (!Button_ConfigFlyout.IsPointerOver)
+            {
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
         }
         else if (sender as Button == Button_Setting)
         {
             SettingButtonPointerOver = false;
         }
+        else if (sender as Button == Button_ConfigFlyout)
+        {
+            if (!Button_GameAction.IsPointerOver)
+            {
+                ActionButtonPointerOver = false;
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
+        }
 
+    }
+
+
+    public void UpdateConfigsFlyout()
+    {
+        MenuFlyout_Configs.Items.Clear();
+        if (GameLaunchConfigs?.Count > 0)
+        {
+            foreach (var config in GameLaunchConfigs)
+            {
+                var item = new MenuFlyoutItem
+                {
+                    Text = string.IsNullOrWhiteSpace(config.Name) ? "Unnamed" : config.Name,
+                    Command = StartGameWithConfigCommand,
+                    CommandParameter = config,
+                };
+                MenuFlyout_Configs.Items.Add(item);
+            }
+        }
     }
 
 

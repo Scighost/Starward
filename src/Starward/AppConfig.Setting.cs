@@ -735,6 +735,17 @@ public static partial class AppConfig
     }
 
 
+    public static string? GetGameLaunchConfigs(GameBiz biz)
+    {
+        return GetValue<string>(default, $"launch_configs_{biz}");
+    }
+
+    public static void SetGameLaunchConfigs(GameBiz biz, string? value)
+    {
+        SetValue(value, $"launch_configs_{biz}");
+    }
+
+
     #endregion
 
 

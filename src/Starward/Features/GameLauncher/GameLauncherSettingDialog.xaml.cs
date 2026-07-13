@@ -16,10 +16,12 @@ using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -673,9 +675,23 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         _StartGameArgument = AppConfig.GetStartArgument(CurrentGameBiz);
         _EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameBiz);
         _ThirdPartyToolPath = GameLauncherService.GetThirdPartyToolPath(CurrentGameId);
+        try
+        {
+            var json = AppConfig.GetGameLaunchConfigs(CurrentGameBiz);
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                var list = JsonSerializer.Deserialize<List<GameLaunchConfig>>(json);
+                GameLaunchConfigs = new ObservableCollection<GameLaunchConfig>(list ?? new());
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize game launch configs");
+        }
         OnPropertyChanged(nameof(StartGameArgument));
         OnPropertyChanged(nameof(EnableThirdPartyTool));
         OnPropertyChanged(nameof(ThirdPartyToolPath));
+        OnPropertyChanged(nameof(GameLaunchConfigs));
     }
 
 
@@ -727,7 +743,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-    /// <summary>
+        /// <summary>
     /// 删除第三方工具路径
     /// </summary>
     [RelayCommand]
@@ -737,7 +753,44 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+    public ObservableCollection<GameLaunchConfig> GameLaunchConfigs { get; set; } = new();
 
+
+    private void SaveGameLaunchConfigs()
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(GameLaunchConfigs);
+            AppConfig.SetGameLaunchConfigs(CurrentGameBiz, json);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Save game launch configs");
+        }
+    }
+
+
+    [RelayCommand]
+    private void AddGameLaunchConfig()
+    {
+        GameLaunchConfigs.Add(new GameLaunchConfig { Name = "New Config" });
+        SaveGameLaunchConfigs();
+    }
+
+
+    [RelayCommand]
+    private void DeleteGameLaunchConfig(GameLaunchConfig config)
+    {
+        GameLaunchConfigs.Remove(config);
+        SaveGameLaunchConfigs();
+    }
+
+
+    [RelayCommand]
+    private void SaveGameLaunchConfigsCommand()
+    {
+        SaveGameLaunchConfigs();
+    }
 
 
     #endregion

@@ -21,6 +21,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Timers;
 using Windows.ApplicationModel.DataTransfer;
@@ -29,6 +31,20 @@ using Windows.System;
 
 
 namespace Starward.Features.GameLauncher;
+
+
+internal class GameLaunchConfig
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
+
+    [JsonPropertyName("args")]
+    public string? Args { get; set; }
+
+    [JsonPropertyName("enable_third_party")]
+    public bool EnableThirdParty { get; set; }
+}
+
 
 public sealed partial class GameLauncherPage : PageBase
 {
@@ -63,6 +79,7 @@ public sealed partial class GameLauncherPage : PageBase
     protected override void OnLoaded()
     {
         InitializeGameFeature();
+        InitializeGameLaunchConfigs();
         CheckGameVersion();
         UpdateGameInstallTask();
         CheckCloudGame();
@@ -540,11 +557,19 @@ public sealed partial class GameLauncherPage : PageBase
 
 
     [RelayCommand]
-    private async Task StartGameAsync()
+    private async Task StartGameAsync(GameLaunchConfig? config = null)
     {
         try
         {
-            var process = await _gameLauncherService.StartGameAsync(CurrentGameId);
+            Process? process;
+            if (config is null)
+            {
+                process = await _gameLauncherService.StartGameAsync(CurrentGameId);
+            }
+            else
+            {
+                process = await _gameLauncherService.StartGameAsync(CurrentGameId, null, config.Args, config.EnableThirdParty);
+            }
             if (process is not null)
             {
                 GameState = GameState.GameIsRunning;
@@ -560,6 +585,35 @@ public sealed partial class GameLauncherPage : PageBase
         {
             _logger.LogError(ex, "Start game");
         }
+    }
+
+
+    [RelayCommand]
+    private async Task StartGameWithConfigAsync(GameLaunchConfig config)
+    {
+        await StartGameAsync(config);
+    }
+
+
+    public List<GameLaunchConfig> GameLaunchConfigs { get; set; }
+
+
+    private void InitializeGameLaunchConfigs()
+    {
+        try
+        {
+            var json = AppConfig.GetGameLaunchConfigs(CurrentGameBiz);
+            if (!string.IsNullOrWhiteSpace(json))
+            {
+                GameLaunchConfigs = JsonSerializer.Deserialize<List<GameLaunchConfig>>(json) ?? new();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize game launch configs");
+        }
+        GameLaunchConfigs ??= new();
+        OnPropertyChanged(nameof(GameLaunchConfigs));
     }
 
 
@@ -899,7 +953,9 @@ public sealed partial class GameLauncherPage : PageBase
     [RelayCommand]
     private async Task OpenGameLauncherSettingDialogAsync()
     {
-        await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+        await new GameLauncherSettingDialog { CurrentGameId = CurrentGameId }.ShowAsync();
+        InitializeGameLaunchConfigs();
+        Button_StartGame.UpdateConfigsFlyout();
     }
 
 

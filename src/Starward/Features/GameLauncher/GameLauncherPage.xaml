@@ -551,9 +551,11 @@
                                    Grid.Column="2"
                                    HorizontalAlignment="Right"
                                    GameCommand="{x:Bind ClickStartGameButtonCommand}"
+                                   GameLaunchConfigs="{x:Bind GameLaunchConfigs}"
                                    GameState="{x:Bind GameState}"
                                    RunningGameInfo="{x:Bind RunningGameInfo}"
-                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}" />
+                                   SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}"
+                                   StartGameWithConfigCommand="{x:Bind StartGameWithConfigCommand}" />
 
 
             <!--  文字阴影  -->

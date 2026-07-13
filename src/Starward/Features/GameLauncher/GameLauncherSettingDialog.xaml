@@ -98,7 +98,8 @@
     </ContentDialog.Resources>
 
 
-    <Grid Width="800"
+    <Grid x:Name="RootGrid"
+          Width="800"
           Height="480"
           Padding="24,24,24,0">
 
@@ -429,6 +430,40 @@
                             <ComboBoxItem Content="{x:Bind lang:Lang.ExperienceSettingPage_MinimizeToTaskbar}" Tag="{x:Bind local:StartGameAction.Minimize}" />
                             <ComboBoxItem Content="{x:Bind lang:Lang.ExperienceSettingPage_MinimizeToSystemTray}" Tag="{x:Bind local:StartGameAction.Hide}" />
                         </ComboBox>
+
+                        <!--  多启动配置  -->
+                        <TextBlock Margin="0,12,0,0" Text="Multiple Launch Configs" />
+                        <ItemsControl ItemsSource="{x:Bind GameLaunchConfigs}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:GameLaunchConfig">
+                                    <Grid Margin="0,4,0,4" ColumnSpacing="8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="100" />
+                                            <ColumnDefinition />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox PlaceholderText="Name" Text="{x:Bind Name, Mode=TwoWay}" />
+                                        <TextBox Grid.Column="1"
+                                                 PlaceholderText="Arguments"
+                                                 Text="{x:Bind Args, Mode=TwoWay}" />
+                                        <CheckBox Grid.Column="2"
+                                                  Content="3rd Party"
+                                                  IsChecked="{x:Bind EnableThirdParty, Mode=TwoWay}" />
+                                        <Button Grid.Column="3"
+                                                Command="{Binding ElementName=RootGrid, Path=DataContext.DeleteGameLaunchConfigCommand}"
+                                                CommandParameter="{x:Bind}"
+                                                Content="&#xE711;"
+                                                FontFamily="{ThemeResource SymbolThemeFontFamily}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Command="{x:Bind AddGameLaunchConfigCommand}" Content="Add Config" />
+                            <Button Command="{x:Bind SaveGameLaunchConfigsCommand}" Content="Save Configs" />
+                        </StackPanel>
+
 
                         <!--  自定义启动程序  -->
                         <ToggleSwitch Margin="0,4,0,-4"

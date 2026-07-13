@@ -101,6 +101,18 @@
           Shadow="{ThemeResource ThemeShadow}"
           Translation="0,0,16">
 
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="ActionStates">
+                <VisualState x:Name="Normal" />
+                <VisualState x:Name="ActionPointerOver">
+                    <VisualState.Setters>
+                        <Setter Target="Button_GameAction.Width" Value="136" />
+                        <Setter Target="Button_ConfigFlyout.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <!--  Accent Color 背景  -->
         <Rectangle x:Name="Rect_AccentBackground"
                    Fill="{ThemeResource AccentFillColorDefaultBrush}"
@@ -110,7 +122,7 @@
         <!--  主要按键  -->
         <Button x:Name="Button_GameAction"
                 Padding="0"
-                HorizontalAlignment="Stretch"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
@@ -231,6 +243,29 @@
                 </Grid>
 
             </Grid>
+        </Button>
+
+
+        <!--  启动配置  -->
+        <Button x:Name="Button_ConfigFlyout"
+                Width="44"
+                Height="44"
+                Margin="136,0,0,0"
+                Padding="12"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                CornerRadius="22"
+                Foreground="{x:Bind ActionButtonForeground}"
+                PointerEntered="Control_PointerEntered"
+                PointerExited="Control_PointerExited"
+                Style="{ThemeResource GameButtonStyle}"
+                Visibility="Collapsed">
+            <FontIcon FontSize="12" Glyph="&#xE70D;" />
+            <Button.Flyout>
+                <MenuFlyout x:Name="MenuFlyout_Configs" Placement="Top" />
+            </Button.Flyout>
         </Button>
 
 
