@@ -1782,6 +1782,45 @@ Do you accept the risk and continue to use it?</value>
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>Verify</value>
   </data>
+  <data name="StartGameButton_DefaultLaunchOption" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="StartGameButton_ChooseLaunchOption" xml:space="preserve">
+    <value>Choose launch option</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptions" xml:space="preserve">
+    <value>Launch Options</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionsDescription" xml:space="preserve">
+    <value>Define multiple launch commands, and pick one from the dropdown next to the Start Game button when launching the game.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_AddLaunchOption" xml:space="preserve">
+    <value>Add Launch Option</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionExecutable" xml:space="preserve">
+    <value>Executable (leave empty to use the game's default executable)</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionArguments" xml:space="preserve">
+    <value>Command Line Arguments</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionRunAsAdmin" xml:space="preserve">
+    <value>Run as administrator</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionDefaultTooltip" xml:space="preserve">
+    <value>Uses the settings above (custom executable + command line arguments).</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionMoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionMoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LaunchOptionNameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>RPC Service is not Running</value>
   </data>
