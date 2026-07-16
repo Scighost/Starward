@@ -400,7 +400,10 @@
 
                 <!--  启动参数  -->
                 <FlipViewItem>
-                    <StackPanel Spacing="12">
+                    <ScrollViewer HorizontalScrollMode="Disabled"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalScrollMode="Auto">
+                        <StackPanel Margin="0,0,12,16" Spacing="12">
 
                         <TextBlock Text="{x:Bind lang:Lang.GameLauncherSettingDialog_CommandLineArgument}" />
 
@@ -617,7 +620,8 @@
                             </StackPanel>
                         </Button>
 
-                    </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
                 </FlipViewItem>
 
                 <!--  自定义背景  -->
