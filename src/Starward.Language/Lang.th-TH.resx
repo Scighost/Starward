@@ -1974,7 +1974,7 @@
     <value>การฝึกฝนรายวัน</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>เสียงสะท้อนแห่งสงคราม</value>
+    <value>เสียงสะท้อนแห่งสงครามคงเหลือ</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>คะแนนการซิงโครไนซ์โบนัส</value>
@@ -2731,5 +2731,8 @@
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>ล้างไฟล์พื้นหลังตัวเรียกใช้</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>คะแนนสะสม</value>
   </data>
 </root>
