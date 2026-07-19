@@ -1972,7 +1972,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Huấn Luyện Mỗi Ngày</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Dư Âm Chiến Đấu</value>
+    <value>Dư Âm Chiến Đấu còn lại</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>Điểm Đồng Bộ Thêm</value>
@@ -2125,7 +2125,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Cường độ sáng toàn màn hình tối đa</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
     <value>Dải tương phản tiêu chuẩn (SDR)</value>
@@ -2734,5 +2734,8 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>Dọn dẹp tệp nền trình khởi chạy</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>Điểm tích lũy</value>
   </data>
 </root>

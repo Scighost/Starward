@@ -1973,7 +1973,7 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
     <value>Tägliches Training</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Echo des Krieges</value>
+    <value>Echo des Krieges übrig</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>Zusätzliche Synchropunkte</value>
@@ -2735,5 +2735,8 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>Launcher-Hintergrunddateien bereinigen</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>Angesammelte Punkte</value>
   </data>
 </root>
