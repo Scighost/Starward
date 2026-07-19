@@ -269,9 +269,19 @@
 
                     <StackPanel Grid.Row="0" Margin="20,12,0,0">
                         <!--  BOSS 名称  -->
-                        <TextBlock FontSize="16"
-                                   FontWeight="Bold"
-                                   Text="{x:Bind CurrentChallengePeakRecord.BossInfo.NameMi18n}" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal"
+                                        Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord.HardMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock FontSize="16" FontWeight="Bold">
+                                    <Run Text="["/>
+                                    <Run Text="{x:Bind CurrentChallengePeakRecord.BossInfo.HardModeNameMi18n}"/>
+                                    <Run Text="]"/>
+                                </TextBlock>
+                            </StackPanel>
+                            <TextBlock FontSize="16"
+                                       FontWeight="Bold"
+                                       Text="{x:Bind CurrentChallengePeakRecord.BossInfo.NameMi18n}" />
+                        </StackPanel>
 
                         <!--  通关数据  -->
                         <StackPanel Margin="0,8,0,0"
@@ -393,9 +403,10 @@
 
                                     <StackPanel Grid.Row="0" Margin="20,12,0,0">
                                         <!--  BOSS 名称  -->
-                                        <TextBlock FontSize="16"
-                                                   FontWeight="Bold"
-                                                   Text="{x:Bind MobInfo.MonsterName}" />
+                                        <TextBlock FontSize="16" FontWeight="Bold">
+                                            <Run Text="{x:Bind MobInfo.Name}" />
+                                            <Run Text="{x:Bind MobInfo.MonsterName}" />
+                                        </TextBlock>
 
                                         <!--  通关数据  -->
                                         <StackPanel Margin="0,8,0,0"
@@ -407,7 +418,7 @@
                                                 <Run Text="{x:Bind MobRecord.RoundNum}" />
                                             </TextBlock>
 
-                                            <!--  已通关  -->
+                                            <!--  已通关 / 快速通关  -->
                                             <FontIcon Margin="20,2,4,0"
                                                       VerticalAlignment="Center"
                                                       FontSize="12"
@@ -415,7 +426,12 @@
                                                       Glyph="&#xEC61;" />
                                             <TextBlock Margin="0,0,4,0"
                                                        VerticalAlignment="Center"
-                                                       Text="{x:Bind lang:Lang.ChallengePeakPage_Cleared}" />
+                                                       Text="{x:Bind lang:Lang.ChallengePeakPage_Cleared}"
+                                                       Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                            <TextBlock Margin="0,0,4,0"
+                                                       VerticalAlignment="Center"
+                                                       Text="{x:Bind lang:Lang.ForgottenHallPage_QuickCleared}"
+                                                       Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                                             <!--  星星数  -->
                                             <ItemsControl HorizontalAlignment="Right" ItemsSource="{x:Bind linq:Enumerable.Range(0, MobRecord.StarNum)}">
@@ -450,20 +466,29 @@
                                                 VerticalAlignment="Top"
                                                 Spacing="8"
                                                 Visibility="{x:Bind MobRecord.HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <!--  通关时间  -->
-                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
-                                        <!--  队伍  -->
-                                        <ItemsControl Grid.Row="3"
-                                                      Grid.ColumnSpan="3"
-                                                      HorizontalAlignment="Left"
-                                                      ItemTemplate="{StaticResource StarRailTeamDataTemplate}"
-                                                      ItemsSource="{x:Bind MobRecord.Avatars}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" Spacing="12" />
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                        </ItemsControl>
+                                        <StackPanel Spacing="8"
+                                                    Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                            <!--  通关时间  -->
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
+                                            <!--  队伍  -->
+                                            <ItemsControl HorizontalAlignment="Left"
+                                                          ItemTemplate="{StaticResource StarRailTeamDataTemplate}"
+                                                          ItemsSource="{x:Bind MobRecord.Avatars}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="12" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </StackPanel>
+
+                                        <!-- 快速通关 -->
+                                        <Image Width="120"
+                                               Margin="60,0,0,0"
+                                               HorizontalAlignment="Left"
+                                               Source="ms-appx:///Assets/Image/20004.png"
+                                               Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                                     </StackPanel>
 
