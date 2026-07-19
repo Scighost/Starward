@@ -1975,7 +1975,7 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
     <value>Entrenamiento diario</value>
   </data>
   <data name="DailyNoteButton_StarRail_EchoOfWar" xml:space="preserve">
-    <value>Eco de la guerra</value>
+    <value>Eco de la guerra restante</value>
   </data>
   <data name="DailyNoteButton_StarRail_BonusSynchronicityPoints" xml:space="preserve">
     <value>Puntos de sincronización adicionales</value>
@@ -2737,5 +2737,8 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   </data>
   <data name="FileManageSetting_CleanUpLauncherBackgroundFiles" xml:space="preserve">
     <value>Limpiar archivos de fondo del launcher</value>
+  </data>
+  <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
+    <value>Puntos acumulados</value>
   </data>
 </root>
