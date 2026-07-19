@@ -283,7 +283,7 @@ public class InstallWindow : WindowBase
     {
         try
         {
-            string? folder = FileDialog.SelectFolder(new FolderDialogOptions { Owner = this.Handle });
+            string? folder = FileDialog.SelectFolder(new FolderDialogOptions { Owner = this });
             if (Directory.Exists(folder))
             {
                 if (new DirectoryInfo(folder).Name is not "Starward")

@@ -254,6 +254,8 @@ public class UpdateWindow : WindowBase
 
             await task;
 
+            Launch();
+
             StackPanel_UpdateProgress.IsVisible = false;
             ProgressRing_Update.IsVisible = false;
             Button_Launch.IsVisible = true;
