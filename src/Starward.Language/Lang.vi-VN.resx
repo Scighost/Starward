@@ -2125,7 +2125,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Cường độ sáng toàn màn hình tối đa</value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_SDRWhiteLuminance" xml:space="preserve">
-    <value />
+    <value></value>
   </data>
   <data name="GenshinHDRLuminanceSettingDialog_StandardDynamicRange" xml:space="preserve">
     <value>Dải tương phản tiêu chuẩn (SDR)</value>
