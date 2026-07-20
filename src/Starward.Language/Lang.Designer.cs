@@ -7099,6 +7099,123 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Default 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_DefaultLaunchOption {
+            get {
+                return ResourceManager.GetString("StartGameButton_DefaultLaunchOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Choose launch option 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_ChooseLaunchOption {
+            get {
+                return ResourceManager.GetString("StartGameButton_ChooseLaunchOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launch Options 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptions {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Define multiple launch commands, and pick one from the dropdown next to the Start Game button when launching the game. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionsDescription {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Launch Option 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_AddLaunchOption {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_AddLaunchOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionName {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Executable (leave empty to use the game's default executable) 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionExecutable {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionExecutable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Command Line Arguments 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionArguments {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Run as administrator 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionRunAsAdmin {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionRunAsAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Uses the settings above (custom executable + command line arguments). 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionDefaultTooltip {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionDefaultTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Move up 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionMoveUp {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionMoveUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Move down 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionMoveDown {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionMoveDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Name is required 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LaunchOptionNameRequired {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LaunchOptionNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Waiting 的本地化字符串。
         /// </summary>
         public static string StartGameButton_Waiting {
