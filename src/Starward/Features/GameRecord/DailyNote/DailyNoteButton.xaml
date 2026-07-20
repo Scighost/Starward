@@ -438,48 +438,34 @@
                                     Orientation="Horizontal"
                                     Spacing="20">
 
-                            <StackPanel Spacing="8">
-                                <!--  每日实训  -->
-                                <StackPanel>
-                                    <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
-                                    <TextBlock>
-                                        <Run Text="{x:Bind StarRailDailyNote.CurrentTrainScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxTrainScore}" />
-                                    </TextBlock>
-                                </StackPanel>
-
-                                <!--  历战余响剩余  -->
-                                <StackPanel>
-                                    <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
-                                    <TextBlock>
-                                        <Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonCnt}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonLimit}" />
-                                    </TextBlock>
-                                </StackPanel>
+                            <!--  每日实训  -->
+                            <StackPanel>
+                                <TextBlock FontSize="12"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
+                                <TextBlock>
+                                    <Run Text="{x:Bind StarRailDailyNote.CurrentTrainScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxTrainScore}" />
+                                </TextBlock>
                             </StackPanel>
 
-                            <StackPanel Spacing="8">
-                                <!--  模拟宇宙积分  -->
-                                <StackPanel>
-                                    <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_SimulatedUniversePoints}" />
-                                    <TextBlock>
-                                        <Run Text="{x:Bind StarRailDailyNote.CurrentRogueScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxRogueScore}" />
-                                    </TextBlock>
-                                </StackPanel>
+                            <!--  历战余响剩余  -->
+                            <StackPanel>
+                                <TextBlock FontSize="12"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
+                                <TextBlock>
+                                    <Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonCnt}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonLimit}" />
+                                </TextBlock>
+                            </StackPanel>
 
-                                <!--  货币战争积分  -->
-                                <StackPanel>
-                                    <TextBlock FontSize="12"
+                            <!--  周期积分  -->
+                            <StackPanel>
+                                <TextBlock FontSize="12"
                                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_CurrencyWarsPoints}" />
-                                    <TextBlock>
-                                        <Run Text="{x:Bind StarRailDailyNote.GridFightWeeklyCurrent}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.GridFightWeeklyMax}" />
-                                    </TextBlock>
-                                </StackPanel>
+                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_AccumulatedPoints}" />
+                                <TextBlock>
+                                        <Run Text="{x:Bind StarRailDailyNote.PeriodScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.PeriodMaxScore}" />
+                                </TextBlock>
                             </StackPanel>
 
                         </StackPanel>

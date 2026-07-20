@@ -317,7 +317,9 @@
                                             </ItemsControl>
                                         </StackPanel>
                                         <!--  总分  -->
-                                        <TextBlock HorizontalAlignment="Right" FontSize="12">
+                                        <TextBlock HorizontalAlignment="Right"
+                                                   FontSize="12"
+                                                   Visibility="{x:Bind IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
                                             <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ApocalypticShadowPage_TotalScore}" />
                                             <Run Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}" Text="{x:Bind TotalScore}" />
                                         </TextBlock>
@@ -492,15 +494,15 @@
                                     <StackPanel Grid.Row="0"
                                                 Orientation="Horizontal">
                                         <Image MaxHeight="14"
-                                           Margin="4,1,0,0"
+                                           Margin="4,3,0,0"
                                            Source="{StaticResource StarwardModeCrown}" />
                                         <TextBlock FontSize="12"
                                                    VerticalAlignment="Center"
-                                                   Margin="6,2,0,0">
+                                                   Margin="6,3,0,0">
                                             <Run Text="{x:Bind lang:Lang.ForgottenHallPage_TeamSetup}" />
                                             <Run Text="3" />
                                             <Run Text="" />
-                                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node2.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                            <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Node3.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
                                         </TextBlock>
                                     </StackPanel>
                                     <TextBlock Grid.Row="0"

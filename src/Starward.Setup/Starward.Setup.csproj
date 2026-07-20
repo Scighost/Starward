@@ -17,10 +17,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aprillz.MewUI" Version="0.15.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.9" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.9" />
-		<PackageReference Include="SharpCompress" Version="0.49.1" />
+		<PackageReference Include="Aprillz.MewUI" Version="0.19.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.10" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.10" />
+		<PackageReference Include="SharpCompress" Version="0.50.0" />
 		<PackageReference Include="Vanara.PInvoke.ComCtl32" Version="5.0.5" />
 		<PackageReference Include="WindowsShortcutFactory" Version="1.2.0" />
 	</ItemGroup>

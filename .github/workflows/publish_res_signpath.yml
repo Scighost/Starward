@@ -26,9 +26,9 @@ jobs:
     - name: Install UPX
       shell: pwsh
       run: |
-        Invoke-WebRequest https://github.com/upx/upx/releases/download/v5.1.1/upx-5.1.1-win64.zip -OutFile $env:RUNNER_TEMP/upx.zip
+        Invoke-WebRequest https://github.com/upx/upx/releases/download/v5.2.0/upx-5.2.0-win64.zip -OutFile $env:RUNNER_TEMP/upx.zip
         Expand-Archive -Path $env:RUNNER_TEMP/upx.zip -DestinationPath $env:RUNNER_TEMP/upx
-        Move-Item -Path $env:RUNNER_TEMP/upx/upx-5.1.1-win64/upx.exe -Destination C:/Windows/System32/upx.exe -Force
+        Move-Item -Path $env:RUNNER_TEMP/upx/upx-5.2.0-win64/upx.exe -Destination C:/Windows/System32/upx.exe -Force
 
     - name: Build pub_res
       shell: pwsh
@@ -60,8 +60,8 @@ jobs:
       with:
         api-token: '${{ secrets.SIGNPATH_API_TOKEN }}'
         organization-id: '${{ secrets.SIGNPATH_ORGANIZATION_ID }}'
-        project-slug: '${{ secrets.SIGNPATH_PROJECT_SLUG }}'
-        signing-policy-slug: '${{ secrets.SIGNPATH_SIGNING_POLICY_SLUG }}'
+        project-slug: '${{ vars.SIGNPATH_PROJECT_SLUG }}'
+        signing-policy-slug: '${{ vars.SIGNPATH_SIGNING_POLICY_SLUG }}'
         github-artifact-id: '${{ steps.upload-unsigned.outputs.artifact-id }}'
         wait-for-completion: true
         output-artifact-directory: publish/pub_res
@@ -97,7 +97,7 @@ jobs:
     - name: Upload signed pub_res to OSS
       if: ${{ vars.ENABLE_PUBRES_UPLOAD == 'true' }}
       run: |
-        ossutil cp ./publish/pub_res/ oss://starward-static/pub_res/ -r -f -j 20
+        ossutil cp ./publish/pub_res/ oss://starward-static/release/pub_res/ -r -f -j 20
       env:
         OSS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
         OSS_ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}

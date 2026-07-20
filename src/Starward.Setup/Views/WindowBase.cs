@@ -88,8 +88,8 @@ public class WindowBase : Window
         ExtendClientAreaTitleBarHeight = DefaultTitleBarHeight;
 
         StyleSheet = new StyleSheet();
-        StyleSheet.Define("chrome", ChromeButtonStyle);
-        StyleSheet.Define("close", CloseButtonStyle);
+        StyleSheet.Define("chrome", () => ChromeButtonStyle);
+        StyleSheet.Define("close", () => CloseButtonStyle);
 
         var minimizeBtn = CreateChromeButton(GlyphKind.Minus).OnClick(Minimize);
         minimizeBtn.SetBinding(IsVisibleProperty, this, CanMinimizeProperty);

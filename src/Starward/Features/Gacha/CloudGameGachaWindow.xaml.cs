@@ -13,9 +13,9 @@ public sealed partial class CloudGameGachaWindow : WindowEx
 {
 
 
-    private const string SPAN_WEB_PREFIX_YS_CN = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v3/index.html";
+    private const string SPAN_WEB_PREFIX_YS_CN = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha";
 
-    private const string SPAN_WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha-v2/index.html";
+    private const string SPAN_WEB_PREFIX_SR_CN = "https://webstatic.mihoyo.com/hkrpg/event/e20211215gacha";
 
 
 
@@ -59,7 +59,6 @@ public sealed partial class CloudGameGachaWindow : WindowEx
         {
 
         }
-
     }
 
 

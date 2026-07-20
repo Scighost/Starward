@@ -943,7 +943,7 @@
     <value>統計週期</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>使用輪：</value>
+    <value>使用輪次：</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
     <value>節點</value>
