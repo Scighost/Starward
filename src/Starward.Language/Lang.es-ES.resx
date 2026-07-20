@@ -2739,6 +2739,6 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
     <value>Limpiar archivos de fondo del launcher</value>
   </data>
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
-	<value>Puntos acumulados</value>
+    <value>Puntos acumulados</value>
   </data>
 </root>
