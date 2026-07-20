@@ -157,7 +157,7 @@
     <value>Откручено</value>
   </data>
   <data name="GachaStatsCard_Average" xml:space="preserve">
-    <value>Среднее значение</value>
+    <value>Ср. значение</value>
   </data>
   <data name="GachaStatsCard_Stats" xml:space="preserve">
     <value>Статистика</value>
@@ -2627,7 +2627,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
     <value>Перенести в настройки</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFourthFrontier" xml:space="preserve">
-    <value>Критический узел: Четвертая линия обороны</value>
+    <value>Критический узел: Четвертая Линия Обороны</value>
   </data>
   <data name="ShiyuDefensePage_CriticalNodeFifthFrontier" xml:space="preserve">
     <value>Критический узел: Пятая Линия Обороны</value>
