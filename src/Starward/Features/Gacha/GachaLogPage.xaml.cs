@@ -40,6 +40,8 @@ public sealed partial class GachaLogPage : PageBase
 
     private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
+    private readonly GenshinBeyondGachaService _genshinBeyondGachaService = AppConfig.GetService<GenshinBeyondGachaService>();
+
 
     private GachaLogService _gachaLogService;
 
@@ -985,6 +987,10 @@ public sealed partial class GachaLogPage : PageBase
                 return;
             }
             long uid = SelectUid.Value;
+            if (!await EnsureExportWithoutGenshinBeyondAsync(uid))
+            {
+                return;
+            }
             var ext = format switch
             {
                 "excel" => "xlsx",
@@ -1007,6 +1013,35 @@ public sealed partial class GachaLogPage : PageBase
             _logger.LogError(ex, "Export gacha log");
             InAppToast.MainWindow?.Error(ex);
         }
+    }
+
+
+
+
+    /// <summary>
+    /// UIGF v3.0 不支持千星奇域。若当前 Uid 存在千星奇域记录，提示用户这部分记录不会被导出，
+    /// 返回 false 表示用户选择取消，中断本次导出。
+    /// </summary>
+    private async Task<bool> EnsureExportWithoutGenshinBeyondAsync(long uid)
+    {
+        if (CurrentGameBiz.Game != GameBiz.hk4e)
+        {
+            return true;
+        }
+        if (!_genshinBeyondGachaService.GetUids().Contains(uid))
+        {
+            return true;
+        }
+        var dialog = new ContentDialog
+        {
+            Title = Lang.GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde,
+            Content = Lang.GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc,
+            PrimaryButtonText = Lang.Common_Continue,
+            SecondaryButtonText = Lang.Common_Cancel,
+            DefaultButton = ContentDialogButton.Secondary,
+            XamlRoot = this.XamlRoot,
+        };
+        return await dialog.ShowAsync() is ContentDialogResult.Primary;
     }
 
 

@@ -23,7 +23,7 @@
                    VerticalAlignment="Center"
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}">
             <Run Text="{x:Bind lang:Lang.ToolboxSetting_GachaRecordsImportExport}" />
-            <Run Text="(UIGF v4.0)" />
+            <Run Text="(UIGF v4.2)" />
         </TextBlock>
 
 
@@ -73,6 +73,10 @@
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="Uid" />
+                        <TextBlock Width="140"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GachaImportAndExportWindow_ArchiveType}" />
                         <TextBlock Width="80"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -104,6 +108,9 @@
                                     <TextBlock Width="100"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Uid}" />
+                                    <TextBlock Width="140"
+                                               VerticalAlignment="Center"
+                                               Text="{x:Bind ArchiveName}" />
                                     <TextBlock Width="80"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Count}" />
@@ -166,6 +173,10 @@
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="Uid" />
+                        <TextBlock Width="140"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GachaImportAndExportWindow_ArchiveType}" />
                         <TextBlock Width="80"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -204,6 +215,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="36" />
                                         <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="140" />
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="200" />
@@ -221,32 +233,36 @@
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Uid}" />
                                     <TextBlock Grid.Column="2"
+                                               Width="140"
+                                               VerticalAlignment="Center"
+                                               Text="{x:Bind ArchiveName}" />
+                                    <TextBlock Grid.Column="3"
                                                Width="80"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Count}" />
-                                    <TextBlock Grid.Column="3"
+                                    <TextBlock Grid.Column="4"
                                                Width="160"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind LastItemTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-                                    <TextBlock Grid.Column="4"
+                                    <TextBlock Grid.Column="5"
                                                Width="200"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind LastItemName}" />
-                                    <NumberBox Grid.Column="5"
+                                    <NumberBox Grid.Column="6"
                                                Width="160"
                                                VerticalAlignment="Center"
                                                SpinButtonPlacementMode="Inline"
                                                Value="{x:Bind Timezone, Mode=TwoWay}" />
-                                    <TextBlock Grid.Column="6"
+                                    <TextBlock Grid.Column="7"
                                                Width="160"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind LastItemTimeOffest.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
-                                    <TextBlock Grid.Column="7"
+                                    <TextBlock Grid.Column="8"
                                                VerticalAlignment="Center"
                                                Foreground="{ThemeResource SystemFillColorSuccessBrush}"
                                                Text="{x:Bind Result}"
                                                TextWrapping="Wrap" />
-                                    <TextBlock Grid.Column="7"
+                                    <TextBlock Grid.Column="8"
                                                VerticalAlignment="Center"
                                                Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                                                Text="{x:Bind Error}"

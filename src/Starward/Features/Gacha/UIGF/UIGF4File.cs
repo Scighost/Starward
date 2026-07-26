@@ -1,4 +1,4 @@
-using Starward.Core.Gacha;
+using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using System;
@@ -26,6 +26,13 @@ public class UIGF4File
     public List<UIGF4GachaArchive<ZZZGachaItem>>? napGachaArchives { get; set; }
 
 
+    /// <summary>
+    /// 千星奇域，UIGF v4.2 新增
+    /// </summary>
+    [JsonPropertyName("hk4e_ugc")]
+    public List<UIGF4GachaArchive<GenshinBeyondGachaItem>>? hk4eUgcGachaArchives { get; set; }
+
+
 
     public UIGF4File()
     {
@@ -33,6 +40,7 @@ public class UIGF4File
         hk4eGachaArchives = new();
         hkrpgGachaArchives = new();
         napGachaArchives = new();
+        hk4eUgcGachaArchives = new();
     }
 
 
@@ -60,7 +68,7 @@ public class UIGF4FileInfo
 
 
     [JsonPropertyName("version")]
-    public string Version { get; set; } = "v4.0";
+    public string Version { get; set; } = "v4.2";
 
 
     public UIGF4FileInfo()
@@ -75,7 +83,10 @@ public class UIGF4FileInfo
 
 
 
-public class UIGF4GachaArchive<T> where T : GachaLogItem
+/// <summary>
+/// 千星奇域的记录不继承 <see cref="Starward.Core.Gacha.GachaLogItem"/>，故此处不约束泛型参数
+/// </summary>
+public class UIGF4GachaArchive<T>
 {
 
     [JsonPropertyName("uid")]

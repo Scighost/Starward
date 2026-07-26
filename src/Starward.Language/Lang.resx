@@ -343,8 +343,14 @@ closing the program during decompression will cause game file corruption.</value
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Export as</value>
   </data>
-  <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Import from JSON</value>
+  <data name="GachaLogPage_ImportFromUIGF30" xml:space="preserve">
+    <value>Import from UIGF v3.0</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 does not support Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>This account has Miliastra Wonderland Ode records, but the UIGF v3.0 format cannot carry them. If you continue, those records will be left out of the exported file. To export them, use UIGF v4.2 instead.</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Show Novice Gacha Type</value>
@@ -1916,6 +1922,9 @@ You are welcome to submit the exported data to the following repository:</value>
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
     <value>Count</value>
+  </data>
+  <data name="GachaImportAndExportWindow_ArchiveType" xml:space="preserve">
+    <value>Archive Type</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
     <value>Time (Server Time Zone)</value>

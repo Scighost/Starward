@@ -343,8 +343,14 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>导出为</value>
   </data>
-  <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>从 JSON 导入</value>
+  <data name="GachaLogPage_ImportFromUIGF30" xml:space="preserve">
+    <value>从 UIGF v3.0 导入</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 不支持千星奇域</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>当前账号存在千星奇域抽卡记录，但 UIGF v3.0 格式无法承载这部分数据。若选择继续，导出的文件将不包含千星奇域记录。如需导出，请改用 UIGF v4.2。</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>显示新手卡池</value>
@@ -1916,6 +1922,9 @@
   </data>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
     <value>数量</value>
+  </data>
+  <data name="GachaImportAndExportWindow_ArchiveType" xml:space="preserve">
+    <value>档案类型</value>
   </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
     <value>时间 (服务器时区)</value>

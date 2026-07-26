@@ -31,7 +31,7 @@ public sealed partial class ToolboxSetting : PageBase
                             null,
                             nameof(UIGF4GachaWindow),
                             nameof(Lang.ToolboxSetting_GachaRecordsImportExport),
-                            ""){ Description="UIGF v4.0" },
+                            ""){ Description="UIGF v4.2" },
             new ToolboxItem(null,
                             "ms-appx:///Assets/Image/GachaTicket2Big.png",
                             nameof(ZZZGachaInfoWindow),
