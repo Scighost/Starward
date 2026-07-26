@@ -61,7 +61,7 @@
                     </StackPanel>
 
                     <TextBlock Grid.Row="1"
-                               Margin="296,8,0,0"
+                               Margin="448,8,0,0"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind lang:Lang.GachaImportAndExportWindow_TheLastGachaPull}" />
 
@@ -161,7 +161,7 @@
                                TextWrapping="Wrap" />
 
                     <TextBlock Grid.Row="2"
-                               Margin="296,8,0,0"
+                               Margin="448,8,0,0"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind lang:Lang.GachaImportAndExportWindow_TheLastGachaPull}" />
 

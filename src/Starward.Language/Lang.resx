@@ -343,8 +343,8 @@ closing the program during decompression will cause game file corruption.</value
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Export as</value>
   </data>
-  <data name="GachaLogPage_ImportFromUIGF30" xml:space="preserve">
-    <value>Import from UIGF v3.0</value>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Import from {0}</value>
   </data>
   <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
     <value>UIGF v3.0 does not support Miliastra Wonderland Ode</value>

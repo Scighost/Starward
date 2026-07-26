@@ -98,8 +98,13 @@ public class UIGF4GachaArchive<T>
     public int Timezone { get; set; }
 
 
+    /// <summary>
+    /// 语言代码。标准未将其列入 required，但定义了 enum，空字符串不是合法取值，
+    /// 因此无法确定语言时必须整个省略该字段，而不能写 ""。
+    /// </summary>
     [JsonPropertyName("lang")]
-    public string Lang { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? Lang { get; set; }
 
 
     [JsonPropertyName("list")]

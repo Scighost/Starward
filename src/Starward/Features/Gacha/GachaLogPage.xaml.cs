@@ -58,6 +58,15 @@ public sealed partial class GachaLogPage : PageBase
     {
         base.OnNavigatedTo(e);
         GachaTypeText = GachaLogService.GetGachaLogText(CurrentGameBiz);
+        // 旧版导出对应的标准：原神是 UIGF v3.0，星铁是 SRGF v1.0，
+        // 绝区零没有对应标准，Starward 只是套用了同样的结构，故仍标为 JSON
+        LegacyFormatName = CurrentGameBiz.Game switch
+        {
+            GameBiz.hk4e => "UIGF v3.0",
+            GameBiz.hkrpg => "SRGF v1.0",
+            _ => "JSON",
+        };
+        LegacyImportText = string.Format(Lang.GachaLogPage_ImportFrom0, LegacyFormatName);
         if (CurrentGameBiz.Game == GameBiz.hk4e)
         {
             EnableGenshinGachaItemStats = true;
@@ -99,6 +108,18 @@ public sealed partial class GachaLogPage : PageBase
 
 
     public string GachaTypeText { get; set => SetProperty(ref field, value); }
+
+
+    /// <summary>
+    /// 旧版（非 UIGF v4.x）导出格式名称，随游戏变化
+    /// </summary>
+    public string LegacyFormatName { get; set => SetProperty(ref field, value); } = "JSON";
+
+
+    /// <summary>
+    /// 旧版导入按钮文字，如「从 UIGF v3.0 导入」
+    /// </summary>
+    public string LegacyImportText { get; set => SetProperty(ref field, value); } = "";
 
 
     public ObservableCollection<long> UidList { get; set => SetProperty(ref field, value); }

@@ -209,10 +209,10 @@
                                                         HorizontalAlignment="Stretch"
                                                         Command="{x:Bind ExportGachaLogCommand}"
                                                         CommandParameter="json"
-                                                        Content="UIGF v3.0"
+                                                        Content="{x:Bind LegacyFormatName}"
                                                         CornerRadius="0,4,4,0" />
                                             </Grid>
-                                            <!--  从 UIGF v3.0 导入  -->
+                                            <!--  从 UIGF v3.0 / SRGF v1.0 / JSON 导入  -->
                                             <Button x:Name="Button_Import"
                                                     HorizontalAlignment="Stretch"
                                                     Command="{x:Bind ImportGachaLogCommand}">
@@ -220,7 +220,7 @@
                                                     <FontIcon Margin="0,2,0,0"
                                                               FontSize="16"
                                                               Glyph="&#xEA52;" />
-                                                    <TextBlock Text="{x:Bind lang:Lang.GachaLogPage_ImportFromUIGF30}" />
+                                                    <TextBlock Text="{x:Bind LegacyImportText}" />
                                                 </StackPanel>
                                             </Button>
                                             <!--  分割线  -->

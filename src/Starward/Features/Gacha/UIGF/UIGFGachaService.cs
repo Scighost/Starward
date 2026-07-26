@@ -201,7 +201,7 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
         };
         archive.Timezone = uid.ToString()[0] switch
         {
@@ -216,17 +216,24 @@ internal class UIGFGachaService
 
     /// <summary>
     /// 千星奇域，UIGF v4.2 的 hk4e_ugc 区段。
-    /// 记录本身没有 lang 字段，region 与 is_up 是标准未定义的扩展字段，随记录一并写出以便无损往返。
+    /// 记录本身没有 lang 字段，故从同一 Uid 的原神本体记录推导，再退回到抽卡语言设置；
+    /// 两者都拿不到时留 null 整个省略该字段，避免写出 enum 不允许的空字符串。
+    /// region 与 is_up 是标准未定义的扩展字段，随记录一并写出以便无损往返。
     /// </summary>
     private UIGF4GachaArchive<GenshinBeyondGachaItem> GetUIGFGachaArchiveForGenshinBeyond(long uid)
     {
         using var dapper = DatabaseService.CreateConnection();
         IEnumerable<GenshinBeyondGachaItem> list = dapper.Query<GenshinBeyondGachaItem>($"SELECT * FROM GenshinBeyondGachaItem WHERE Uid=@Uid ORDER BY Id;", new { Uid = uid });
+        string? lang = dapper.QueryFirstOrDefault<string?>($"SELECT Lang FROM GenshinGachaItem WHERE Uid=@Uid AND Lang IS NOT NULL AND Lang <> '' ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            lang = AppConfig.GachaLanguage;
+        }
         UIGF4GachaArchive<GenshinBeyondGachaItem> archive = new()
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = "",
+            Lang = string.IsNullOrWhiteSpace(lang) ? null : LanguageUtil.FilterLanguage(lang),
         };
         archive.Timezone = uid.ToString()[0] switch
         {
@@ -247,7 +254,7 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
         };
         archive.Timezone = uid.ToString()[0] switch
         {
@@ -268,7 +275,7 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
         };
         return archive;
     }

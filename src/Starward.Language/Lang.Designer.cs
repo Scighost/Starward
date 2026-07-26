@@ -2223,11 +2223,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import from UIGF v3.0 的本地化字符串。
+        ///   查找类似 Import from {0} 的本地化字符串。
         /// </summary>
-        public static string GachaLogPage_ImportFromUIGF30 {
+        public static string GachaLogPage_ImportFrom0 {
             get {
-                return ResourceManager.GetString("GachaLogPage_ImportFromUIGF30", resourceCulture);
+                return ResourceManager.GetString("GachaLogPage_ImportFrom0", resourceCulture);
             }
         }
 

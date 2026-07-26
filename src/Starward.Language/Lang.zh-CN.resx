@@ -343,8 +343,8 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>导出为</value>
   </data>
-  <data name="GachaLogPage_ImportFromUIGF30" xml:space="preserve">
-    <value>从 UIGF v3.0 导入</value>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>从 {0} 导入</value>
   </data>
   <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
     <value>UIGF v3.0 不支持千星奇域</value>
