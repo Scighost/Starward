@@ -26,7 +26,7 @@ public class GachaUidArchiveDisplay : ObservableObject
     /// </summary>
     public string ArchiveName => IsGenshinBeyond
         ? Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde
-        : Game switch
+        : Game.Value switch
         {
             GameBiz.hk4e => Lang.GachaLogService_WishRecords,
             GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
