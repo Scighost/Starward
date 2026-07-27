@@ -61,7 +61,7 @@
                     </StackPanel>
 
                     <TextBlock Grid.Row="1"
-                               Margin="448,8,0,0"
+                               Margin="508,8,0,0"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind lang:Lang.GachaImportAndExportWindow_TheLastGachaPull}" />
 
@@ -73,7 +73,7 @@
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="Uid" />
-                        <TextBlock Width="140"
+                        <TextBlock Width="200"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind lang:Lang.GachaImportAndExportWindow_ArchiveType}" />
@@ -108,7 +108,7 @@
                                     <TextBlock Width="100"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Uid}" />
-                                    <TextBlock Width="140"
+                                    <TextBlock Width="200"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind ArchiveName}" />
                                     <TextBlock Width="80"
@@ -161,7 +161,7 @@
                                TextWrapping="Wrap" />
 
                     <TextBlock Grid.Row="2"
-                               Margin="448,8,0,0"
+                               Margin="508,8,0,0"
                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                Text="{x:Bind lang:Lang.GachaImportAndExportWindow_TheLastGachaPull}" />
 
@@ -173,7 +173,7 @@
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="Uid" />
-                        <TextBlock Width="140"
+                        <TextBlock Width="200"
                                    VerticalAlignment="Center"
                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    Text="{x:Bind lang:Lang.GachaImportAndExportWindow_ArchiveType}" />
@@ -215,7 +215,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="36" />
                                         <ColumnDefinition Width="100" />
-                                        <ColumnDefinition Width="140" />
+                                        <ColumnDefinition Width="200" />
                                         <ColumnDefinition Width="80" />
                                         <ColumnDefinition Width="160" />
                                         <ColumnDefinition Width="200" />
@@ -233,7 +233,7 @@
                                                VerticalAlignment="Center"
                                                Text="{x:Bind Uid}" />
                                     <TextBlock Grid.Column="2"
-                                               Width="140"
+                                               Width="200"
                                                VerticalAlignment="Center"
                                                Text="{x:Bind ArchiveName}" />
                                     <TextBlock Grid.Column="3"

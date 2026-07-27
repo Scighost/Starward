@@ -22,9 +22,17 @@ public class GachaUidArchiveDisplay : ObservableObject
     public bool IsGenshinBeyond { get; set; }
 
     /// <summary>
-    /// 列表中显示的档案名称，如「原神」「千星奇域」
+    /// 列表中显示的抽卡记录名称，如「祈愿记录」「千星奇域颂愿」
     /// </summary>
-    public string ArchiveName => IsGenshinBeyond ? Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde : Game.ToGameName();
+    public string ArchiveName => IsGenshinBeyond
+        ? Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde
+        : Game switch
+        {
+            GameBiz.hk4e => Lang.GachaLogService_WishRecords,
+            GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
+            GameBiz.nap => Lang.GachaLogService_SignalSearchRecords,
+            _ => Game.ToGameName(),
+        };
 
     public long Uid { get; set; }
 
