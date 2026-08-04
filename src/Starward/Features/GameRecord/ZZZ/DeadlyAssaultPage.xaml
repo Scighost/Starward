@@ -188,10 +188,19 @@
                                 <TextBlock FontSize="28"
                                            FontWeight="Bold"
                                            Text="{x:Bind CurrentDeadlyAssault.HardTotalScore}" />
-                                <TextBlock Margin="0,0,0,6"
-                                           VerticalAlignment="Bottom"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind local:DeadlyAssaultPage.RankPercentText(CurrentDeadlyAssault.HardRankPercent)}" />
+                                <Grid Margin="0,0,0,6"
+                                      VerticalAlignment="Bottom">
+                                    <Image Height="20"
+                                           Stretch="Uniform"
+                                           Source="{x:Bind local:DeadlyAssaultPage.RankBackground(CurrentDeadlyAssault.HardRankPercent)}" />
+                                    <TextBlock Margin="8,0,0,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="Black"
+                                               FontWeight="Bold"
+                                               Text="{x:Bind local:DeadlyAssaultPage.RankPercentText(CurrentDeadlyAssault.HardRankPercent)}" />
+                                </Grid>
                             </StackPanel>
                         </StackPanel>
 
@@ -206,7 +215,8 @@
                                    Source="{StaticResource StarIconHard}" />
                             <TextBlock Margin="0,0,4,0"
                                        VerticalAlignment="Center"
-                                       FontSize="18">
+                                       FontSize="20"
+                                       FontWeight="Bold">
                                 <Run Text="x" /><Run Text="{x:Bind CurrentDeadlyAssault.HardTotalStar}" />
                             </TextBlock>
                         </StackPanel>
@@ -488,10 +498,19 @@
                                 <TextBlock FontSize="28"
                                            FontWeight="Bold"
                                            Text="{x:Bind CurrentDeadlyAssault.TotalScore}" />
-                                <TextBlock Margin="0,0,0,6"
-                                           VerticalAlignment="Bottom"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind local:DeadlyAssaultPage.RankPercentText(CurrentDeadlyAssault.RankPercent)}" />
+                                <Grid Margin="0,0,0,6"
+                                      VerticalAlignment="Bottom">
+                                    <Image Height="20"
+                                           Stretch="Uniform"
+                                           Source="{x:Bind local:DeadlyAssaultPage.RankBackground(CurrentDeadlyAssault.RankPercent)}" />
+                                    <TextBlock Margin="8,0,0,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="Black"
+                                               FontWeight="Bold"
+                                               Text="{x:Bind local:DeadlyAssaultPage.RankPercentText(CurrentDeadlyAssault.RankPercent)}" />
+                                </Grid>
                             </StackPanel>
                         </StackPanel>
 
@@ -506,7 +525,8 @@
                                    Source="{StaticResource StarIconLight}" />
                             <TextBlock Margin="0,0,4,0"
                                        VerticalAlignment="Center"
-                                       FontSize="18">
+                                       FontSize="20"
+                                       FontWeight="Bold">
                                 <Run Text="x" /><Run Text="{x:Bind CurrentDeadlyAssault.TotalStar}" />
                             </TextBlock>
                         </StackPanel>
