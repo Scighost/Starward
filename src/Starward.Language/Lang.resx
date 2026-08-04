@@ -2744,4 +2744,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
     <value>Trial Mode</value>
   </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Adversity Mode</value>
+  </data>
 </root>

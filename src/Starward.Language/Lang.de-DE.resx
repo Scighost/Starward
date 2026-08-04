@@ -2742,4 +2742,7 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
     <value>Testmodus</value>
   </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Adversity-Modus</value>
+  </data>
 </root>

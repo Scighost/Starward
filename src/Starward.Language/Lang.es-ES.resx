@@ -2744,4 +2744,7 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
     <value>Modo de prueba</value>
   </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Modo adversidad</value>
+  </data>
 </root>

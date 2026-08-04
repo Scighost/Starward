@@ -1133,6 +1133,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Adversity Mode 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_AdversityMode {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_AdversityMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Global Top 的本地化字符串。
         /// </summary>
         public static string DeadlyAssaultPage_GlobalTopPercent {

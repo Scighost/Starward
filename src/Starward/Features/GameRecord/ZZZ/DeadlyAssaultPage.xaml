@@ -20,6 +20,7 @@
     <Page.Resources>
         <BitmapImage x:Key="StarIconLight" UriSource="ms-appx:///Assets/Image/star-icon-light.5a286c6d.png" />
         <BitmapImage x:Key="StarIconDark" UriSource="ms-appx:///Assets/Image/star-icon-dark.28cb98f1.png" />
+        <BitmapImage x:Key="StarIconHard" UriSource="ms-appx:///Assets/Image/star-icon-hard.13c9ee51.png" />
         <local:ZZZRarityToIconConverter x:Key="ZZZRarityToIconConverter" />
     </Page.Resources>
 
@@ -103,12 +104,33 @@
                         <Grid.RowDefinitions>
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <TextBlock Text="{x:Bind StartTime.ToString('yyyy-MM-dd', x:Null)}" />
+                        <!--  绝境模式  -->
                         <StackPanel Grid.Row="1"
                                     Orientation="Horizontal"
+                                    Spacing="4"
+                                    Visibility="{x:Bind HasHard, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock MinWidth="46"
+                                       VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind HardTotalScore}" />
+                            <Image Width="20"
+                                   Height="20"
+                                   Source="{StaticResource StarIconHard}" />
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False">
+                                <Run Text="x" /><Run Text="{x:Bind HardTotalStar}" />
+                            </TextBlock>
+                        </StackPanel>
+                        <!--  试炼模式  -->
+                        <StackPanel Grid.Row="2"
+                                    Orientation="Horizontal"
                                     Spacing="4">
-                            <TextBlock MinWidth="44"
+                            <TextBlock MinWidth="46"
                                        VerticalAlignment="Center"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        IsTextScaleFactorEnabled="False"
@@ -118,8 +140,9 @@
                                    Source="{StaticResource StarIconLight}" />
                             <TextBlock VerticalAlignment="Center"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       IsTextScaleFactorEnabled="False"
-                                       Text="{x:Bind TotalStar}" />
+                                       IsTextScaleFactorEnabled="False">
+                                <Run Text="x" /><Run Text="{x:Bind TotalStar}" />
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
@@ -140,6 +163,305 @@
                         <Run Text=" - " />
                         <Run Text="{x:Bind CurrentDeadlyAssault.EndTime.ToString('yyyy/MM/dd', x:Null)}" />
                     </TextBlock>
+                </Grid>
+
+                <!--  绝境模式  -->
+                <Grid MaxWidth="680"
+                      Padding="16,12,16,12"
+                      HorizontalAlignment="Center"
+                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                      CornerRadius="8"
+                      RowSpacing="8"
+                      Shadow="{ThemeResource ThemeShadow}"
+                      Translation="0,0,16"
+                      Visibility="{x:Bind CurrentDeadlyAssault.HasHard, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!--  通关评分  -->
+                    <Grid>
+                        <StackPanel Margin="4,4,0,0">
+                            <TextBlock FontWeight="Bold" Text="{x:Bind lang:Lang.DeadlyAssaultPage_AdversityMode}" />
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <TextBlock FontSize="28"
+                                           FontWeight="Bold"
+                                           Text="{x:Bind CurrentDeadlyAssault.HardTotalScore}" />
+                                <TextBlock Margin="0,0,0,6"
+                                           VerticalAlignment="Bottom"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind local:DeadlyAssaultPage.RankPercentText(CurrentDeadlyAssault.HardRankPercent)}" />
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!--  Total Star  -->
+                        <StackPanel HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal"
+                                    Spacing="8">
+                            <Image Width="36"
+                                   Height="36"
+                                   VerticalAlignment="Center"
+                                   Source="{StaticResource StarIconHard}" />
+                            <TextBlock Margin="0,0,4,0"
+                                       VerticalAlignment="Center"
+                                       FontSize="18">
+                                <Run Text="x" /><Run Text="{x:Bind CurrentDeadlyAssault.HardTotalStar}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <!--  Boss Node  -->
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{x:Bind CurrentDeadlyAssault.HardNodes}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="12" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="fic:DeadlyAssaultNode">
+                                <Grid Padding="12,12,12,12"
+                                      Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                                      ColumnSpacing="16"
+                                      CornerRadius="12"
+                                      RowSpacing="4"
+                                      Shadow="{ThemeResource ThemeShadow}"
+                                      Translation="0,0,16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <!--  Boss Icon  -->
+                                    <Grid Grid.RowSpan="4"
+                                          Width="142"
+                                          Height="194"
+                                          VerticalAlignment="Top">
+                                        <sc:CachedImage Name="BossBg"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        CornerRadius="16"
+                                                        Source="{x:Bind Boss[0].BgIcon}"
+                                                        Stretch="UniformToFill" />
+                                        <sc:CachedImage HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        CornerRadius="16"
+                                                        Source="{x:Bind Boss[0].Icon}"
+                                                        Stretch="Uniform" />
+                                        <sc:CachedImage Width="48"
+                                                        Height="48"
+                                                        Margin="0,0,4,4"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Source="{x:Bind Boss[0].RaceIcon}" />
+                                        <Border x:Name="InnerStrokeBorder"
+                                                BorderBrush="#70FFFFFF"
+                                                BorderThickness="2"
+                                                CornerRadius="16" />
+                                    </Grid>
+                                    <!--  Boss Name  -->
+                                    <TextBlock Grid.Column="1"
+                                               FontSize="16"
+                                               FontWeight="Bold"
+                                               Text="{x:Bind Boss[0].Name}" />
+                                    <!--  Score  -->
+                                    <StackPanel Grid.Row="1"
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal"
+                                                Spacing="2">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontSize="24"
+                                                   FontWeight="Bold"
+                                                   Text="{x:Bind Score}" />
+                                        <ItemsControl Margin="4,3,0,0"
+                                                      VerticalAlignment="Center"
+                                                      ItemsSource="{x:Bind linq:Enumerable.Range(0, Star)}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Image Width="24"
+                                                           Height="24"
+                                                           Source="{StaticResource StarIconHard}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                    <!--  通关时刻  -->
+                                    <TextBlock Grid.Row="2"
+                                               Grid.Column="1"
+                                               FontSize="12">
+                                        <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ClearedAt}" />
+                                        <Run Text="{x:Bind ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}" />
+                                    </TextBlock>
+                                    <!--  代理人  -->
+                                    <StackPanel Grid.Row="3"
+                                                Grid.Column="1"
+                                                Margin="0,4,0,0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Orientation="Horizontal"
+                                                Spacing="8">
+                                        <!--  角色  -->
+                                        <ItemsRepeater ItemsSource="{x:Bind Avatars}">
+                                            <ItemsRepeater.Layout>
+                                                <StackLayout Orientation="Horizontal" Spacing="8" />
+                                            </ItemsRepeater.Layout>
+                                            <ItemsRepeater.ItemTemplate>
+                                                <DataTemplate x:DataType="scgz:ZZZAvatar">
+                                                    <Grid Width="76" Height="94">
+                                                        <Border Width="76"
+                                                                Height="94"
+                                                                VerticalAlignment="Top"
+                                                                Background="#0A0A0A"
+                                                                CornerRadius="8" />
+                                                        <!--  背景  -->
+                                                        <sc:CachedImage Margin="2,2,2,2"
+                                                                        HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Top"
+                                                                        CornerRadius="8,8,0,0"
+                                                                        Source="ms-appx:///Assets/Image/ZZZ_AvatarCard_Background.png" />
+                                                        <!--  图片  -->
+                                                        <sc:CachedImage Width="72"
+                                                                        Height="72"
+                                                                        Margin="2,2,2,2"
+                                                                        VerticalAlignment="Top"
+                                                                        CornerRadius="8,8,0,0"
+                                                                        Source="{x:Bind RoleSquareUrl}"
+                                                                        Stretch="UniformToFill" />
+                                                        <!--  等级  -->
+                                                        <TextBlock Margin="0,0,0,2"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Bottom"
+                                                                   FontSize="12"
+                                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                   IsTextScaleFactorEnabled="False">
+                                                            <Run Text="Lv." /><Run Text="{x:Bind Level}" />
+                                                        </TextBlock>
+                                                        <!--  稀有度  -->
+                                                        <Border Width="22"
+                                                                Height="22"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Top"
+                                                                Background="Black"
+                                                                CornerRadius="8,0,4,0">
+                                                            <Image Width="16"
+                                                                   Height="16"
+                                                                   HorizontalAlignment="Center"
+                                                                   VerticalAlignment="Center"
+                                                                   Source="{x:Bind Rarity, Converter={StaticResource ZZZRarityToIconConverter}}" />
+                                                        </Border>
+                                                        <!--  影画  -->
+                                                        <Border HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                Background="#A0000000"
+                                                                CornerRadius="0,8,0,4"
+                                                                Visibility="{x:Bind sfgr:AvatarRankHelper.RankToVisibility(Rank)}">
+                                                            <TextBlock Margin="4,2,4,2"
+                                                                       FontSize="14"
+                                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                       IsTextScaleFactorEnabled="False"
+                                                                       Text="{x:Bind Rank}" />
+                                                        </Border>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsRepeater.ItemTemplate>
+                                        </ItemsRepeater>
+                                        <!--  邦布  -->
+                                        <Grid Width="58"
+                                              Height="78"
+                                              Margin="0,15,0,0"
+                                              Background="#0A0A0A"
+                                              CornerRadius="8">
+                                            <!--  背景  -->
+                                            <sc:CachedImage Width="54"
+                                                            Height="56"
+                                                            Margin="2,2,2,2"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Top"
+                                                            CornerRadius="8,8,0,0"
+                                                            Source="ms-appx:///Assets/Image/ZZZ_AvatarCard_Background.png"
+                                                            Stretch="UniformToFill" />
+                                            <!--  邦布图  -->
+                                            <Border Width="54"
+                                                    Height="56"
+                                                    Margin="2,2,2,2"
+                                                    VerticalAlignment="Top"
+                                                    cw:UIElementExtensions.ClipToBounds="True"
+                                                    CornerRadius="8,8,0,0">
+                                                <sc:CachedImage Height="84"
+                                                                Margin="-8,-8,0,0"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Top"
+                                                                CornerRadius="8,8,0,0"
+                                                                Source="{x:Bind Buddy.RectangleUrl}"
+                                                                Stretch="UniformToFill" />
+                                            </Border>
+                                            <!--  等级  -->
+                                            <TextBlock Margin="0,0,0,2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Bottom"
+                                                       FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       IsTextScaleFactorEnabled="False">
+                                                <Run Text="Lv." /><Run Text="{x:Bind Buddy.Level}" />
+                                            </TextBlock>
+                                            <!--  稀有度  -->
+                                            <Border Width="20"
+                                                    Height="20"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Top"
+                                                    Background="Black"
+                                                    CornerRadius="8,0,4,0">
+                                                <Image Width="16"
+                                                       Height="16"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Source="{x:Bind Buddy.Rarity, Converter={StaticResource ZZZRarityToIconConverter}}" />
+                                            </Border>
+                                        </Grid>
+                                    </StackPanel>
+                                    <!--  Buff  -->
+                                    <Grid Grid.RowSpan="4"
+                                          Grid.Column="2"
+                                          VerticalAlignment="Top">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Orientation="Horizontal">
+                                            <sc:CachedImage Width="32"
+                                                            Height="32"
+                                                            Source="{x:Bind Buff[0].Icon}" />
+                                            <TextBlock Margin="8,0,0,2"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="16"
+                                                       Text="{x:Bind Buff[0].Name}" />
+                                        </StackPanel>
+                                        <sc:ColorfulTextBlock Grid.Row="1"
+                                                              Margin="0,8,0,0"
+                                                              FontSize="12"
+                                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                              Text="{x:Bind Buff[0].Desc}"
+                                                              TextWrapping="Wrap" />
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </Grid>
 
                 <!--  试炼模式  -->
@@ -184,14 +506,16 @@
                                    Source="{StaticResource StarIconLight}" />
                             <TextBlock Margin="0,0,4,0"
                                        VerticalAlignment="Center"
-                                       FontSize="16"
-                                       Text="{x:Bind CurrentDeadlyAssault.TotalStar}" />
+                                       FontSize="18">
+                                <Run Text="x" /><Run Text="{x:Bind CurrentDeadlyAssault.TotalStar}" />
+                            </TextBlock>
                         </StackPanel>
                     </Grid>
 
 
                     <!--  Boss Node  -->
-                    <ItemsControl Grid.Row="1" ItemsSource="{x:Bind CurrentDeadlyAssault.AllNodes}">
+                    <ItemsControl Grid.Row="1"
+                                  ItemsSource="{x:Bind CurrentDeadlyAssault.AllNodes}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Spacing="12" />

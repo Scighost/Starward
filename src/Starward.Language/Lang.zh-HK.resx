@@ -2743,4 +2743,7 @@
   <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
     <value>試煉模式</value>
   </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>絕境模式</value>
+  </data>
 </root>

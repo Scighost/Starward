@@ -2741,4 +2741,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
     <value>Chế độ thử nghiệm</value>
   </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Chế độ nghịch cảnh</value>
+  </data>
 </root>
