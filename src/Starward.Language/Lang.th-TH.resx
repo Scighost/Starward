@@ -2735,4 +2735,7 @@
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>คะแนนสะสม</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>โหมดทดลอง</value>
+  </data>
 </root>

@@ -2738,4 +2738,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>Điểm tích lũy</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>Chế độ thử nghiệm</value>
+  </data>
 </root>

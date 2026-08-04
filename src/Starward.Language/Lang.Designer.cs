@@ -1151,6 +1151,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Trial Mode 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_TrialMode {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_TrialMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Warning: The selected time period includes gacha records from more than 6 months ago, which cannot be retrieved after deleting. 的本地化字符串。
         /// </summary>
         public static string DeleteGachaLogDialog_6MonthsDeletingWarning {

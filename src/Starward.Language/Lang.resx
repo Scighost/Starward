@@ -2741,4 +2741,7 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>Accumulated Points</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>Trial Mode</value>
+  </data>
 </root>

@@ -2740,4 +2740,7 @@
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>週期積分</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>試煉模式</value>
+  </data>
 </root>
