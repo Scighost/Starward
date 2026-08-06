@@ -1923,9 +1923,6 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="GachaImportAndExportWindow_Count" xml:space="preserve">
     <value>Count</value>
   </data>
-  <data name="GachaImportAndExportWindow_ArchiveType" xml:space="preserve">
-    <value>Archive Type</value>
-  </data>
   <data name="GachaImportAndExportWindow_TimeServerTimeZone" xml:space="preserve">
     <value>Time (Server Time Zone)</value>
   </data>

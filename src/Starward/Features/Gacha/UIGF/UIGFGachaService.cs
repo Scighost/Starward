@@ -89,7 +89,7 @@ internal class UIGFGachaService
             var display = new GachaUidArchiveDisplay
             {
                 Game = GameBiz.hk4e,
-                GameIcon = "ms-appx:///Assets/Image/icon_ys.jpg",
+                GameIcon = "ms-appx:///Assets/Image/icon_ys_ugc.jpg",
                 IsGenshinBeyond = true,
                 Uid = uid,
                 Count = count,
@@ -324,7 +324,7 @@ internal class UIGFGachaService
                 GachaUidArchiveDisplay archive = new()
                 {
                     Game = GameBiz.hk4e,
-                    GameIcon = "ms-appx:///Assets/Image/icon_ys.jpg",
+                    GameIcon = "ms-appx:///Assets/Image/icon_ys_ugc.jpg",
                     IsGenshinBeyond = true,
                     Uid = item.Uid,
                     hk4eUgcList = item.List,
