@@ -169,25 +169,34 @@ internal class ScreenCaptureService
             var iccStream = await displayInfo.GetColorProfileAsync();
             if (iccStream is null)
             {
-                return new ColorPrimaries
+                var p = new ColorPrimaries
                 {
                     Red = new Vector2((float)colorInfo.RedPrimary.X, (float)colorInfo.RedPrimary.Y),
                     Green = new Vector2((float)colorInfo.GreenPrimary.X, (float)colorInfo.GreenPrimary.Y),
                     Blue = new Vector2((float)colorInfo.BluePrimary.X, (float)colorInfo.BluePrimary.Y),
                     White = new Vector2((float)colorInfo.WhitePoint.X, (float)colorInfo.WhitePoint.Y),
                 };
+                return ArePrimariesValid(p) ? p : ColorPrimaries.BT709;
             }
             else
             {
                 byte[] iccData = new byte[iccStream.Size];
                 await iccStream.AsStream().ReadExactlyAsync(iccData).ConfigureAwait(false);
-                return ICCHelper.GetColorPrimariesFromIccData(iccData);
+                var p = ICCHelper.GetColorPrimariesFromIccData(iccData);
+                return ArePrimariesValid(p) ? p : ColorPrimaries.BT709;
             }
         }
         catch
         {
             return ColorPrimaries.BT709;
         }
+    }
+
+
+    private static bool ArePrimariesValid(ColorPrimaries p)
+    {
+        return Valid(p.Red) && Valid(p.Green) && Valid(p.Blue) && Valid(p.White);
+        static bool Valid(Vector2 v) => float.IsFinite(v.X) && float.IsFinite(v.Y) && v.X > 0f && v.X < 1f && v.Y > 0f && v.Y < 1f && v.X + v.Y <= 1f;
     }
 
 
