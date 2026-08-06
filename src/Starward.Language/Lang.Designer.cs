@@ -1133,6 +1133,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Adversity Mode 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_AdversityMode {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_AdversityMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Global Top 的本地化字符串。
         /// </summary>
         public static string DeadlyAssaultPage_GlobalTopPercent {
@@ -1147,6 +1156,15 @@ namespace Starward.Language {
         public static string DeadlyAssaultPage_TotalScore {
             get {
                 return ResourceManager.GetString("DeadlyAssaultPage_TotalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Trial Mode 的本地化字符串。
+        /// </summary>
+        public static string DeadlyAssaultPage_TrialMode {
+            get {
+                return ResourceManager.GetString("DeadlyAssaultPage_TrialMode", resourceCulture);
             }
         }
         

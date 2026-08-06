@@ -256,7 +256,8 @@ internal static class DatabaseService
         Sql_v16,
         Sql_v17,
         Sql_v18,
-        Sql_v19
+        Sql_v19,
+        Sql_v20
     ];
 
 
@@ -1021,6 +1022,17 @@ internal static class DatabaseService
         ALTER TABLE StarRailForgottenHallInfo ADD COLUMN ExtraStarNum INTEGER DEFAULT 0 NOT NULL;
 
         PRAGMA USER_VERSION = 19;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v20 = """
+        BEGIN TRANSACTION;
+
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HasHard INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalScore INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
+
+        PRAGMA USER_VERSION = 20;
         COMMIT TRANSACTION;
         """;
 

@@ -2738,4 +2738,10 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
     <value>Nhập từ file JSON</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>Chế độ thử nghiệm</value>
+  </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Chế độ nghịch cảnh</value>
+  </data>
 </root>

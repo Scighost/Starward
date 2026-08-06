@@ -2735,4 +2735,10 @@
   <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
     <value>นำเข้าจาก JSON</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>โหมดทดลอง</value>
+  </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>โหมดวิกฤต</value>
+  </data>
 </root>
