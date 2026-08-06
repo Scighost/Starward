@@ -901,10 +901,19 @@
                                 <TextBlock FontSize="28"
                                            FontWeight="Bold"
                                            Text="{x:Bind CurrentShiyuDefenseV2.Brief.Score}" />
-                                <TextBlock Margin="0,0,0,6"
-                                           VerticalAlignment="Bottom"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           Text="{x:Bind local:ShiyuDefensePage.RankPercentText(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
+                                <Grid Margin="0,0,0,6"
+                                      VerticalAlignment="Bottom">
+                                    <Image Height="20"
+                                           Stretch="Uniform"
+                                           Source="{x:Bind local:ShiyuDefensePage.RankBackground(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
+                                    <TextBlock Margin="8,0,0,1"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="Black"
+                                               FontWeight="Bold"
+                                               Text="{x:Bind local:ShiyuDefensePage.RankPercentText(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
+                                </Grid>
                             </StackPanel>
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"

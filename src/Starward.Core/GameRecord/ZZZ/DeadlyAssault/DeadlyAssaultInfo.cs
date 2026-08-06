@@ -36,6 +36,9 @@ public class DeadlyAssaultInfo
     [JsonPropertyName("rank_percent")]
     public int RankPercent { get; set; }
 
+    /// <summary>
+    /// 试炼模式节点
+    /// </summary>
     [JsonPropertyName("list")]
     public List<DeadlyAssaultNode> AllNodes { get; set; }
 
@@ -66,6 +69,37 @@ public class DeadlyAssaultInfo
     /// </summary>
     [JsonPropertyName("total_star")]
     public int TotalStar { get; set; }
+
+
+    /// <summary>
+    /// 是否有绝境模式数据
+    /// </summary>
+    [JsonPropertyName("has_hard")]
+    public bool HasHard { get; set; }
+
+    /// <summary>
+    /// 绝境模式节点
+    /// </summary>
+    [JsonPropertyName("hard_list")]
+    public List<DeadlyAssaultNode> HardNodes { get; set; }
+
+    /// <summary>
+    /// 绝境模式当前排名，以0.01%为单位
+    /// </summary>
+    [JsonPropertyName("hard_rank_percent")]
+    public int HardRankPercent { get; set; }
+
+    /// <summary>
+    /// 绝境模式总分
+    /// </summary>
+    [JsonIgnore]
+    public int HardTotalScore { get; set; }
+
+    /// <summary>
+    /// 绝境模式总星数
+    /// </summary>
+    [JsonIgnore]
+    public int HardTotalStar { get; set; }
 
 
     [JsonExtensionData]

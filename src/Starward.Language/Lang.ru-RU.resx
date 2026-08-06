@@ -2761,4 +2761,10 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>Накопленные очки</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>Испытательный режим</value>
+  </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Режим невзгод</value>
+  </data>
 </root>

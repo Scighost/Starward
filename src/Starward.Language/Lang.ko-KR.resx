@@ -2741,4 +2741,10 @@
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>누적 포인트</value>
   </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>트라이얼 모드</value>
+  </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>역경 모드</value>
+  </data>
 </root>
