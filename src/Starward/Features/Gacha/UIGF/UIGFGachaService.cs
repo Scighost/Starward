@@ -5,6 +5,7 @@ using Starward.Core.Gacha;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
+using Starward.Core.Localization;
 using Starward.Features.Database;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ internal class UIGFGachaService
         List<GachaUidArchiveDisplay> result =
         [
             .. GetLocalGachaArchivesForGenshin(),
+            .. GetLocalGachaArchivesForGenshinBeyond(),
             .. GetLocalGachaArchivesForStarRail(),
             .. GetLocalGachaArchivesForZZZ(),
         ];
@@ -64,6 +66,35 @@ internal class UIGFGachaService
                 Count = count,
                 LastItemGachaType = ((GenshinGachaType)lastItem.GachaType).ToLocalization(),
                 LastItemName = lastItem.Name,
+                LastItemTime = lastItem.Time
+            };
+            result.Add(display);
+        }
+        return result;
+    }
+
+
+    /// <summary>
+    /// 千星奇域，与原神本体共用 Uid，单独成行
+    /// </summary>
+    private List<GachaUidArchiveDisplay> GetLocalGachaArchivesForGenshinBeyond()
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        List<GachaUidArchiveDisplay> result = new();
+        var uidList = dapper.Query<long>($"SELECT DISTINCT Uid FROM GenshinBeyondGachaItem;");
+        foreach (long uid in uidList)
+        {
+            int count = dapper.QueryFirstOrDefault<int>($"SELECT COUNT(*) FROM GenshinBeyondGachaItem WHERE Uid=@Uid;", new { Uid = uid });
+            GenshinBeyondGachaItem lastItem = dapper.QueryFirst<GenshinBeyondGachaItem>($"SELECT * FROM GenshinBeyondGachaItem WHERE Uid=@Uid ORDER BY Time DESC LIMIT 1;", new { Uid = uid });
+            var display = new GachaUidArchiveDisplay
+            {
+                Game = GameBiz.hk4e,
+                GameIcon = "ms-appx:///Assets/Image/icon_ys_ugc.jpg",
+                IsGenshinBeyond = true,
+                Uid = uid,
+                Count = count,
+                LastItemGachaType = lastItem.OpGachaType is 1000 ? CoreLang.GachaType_StandardOde : CoreLang.GachaType_EventOde,
+                LastItemName = lastItem.ItemName,
                 LastItemTime = lastItem.Time
             };
             result.Add(display);
@@ -130,7 +161,14 @@ internal class UIGFGachaService
         {
             if (archive.Game == GameBiz.hk4e)
             {
-                uigfObj.hk4eGachaArchives!.Add(GetUIGFGachaArchiveForGenshin(archive.Uid));
+                if (archive.IsGenshinBeyond)
+                {
+                    uigfObj.hk4eUgcGachaArchives!.Add(GetUIGFGachaArchiveForGenshinBeyond(archive.Uid));
+                }
+                else
+                {
+                    uigfObj.hk4eGachaArchives!.Add(GetUIGFGachaArchiveForGenshin(archive.Uid));
+                }
             }
             if (archive.Game == GameBiz.hkrpg)
             {
@@ -163,7 +201,39 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
+        };
+        archive.Timezone = uid.ToString()[0] switch
+        {
+            '6' => -5,
+            '7' => 1,
+            _ => 8,
+        };
+        return archive;
+    }
+
+
+
+    /// <summary>
+    /// 千星奇域，UIGF v4.2 的 hk4e_ugc 区段。
+    /// 记录本身没有 lang 字段，故从同一 Uid 的原神本体记录推导，再退回到抽卡语言设置；
+    /// 两者都拿不到时留 null 整个省略该字段，避免写出 enum 不允许的空字符串。
+    /// region 与 is_up 是标准未定义的扩展字段，随记录一并写出以便无损往返。
+    /// </summary>
+    private UIGF4GachaArchive<GenshinBeyondGachaItem> GetUIGFGachaArchiveForGenshinBeyond(long uid)
+    {
+        using var dapper = DatabaseService.CreateConnection();
+        IEnumerable<GenshinBeyondGachaItem> list = dapper.Query<GenshinBeyondGachaItem>($"SELECT * FROM GenshinBeyondGachaItem WHERE Uid=@Uid ORDER BY Id;", new { Uid = uid });
+        string? lang = dapper.QueryFirstOrDefault<string?>($"SELECT Lang FROM GenshinGachaItem WHERE Uid=@Uid AND Lang IS NOT NULL AND Lang <> '' ORDER BY Id DESC LIMIT 1;", new { Uid = uid });
+        if (string.IsNullOrWhiteSpace(lang))
+        {
+            lang = AppConfig.GachaLanguage;
+        }
+        UIGF4GachaArchive<GenshinBeyondGachaItem> archive = new()
+        {
+            Uid = uid,
+            List = list.ToList(),
+            Lang = string.IsNullOrWhiteSpace(lang) ? null : LanguageUtil.FilterLanguage(lang),
         };
         archive.Timezone = uid.ToString()[0] switch
         {
@@ -184,7 +254,7 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
         };
         archive.Timezone = uid.ToString()[0] switch
         {
@@ -205,7 +275,7 @@ internal class UIGFGachaService
         {
             Uid = uid,
             List = list.ToList(),
-            Lang = list.LastOrDefault()?.Lang ?? "",
+            Lang = list.LastOrDefault()?.Lang is { Length: > 0 } l ? l : null,
         };
         return archive;
     }
@@ -240,6 +310,27 @@ internal class UIGFGachaService
                     Count = item.List.Count,
                     LastItemGachaType = ((GenshinGachaType)last.GachaType).ToLocalization(),
                     LastItemName = last.Name,
+                    LastItemTime = last.Time,
+                    LastItemTimeOffest = last.Time,
+                };
+                list.Add(archive);
+            }
+        }
+        foreach (UIGF4GachaArchive<GenshinBeyondGachaItem> item in uigf4Obj.hk4eUgcGachaArchives ?? [])
+        {
+            if (item.List.Count > 0)
+            {
+                GenshinBeyondGachaItem last = item.List.OrderBy(x => x.Id).Last();
+                GachaUidArchiveDisplay archive = new()
+                {
+                    Game = GameBiz.hk4e,
+                    GameIcon = "ms-appx:///Assets/Image/icon_ys_ugc.jpg",
+                    IsGenshinBeyond = true,
+                    Uid = item.Uid,
+                    hk4eUgcList = item.List,
+                    Count = item.List.Count,
+                    LastItemGachaType = last.OpGachaType is 1000 ? CoreLang.GachaType_StandardOde : CoreLang.GachaType_EventOde,
+                    LastItemName = last.ItemName,
                     LastItemTime = last.Time,
                     LastItemTimeOffest = last.Time,
                 };
@@ -303,7 +394,14 @@ internal class UIGFGachaService
                 archive.Error = null;
                 if (archive.Game == GameBiz.hk4e)
                 {
-                    ImportForGenshin(archive);
+                    if (archive.IsGenshinBeyond)
+                    {
+                        ImportForGenshinBeyond(archive);
+                    }
+                    else
+                    {
+                        ImportForGenshin(archive);
+                    }
                 }
                 if (archive.Game == GameBiz.hkrpg)
                 {
@@ -375,6 +473,72 @@ internal class UIGFGachaService
             """, list, t);
         t.Commit();
         _logger.LogInformation("Imported {count} gacha records for {game}.", affect, archive.Game);
+        archive.Result = noName ? Lang.UIGFGachaService_ImportSuccessfulButNoRecordItemName : Lang.UIGFGachaService_ImportSuccessful;
+    }
+
+
+
+    /// <summary>
+    /// 千星奇域。region 与 is_up 是 UIGF 未定义的扩展字段，来自其他应用的文件可能没有，缺失时留空。
+    /// </summary>
+    private void ImportForGenshinBeyond(GachaUidArchiveDisplay archive)
+    {
+        List<GenshinBeyondGachaItem> list = new();
+        DateTime TIME = new DateTime(2025, 10, 1);
+        bool noName = false;
+        foreach (GenshinBeyondGachaItem item in archive.hk4eUgcList ?? [])
+        {
+            if (item.Id == 0)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_0FieldIsMissingInAGachaRecord, "id"));
+            }
+            if (item.ItemId == 0)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_0FieldIsMissingInAGachaRecord, "item_id"));
+            }
+            if (item.OpGachaType == 0)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_0FieldIsMissingInAGachaRecord, "op_gacha_type"));
+            }
+            if (item.Time < TIME)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_0FieldIsMissingInAGachaRecord, "time"));
+            }
+            if (item.RankType == 0)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_0FieldIsMissingInAGachaRecord, "rank_type"));
+            }
+            if (string.IsNullOrWhiteSpace(item.ItemName))
+            {
+                noName = true;
+            }
+            if (item.Uid != 0 && item.Uid != archive.Uid)
+            {
+                throw new UIGF4ImportException(archive.Game, archive.Uid, string.Format(Lang.UIGFGachaService_UidMismatchDetectedExpected0ButFound1, archive.Uid, item.Uid));
+            }
+            list.Add(new GenshinBeyondGachaItem
+            {
+                Uid = archive.Uid,
+                Id = item.Id,
+                Region = item.Region,
+                OpGachaType = item.OpGachaType,
+                ScheduleId = item.ScheduleId,
+                ItemType = item.ItemType,
+                ItemId = item.ItemId,
+                ItemName = item.ItemName,
+                RankType = item.RankType,
+                IsUp = item.IsUp,
+                Time = item.Time.AddHours(archive.Timezone),
+            });
+        }
+        using var dapper = DatabaseService.CreateConnection();
+        using var t = dapper.BeginTransaction();
+        var affect = dapper.Execute("""
+            INSERT OR REPLACE INTO GenshinBeyondGachaItem (Uid, Id, Region, OpGachaType, ScheduleId, ItemType, ItemId, ItemName, RankType, IsUp, Time)
+            VALUES (@Uid, @Id, @Region, @OpGachaType, @ScheduleId, @ItemType, @ItemId, @ItemName, @RankType, @IsUp, @Time);
+            """, list, t);
+        t.Commit();
+        _logger.LogInformation("Imported {count} gacha records for {game} beyond.", affect, archive.Game);
         archive.Result = noName ? Lang.UIGFGachaService_ImportSuccessfulButNoRecordItemName : Lang.UIGFGachaService_ImportSuccessful;
     }
 

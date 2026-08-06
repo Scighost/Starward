@@ -2232,11 +2232,11 @@ namespace Starward.Language {
         }
         
         /// <summary>
-        ///   查找类似 Import from JSON 的本地化字符串。
+        ///   查找类似 Import from {0} 的本地化字符串。
         /// </summary>
-        public static string GachaLogPage_ImportFromJson {
+        public static string GachaLogPage_ImportFrom0 {
             get {
-                return ResourceManager.GetString("GachaLogPage_ImportFromJson", resourceCulture);
+                return ResourceManager.GetString("GachaLogPage_ImportFrom0", resourceCulture);
             }
         }
         
@@ -2408,6 +2408,24 @@ namespace Starward.Language {
         public static string GachaLogPage_SyncFromMiyousheAll {
             get {
                 return ResourceManager.GetString("GachaLogPage_SyncFromMiyousheAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UIGF v3.0 does not support Miliastra Wonderland Ode 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde {
+            get {
+                return ResourceManager.GetString("GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 This account has Miliastra Wonderland Ode records, but the UIGF v3.0 format cannot carry them. If you continue, those records will be left out of the exported file. To export them, use UIGF v4.2 instead. 的本地化字符串。
+        /// </summary>
+        public static string GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc {
+            get {
+                return ResourceManager.GetString("GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc", resourceCulture);
             }
         }
         

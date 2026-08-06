@@ -40,6 +40,8 @@ public sealed partial class GachaLogPage : PageBase
 
     private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
+    private readonly GenshinBeyondGachaService _genshinBeyondGachaService = AppConfig.GetService<GenshinBeyondGachaService>();
+
 
     private GachaLogService _gachaLogService;
 
@@ -56,6 +58,15 @@ public sealed partial class GachaLogPage : PageBase
     {
         base.OnNavigatedTo(e);
         GachaTypeText = GachaLogService.GetGachaLogText(CurrentGameBiz);
+        // 旧版导出对应的标准：原神是 UIGF v3.0，星铁是 SRGF v1.0，
+        // 绝区零没有对应标准，Starward 只是套用了同样的结构，故仍标为 JSON
+        LegacyFormatName = CurrentGameBiz.Game switch
+        {
+            GameBiz.hk4e => "UIGF v3.0",
+            GameBiz.hkrpg => "SRGF v1.0",
+            _ => "JSON",
+        };
+        LegacyImportText = string.Format(Lang.GachaLogPage_ImportFrom0, LegacyFormatName);
         if (CurrentGameBiz.Game == GameBiz.hk4e)
         {
             EnableGenshinGachaItemStats = true;
@@ -97,6 +108,18 @@ public sealed partial class GachaLogPage : PageBase
 
 
     public string GachaTypeText { get; set => SetProperty(ref field, value); }
+
+
+    /// <summary>
+    /// 旧版（非 UIGF v4.x）导出格式名称，随游戏变化
+    /// </summary>
+    public string LegacyFormatName { get; set => SetProperty(ref field, value); } = "JSON";
+
+
+    /// <summary>
+    /// 旧版导入按钮文字，如「从 UIGF v3.0 导入」
+    /// </summary>
+    public string LegacyImportText { get; set => SetProperty(ref field, value); } = "";
 
 
     public ObservableCollection<long> UidList { get; set => SetProperty(ref field, value); }
@@ -985,6 +1008,10 @@ public sealed partial class GachaLogPage : PageBase
                 return;
             }
             long uid = SelectUid.Value;
+            if (!await EnsureExportWithoutGenshinBeyondAsync(uid))
+            {
+                return;
+            }
             var ext = format switch
             {
                 "excel" => "xlsx",
@@ -1007,6 +1034,35 @@ public sealed partial class GachaLogPage : PageBase
             _logger.LogError(ex, "Export gacha log");
             InAppToast.MainWindow?.Error(ex);
         }
+    }
+
+
+
+
+    /// <summary>
+    /// UIGF v3.0 不支持千星奇域。若当前 Uid 存在千星奇域记录，提示用户这部分记录不会被导出，
+    /// 返回 false 表示用户选择取消，中断本次导出。
+    /// </summary>
+    private async Task<bool> EnsureExportWithoutGenshinBeyondAsync(long uid)
+    {
+        if (CurrentGameBiz.Game != GameBiz.hk4e)
+        {
+            return true;
+        }
+        if (!_genshinBeyondGachaService.GetUids().Contains(uid))
+        {
+            return true;
+        }
+        var dialog = new ContentDialog
+        {
+            Title = Lang.GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde,
+            Content = Lang.GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc,
+            PrimaryButtonText = Lang.Common_Continue,
+            SecondaryButtonText = Lang.Common_Cancel,
+            DefaultButton = ContentDialogButton.Secondary,
+            XamlRoot = this.XamlRoot,
+        };
+        return await dialog.ShowAsync() is ContentDialogResult.Primary;
     }
 
 
