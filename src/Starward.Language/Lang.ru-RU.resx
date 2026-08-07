@@ -343,6 +343,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Экспорт как</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Импорт из {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 не поддерживает Оды Астрального Предела</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>У этого аккаунта есть записи Оды Астрального Предела, но формат UIGF v3.0 не может их сохранить. Если вы продолжите, эти записи останутся без экспортируемого файла. Для их экспорта используйте UIGF v4.2.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Показать тип гачи новичка</value>
   </data>
