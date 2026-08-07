@@ -6,6 +6,7 @@ using Starward.Features.HoYoPlay;
 using Starward.Features.PlayTime;
 using Starward.Helpers;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -312,7 +313,7 @@ internal partial class GameLauncherService
     /// 启动游戏
     /// </summary>
     /// <returns></returns>
-    public async Task<Process?> StartGameAsync(GameId gameId, string? installPath = null)
+    public async Task<Process?> StartGameAsync(GameId gameId, string? installPath = null, GameLaunchScheme? scheme = null)
     {
         const int ERROR_CANCELLED = 0x000004C7;
         try
@@ -321,6 +322,8 @@ internal partial class GameLauncherService
             {
                 throw new Exception($"Game is running: {existingProcess.ProcessName}.exe ({existingProcess.Id}).");
             }
+            // 内置默认预设与未传入预设行为一致，均沿用旧的 AppConfig 中 “自定义启动程序 / 命令行参数” 设置。
+            bool useCustomScheme = scheme is not null && !scheme.IsBuiltIn;
             string? exe = null, arg = null, verb = null;
             if (Directory.Exists(installPath))
             {
@@ -331,7 +334,31 @@ internal partial class GameLauncherService
                 }
             }
             bool thirdPartyTool = false;
-            if (string.IsNullOrWhiteSpace(exe) && AppConfig.GetEnableThirdPartyTool(gameId.GameBiz))
+            if (useCustomScheme && !string.IsNullOrWhiteSpace(scheme!.ExecutablePath))
+            {
+                // 用户自定义预设优先级最高，跳过全局第三方工具设置。
+                string schemeExe = GetFullPathIfRelativePath(scheme.ExecutablePath);
+                if (File.Exists(schemeExe))
+                {
+                    exe = schemeExe;
+                    thirdPartyTool = true;
+                    string ext = Path.GetExtension(exe);
+                    if (scheme.RunAsAdmin && ext is ".exe" or ".bat")
+                    {
+                        verb = "runas";
+                    }
+                    else
+                    {
+                        verb = "";
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("Launch scheme executable not found: {path}", scheme.ExecutablePath);
+                    exe = null;
+                }
+            }
+            if (!thirdPartyTool && !useCustomScheme && string.IsNullOrWhiteSpace(exe) && AppConfig.GetEnableThirdPartyTool(gameId.GameBiz))
             {
                 exe = GetThirdPartyToolPath(gameId);
                 if (File.Exists(exe))
@@ -358,7 +385,14 @@ internal partial class GameLauncherService
                     throw new FileNotFoundException("Game exe not found", name);
                 }
             }
-            arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
+            if (useCustomScheme)
+            {
+                arg = scheme!.Arguments?.Trim();
+            }
+            else
+            {
+                arg = AppConfig.GetStartArgument(gameId.GameBiz)?.Trim();
+            }
             if (AppConfig.EnableLoginAuthTicket is true)
             {
                 string? ticket = await _gameAuthLoginService.CreateAuthTicketByGameBiz(gameId);
@@ -385,7 +419,7 @@ internal partial class GameLauncherService
                 arg = $"""/c start "" /d "{Path.GetDirectoryName(exe)}" "{exe}" {arg}""";
                 exe = "cmd.exe";
             }
-            _logger.LogInformation("Start game ({biz})\r\npath: {exe}\r\narg: {arg}", gameId, exe, arg);
+            _logger.LogInformation("Start game ({biz}) scheme: {scheme}\r\npath: {exe}\r\narg: {arg}", gameId, scheme?.Name ?? "default", exe, arg);
             var info = new ProcessStartInfo
             {
                 FileName = exe,
@@ -542,6 +576,78 @@ internal partial class GameLauncherService
     }
 
 
+
+
+    /// <summary>
+    /// 获取内置默认启动预设，用于表示 “默认启动”，其行为完全由 AppConfig 中现有的
+    /// 自定义启动程序 / 命令行参数设置决定。
+    /// </summary>
+    public static GameLaunchScheme GetBuiltInDefaultScheme()
+    {
+        return new GameLaunchScheme
+        {
+            Id = GameLaunchScheme.BuiltInDefaultId,
+            Name = Lang.StartGameButton_DefaultLaunchOption,
+            IsBuiltIn = true,
+        };
+    }
+
+
+    /// <summary>
+    /// 获取用户为指定游戏定义的自定义启动预设列表（不包含内置默认预设）。
+    /// </summary>
+    public static List<GameLaunchScheme> GetLaunchSchemes(GameBiz biz)
+    {
+        return GameLaunchScheme.Deserialize(AppConfig.GetLaunchSchemes(biz));
+    }
+
+
+    /// <summary>
+    /// 获取包含内置默认预设的完整启动预设列表，默认预设位于首位。
+    /// </summary>
+    public static List<GameLaunchScheme> GetAllLaunchSchemes(GameBiz biz)
+    {
+        List<GameLaunchScheme> list = GetLaunchSchemes(biz);
+        list.Insert(0, GetBuiltInDefaultScheme());
+        return list;
+    }
+
+
+    /// <summary>
+    /// 保存用户自定义启动预设列表（不含内置默认预设）。
+    /// </summary>
+    public static void SaveLaunchSchemes(GameBiz biz, IEnumerable<GameLaunchScheme>? schemes)
+    {
+        List<GameLaunchScheme>? list = schemes?.Where(x => !x.IsBuiltIn).ToList();
+        AppConfig.SetLaunchSchemes(biz, GameLaunchScheme.Serialize(list));
+    }
+
+
+    /// <summary>
+    /// 获取当前选择的启动预设。若没有选择或选择的预设不存在，返回内置默认预设。
+    /// </summary>
+    public static GameLaunchScheme GetSelectedLaunchScheme(GameBiz biz)
+    {
+        string? id = AppConfig.GetSelectedLaunchSchemeId(biz);
+        if (!string.IsNullOrEmpty(id) && id != GameLaunchScheme.BuiltInDefaultId)
+        {
+            GameLaunchScheme? match = GetLaunchSchemes(biz).FirstOrDefault(x => x.Id == id);
+            if (match is not null)
+            {
+                return match;
+            }
+        }
+        return GetBuiltInDefaultScheme();
+    }
+
+
+    /// <summary>
+    /// 记住选择的启动预设。
+    /// </summary>
+    public static void SetSelectedLaunchScheme(GameBiz biz, GameLaunchScheme? scheme)
+    {
+        AppConfig.SetSelectedLaunchSchemeId(biz, scheme?.Id);
+    }
 
 
 }

@@ -552,6 +552,7 @@
                                    HorizontalAlignment="Right"
                                    GameCommand="{x:Bind ClickStartGameButtonCommand}"
                                    GameState="{x:Bind GameState}"
+                                   LaunchOptionSelected="Button_StartGame_LaunchOptionSelected"
                                    RunningGameInfo="{x:Bind RunningGameInfo}"
                                    SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}" />
 

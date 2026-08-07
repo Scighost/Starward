@@ -66,6 +66,7 @@ public sealed partial class GameLauncherPage : PageBase
         CheckGameVersion();
         UpdateGameInstallTask();
         CheckCloudGame();
+        RefreshLaunchOptions();
         _ = InitializeGameServerAsync();
         _ = InitializeBackgameImageSwitcherAsync();
         WeakReferenceMessenger.Default.Register<GameInstallPathChangedMessage>(this, OnGameInstallPathChanged);
@@ -73,6 +74,7 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
         WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        WeakReferenceMessenger.Default.Register<LaunchSchemesChangedMessage>(this, OnLaunchSchemesChanged);
     }
 
 
@@ -544,7 +546,8 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
-            var process = await _gameLauncherService.StartGameAsync(CurrentGameId);
+            GameLaunchScheme scheme = GameLauncherService.GetSelectedLaunchScheme(CurrentGameBiz);
+            var process = await _gameLauncherService.StartGameAsync(CurrentGameId, scheme: scheme);
             if (process is not null)
             {
                 GameState = GameState.GameIsRunning;
@@ -563,6 +566,73 @@ public sealed partial class GameLauncherPage : PageBase
     }
 
 
+
+
+    #endregion
+
+
+
+
+    #region Launch Options
+
+
+    /// <summary>
+    /// 刷新启动预设菜单并同步选中项
+    /// </summary>
+    private void RefreshLaunchOptions()
+    {
+        try
+        {
+            List<GameLaunchScheme> schemes = GameLauncherService.GetAllLaunchSchemes(CurrentGameBiz);
+            GameLaunchScheme selected = GameLauncherService.GetSelectedLaunchScheme(CurrentGameBiz);
+            Button_StartGame.UpdateLaunchOptions(schemes, selected.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Refresh launch options ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    private void OnLaunchSchemesChanged(object _, LaunchSchemesChangedMessage message)
+    {
+        RefreshLaunchOptions();
+    }
+
+
+    /// <summary>
+    /// 点击启动预设菜单项：记住选择，并直接以该预设启动游戏。
+    /// </summary>
+    private async void Button_StartGame_LaunchOptionSelected(string id)
+    {
+        try
+        {
+            List<GameLaunchScheme> all = GameLauncherService.GetAllLaunchSchemes(CurrentGameBiz);
+            GameLaunchScheme scheme = all.FirstOrDefault(x => x.Id == id) ?? GameLauncherService.GetBuiltInDefaultScheme();
+            GameLauncherService.SetSelectedLaunchScheme(CurrentGameBiz, scheme);
+            Button_StartGame.UpdateLaunchOptions(all, scheme.Id);
+
+            if (GameState is not GameState.StartGame)
+            {
+                return;
+            }
+            var process = await _gameLauncherService.StartGameAsync(CurrentGameId, scheme: scheme);
+            if (process is not null)
+            {
+                GameState = GameState.GameIsRunning;
+                GameProcess = process;
+                WeakReferenceMessenger.Default.Send(new GameStartedMessage());
+            }
+        }
+        catch (FileNotFoundException)
+        {
+            CheckGameVersion();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Start game with launch option {id}", id);
+        }
+    }
 
 
     #endregion

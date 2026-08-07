@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Starward.RPC.GameInstall;
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 
@@ -44,6 +45,9 @@ public sealed partial class StartGameButton : UserControl
 
 
     public bool SettingButtonPointerOver { get; set { if (SetProperty(ref field, value)) UpdateButtonForeground(); } }
+
+
+    public bool LaunchOptionsButtonPointerOver { get; set { if (SetProperty(ref field, value)) UpdateButtonForeground(); } }
 
 
     public bool GameStateIsInstalling => GameState is GameState.Installing;
@@ -86,6 +90,86 @@ public sealed partial class StartGameButton : UserControl
     };
 
 
+    public Brush LaunchOptionsButtonForeground => (IsLaunchOptionsButtonEnabled, IsAccentColorBackgroundVisible, LaunchOptionsButtonPointerOver) switch
+    {
+        (false, _, _) => TextOnAccentFillColorDisabled,
+        (true, false, true) => AccentFillColorDefaultBrush,
+        (true, false, false) => TextOnAccentFillColorDisabled,
+        _ => TextOnAccentFillColorPrimaryBrush
+    };
+
+
+    /// <summary>
+    /// 启动预设下拉按钮可见性。仅当存在自定义启动预设时显示。
+    /// </summary>
+    public bool IsLaunchOptionsButtonVisible { get; set { if (SetProperty(ref field, value)) OnPropertyChanged(nameof(StartGameTextMargin)); } }
+
+
+    /// <summary>
+    /// 启动预设下拉按钮启用条件，与 <see cref="GameState"/> 是否为 <see cref="GameState.StartGame"/> 相关
+    /// </summary>
+    public bool IsLaunchOptionsButtonEnabled => GameState is GameState.StartGame;
+
+
+    /// <summary>
+    /// 启动按钮文本左右边距。当启动预设下拉按钮可见时，右侧需要留出额外空间。
+    /// </summary>
+    public Thickness StartGameTextMargin => IsLaunchOptionsButtonVisible
+        ? new Thickness(41, 5, 81, 6)
+        : new Thickness(41, 5, 53, 6);
+
+
+    /// <summary>
+    /// 启动预设选择回调。参数为预设 Id（内置默认预设为 <see cref="GameLaunchScheme.BuiltInDefaultId"/>）。
+    /// </summary>
+    public event Action<string>? LaunchOptionSelected;
+
+
+    /// <summary>
+    /// 更新启动预设菜单。
+    /// </summary>
+    public void UpdateLaunchOptions(IReadOnlyList<GameLaunchScheme> schemes, string? selectedId)
+    {
+        Flyout_LaunchOptions.Items.Clear();
+        if (schemes is null || schemes.Count <= 1)
+        {
+            IsLaunchOptionsButtonVisible = false;
+            return;
+        }
+        foreach (GameLaunchScheme scheme in schemes)
+        {
+            var item = new MenuFlyoutItem
+            {
+                Text = string.IsNullOrWhiteSpace(scheme.Name) ? scheme.Id : scheme.Name,
+                Tag = scheme.Id,
+            };
+            if (scheme.Id == selectedId)
+            {
+                item.Icon = new FontIcon { Glyph = "\uE73E", FontSize = 14 };
+            }
+            item.Click += LaunchOptionMenuItem_Click;
+            Flyout_LaunchOptions.Items.Add(item);
+        }
+        IsLaunchOptionsButtonVisible = true;
+        OnPropertyChanged(nameof(LaunchOptionsButtonForeground));
+    }
+
+
+    private void LaunchOptionMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuFlyoutItem { Tag: string id })
+        {
+            LaunchOptionSelected?.Invoke(id);
+        }
+    }
+
+
+    private void Button_LaunchOptions_Click(object sender, RoutedEventArgs e)
+    {
+        // MenuFlyout 会自动展开；这里保留 Click 事件以维持 Style 一致的视觉反馈。
+    }
+
+
 
     private void UpdateActionButtonState()
     {
@@ -98,6 +182,8 @@ public sealed partial class StartGameButton : UserControl
         OnPropertyChanged(nameof(IsAccentColorBackgroundVisible));
         OnPropertyChanged(nameof(IsGameActionCommandRunning));
         OnPropertyChanged(nameof(StartGameButtonText));
+        OnPropertyChanged(nameof(IsLaunchOptionsButtonEnabled));
+        OnPropertyChanged(nameof(LaunchOptionsButtonForeground));
         UpdateButtonForeground();
     }
 
@@ -107,6 +193,7 @@ public sealed partial class StartGameButton : UserControl
     {
         OnPropertyChanged(nameof(ActionButtonForeground));
         OnPropertyChanged(nameof(SettingButtonForeground));
+        OnPropertyChanged(nameof(LaunchOptionsButtonForeground));
     }
 
 
@@ -138,6 +225,10 @@ public sealed partial class StartGameButton : UserControl
         {
             SettingButtonPointerOver = true;
         }
+        else if (sender as Button == Button_LaunchOptions)
+        {
+            LaunchOptionsButtonPointerOver = true;
+        }
     }
 
 
@@ -154,6 +245,10 @@ public sealed partial class StartGameButton : UserControl
         else if (sender as Button == Button_Setting)
         {
             SettingButtonPointerOver = false;
+        }
+        else if (sender as Button == Button_LaunchOptions)
+        {
+            LaunchOptionsButtonPointerOver = false;
         }
 
     }
@@ -355,6 +450,7 @@ public sealed partial class StartGameButton : UserControl
     {
         OnPropertyChanged(nameof(ActionButtonForeground));
         OnPropertyChanged(nameof(SettingButtonForeground));
+        OnPropertyChanged(nameof(LaunchOptionsButtonForeground));
     }
 
 
