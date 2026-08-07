@@ -990,12 +990,14 @@ public sealed partial class GameLauncherPage : PageBase
                 return;
             }
             GameBackground current = BackgroundImages[index];
-            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage(current));
             CanStopVideo = current.Type is GameBackground.BACKGROUND_TYPE_VIDEO;
             if (CanStopVideo)
             {
+                // 视频背景是否播放，在未手动设置时跟随全局开关
+                current.StopVideo = AppConfig.GetVideoBgManualStop(CurrentGameId.GameBiz) ?? !AppConfig.VideoBgAutoPlay;
                 StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
             }
+            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage(current));
         }
         catch { }
     }
@@ -1131,6 +1133,8 @@ public sealed partial class GameLauncherPage : PageBase
             if (current.Type is GameBackground.BACKGROUND_TYPE_VIDEO)
             {
                 current.StopVideo = !current.StopVideo;
+                // 记录用户对该游戏视频背景是否播放的手动选择，覆盖全局开关的默认行为
+                AppConfig.SetVideoBgManualStop(CurrentGameId.GameBiz, current.StopVideo);
                 StartStopButtonIcon = current.StopVideo ? PlayIcon : PauseIcon;
                 WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage(current));
             }
