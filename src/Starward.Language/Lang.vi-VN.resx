@@ -343,6 +343,15 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Xuất như</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Nhập từ {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 không hỗ trợ Ca Tụng Thiên Tinh Kỳ Vực</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>Tài khoản này chứa bản ghi Ca Tụng Thiên Tinh Kỳ Vực, nhưng định dạng UIGF 3.0 không thể chứa dữ liệu này. Nếu bạn tiếp tục, các bản ghi này sẽ không xuất hiện trong tập tin xuất. Để xuất các bản ghi Ca Tụng, hãy sử dụng UIGF v4.2.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiển thị Gacha người mới</value>
   </data>
