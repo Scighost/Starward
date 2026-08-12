@@ -4,9 +4,23 @@ namespace Starward.Core.Hypergryph;
 
 public sealed class HypergryphLauncherContent
 {
+    public HypergryphMainBackground? MainBackground { get; set; }
+
     public List<HypergryphContentBanner> Banners { get; set; } = [];
 
     public List<HypergryphAnnouncementTab> AnnouncementTabs { get; set; } = [];
+}
+
+public sealed class HypergryphMainBackground
+{
+    [JsonPropertyName("url")]
+    public string Url { get; set; } = "";
+
+    [JsonPropertyName("md5")]
+    public string MD5 { get; set; } = "";
+
+    [JsonPropertyName("video_url")]
+    public string VideoUrl { get; set; } = "";
 }
 
 public sealed class HypergryphContentBanner

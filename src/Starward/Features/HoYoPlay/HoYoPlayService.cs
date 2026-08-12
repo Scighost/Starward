@@ -170,7 +170,8 @@ public class HoYoPlayService
     {
         if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
         {
-            return HypergryphGameMetadata.CreateBackgroundInfo(gameId.GameBiz);
+            HypergryphLauncherContent launcherContent = await GetHypergryphLauncherContentAsync(gameId, cancellationToken);
+            return HypergryphGameMetadata.CreateBackgroundInfo(gameId.GameBiz, launcherContent);
         }
         if (!_memoryCache.TryGetValue($"{nameof(GameBackgroundInfo)}_{gameId.Id}", out GameBackgroundInfo? background))
         {
@@ -194,10 +195,7 @@ public class HoYoPlayService
             string key = $"{nameof(GameContent)}_{gameId.Id}";
             if (!_memoryCache.TryGetValue(key, out GameContent? endfieldContent))
             {
-                HypergryphLauncherContent launcherContent = await _hypergryphLauncherClient.GetGameContentAsync(
-                    gameId.GameBiz,
-                    CultureInfo.CurrentUICulture.Name,
-                    cancellationToken);
+                HypergryphLauncherContent launcherContent = await GetHypergryphLauncherContentAsync(gameId, cancellationToken);
                 endfieldContent = HypergryphGameMetadata.CreateGameContent(gameId.GameBiz, launcherContent);
                 _memoryCache.Set(key, endfieldContent, TimeSpan.FromMinutes(1));
             }
@@ -210,6 +208,22 @@ public class HoYoPlayService
             _memoryCache.Set($"{nameof(GameContent)}_{content.GameId.Id}", content, TimeSpan.FromMinutes(1));
         }
         return content!;
+    }
+
+
+
+    private async Task<HypergryphLauncherContent> GetHypergryphLauncherContentAsync(GameId gameId, CancellationToken cancellationToken)
+    {
+        string key = $"{nameof(HypergryphLauncherContent)}_{gameId.Id}";
+        if (!_memoryCache.TryGetValue(key, out HypergryphLauncherContent? launcherContent))
+        {
+            launcherContent = await _hypergryphLauncherClient.GetGameContentAsync(
+                gameId.GameBiz,
+                CultureInfo.CurrentUICulture.Name,
+                cancellationToken);
+            _memoryCache.Set(key, launcherContent, TimeSpan.FromMinutes(1));
+        }
+        return launcherContent!;
     }
 
 

@@ -436,7 +436,11 @@ internal partial class GameLauncherService
             {
                 arg += " -popupwindow";
             }
-            if (AppConfig.GetEnableDX12(gameId.GameBiz))
+            if (HypergryphGameConstants.IsEndfield(gameId.GameBiz) && AppConfig.GetEnableDX11(gameId.GameBiz))
+            {
+                arg += " -force-d3d11";
+            }
+            else if (!HypergryphGameConstants.IsEndfield(gameId.GameBiz) && AppConfig.GetEnableDX12(gameId.GameBiz))
             {
                 arg += " -use-d3d12";
             }

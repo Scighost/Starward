@@ -2,6 +2,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Core.Hypergryph;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -47,12 +48,26 @@ internal static class HypergryphGameMetadata
         };
     }
 
-    public static GameBackgroundInfo CreateBackgroundInfo(GameBiz gameBiz)
+    public static GameBackgroundInfo CreateBackgroundInfo(GameBiz gameBiz, HypergryphLauncherContent launcherContent)
     {
+        List<GameBackground> backgrounds = [];
+        HypergryphMainBackground? mainBackground = launcherContent.MainBackground;
+        if (!string.IsNullOrWhiteSpace(mainBackground?.Url))
+        {
+            bool isVideo = !string.IsNullOrWhiteSpace(mainBackground.VideoUrl);
+            backgrounds.Add(new GameBackground
+            {
+                Id = string.IsNullOrWhiteSpace(mainBackground.MD5) ? mainBackground.Url : mainBackground.MD5,
+                Background = new GameImage { Url = mainBackground.Url },
+                Theme = new GameImage { Url = "" },
+                Video = isVideo ? new GameImage { Url = mainBackground.VideoUrl } : null!,
+                Type = isVideo ? GameBackground.BACKGROUND_TYPE_VIDEO : GameBackground.BACKGROUND_TYPE_UNSPECIFIED,
+            });
+        }
         return new GameBackgroundInfo
         {
             GameId = GameId.FromGameBiz(gameBiz)!,
-            Backgrounds = [],
+            Backgrounds = backgrounds,
         };
     }
 

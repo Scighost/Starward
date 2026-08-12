@@ -65,6 +65,11 @@ public sealed class HypergryphLauncherClient
             [
                 new HypergryphWebProxyRequest
                 {
+                    Kind = "get_main_bg_image",
+                    MainBackgroundRequest = contentRequest,
+                },
+                new HypergryphWebProxyRequest
+                {
                     Kind = "get_banner",
                     BannerRequest = contentRequest,
                 },
@@ -83,6 +88,7 @@ public sealed class HypergryphLauncherClient
 
         return new HypergryphLauncherContent
         {
+            MainBackground = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_main_bg_image")?.MainBackgroundResponse?.MainBackground,
             Banners = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_banner")?.BannerResponse?.Banners ?? [],
             AnnouncementTabs = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_announcement")?.AnnouncementResponse?.Tabs ?? [],
         };
@@ -189,6 +195,10 @@ public sealed class HypergryphLauncherClient
         [JsonPropertyName("get_announcement_req")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public HypergryphWebContentRequest? AnnouncementRequest { get; set; }
+
+        [JsonPropertyName("get_main_bg_image_req")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public HypergryphWebContentRequest? MainBackgroundRequest { get; set; }
     }
 
     private sealed class HypergryphWebContentRequest
@@ -228,6 +238,15 @@ public sealed class HypergryphLauncherClient
 
         [JsonPropertyName("get_announcement_rsp")]
         public HypergryphAnnouncementResponse? AnnouncementResponse { get; set; }
+
+        [JsonPropertyName("get_main_bg_image_rsp")]
+        public HypergryphMainBackgroundResponse? MainBackgroundResponse { get; set; }
+    }
+
+    private sealed class HypergryphMainBackgroundResponse
+    {
+        [JsonPropertyName("main_bg_image")]
+        public HypergryphMainBackground? MainBackground { get; set; }
     }
 
     private sealed class HypergryphBannerResponse

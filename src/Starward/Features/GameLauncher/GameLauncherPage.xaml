@@ -590,7 +590,7 @@
                 </Hyperlink>
             </TextBlock>
 
-            <!--  DX12 选项  -->
+            <!--  图形 API 选项  -->
             <Border Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="3"
@@ -600,37 +600,50 @@
                     Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
                     CornerRadius="12">
 
-                <StackPanel Orientation="Horizontal"
-                            Spacing="8"
-                            Visibility="{x:Bind IsDX12OptionVisible}">
+                <StackPanel>
                     <CheckBox MinWidth="0"
                               Margin="0,-2,0,-2"
                               VerticalAlignment="Center"
                               VerticalContentAlignment="Center"
+                              Content="{x:Bind lang:Lang.GameLauncherPage_LaunchWithDX11}"
+                              FontSize="12"
                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                              IsChecked="{x:Bind EnableDX12, Mode=TwoWay}"
-                              Style="{ThemeResource CompactCheckBoxStyle}">
-                        <TextBlock Margin="0,0,0,4"
+                              IsChecked="{x:Bind EnableDX11, Mode=TwoWay}"
+                              Style="{ThemeResource CompactCheckBoxStyle}"
+                              Visibility="{x:Bind IsDX11OptionVisible, Mode=OneWay}" />
+
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="8"
+                                Visibility="{x:Bind IsDX12OptionVisible}">
+                        <CheckBox MinWidth="0"
+                                  Margin="0,-2,0,-2"
+                                  VerticalAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  IsChecked="{x:Bind EnableDX12, Mode=TwoWay}"
+                                  Style="{ThemeResource CompactCheckBoxStyle}">
+                            <TextBlock Margin="0,0,0,4"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind lang:Lang.GameLauncherPage_GraphicsQualityEnhancement}" />
+                        </CheckBox>
+                        <TextBlock VerticalAlignment="Center"
                                    FontSize="12"
-                                   FontWeight="Bold"
-                                   Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                    IsTextScaleFactorEnabled="False"
-                                   Text="{x:Bind lang:Lang.GameLauncherPage_GraphicsQualityEnhancement}" />
-                    </CheckBox>
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="12"
-                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                               IsTextScaleFactorEnabled="False"
-                               Text="{x:Bind lang:Lang.GameLauncherPage_LaunchWithDX12}" />
-                    <TextBlock VerticalAlignment="Center"
-                               FontSize="12"
-                               IsTextScaleFactorEnabled="False">
-                        <Hyperlink x:Name="Hyperlink_DX12Intro"
-                                   Click="Hyperlink_DX12Intro_Click"
-                                   UnderlineStyle="None">
-                            <Run Text="{x:Bind lang:Lang.GameLauncherPage_DetailsGt}" />
-                        </Hyperlink>
-                    </TextBlock>
+                                   Text="{x:Bind lang:Lang.GameLauncherPage_LaunchWithDX12}" />
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="12"
+                                   IsTextScaleFactorEnabled="False">
+                            <Hyperlink x:Name="Hyperlink_DX12Intro"
+                                       Click="Hyperlink_DX12Intro_Click"
+                                       UnderlineStyle="None">
+                                <Run Text="{x:Bind lang:Lang.GameLauncherPage_DetailsGt}" />
+                            </Hyperlink>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
