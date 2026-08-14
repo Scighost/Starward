@@ -1,11 +1,13 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core;
+using Starward.Features.ViewHost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +38,7 @@ public sealed partial class GameAccountSwitcher : UserControl
     private void GameAccountSwitcher_Loaded(object sender, RoutedEventArgs e)
     {
         UpdateGameAccount();
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, OnMainWindowActivated);
     }
 
 
@@ -44,12 +47,36 @@ public sealed partial class GameAccountSwitcher : UserControl
         SelectGameAccount = null;
         GameAccountList = null!;
         suggestionUids = null!;
+        WeakReferenceMessenger.Default.Unregister<MainWindowStateChangedMessage>(this);
     }
 
 
 
     public GameBiz CurrentGameBiz { get; set; }
 
+
+    private void OnMainWindowActivated(object _, MainWindowStateChangedMessage message)
+    {
+        if (message.Activate)
+        {
+            try
+            {
+                var regAccount = _gameAccountService.GetGameAccountFromRegistry(CurrentGameBiz);
+                // 只有注册表账号变了才刷新列表
+                if (regAccount is not null &&
+                    GameAccountList is not null &&
+                    GameAccountList.Count > 0 &&
+                    GameAccountList[0].SHA256 != regAccount.SHA256)
+                {
+                    UpdateGameAccount();
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Check registry account on window activated");
+            }
+        }
+    }
 
 
     public List<GameAccount> GameAccountList { get; set => SetProperty(ref field, value); }
