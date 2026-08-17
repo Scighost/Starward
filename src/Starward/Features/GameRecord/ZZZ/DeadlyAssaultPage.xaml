@@ -166,7 +166,7 @@
                 </Grid>
 
                 <!--  绝境模式  -->
-                <Grid MaxWidth="680"
+                <Grid Width="680"
                       Padding="16,12,16,12"
                       HorizontalAlignment="Center"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
@@ -475,7 +475,7 @@
                 </Grid>
 
                 <!--  试炼模式  -->
-                <Grid MaxWidth="680"
+                <Grid Width="680"
                       Padding="16,12,16,12"
                       HorizontalAlignment="Center"
                       Background="{ThemeResource CustomOverlayAcrylicBrush}"
