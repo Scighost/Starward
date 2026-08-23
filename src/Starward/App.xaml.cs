@@ -6,6 +6,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.GamepadControl;
+using Starward.Features.PlayTime;
 using Starward.Features.UrlProtocol;
 using Starward.Features.ViewHost;
 using Starward.RPC;
@@ -91,6 +92,9 @@ public partial class App : Application
             await main.RedirectActivationToAsync(instance.GetActivatedEventArgs());
             Environment.Exit(0);
         }
+
+        AppConfig.GetService<PlayTimeService>().CloseStaleSessions();
+
         if (Environment.GetCommandLineArgs().Contains("--hide"))
         {
             m_SystemTrayWindow = new SystemTrayWindow();

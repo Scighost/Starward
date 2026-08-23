@@ -257,7 +257,8 @@ internal static class DatabaseService
         Sql_v17,
         Sql_v18,
         Sql_v19,
-        Sql_v20
+        Sql_v20,
+        Sql_v21
     ];
 
 
@@ -1034,6 +1035,77 @@ internal static class DatabaseService
 
         PRAGMA USER_VERSION = 20;
         COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v21 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS PlayTimeInfo
+        (
+            StartTimeStamp  INTEGER PRIMARY KEY,
+            LatestTimeStamp INTEGER NOT NULL,
+            GameBiz         TEXT    NOT NULL,
+            Pid             INTEGER NOT NULL,
+            State           INTEGER NOT NULL,
+            Duration        INTEGER NOT NULL,
+            Message         TEXT,
+            StartTime       TEXT,
+            LatestTime      TEXT,
+            PlayTime        TEXT
+        );
+
+        INSERT INTO PlayTimeInfo (StartTimeStamp, LatestTimeStamp, GameBiz, Pid, State, Duration, Message, StartTime, LatestTime, PlayTime)
+        SELECT start_ts,
+               latest_ts,
+               GameBiz,
+               Pid,
+               new_state,
+               duration,
+               msg,
+               strftime('%Y/%m/%d %H:%M:%S', start_ts / 1000, 'unixepoch', 'localtime'),
+               strftime('%Y/%m/%d %H:%M:%S', latest_ts / 1000, 'unixepoch', 'localtime'),
+               printf('%02d:%02d:%02d', duration / 3600000, (duration % 3600000) / 60000, (duration % 60000) / 1000)
+        FROM
+        (
+            SELECT MIN(TimeStamp) AS start_ts,
+                   MAX(TimeStamp) AS latest_ts,
+                   GameBiz,
+                   Pid,
+                   CASE MAX(last_state) WHEN 3 THEN 0 WHEN 4 THEN 2 ELSE 1 END AS new_state,
+                   MAX(TimeStamp) - MIN(TimeStamp) AS duration,
+                   CASE WHEN MAX(last_state) = 4 THEN MAX(last_message) ELSE NULL END AS msg
+            FROM
+            (
+                SELECT TimeStamp, GameBiz, Pid, State, Message,
+                       grp,
+                       LAST_VALUE(State) OVER (PARTITION BY GameBiz, Pid, grp ORDER BY TimeStamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_state,
+                       LAST_VALUE(Message) OVER (PARTITION BY GameBiz, Pid, grp ORDER BY TimeStamp ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_message
+                FROM
+                (
+                    SELECT *,
+                           SUM(is_new) OVER (PARTITION BY GameBiz, Pid ORDER BY TimeStamp) AS grp
+                    FROM
+                    (
+                        SELECT *,
+                               CASE WHEN TimeStamp - LAG(TimeStamp, 1, 0) OVER (PARTITION BY GameBiz, Pid ORDER BY TimeStamp) > 60000
+                                      OR LAG(State, 1, -1) OVER (PARTITION BY GameBiz, Pid ORDER BY TimeStamp) IN (3, 4)
+                                     THEN 1 ELSE 0 END AS is_new
+                        FROM PlayTimeItem
+                    )
+                )
+            )
+            GROUP BY GameBiz, Pid, grp
+        );
+
+        DROP TABLE IF EXISTS PlayTimeItem;
+
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeInfo_GameBiz_LatestTimeStamp ON PlayTimeInfo (GameBiz, LatestTimeStamp);
+        CREATE INDEX IF NOT EXISTS IX_PlayTimeInfo_Pid ON PlayTimeInfo (Pid);
+
+        PRAGMA USER_VERSION = 21;
+        COMMIT TRANSACTION;
+
+        VACUUM;
         """;
 
     #endregion

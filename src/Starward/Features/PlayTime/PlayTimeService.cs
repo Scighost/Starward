@@ -1,4 +1,5 @@
 using Dapper;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
@@ -7,7 +8,6 @@ using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,10 +30,18 @@ internal class PlayTimeService
         _hoYoPlayService = hoYoPlayService;
     }
 
+    private const long SplitSessionInterval = 60_000;
+
+    private const int MaxConsecutiveUpdateFailures = 3;
 
 
+
+    /// <summary>
+    /// 记录游戏进程的游戏时间
+    /// </summary>
     public async Task LogPlayTimeAsync(GameBiz biz, int pid)
     {
+        long? startTimeStamp = null;
         try
         {
             var instance = AppInstance.FindOrRegisterForKey($"playtime_{pid}");
@@ -43,25 +51,56 @@ internal class PlayTimeService
                 return;
             }
             _logger.LogInformation("Start to log playtime ({biz}, {pid})", biz, pid);
+            CloseStaleSessions();
             var process = Process.GetProcessById(pid);
-            LogStartState(biz, process);
-            var sw = Stopwatch.StartNew();
-            long last = 0;
+            startTimeStamp = LogStartState(biz, process);
+            long lastUpdateTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            int consecutiveUpdateFailures = 0;
+            void CountUpdateFailure()
+            {
+                if (++consecutiveUpdateFailures >= MaxConsecutiveUpdateFailures)
+                {
+                    throw new InvalidOperationException($"Update playtime session ({biz}, {pid}) failed {MaxConsecutiveUpdateFailures} times consecutively");
+                }
+            }
+            using var connection = DatabaseService.CreateConnection();
             while (true)
             {
-                await Task.Delay(Random.Shared.Next(800, 1200));
-                if (process.HasExited)
+                await Task.Delay(Random.Shared.Next(4500, 5500));
+                long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+                if (now - lastUpdateTime > SplitSessionInterval)
                 {
-                    var now = DateTimeOffset.Now;
-                    Log(biz, pid, PlayTimeState.Stop, now.ToUnixTimeMilliseconds(), $"{process.ProcessName} [{now}]");
+                    // 间隔过大（如系统休眠或挂起）视为会话中断，关闭当前会话并开启新会话，避免将休眠时间计入游戏时长
+                    if (Update(connection, biz, pid, startTimeStamp, PlayTimeState.Stopped, lastUpdateTime) == 0)
+                    {
+                        CountUpdateFailure();
+                    }
+                    if (process.HasExited)
+                    {
+                        break;
+                    }
+                    startTimeStamp = LogStartState(biz, process, now);
+                    lastUpdateTime = now;
+                    consecutiveUpdateFailures = 0;
+                }
+                else if (process.HasExited)
+                {
+                    if (Update(connection, biz, pid, startTimeStamp, PlayTimeState.Stopped, now) == 0)
+                    {
+                        _logger.LogWarning("Close playtime session ({biz}, {pid}) failed at {time}", biz, pid, now);
+                    }
                     break;
                 }
                 else
                 {
-                    if (sw.ElapsedMilliseconds - last > 30000)
+                    if (Update(connection, biz, pid, startTimeStamp, PlayTimeState.Running, now) != 0)
                     {
-                        Log(biz, pid, PlayTimeState.Play);
-                        last = sw.ElapsedMilliseconds;
+                        lastUpdateTime = now;
+                        consecutiveUpdateFailures = 0;
+                    }
+                    else
+                    {
+                        CountUpdateFailure();
                     }
                 }
             }
@@ -74,7 +113,12 @@ internal class PlayTimeService
         }
         catch (Exception ex)
         {
-            Log(biz, pid, PlayTimeState.Error, 0, ex.Message);
+            using var connection = DatabaseService.CreateConnection();
+            long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+            if (startTimeStamp is not null)
+            {
+                Update(connection, biz, pid, startTimeStamp, PlayTimeState.Error, now, ex.Message);
+            }
             _logger.LogError(ex, "Log play time: GameBiz {biz}, Pid {pid}", biz, pid);
         }
     }
@@ -83,69 +127,130 @@ internal class PlayTimeService
 
 
 
-    private void LogStartState(GameBiz biz, Process process)
+    /// <summary>
+    /// 开始记录游戏时间，返回会话开始时间戳
+    /// </summary>
+    private long LogStartState(GameBiz biz, Process process, long? startTime = null)
     {
-        var startTime = new DateTimeOffset(process.StartTime);
-        Log(biz, process.Id, PlayTimeState.Start, startTime.ToUnixTimeMilliseconds(), $"{process.ProcessName} [{startTime}]");
+        long processStartTimeStamp = new DateTimeOffset(process.StartTime).ToUnixTimeMilliseconds();
+        long startTimeStamp = startTime ?? processStartTimeStamp;
+        long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
         using var dapper = DatabaseService.CreateConnection();
-        var last = dapper.QueryFirstOrDefault<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND Pid = @Id ORDER BY TimeStamp DESC LIMIT 1;", new { biz, process.Id });
-        DateTimeOffset time = startTime;
-        if (last.TimeStamp > startTime.ToUnixTimeMilliseconds())
+        // 重新挂接时续接同一进程最近一段会话，补全记录器中断期间的时间
+        if (startTime is null)
         {
-            time = DateTimeOffset.FromUnixTimeMilliseconds(last.TimeStamp);
-        }
-
-        var now = DateTimeOffset.Now;
-        if (now - time >= TimeSpan.FromSeconds(60))
-        {
-            // 补全从开始游戏到开始记录游戏时间之间的记录
-            List<PlayTimeItem> list = new List<PlayTimeItem>();
-            while (true)
+            long latest = dapper.ExecuteScalar<long>(
+                "SELECT COALESCE(MAX(StartTimeStamp), 0) FROM PlayTimeInfo WHERE GameBiz = @biz AND Pid = @pid AND StartTimeStamp >= @processStartTimeStamp;",
+                new { biz, pid = process.Id, processStartTimeStamp });
+            if (latest > 0)
             {
-                time = time.AddMilliseconds(Random.Shared.Next(30_000, 32_000));
-                if (time < now)
-                {
-                    list.Add(new PlayTimeItem
-                    {
-                        TimeStamp = time.ToUnixTimeMilliseconds(),
-                        GameBiz = biz,
-                        Pid = process.Id,
-                        State = PlayTimeState.Play,
-                    });
-                }
-                else
-                {
-                    break;
-                }
+                dapper.Execute($"""
+                    UPDATE PlayTimeInfo
+                    SET LatestTimeStamp = @now,
+                        LatestTime = strftime('%Y/%m/%d %H:%M:%S', @now / 1000, 'unixepoch', 'localtime'),
+                        State = {(int)PlayTimeState.Running},
+                        Duration = @now - StartTimeStamp,
+                        PlayTime = printf('%02d:%02d:%02d', (@now - StartTimeStamp) / 3600000, ((@now - StartTimeStamp) % 3600000) / 60000, ((@now - StartTimeStamp) % 60000) / 1000)
+                    WHERE GameBiz = @biz AND Pid = @pid AND StartTimeStamp = @latest;
+                    """, new { now, biz, pid = process.Id, latest });
+                return latest;
             }
-            using var t = dapper.BeginTransaction();
-            dapper.Execute("INSERT OR REPLACE INTO PlayTimeItem (TimeStamp, GameBiz, Pid, State, CursorPos, Message) VALUES (@TimeStamp, @GameBiz, @Pid, @State, @CursorPos, @Message);", list, t);
-            t.Commit();
         }
+        // 若进程启动时间戳已被占用（与其他记录的主键冲突），则从当前时间开始新会话
+        if (dapper.ExecuteScalar<int>("SELECT COUNT(*) FROM PlayTimeInfo WHERE StartTimeStamp = @startTimeStamp;", new { startTimeStamp }) > 0)
+        {
+            startTimeStamp = now;
+        }
+        var info = new PlayTimeInfo
+        {
+            StartTimeStamp = startTimeStamp,
+            LatestTimeStamp = now,
+            GameBiz = biz,
+            Pid = process.Id,
+            State = PlayTimeState.Running,
+            Duration = now - startTimeStamp,
+        };
+        dapper.Execute("""
+            INSERT INTO PlayTimeInfo (StartTimeStamp, LatestTimeStamp, GameBiz, Pid, State, Duration, Message, StartTime, LatestTime, PlayTime)
+            VALUES (@StartTimeStamp, @LatestTimeStamp, @GameBiz, @Pid, @State, @Duration, @Message,
+                    strftime('%Y/%m/%d %H:%M:%S', @StartTimeStamp / 1000, 'unixepoch', 'localtime'),
+                    strftime('%Y/%m/%d %H:%M:%S', @LatestTimeStamp / 1000, 'unixepoch', 'localtime'),
+                    printf('%02d:%02d:%02d', @Duration / 3600000, (@Duration % 3600000) / 60000, (@Duration % 60000) / 1000));
+            """, info);
+        return startTimeStamp;
     }
 
 
 
 
 
-    private void Log(GameBiz biz, int pid, PlayTimeState state, long ts = 0, string? message = null)
+    /// <summary>
+    /// 更新当前游戏会话的记录状态、时长和消息，返回受影响的行数
+    /// </summary>
+    private int Update(SqliteConnection connection, GameBiz biz, int pid, long? startTimeStamp, PlayTimeState state, long latestTimeStamp, string? message = null)
+    {
+        try
+        {
+            // 仅更新进行中的会话，避免覆盖已正常结束的记录
+            return connection.Execute($"""
+                UPDATE PlayTimeInfo
+                SET LatestTimeStamp = @latestTimeStamp,
+                    LatestTime = strftime('%Y/%m/%d %H:%M:%S', @latestTimeStamp / 1000, 'unixepoch', 'localtime'),
+                    State = @state,
+                    Duration = @latestTimeStamp - StartTimeStamp,
+                    PlayTime = printf('%02d:%02d:%02d', (@latestTimeStamp - StartTimeStamp) / 3600000, ((@latestTimeStamp - StartTimeStamp) % 3600000) / 60000, ((@latestTimeStamp - StartTimeStamp) % 60000) / 1000),
+                    Message = CASE WHEN @state = {(int)PlayTimeState.Error} THEN @message ELSE Message END
+                WHERE GameBiz = @biz AND Pid = @pid AND State = {(int)PlayTimeState.Running} AND StartTimeStamp = @startTimeStamp;
+                """, new { latestTimeStamp, state, message, biz, pid, startTimeStamp });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Update play time: GameBiz {biz}, Pid {pid}, State {state}", biz, pid, state);
+            return 0;
+        }
+    }
+
+
+
+    /// <summary>
+    /// 关闭所有已无对应游戏进程的进行中会话（记录进程崩溃或强制退出后残留的会话）
+    /// </summary>
+    public void CloseStaleSessions()
     {
         try
         {
             using var dapper = DatabaseService.CreateConnection();
-            var item = new PlayTimeItem
+            var running = dapper.Query<PlayTimeInfo>($"SELECT * FROM PlayTimeInfo WHERE State = {(int)PlayTimeState.Running};").ToList();
+            if (running.Count == 0)
             {
-                TimeStamp = ts == 0 ? DateTimeOffset.Now.ToUnixTimeMilliseconds() : ts,
-                GameBiz = biz,
-                Pid = pid,
-                State = state,
-                Message = message,
-            };
-            dapper.Execute("INSERT OR REPLACE INTO PlayTimeItem (TimeStamp, GameBiz, Pid, State, CursorPos, Message) VALUES (@TimeStamp, @GameBiz, @Pid, @State, @CursorPos, @Message);", item);
+                return;
+            }
+            var stale = running.Where(item => !IsProcessAlive(item.Pid, item.StartTimeStamp)).Select(item => item.StartTimeStamp).ToList();
+            if (stale.Count > 0)
+            {
+                dapper.Execute($"UPDATE PlayTimeInfo SET State = {(int)PlayTimeState.Stopped} WHERE State = {(int)PlayTimeState.Running} AND StartTimeStamp IN @stale;", new { stale });
+                _logger.LogInformation("Close {count} stale playtime session(s)", stale.Count);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Log play time: GameBiz {biz}, Pid {pid}, State {state}, Message {message}", biz, pid, state, message);
+            _logger.LogError(ex, "Close stale playtime sessions");
+        }
+    }
+
+
+
+    private static bool IsProcessAlive(int pid, long sessionStartTimeStamp)
+    {
+        try
+        {
+            using var process = Process.GetProcessById(pid);
+            // PID 可能已被复用，进程启动时间晚于会话开始时间视为会话已失效
+            return !process.HasExited && new DateTimeOffset(process.StartTime).ToUnixTimeMilliseconds() <= sessionStartTimeStamp;
+        }
+        catch
+        {
+            return false;
         }
     }
 
@@ -230,7 +335,7 @@ internal class PlayTimeService
     public int GetStartUpCount(GameBiz biz)
     {
         using var dapper = DatabaseService.CreateConnection();
-        return dapper.QuerySingleOrDefault<int>("SELECT COUNT(*) FROM PlayTimeItem WHERE GameBiz = @biz AND State = @state;", new { biz, state = PlayTimeState.Start });
+        return dapper.QuerySingleOrDefault<int>("SELECT COUNT(*) FROM PlayTimeInfo WHERE GameBiz = @biz;", new { biz });
     }
 
 
@@ -243,14 +348,10 @@ internal class PlayTimeService
     public (DateTimeOffset Time, TimeSpan Span) GetLastPlayTime(GameBiz biz)
     {
         using var dapper = DatabaseService.CreateConnection();
-        var start_item = dapper.QueryFirstOrDefault<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND State = 1 ORDER BY TimeStamp DESC LIMIT 1;", new { biz });
-        if (start_item != null)
+        var item = dapper.QueryFirstOrDefault<PlayTimeInfo>("SELECT * FROM PlayTimeInfo WHERE GameBiz = @biz ORDER BY LatestTimeStamp DESC LIMIT 1;", new { biz });
+        if (item != null)
         {
-            var last_item = dapper.QueryFirstOrDefault<PlayTimeItem>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND Pid = @Pid ORDER BY TimeStamp DESC LIMIT 1;", new { biz, start_item.Pid });
-            if (last_item != null)
-            {
-                return (DateTimeOffset.FromUnixTimeMilliseconds(start_item.TimeStamp), TimeSpan.FromMilliseconds(last_item.TimeStamp - start_item.TimeStamp));
-            }
+            return (DateTimeOffset.FromUnixTimeMilliseconds(item.StartTimeStamp), TimeSpan.FromMilliseconds(item.Duration));
         }
         return (DateTimeOffset.MinValue, TimeSpan.Zero);
     }
@@ -269,121 +370,12 @@ internal class PlayTimeService
         long ts_start = start?.ToUnixTimeMilliseconds() ?? 0;
         long ts_end = end?.ToUnixTimeMilliseconds() ?? long.MaxValue;
         using var dapper = DatabaseService.CreateConnection();
-        var items = dapper.Query<PlayTimeItemStruct>("SELECT * FROM PlayTimeItem WHERE GameBiz = @biz AND TimeStamp >= @ts_start AND TimeStamp <= @ts_end ORDER BY TimeStamp;", new { biz, ts_start, ts_end }).ToList();
-        return CalculatePlayTime(items, start, end);
-    }
-
-
-    /// <summary>
-    /// 计算游戏时间
-    /// </summary>
-    /// <param name="items"></param>
-    /// <param name="start"></param>
-    /// <param name="end"></param>
-    /// <returns></returns>
-    private static TimeSpan CalculatePlayTime(List<PlayTimeItemStruct> items, DateTimeOffset? start = null, DateTimeOffset? end = null)
-    {
-        if (items.Count == 0)
-        {
-            return TimeSpan.Zero;
-        }
-
-        const long MAX_INTERVAL = 60_000;
-
-        long ts_total = 0;
-        long ts_start = start?.ToUnixTimeMilliseconds() ?? items[0].TimeStamp;
-        long ts_end = end?.ToUnixTimeMilliseconds() ?? items[^1].TimeStamp;
-
-        if (items.Count == 1)
-        {
-            if (items[0].State is PlayTimeState.Start)
-            {
-                ts_total += Math.Clamp(items[0].TimeStamp - ts_start, 0, MAX_INTERVAL);
-            }
-            else if (items[0].State is PlayTimeState.Stop)
-            {
-                ts_total += Math.Clamp(ts_end - items[0].TimeStamp, 0, MAX_INTERVAL);
-            }
-            else if (items[0].State is PlayTimeState.Play)
-            {
-                ts_total += Math.Clamp(ts_end - ts_start, 0, MAX_INTERVAL);
-            }
-        }
-        else
-        {
-            var dic_start_time = new Dictionary<int, long>();
-            var dic_last_time = new Dictionary<int, long>();
-
-            if (items[0].State is PlayTimeState.Play or PlayTimeState.Stop && items[0].TimeStamp - ts_start <= MAX_INTERVAL)
-            {
-                dic_start_time[items[0].Pid] = ts_start;
-                dic_last_time[items[0].Pid] = ts_start;
-            }
-
-            for (int i = 0; i < items.Count; i++)
-            {
-                var item = items[i];
-                int pid = item.Pid;
-                long ts_last_time = dic_last_time.GetValueOrDefault(pid);
-                if (item.TimeStamp - ts_last_time > MAX_INTERVAL)
-                {
-                    // 距离上一个时间记录点超过 MAX_INTERVAL，认为是新的一次游戏
-                    long ts_start_time = dic_start_time.GetValueOrDefault(pid);
-                    if (ts_last_time != 0 && ts_start_time != 0)
-                    {
-                        ts_total += Math.Clamp(ts_last_time - ts_start_time, 0, long.MaxValue);
-                    }
-                    if (item.State is not PlayTimeState.Stop and not PlayTimeState.Error)
-                    {
-                        dic_last_time[pid] = item.TimeStamp;
-                        dic_start_time[pid] = item.TimeStamp;
-                    }
-                    else
-                    {
-                        dic_start_time[pid] = 0;
-                        dic_last_time[pid] = 0;
-                    }
-                }
-                else
-                {
-                    if (item.State is PlayTimeState.Start)
-                    {
-                        long ts_start_time = dic_start_time.GetValueOrDefault(pid);
-                        if (ts_start_time != 0)
-                        {
-                            ts_total += Math.Clamp(ts_last_time - ts_start_time, 0, long.MaxValue);
-                        }
-                        dic_start_time[pid] = item.TimeStamp;
-                        dic_last_time[pid] = item.TimeStamp;
-                    }
-                    else if (item.State is PlayTimeState.Stop or PlayTimeState.Error)
-                    {
-                        long ts_start_time = dic_start_time.GetValueOrDefault(pid);
-                        if (ts_start_time != 0)
-                        {
-                            ts_total += item.TimeStamp - ts_start_time;
-                        }
-                        dic_start_time[pid] = 0;
-                        dic_last_time[pid] = 0;
-                    }
-                    else
-                    {
-                        dic_last_time[pid] = item.TimeStamp;
-                    }
-                }
-            }
-
-            // 计算因意外或正在运行，没有停止记录的游戏时间
-            foreach (var (pid, ts_start_time) in dic_start_time)
-            {
-                long ts_last_time = dic_last_time.GetValueOrDefault(pid);
-                if (ts_start_time != 0 && ts_last_time != 0)
-                {
-                    ts_total += Math.Clamp(ts_last_time - ts_start_time, 0, long.MaxValue);
-                }
-            }
-        }
-        return TimeSpan.FromMilliseconds(ts_total);
+        long ms = dapper.QuerySingleOrDefault<long>("""
+            SELECT COALESCE(SUM(MAX(0, MIN(LatestTimeStamp, @ts_end) - MAX(StartTimeStamp, @ts_start))), 0)
+            FROM PlayTimeInfo
+            WHERE GameBiz = @biz AND StartTimeStamp <= @ts_end AND LatestTimeStamp >= @ts_start;
+            """, new { ts_start, ts_end, biz });
+        return TimeSpan.FromMilliseconds(ms);
     }
 
 
@@ -518,24 +510,6 @@ internal class PlayTimeService
 
     #endregion
 
-
-
-
-    private struct PlayTimeItemStruct
-    {
-
-        public long TimeStamp { get; set; }
-
-
-        public GameBiz GameBiz { get; set; }
-
-
-        public int Pid { get; set; }
-
-
-        public PlayTimeState State { get; set; }
-
-    }
 
 
 

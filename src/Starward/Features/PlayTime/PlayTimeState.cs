@@ -3,14 +3,10 @@
 public enum PlayTimeState
 {
 
-    None = 0,
+    Stopped = 0,
 
-    Start = 1,
+    Running = 1,
 
-    Play = 2,
-
-    Stop = 3,
-
-    Error = 4,
+    Error = 2,
 
 }
