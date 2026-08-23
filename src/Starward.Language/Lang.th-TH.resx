@@ -2738,4 +2738,7 @@
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>โหมดวิกฤต</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>แสดงเวลาเล่นเกม</value>
+  </data>
 </root>

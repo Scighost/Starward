@@ -7867,5 +7867,14 @@ namespace Starward.Language {
                 return ResourceManager.GetString("ZZZGachaService_ImportSignalSearchRecordsSuccessfully", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 Show Game Playtime 的本地化字符串。
+        /// </summary>
+        public static string LauncherPage_ShowPlayTime {
+            get {
+                return ResourceManager.GetString("LauncherPage_ShowPlayTime", resourceCulture);
+            }
+        }
     }
 }

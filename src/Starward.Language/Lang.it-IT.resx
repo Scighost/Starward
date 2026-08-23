@@ -2744,4 +2744,7 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Modalità avversità</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>Mostra tempo di gioco</value>
+  </data>
 </root>

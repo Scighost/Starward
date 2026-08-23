@@ -2773,4 +2773,7 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Режим невзгод</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>Показывать время игры</value>
+  </data>
 </root>

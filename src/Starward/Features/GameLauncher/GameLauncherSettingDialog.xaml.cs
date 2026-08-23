@@ -189,6 +189,23 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     public bool UninstallAndRepairEnabled { get; set => SetProperty(ref field, value); }
 
     /// <summary>
+    /// 是否显示游戏时间
+    /// </summary>
+    public bool ShowPlayTime
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.ShowPlayTime = value;
+                WeakReferenceMessenger.Default.Send(new PlayTimeSettingChangedMessage());
+            }
+        }
+    } = AppConfig.ShowPlayTime;
+
+
+    /// <summary>
     /// 是否启用公告
     /// </summary>
     public bool EnableBannerAndPost

@@ -2744,4 +2744,7 @@
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>역경 모드</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>게임 플레이 시간 표시하기</value>
+  </data>
 </root>

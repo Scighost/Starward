@@ -73,6 +73,7 @@ public sealed partial class GameLauncherPage : PageBase
         WeakReferenceMessenger.Default.Register<RemovableStorageDeviceChangedMessage>(this, OnRemovableStorageDeviceChanged);
         WeakReferenceMessenger.Default.Register<GameInstallTaskStartedMessage>(this, OnGameInstallTaskStarted);
         WeakReferenceMessenger.Default.Register<BackgroundChangedMessage>(this, OnBackgroundChanged);
+        WeakReferenceMessenger.Default.Register<PlayTimeSettingChangedMessage>(this, OnPlayTimeSettingChanged);
     }
 
 
@@ -236,6 +237,11 @@ public sealed partial class GameLauncherPage : PageBase
     /// 预下载是否完成
     /// </summary>
     public bool IsPredownloadFinished { get; set => SetProperty(ref field, value); }
+
+    /// <summary>
+    /// 是否显示游戏时间
+    /// </summary>
+    public bool ShowPlayTime { get; set => SetProperty(ref field, value); } = AppConfig.ShowPlayTime;
 
 
     private Version? localGameVersion;
@@ -900,6 +906,12 @@ public sealed partial class GameLauncherPage : PageBase
     private async Task OpenGameLauncherSettingDialogAsync()
     {
         await new GameLauncherSettingDialog { CurrentGameId = this.CurrentGameId, XamlRoot = this.XamlRoot }.ShowAsync();
+    }
+
+
+    private void OnPlayTimeSettingChanged(object _, PlayTimeSettingChangedMessage message)
+    {
+        ShowPlayTime = AppConfig.ShowPlayTime;
     }
 
 

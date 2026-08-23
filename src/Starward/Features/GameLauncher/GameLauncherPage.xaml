@@ -544,7 +544,8 @@
             <!--  游戏时间  -->
             <sfp:PlayTimeButton x:Name="Button_PlayTime"
                                 Grid.Column="1"
-                                CurrentGameBiz="{x:Bind CurrentGameBiz}" />
+                                CurrentGameBiz="{x:Bind CurrentGameBiz}"
+                                Visibility="{x:Bind ShowPlayTime}" />
 
             <!--  启动游戏  -->
             <local:StartGameButton x:Name="Button_StartGame"

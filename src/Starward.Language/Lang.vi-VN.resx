@@ -2741,4 +2741,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Chế độ nghịch cảnh</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>Hiển thị thời gian chơi trò chơi</value>
+  </data>
 </root>

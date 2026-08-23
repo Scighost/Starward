@@ -2744,4 +2744,7 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Modo adversidad</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>Mostrar tiempo de juego</value>
+  </data>
 </root>

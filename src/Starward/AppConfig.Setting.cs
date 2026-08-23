@@ -36,6 +36,12 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    public static bool ShowPlayTime
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
     public static bool IgnoreRunningGame
     {
         get => GetValue<bool>();

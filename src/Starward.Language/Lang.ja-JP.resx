@@ -2743,4 +2743,7 @@
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>逆境モード</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>ゲームのプレイ時間を表示</value>
+  </data>
 </root>

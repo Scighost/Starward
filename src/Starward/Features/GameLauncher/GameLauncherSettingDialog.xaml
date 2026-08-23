@@ -356,8 +356,14 @@
                         </cwc:Segmented>
 
 
+                        <!--  显示游戏时间  -->
+                        <ToggleSwitch IsOn="{x:Bind ShowPlayTime, Mode=TwoWay}"
+                                      OffContent="{x:Bind lang:Lang.LauncherPage_ShowPlayTime}"
+                                      OnContent="{x:Bind lang:Lang.LauncherPage_ShowPlayTime}" />
+
                         <!--  显示游戏通知  -->
-                        <ToggleSwitch IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
+                        <ToggleSwitch Margin="0,-12,0,0"
+                                      IsOn="{x:Bind EnableBannerAndPost, Mode=TwoWay}"
                                       OffContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}"
                                       OnContent="{x:Bind lang:Lang.LauncherPage_ShowGameAnnouncement}" />
 

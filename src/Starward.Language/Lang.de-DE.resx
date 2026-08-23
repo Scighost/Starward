@@ -2742,4 +2742,7 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Adversity-Modus</value>
   </data>
+  <data name="LauncherPage_ShowPlayTime" xml:space="preserve">
+    <value>Spielzeit anzeigen</value>
+  </data>
 </root>
