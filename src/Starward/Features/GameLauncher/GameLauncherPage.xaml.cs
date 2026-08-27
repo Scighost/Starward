@@ -498,7 +498,7 @@ public sealed partial class GameLauncherPage : PageBase
     public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
 
 
-
+    public string? RunningGameTime { get; set => SetProperty(ref field, value); }
 
 
     private async Task<bool> CheckGameRunningAsync()
@@ -509,6 +509,7 @@ public sealed partial class GameLauncherPage : PageBase
             if (GameProcess != null)
             {
                 GameState = GameState.GameIsRunning;
+                RunningGameTime = TimeSpanToString(DateTime.Now - GameProcess.StartTime);
                 _logger.LogInformation("Game is running ({name}, {pid})", GameProcess.ProcessName, GameProcess.Id);
                 return true;
             }
@@ -528,14 +529,25 @@ public sealed partial class GameLauncherPage : PageBase
             {
                 if (GameProcess.HasExited)
                 {
+                    DispatcherQueue.TryEnqueue(() => RunningGameTime = null);
                     DispatcherQueue.TryEnqueue(CheckGameVersion);
                     GameProcess = null;
+                }
+                else
+                {
+                    DispatcherQueue.TryEnqueue(() => RunningGameTime = TimeSpanToString(DateTime.Now - GameProcess.StartTime));
                 }
             }
         }
         catch { }
     }
 
+
+
+    private static string TimeSpanToString(TimeSpan value)
+    {
+        return $"{value.Days * 24 + value.Hours:D2}:{value.Minutes:D2}:{value.Seconds:D2}";
+    }
 
 
 

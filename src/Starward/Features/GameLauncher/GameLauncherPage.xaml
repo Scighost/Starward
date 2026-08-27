@@ -553,6 +553,7 @@
                                    GameCommand="{x:Bind ClickStartGameButtonCommand}"
                                    GameState="{x:Bind GameState}"
                                    RunningGameInfo="{x:Bind RunningGameInfo}"
+                                   RunningGameTime="{x:Bind RunningGameTime}"
                                    SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}" />
 
 
