@@ -347,10 +347,10 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
     <value>Nhập từ {0}</value>
   </data>
   <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 không hỗ trợ Ca Tụng Thiên Tinh Kỳ Vực</value>
+    <value>UIGF v3.0 không hỗ trợ Miliastra Wonderland Ode</value>
   </data>
   <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>Tài khoản này chứa bản ghi Ca Tụng Thiên Tinh Kỳ Vực, nhưng định dạng UIGF 3.0 không thể chứa dữ liệu này. Nếu bạn tiếp tục, các bản ghi này sẽ không xuất hiện trong tập tin xuất. Để xuất các bản ghi Ca Tụng, hãy sử dụng UIGF v4.2.</value>
+    <value>Tài khoản này có dữ liệu Miliastra Wonderland Ode, nhưng định dạng UIGF v3.0 không thể lưu trữ dữ liệu này. Nếu tiếp tục, những dữ liệu đó sẽ bị bỏ qua trong tệp xuất. Để xuất chúng, hãy sử dụng UIGF v4.2.</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiển thị Gacha người mới</value>
@@ -2749,5 +2749,35 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>Chế độ nghịch cảnh</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
+    <value>Thống kê thời gian chơi</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
+    <value>Tổng cộng</value>
+  </data>
+  <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
+    <value>Tổng thời gian chơi</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestDailyPlaytime" xml:space="preserve">
+    <value>Thời gian chơi dài nhất trong ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last15Days" xml:space="preserve">
+    <value>15 ngày qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Weeks" xml:space="preserve">
+    <value>12 tuần qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Months" xml:space="preserve">
+    <value>12 tháng qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestStreak" xml:space="preserve">
+    <value>Chuỗi ngày chơi dài nhất</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestSession" xml:space="preserve">
+    <value>Phiên chơi dài nhất</value>
+  </data>
+  <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
+    <value>{0} ngày</value>
   </data>
 </root>
