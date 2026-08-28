@@ -2753,4 +2753,34 @@
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>绝境模式</value>
   </data>
+  <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
+    <value>游戏时长统计</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
+    <value>总计</value>
+  </data>
+  <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
+    <value>总游戏时长</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestDailyPlaytime" xml:space="preserve">
+    <value>最长单日时长</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last15Days" xml:space="preserve">
+    <value>最近 15 天</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Weeks" xml:space="preserve">
+    <value>最近 12 周</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Months" xml:space="preserve">
+    <value>最近 12 月</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestStreak" xml:space="preserve">
+    <value>最长连续天数</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestSession" xml:space="preserve">
+    <value>最长单次时长</value>
+  </data>
+  <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
 </root>
