@@ -18,7 +18,8 @@
             Translation="0,0,16">
         <Button HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                BorderThickness="0">
+                BorderThickness="0"
+                Command="{x:Bind OpenStatsDialogCommand}">
             <StackPanel Margin="4,2,4,0"
                         Orientation="Horizontal"
                         Spacing="8">
@@ -29,53 +30,6 @@
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeTotal)}" />
             </StackPanel>
-            <Button.Flyout>
-                <Flyout>
-                    <StackPanel MinWidth="180" Spacing="8">
-                        <!--  游戏时间  -->
-                        <TextBlock Margin="0,0,0,4"
-                                   FontSize="16"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   Text="{x:Bind lang:Lang.LauncherPage_PlayTime}" />
-                        <!--  启动次数 & 本日 & 本周 & 本月 & 上次启动  -->
-                        <Grid ColumnSpacing="16">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Spacing="8">
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_StartupCount}" />
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisDay}" />
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisWeek}" />
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_ThisMonth}" />
-                                <TextBlock Text="{x:Bind lang:Lang.LauncherPage_LastTime}" />
-                                <TextBlock />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1" Spacing="8">
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind StartUpCount}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeDay)}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeWeek)}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeMonth)}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind local:PlayTimeButton.TimeSpanToString(PlayTimeLast)}" />
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind LastPlayTimeText}" />
-                            </StackPanel>
-                        </Grid>
-                        <!--  刷新  -->
-                        <Button Height="36"
-                                HorizontalAlignment="Stretch"
-                                BorderThickness="0"
-                                Command="{x:Bind UpdatePlayTimeCommand}"
-                                CornerRadius="18">
-                            <StackPanel Margin="12,0,12,0"
-                                        Orientation="Horizontal"
-                                        Spacing="8">
-                                <FontIcon FontSize="14" Glyph="&#xE72C;" />
-                                <TextBlock Text="{x:Bind lang:Lang.Common_Refresh}" />
-                            </StackPanel>
-                        </Button>
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
         </Button>
     </Border>
 

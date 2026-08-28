@@ -257,7 +257,8 @@ internal static class DatabaseService
         Sql_v17,
         Sql_v18,
         Sql_v19,
-        Sql_v20
+        Sql_v20,
+        Sql_v21,
     ];
 
 
@@ -1033,6 +1034,27 @@ internal static class DatabaseService
         ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
 
         PRAGMA USER_VERSION = 20;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v21 = """
+        BEGIN TRANSACTION;
+
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
+
+        PRAGMA USER_VERSION = 21;
         COMMIT TRANSACTION;
         """;
 

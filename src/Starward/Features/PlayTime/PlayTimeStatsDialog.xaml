@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Features.PlayTime.PlayTimeStatsDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.PlayTime"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               x:DefaultBindMode="OneWay"
+               Background="{ThemeResource CustomAcrylicBrush}"
+               BorderThickness="0"
+               CornerRadius="8"
+               Style="{ThemeResource DefaultContentDialogStyle}"
+               mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        <StaticResource x:Key="ContentDialogSmokeFill" ResourceKey="ControlFillColorTransparentBrush" />
+        <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
+    </ContentDialog.Resources>
+
+
+    <Grid Width="1008" Height="564">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--  Title  -->
+        <TextBlock Margin="24,12,0,0"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Text="{x:Bind lang:Lang.PlayTimeStatsDialog_PlaytimeStatistics}" />
+
+        <StackPanel Margin="0,12,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8">
+
+            <!--  Close Button  -->
+            <Button Width="32"
+                    Height="32"
+                    Padding="0"
+                    BorderThickness="0"
+                    Command="{x:Bind CloseCommand}"
+                    CornerRadius="8"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="16"
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                          Glyph="&#xE711;"
+                          IsTextScaleFactorEnabled="False" />
+            </Button>
+
+        </StackPanel>
+
+
+        <StackPanel Grid.Row="1" Margin="24,12,24,24">
+
+            <!--  Stat Cards  -->
+            <ItemsRepeater ItemsSource="{x:Bind StatCards}">
+                <ItemsRepeater.Layout>
+                    <UniformGridLayout ItemsStretch="Fill"
+                                       MinColumnSpacing="4"
+                                       MinItemWidth="156"
+                                       MinRowSpacing="4"
+                                       Orientation="Horizontal" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="local:StatCardItem">
+                        <Border Padding="12,10,12,10"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{ThemeResource ControlCornerRadius}">
+                            <StackPanel Spacing="4">
+                                <TextBlock FontSize="12"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           IsTextScaleFactorEnabled="False"
+                                           MaxLines="2"
+                                           Text="{x:Bind Title}"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="Wrap" />
+                                <TextBlock FontSize="18"
+                                           FontWeight="Bold"
+                                           IsTextScaleFactorEnabled="False"
+                                           Text="{x:Bind Value}" />
+                                <TextBlock FontSize="11"
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           IsTextScaleFactorEnabled="False"
+                                           Text="{x:Bind SubText}"
+                                           TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+
+
+
+
+            <!--  Play Time Bar Chart (15 days / 12 weeks / 12 months)  -->
+            <Grid Margin="4,20,4,0">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <cwc:Segmented x:Name="Segmented_BarRange"
+                                   HorizontalAlignment="Left"
+                                   Background="Transparent"
+                                   BorderThickness="0"
+                                   SelectionChanged="Segmented_BarRange_SelectionChanged">
+                        <cwc:SegmentedItem MinWidth="60"
+                                           Content="{x:Bind lang:Lang.PlayTimeStatsDialog_Last15Days}"
+                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                           IsSelected="True"
+                                           IsTextScaleFactorEnabled="False" />
+                        <cwc:SegmentedItem MinWidth="60"
+                                           Content="{x:Bind lang:Lang.PlayTimeStatsDialog_Last12Weeks}"
+                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                           IsTextScaleFactorEnabled="False" />
+                        <cwc:SegmentedItem MinWidth="60"
+                                           Content="{x:Bind lang:Lang.PlayTimeStatsDialog_Last12Months}"
+                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                           IsTextScaleFactorEnabled="False" />
+                    </cwc:Segmented>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="4">
+                    <TextBlock FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind lang:Lang.PlayTimeStatsDialog_Total}" />
+                    <TextBlock FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               IsTextScaleFactorEnabled="False"
+                               Text="{x:Bind BarTotalText}" />
+                </StackPanel>
+            </Grid>
+
+            <local:BarChart x:Name="PlayTimeBarChart"
+                            Margin="0,20,0,0"
+                            PlotHeight="132" />
+
+
+            <local:CalendarHeatmap x:Name="PlayTimeHeatmap" Margin="0,24,0,0" />
+
+
+
+        </StackPanel>
+
+    </Grid>
+
+</ContentDialog>

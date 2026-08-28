@@ -599,11 +599,12 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
-                    CornerRadius="12">
+                    CornerRadius="12"
+                    Visibility="{x:Bind IsDX12OptionVisible}">
 
-                <StackPanel Orientation="Horizontal"
-                            Spacing="8"
-                            Visibility="{x:Bind IsDX12OptionVisible}">
+                <StackPanel Margin="0,-2,0,-2"
+                            Orientation="Horizontal"
+                            Spacing="8">
                     <CheckBox MinWidth="0"
                               VerticalAlignment="Center"
                               VerticalContentAlignment="Center"

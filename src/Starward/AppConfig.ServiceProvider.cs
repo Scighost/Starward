@@ -60,7 +60,8 @@ public static partial class AppConfig
             sc.AddSingleton<BackgroundService>();
             sc.AddSingleton<GameLauncherService>();
             sc.AddSingleton<GamePackageService>();
-            sc.AddSingleton<PlayTimeService>();
+            sc.AddSingleton<PlayTimeRecordService>();
+            sc.AddSingleton<PlayTimeStatsService>();
             sc.AddSingleton<GameNoticeService>();
             sc.AddSingleton<SetupService>();
 
