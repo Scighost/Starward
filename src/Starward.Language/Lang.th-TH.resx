@@ -342,6 +342,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>ส่งออกประวัติการสุ่ม</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>นำเข้าจาก {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 ไม่รองรับ Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>บัญชีนี้มีบันทึก Miliastra Wonderland Ode แต่รูปแบบ UIGF v3.0 ไม่สามารถรองรับได้ หากคุณดำเนินการต่อ บันทึกเหล่านั้นจะไม่รวมอยู่ในไฟล์ที่ส่งออก หากต้องการส่งออก โปรดใช้ UIGF v4.2 แทน</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>ชนิดการแสดงตู้สุ่มมือใหม่</value>
   </data>
@@ -2737,5 +2746,35 @@
   </data>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>โหมดวิกฤต</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
+    <value>สถิติเวลาเล่น</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
+    <value>รวม</value>
+  </data>
+  <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
+    <value>เวลาเล่นทั้งหมด</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestDailyPlaytime" xml:space="preserve">
+    <value>เวลาเล่นต่อวันยาวที่สุด</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last15Days" xml:space="preserve">
+    <value>15 วันที่ผ่านมา</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Weeks" xml:space="preserve">
+    <value>12 สัปดาห์ที่ผ่านมา</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Months" xml:space="preserve">
+    <value>12 เดือนที่ผ่านมา</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestStreak" xml:space="preserve">
+    <value>วันที่เล่นต่อเนื่องยาวที่สุด</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestSession" xml:space="preserve">
+    <value>เซสชันการเล่นยาวที่สุด</value>
+  </data>
+  <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
+    <value>{0} วัน</value>
   </data>
 </root>
