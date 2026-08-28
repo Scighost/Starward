@@ -343,6 +343,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>내보내기</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>{0}에서 가져오기</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0은 Miliastra Wonderland Ode를 지원하지 않습니다</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>이 계정에는 Miliastra Wonderland Ode 기록이 있지만 UIGF v3.0 형식은 이를 포함할 수 없습니다. 계속하면 해당 기록은 내보낸 파일에서 제외됩니다. 내보내려면 UIGF v4.2를 사용하세요.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>초보자 뽑기 표시</value>
   </data>
@@ -2743,5 +2752,35 @@
   </data>
   <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
     <value>역경 모드</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
+    <value>플레이 시간 통계</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
+    <value>합계</value>
+  </data>
+  <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
+    <value>총 플레이 시간</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestDailyPlaytime" xml:space="preserve">
+    <value>하루 최장 플레이 시간</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last15Days" xml:space="preserve">
+    <value>최근 15일</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Weeks" xml:space="preserve">
+    <value>최근 12주</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Months" xml:space="preserve">
+    <value>최근 12개월</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestStreak" xml:space="preserve">
+    <value>최장 연속 플레이 일수</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestSession" xml:space="preserve">
+    <value>최장 플레이 세션</value>
+  </data>
+  <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
+    <value>{0}일</value>
   </data>
 </root>
