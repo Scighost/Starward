@@ -2781,4 +2781,16 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} Tage</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>{0} Mal gestartet</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>{0} Tage gespielt</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>Durchschnittliche Spielzeit pro Tag</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>Die Statistiken basieren auf der Laufzeit des Spiels, nicht auf der tatsächlichen Spielzeit, und dienen nur als Orientierung.</value>
+  </data>
 </root>
