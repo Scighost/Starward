@@ -2780,4 +2780,16 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} ngày</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>Đã khởi động {0} lần</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>Đã chơi {0} ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>Thời gian chơi trung bình mỗi ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>Thống kê dựa trên thời gian chạy của trò chơi, không phải thời gian chơi thực tế, và chỉ mang tính chất tham khảo.</value>
+  </data>
 </root>
