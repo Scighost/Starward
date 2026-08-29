@@ -2782,4 +2782,16 @@
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0}日</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>{0}回起動</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>{0}日間プレイ</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>1日の平均プレイ時間</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>統計はゲームの実行時間に基づいており、実際のプレイ時間とは異なります。あくまで参考としてご覧ください。</value>
+  </data>
 </root>
