@@ -2777,4 +2777,16 @@
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} วัน</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>เปิดเกม {0} ครั้ง</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>เล่นไปแล้ว {0} วัน</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>เวลาเล่นเฉลี่ยต่อวัน</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>สถิติอ้างอิงจากเวลาที่เกมทำงาน ไม่ใช่เวลาเล่นจริง และใช้เพื่อการอ้างอิงเท่านั้น</value>
+  </data>
 </root>
