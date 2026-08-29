@@ -2774,6 +2774,18 @@
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} 天</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>已啟動 {0} 次</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>已遊玩 {0} 天</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>平均每日遊戲時間</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>統計基於遊戲運行時長，而非實際遊玩時長，僅供參考。</value>
+  </data>
   <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
     <value>從 {0} 匯入</value>
   </data>

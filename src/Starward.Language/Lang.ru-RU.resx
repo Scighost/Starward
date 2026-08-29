@@ -2803,4 +2803,16 @@ ChatGPT может допускать ошибки. Проверьте важн�
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} дн.</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>Запущено {0} раз</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>Отыграно {0} дн.</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>Среднее время в игре за день</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>Статистика основана на времени работы игры, а не на фактическом времени в игре, и приведена только для справки.</value>
+  </data>
 </root>

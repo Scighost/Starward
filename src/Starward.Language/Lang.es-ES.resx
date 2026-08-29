@@ -2774,6 +2774,18 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} días</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>Iniciado {0} veces</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>Jugado durante {0} días</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>Tiempo de juego diario medio</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>Las estadísticas se basan en el tiempo de ejecución del juego, no en el tiempo de juego real, y solo sirven como referencia.</value>
+  </data>
   <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
     <value>Importar desde {0}</value>
   </data>

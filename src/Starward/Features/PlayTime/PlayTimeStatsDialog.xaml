@@ -31,10 +31,30 @@
 
 
         <!--  Title  -->
-        <TextBlock Margin="24,12,0,0"
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Text="{x:Bind lang:Lang.PlayTimeStatsDialog_PlaytimeStatistics}" />
+        <StackPanel Margin="24,12,0,0"
+                    Orientation="Horizontal"
+                    Spacing="8">
+            <TextBlock FontSize="20"
+                       FontWeight="Bold"
+                       Text="{x:Bind lang:Lang.PlayTimeStatsDialog_PlaytimeStatistics}" />
+            <Button Padding="4"
+                    VerticalAlignment="Top"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="12"
+                          Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                          Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout Placement="Bottom">
+                        <TextBlock MaxWidth="400"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   IsTextScaleFactorEnabled="False"
+                                   Text="{x:Bind lang:Lang.PlayTimeStatsDialog_StatsTip}"
+                                   TextWrapping="Wrap" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
 
         <StackPanel Margin="0,12,16,0"
                     HorizontalAlignment="Right"
@@ -64,7 +84,8 @@
             <!--  Stat Cards  -->
             <ItemsRepeater ItemsSource="{x:Bind StatCards}">
                 <ItemsRepeater.Layout>
-                    <UniformGridLayout ItemsStretch="Fill"
+                    <UniformGridLayout x:Name="UniformGridLayout_StatCards"
+                                       ItemsStretch="Fill"
                                        MinColumnSpacing="4"
                                        MinItemWidth="156"
                                        MinRowSpacing="4"
@@ -72,30 +93,36 @@
                 </ItemsRepeater.Layout>
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="local:StatCardItem">
-                        <Border Padding="12,10,12,10"
-                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="1"
-                                CornerRadius="{ThemeResource ControlCornerRadius}">
-                            <StackPanel Spacing="4">
-                                <TextBlock FontSize="12"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           IsTextScaleFactorEnabled="False"
-                                           MaxLines="2"
-                                           Text="{x:Bind Title}"
-                                           TextTrimming="CharacterEllipsis"
-                                           TextWrapping="Wrap" />
-                                <TextBlock FontSize="18"
-                                           FontWeight="Bold"
-                                           IsTextScaleFactorEnabled="False"
-                                           Text="{x:Bind Value}" />
-                                <TextBlock FontSize="11"
-                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                           IsTextScaleFactorEnabled="False"
-                                           Text="{x:Bind SubText}"
-                                           TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
-                        </Border>
+                        <Grid Padding="12,10,12,10"
+                              Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                              BorderThickness="1"
+                              CornerRadius="4"
+                              RowSpacing="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="12"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       MaxLines="2"
+                                       Text="{x:Bind Title}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Grid.Row="1"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind Value}" />
+                            <TextBlock Grid.Row="2"
+                                       FontSize="11"
+                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                       IsTextScaleFactorEnabled="False"
+                                       Text="{x:Bind SubText}"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
             </ItemsRepeater>
@@ -104,7 +131,7 @@
 
 
             <!--  Play Time Bar Chart (15 days / 12 weeks / 12 months)  -->
-            <Grid Margin="4,20,4,0">
+            <Grid x:Name="Grid_BarChartSwitcher" Margin="4,20,4,0">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <cwc:Segmented x:Name="Segmented_BarRange"
                                    HorizontalAlignment="Left"

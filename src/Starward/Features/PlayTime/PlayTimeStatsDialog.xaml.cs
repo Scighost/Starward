@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Features.Database;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -77,7 +78,17 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
     /// <summary>
     /// 启动次数
     /// </summary>
-    public int StartUpCount { get; set => SetProperty(ref field, value); }
+    public string StartUpCountText { get; set => SetProperty(ref field, value); }
+
+    /// <summary>
+    /// 每日平均游戏时间
+    /// </summary>
+    public string AverageDayTimeText { get; set => SetProperty(ref field, value); }
+
+    /// <summary>
+    /// 游玩天数
+    /// </summary>
+    public string PlayDaysText { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// 最长连续游玩天数
@@ -203,7 +214,11 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
             _playTimePerDay = timePerDay;
 
             TotalTimeText = TimeSpanToString(TimeSpan.FromMilliseconds(totalMs));
-            StartUpCount = sessions.Count;
+            StartUpCountText = totalMs > 0 ? string.Format(Lang.PlayTimeStatsDialog_Started0Times, sessions.Count) : "";
+            DatabaseService.SetValue($"playtime_total_{biz}", TimeSpan.FromMilliseconds(totalMs));
+
+            AverageDayTimeText = timePerDay.Count > 0 ? TimeSpanToString(TimeSpan.FromMilliseconds(totalMs / timePerDay.Count)) : "-";
+            PlayDaysText = timePerDay.Count > 0 ? string.Format(Lang.PlayTimeStatsDialog_PlayedFor0Days, timePerDay.Count) : "";
 
             // 最长连续游玩天数和起止日期
             int longestContinuousDays = 0;
@@ -277,7 +292,7 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
             LongestRunStartText = longestSpan > 0 ? DateTimeOffset.FromUnixTimeMilliseconds(longestStart).LocalDateTime.ToString("yyyy-MM-dd") : "";
             if (lastStart > 0)
             {
-                LastPlayDurationText = TimeSpanToString(TimeSpan.FromMilliseconds(lastSpan));
+                LastPlayDurationText = TimeSpanToString(TimeSpan.FromMilliseconds(Math.Max(lastSpan, 60_000)));
                 LastPlayTimeText = DateTimeOffset.FromUnixTimeMilliseconds(lastStart).LocalDateTime.ToString("yyyy-MM-dd HH:mm");
             }
             else
@@ -288,8 +303,8 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
 
             StatCards =
             [
-                new StatCardItem { Title = Lang.PlayTimeStatsDialog_TotalPlaytime, Value = TotalTimeText },
-                new StatCardItem { Title = Lang.LauncherPage_StartupCount, Value = StartUpCount.ToString() },
+                new StatCardItem { Title = Lang.PlayTimeStatsDialog_TotalPlaytime, Value = TotalTimeText,SubText = StartUpCountText },
+                new StatCardItem { Title = Lang.PlayTimeStatsDialog_AverageDailyPlaytime, Value = AverageDayTimeText,SubText= PlayDaysText },
                 new StatCardItem { Title = Lang.PlayTimeStatsDialog_LongestStreak, Value = string.Format(Lang.PlayTimeStatsDialog_0Days,LongestContinuousDays), SubText = LongestContinuousDaysText },
                 new StatCardItem { Title = Lang.PlayTimeStatsDialog_LongestSession, Value = LongestRunTimeText, SubText = LongestRunStartText },
                 new StatCardItem { Title = Lang.PlayTimeStatsDialog_LongestDailyPlaytime, Value = MaxDayPlayTimeText, SubText = MaxDayPlayDateText },
@@ -317,6 +332,14 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
         catch (Exception ex)
         {
             _logger.LogError(ex, "Build heatmap: GameBiz {biz}", CurrentGameBiz);
+        }
+
+
+        if (Lang.PlayTimeStatsDialog_AverageDailyPlaytime.Length>22)
+        {
+            UniformGridLayout_StatCards.MinItemHeight = 98;
+            Grid_BarChartSwitcher.Margin = new Thickness(4, 16, 4, 0);
+            PlayTimeHeatmap.Margin = new Thickness(0, 20, 0, 0);
         }
 
     }

@@ -2783,4 +2783,16 @@
   <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
     <value>{0} 天</value>
   </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>已启动 {0} 次</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>已游玩 {0} 天</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>平均每天时长</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>统计基于游戏运行时长，而不是实际在线时长，仅供参考。</value>
+  </data>
 </root>

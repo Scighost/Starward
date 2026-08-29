@@ -5407,6 +5407,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Average Daily Playtime 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_AverageDailyPlaytime {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_AverageDailyPlaytime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Last 12 Months 的本地化字符串。
         /// </summary>
         public static string PlayTimeStatsDialog_Last12Months {
@@ -5461,11 +5470,38 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Played for {0} days 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_PlayedFor0Days {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_PlayedFor0Days", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Playtime Statistics 的本地化字符串。
         /// </summary>
         public static string PlayTimeStatsDialog_PlaytimeStatistics {
             get {
                 return ResourceManager.GetString("PlayTimeStatsDialog_PlaytimeStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Started {0} times 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_Started0Times {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_Started0Times", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Statistics are based on game runtime, not actual playtime, and are for reference only. 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_StatsTip {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_StatsTip", resourceCulture);
             }
         }
         

@@ -58,8 +58,9 @@ public sealed partial class PlayTimeButton : UserControl
 
     public static string TimeSpanToString(TimeSpan timeSpan)
     {
-
-        return $"{Math.Floor(timeSpan.TotalHours)}h {timeSpan.Minutes}m";
+        int totalMinutes = (int)Math.Round(timeSpan.TotalMinutes);
+        int hours = totalMinutes / 60, minutes = totalMinutes % 60;
+        return $"{hours}h {minutes}m";
     }
 
 
