@@ -135,7 +135,7 @@
                                   Visibility="{x:Bind IsGameActionCommandRunning}" />
                     <!--  按键文本： 开始游戏 / 游戏正在运行 / 安装游戏 / 更新游戏 / 更新插件 / 继续下载  -->
                     <TextBlock x:Name="TextBlock_StartGame"
-                               Margin="41,5,53,6"
+                               Margin="{x:Bind StartGameTextMargin}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Text="{x:Bind StartGameButtonText}" />
@@ -258,6 +258,34 @@
                     <FontIconSource Glyph="&#xE713;" />
                 </AnimatedIcon.FallbackIconSource>
             </AnimatedIcon>
+        </Button>
+
+
+        <!--  启动预设下拉菜单  -->
+        <Button x:Name="Button_LaunchOptions"
+                Width="28"
+                Height="44"
+                Padding="0"
+                Margin="0,0,44,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="Button_LaunchOptions_Click"
+                CornerRadius="0"
+                Foreground="{x:Bind LaunchOptionsButtonForeground}"
+                IsEnabled="{x:Bind IsLaunchOptionsButtonEnabled}"
+                PointerEntered="Control_PointerEntered"
+                PointerExited="Control_PointerExited"
+                Style="{ThemeResource GameButtonStyle}"
+                ToolTipService.ToolTip="{x:Bind lang:Lang.StartGameButton_ChooseLaunchOption}"
+                Visibility="{x:Bind IsLaunchOptionsButtonVisible}">
+            <FontIcon FontSize="10"
+                      Glyph="&#xE70D;"
+                      IsTextScaleFactorEnabled="False" />
+            <Button.Flyout>
+                <MenuFlyout x:Name="Flyout_LaunchOptions" Placement="Top" />
+            </Button.Flyout>
         </Button>
 
 
