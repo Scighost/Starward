@@ -210,7 +210,7 @@ public sealed partial class MainWindow : WindowEx
         }
         else if (uMsg == (uint)User32.WindowMessage.WM_SIZE)
         {
-            // 窗口最小化 (SIZE_MINIMIZED) 或还原 (SIZE_RESTORED/SIZE_MAXIMIZED)，通知动态背景暂停或恢复
+            // 窗口最小化或还原，通知动态背景暂停或恢复
             if (wParam is 0 or 1 or 2)
             {
                 bool minimized = wParam is 1;

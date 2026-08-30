@@ -605,15 +605,14 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
-            // 各 suspend reason 由对应窗口信号独立维护：Hide/Activate → hidden、WM_SIZE → minimized、WTS lock/unlock → sessionLocked；
-            // 播放/暂停由聚合状态统一决定，任何单个恢复事件都不能越过其他暂停条件。
+            // 各暂停条件由对应窗口消息独立维护，播放或暂停由聚合状态统一决定
             if (message.Hide)
             {
                 _windowHidden = true;
             }
             if (message.Activate)
             {
-                // 窗口重新激活意味着已回到屏幕前，但不得影响 minimized/session 状态
+                // 激活只代表窗口回到屏幕前，不改变最小化和锁屏状态
                 _windowHidden = false;
             }
             if (message.Minimized is bool minimized)

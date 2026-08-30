@@ -20,9 +20,6 @@ internal class MainWindowStateChangedMessage
     public bool SessionUnlock { get; set; }
 
 
-    /// <summary>
-    /// 主窗口是否进入或退出最小化状态；null 表示此消息与最小化无关
-    /// </summary>
     public bool? Minimized { get; set; }
 
 
