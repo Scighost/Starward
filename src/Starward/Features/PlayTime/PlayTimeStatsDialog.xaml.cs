@@ -63,6 +63,9 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
     {
         this.Loaded -= PlayTimeStatsDialog_Loaded;
         this.Unloaded -= PlayTimeStatsDialog_Unloaded;
+        StatCards?.Clear();
+        PlayTimeBarChart.Items = null;
+        PlayTimeHeatmap.Days = null;
         _playTimeLoaded = false;
     }
 
@@ -141,7 +144,7 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
     /// <summary>
     /// 统计卡片数据项
     /// </summary>
-    public IReadOnlyList<StatCardItem> StatCards { get; set => SetProperty(ref field, value); }
+    public List<StatCardItem> StatCards { get; set => SetProperty(ref field, value); }
 
 
 
@@ -190,8 +193,8 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
                     lastSpan = span;
                 }
 
-                DateTimeOffset startTime = DateTimeOffset.FromUnixTimeMilliseconds(session.StartTime);
-                DateTimeOffset endTime = DateTimeOffset.FromUnixTimeMilliseconds(session.EndTime);
+                DateTimeOffset startTime = DateTimeOffset.FromUnixTimeMilliseconds(session.StartTime).ToLocalTime();
+                DateTimeOffset endTime = DateTimeOffset.FromUnixTimeMilliseconds(session.EndTime).ToLocalTime();
 
                 // 计算每日时长，把数据添加到 timePerDay 字典中
                 for (DateTime day = startTime.Date; day <= endTime.Date; day = day.AddDays(1))
@@ -335,7 +338,7 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
         }
 
 
-        if (Lang.PlayTimeStatsDialog_AverageDailyPlaytime.Length>22)
+        if (Lang.PlayTimeStatsDialog_AverageDailyPlaytime.Length > 22)
         {
             UniformGridLayout_StatCards.MinItemHeight = 98;
             Grid_BarChartSwitcher.Margin = new Thickness(4, 16, 4, 0);
