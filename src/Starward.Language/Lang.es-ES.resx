@@ -343,6 +343,15 @@ cerrar el programa durante la descompresión causará corrupciones en los archiv
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Exportar como</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Importar desde {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 no es compatible con Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>Esta cuenta tiene registros de Miliastra Wonderland Ode, pero el formato UIGF v3.0 no puede incluirlos. Si continúas, esos registros quedarán fuera del archivo exportado. Para exportarlos, usa UIGF v4.2.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Mostrar tipo de Gacha principiante</value>
   </data>
@@ -2747,9 +2756,6 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
     <value>Estadísticas de tiempo de juego</value>
   </data>
-  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
-    <value>Total</value>
-  </data>
   <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
     <value>Tiempo de juego total</value>
   </data>
@@ -2785,14 +2791,5 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Las estadísticas se basan en el tiempo de ejecución del juego, no en el tiempo de juego real, y solo sirven como referencia.</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>Importar desde {0}</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 no es compatible con Miliastra Wonderland Ode</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>Esta cuenta tiene registros de Miliastra Wonderland Ode, pero el formato UIGF v3.0 no puede incluirlos. Si continúas, esos registros quedarán fuera del archivo exportado. Para exportarlos, usa UIGF v4.2.</value>
   </data>
 </root>
