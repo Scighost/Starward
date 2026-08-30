@@ -343,6 +343,15 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Esporta come</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Importa da {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 non supporta Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>Questo account contiene record di Miliastra Wonderland Ode, ma il formato UIGF v3.0 non può includerli. Se continui, quei record saranno esclusi dal file esportato. Per esportarli, usa UIGF v4.2.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Mostra Tipo Gacha per Novizi</value>
   </data>
@@ -2785,14 +2794,5 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Le statistiche si basano sul tempo di esecuzione del gioco, non sul tempo di gioco effettivo, e servono solo come riferimento.</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>Importa da {0}</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 non supporta Miliastra Wonderland Ode</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>Questo account contiene record di Miliastra Wonderland Ode, ma il formato UIGF v3.0 non può includerli. Se continui, quei record saranno esclusi dal file esportato. Per esportarli, usa UIGF v4.2.</value>
   </data>
 </root>
