@@ -72,6 +72,12 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    public static bool VideoBgAutoPlay
+    {
+        get => GetValue(true);
+        set => SetValue(value);
+    }
+
     [Obsolete("已不用", true)]
     public static bool UseOneBg
     {
@@ -598,6 +604,21 @@ public static partial class AppConfig
         SetValue(value, $"game_background_ids_{biz}");
     }
 
+    /// <summary>
+    /// 视频背景是否播放，null 表示未手动设置，跟随全局开关 <see cref="VideoBgAutoPlay"/>
+    /// </summary>
+    public static bool? GetVideoBgManualStop(GameBiz biz)
+    {
+        return GetValue<bool?>(default, $"bg_video_stopped_{biz}");
+    }
+
+    /// <summary>
+    /// 视频背景是否播放，null 表示未手动设置，跟随全局开关 <see cref="VideoBgAutoPlay"/>
+    /// </summary>
+    public static void SetVideoBgManualStop(GameBiz biz, bool? value)
+    {
+        SetValue(value, $"bg_video_stopped_{biz}");
+    }
 
     /// <summary>
     /// 启用 DX12
