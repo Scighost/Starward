@@ -343,6 +343,15 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Xuất như</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Nhập từ {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 không hỗ trợ Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>Tài khoản này có dữ liệu Miliastra Wonderland Ode, nhưng định dạng UIGF v3.0 không thể lưu trữ dữ liệu này. Nếu tiếp tục, những dữ liệu đó sẽ bị bỏ qua trong tệp xuất. Để xuất chúng, hãy sử dụng UIGF v4.2.</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiển thị Gacha người mới</value>
   </data>
@@ -2586,7 +2595,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thử Thách Thánh Bài {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
-    <value>Khúc ca kỳ quan Miliastra</value>
+    <value>Ca Tụng Thiên Tinh Kỳ Vực</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
     <value>Khởi động game bằng CMD</value>
@@ -2782,14 +2791,5 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Thống kê dựa trên thời gian chạy của trò chơi, không phải thời gian chơi thực tế, và chỉ mang tính chất tham khảo.</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>Nhập từ {0}</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 không hỗ trợ Miliastra Wonderland Ode</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>Tài khoản này có dữ liệu Miliastra Wonderland Ode, nhưng định dạng UIGF v3.0 không thể lưu trữ dữ liệu này. Nếu tiếp tục, những dữ liệu đó sẽ bị bỏ qua trong tệp xuất. Để xuất chúng, hãy sử dụng UIGF v4.2.</value>
   </data>
 </root>
