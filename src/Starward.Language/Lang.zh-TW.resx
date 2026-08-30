@@ -343,6 +343,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>導出為</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>從 {0} 匯入</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 不支援千星奇域</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>目前帳號存在千星奇域抽卡記錄，但 UIGF v3.0 格式無法承載這部分資料。若選擇繼續，匯出的檔案將不包含千星奇域記錄。如需匯出，請改用 UIGF v4.2。</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>顯示新手卡池</value>
   </data>
@@ -2785,14 +2794,5 @@
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>統計基於遊戲運行時長，而非實際遊玩時長，僅供參考。</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>從 {0} 匯入</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 不支援千星奇域</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>目前帳號存在千星奇域抽卡記錄，但 UIGF v3.0 格式無法承載這部分資料。若選擇繼續，匯出的檔案將不包含千星奇域記錄。如需匯出，請改用 UIGF v4.2。</value>
   </data>
 </root>

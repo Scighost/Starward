@@ -342,6 +342,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>ส่งออกประวัติการสุ่ม</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>นำเข้าจาก {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 ไม่รองรับ Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>บัญชีนี้มีบันทึก Miliastra Wonderland Ode แต่รูปแบบ UIGF v3.0 ไม่สามารถรองรับได้ หากคุณดำเนินการต่อ บันทึกเหล่านั้นจะไม่รวมอยู่ในไฟล์ที่ส่งออก หากต้องการส่งออก โปรดใช้ UIGF v4.2 แทน</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>ชนิดการแสดงตู้สุ่มมือใหม่</value>
   </data>
@@ -2779,14 +2788,5 @@
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>สถิติอ้างอิงจากเวลาที่เกมทำงาน ไม่ใช่เวลาเล่นจริง และใช้เพื่อการอ้างอิงเท่านั้น</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>นำเข้าจาก {0}</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 ไม่รองรับ Miliastra Wonderland Ode</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>บัญชีนี้มีบันทึก Miliastra Wonderland Ode แต่รูปแบบ UIGF v3.0 ไม่สามารถรองรับได้ หากคุณดำเนินการต่อ บันทึกเหล่านั้นจะไม่รวมอยู่ในไฟล์ที่ส่งออก หากต้องการส่งออก โปรดใช้ UIGF v4.2 แทน</value>
   </data>
 </root>

@@ -343,6 +343,15 @@
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>エクスポート</value>
   </data>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>{0} からインポート</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 は Miliastra Wonderland Ode に対応していません</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>このアカウントには Miliastra Wonderland Ode の記録がありますが、UIGF v3.0 形式では保持できません。続行すると、その記録はエクスポートファイルに含まれません。エクスポートする場合は UIGF v4.2 を使用してください。</value>
+  </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>初心者向けガチャの種類を表示</value>
   </data>
@@ -2784,14 +2793,5 @@
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>統計はゲームの実行時間に基づいており、実際のプレイ時間とは異なります。あくまで参考としてご覧ください。</value>
-  </data>
-  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
-    <value>{0} からインポート</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
-    <value>UIGF v3.0 は Miliastra Wonderland Ode に対応していません</value>
-  </data>
-  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
-    <value>このアカウントには Miliastra Wonderland Ode の記録がありますが、UIGF v3.0 形式では保持できません。続行すると、その記録はエクスポートファイルに含まれません。エクスポートする場合は UIGF v4.2 を使用してください。</value>
   </data>
 </root>
