@@ -361,6 +361,14 @@ public sealed partial class AppBackground : UserControl
 
     private SemaphoreSlim _videoSemaphore = new SemaphoreSlim(1, 1);
 
+    private bool _windowHidden;
+
+    private bool _windowMinimized;
+
+    private bool _sessionLocked;
+
+    private bool ShouldPauseVideo => _windowHidden || _windowMinimized || _sessionLocked;
+
 
     private void StartMediaPlayer(string file)
     {
@@ -402,6 +410,11 @@ public sealed partial class AppBackground : UserControl
         _mediaPlayer.VideoFrameAvailable += MediaPlayer_VideoFrameAvailable;
         _mediaPlayer.MediaFailed += MediaPlayer_MediaFailed;
         _mediaPlayer.Play();
+        // 若窗口当前不处于可播放状态（最小化、隐藏或锁屏），暂停新建的播放器
+        if (ShouldPauseVideo)
+        {
+            _mediaPlayer.Pause();
+        }
     }
 
 
@@ -592,16 +605,38 @@ public sealed partial class AppBackground : UserControl
     {
         try
         {
+            // 各 suspend reason 由对应窗口信号独立维护：Hide/Activate → hidden、WM_SIZE → minimized、WTS lock/unlock → sessionLocked；
+            // 播放/暂停由聚合状态统一决定，任何单个恢复事件都不能越过其他暂停条件。
+            if (message.Hide)
+            {
+                _windowHidden = true;
+            }
+            if (message.Activate)
+            {
+                // 窗口重新激活意味着已回到屏幕前，但不得影响 minimized/session 状态
+                _windowHidden = false;
+            }
+            if (message.Minimized is bool minimized)
+            {
+                _windowMinimized = minimized;
+            }
+            if (message.SessionLock)
+            {
+                _sessionLocked = true;
+            }
+            if (message.SessionUnlock)
+            {
+                _sessionLocked = false;
+            }
             if (_mediaPlayer is not null)
             {
-                var state = _mediaPlayer.PlaybackSession.PlaybackState;
-                if (message.Activate && state is not MediaPlaybackState.Playing)
-                {
-                    _mediaPlayer.Play();
-                }
-                else if (message.Hide || message.SessionLock)
+                if (ShouldPauseVideo)
                 {
                     _mediaPlayer.Pause();
+                }
+                else if (_mediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
+                {
+                    _mediaPlayer.Play();
                 }
             }
         }
