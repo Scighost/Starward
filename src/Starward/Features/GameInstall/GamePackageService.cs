@@ -61,6 +61,27 @@ internal partial class GamePackageService
 
 
     /// <summary>
+    /// 获取鹰角游戏的预下载补丁包
+    /// </summary>
+    /// <param name="gameId"></param>
+    /// <param name="installPath"></param>
+    /// <returns></returns>
+    public async Task<HypergryphGamePatch?> GetHypergryphPreDownloadPatchAsync(GameId gameId, string? installPath = null)
+    {
+        if (!HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            return null;
+        }
+        Version? localVersion = await _gameLauncherService.GetLocalGameVersionAsync(gameId, installPath);
+        HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(
+            gameId.GameBiz,
+            localVersion?.ToString());
+        return latest.PrePatch is { DownloadParts.Count: > 0 } ? latest.PrePatch : null;
+    }
+
+
+
+    /// <summary>
     /// 检查预下载是否完成
     /// </summary>
     /// <param name="gameId"></param>
@@ -88,11 +109,14 @@ internal partial class GamePackageService
             if (metadata is null || !metadata.IsFor(gameId.GameBiz)
                 || !string.Equals(metadata.PredownloadFingerprint, prePatch.GetFingerprint(), StringComparison.OrdinalIgnoreCase))
             {
-                return false;
+                return CheckHypergryphOfficialPreDownload(installPath, prePatch.DownloadParts);
             }
             string downloadDirectory = HypergryphInstallMetadata.GetDownloadsDirectory(installPath);
-            return prePatch.DownloadParts.All(x => File.Exists(Path.Combine(downloadDirectory, x.GetFileName()))
-                && new FileInfo(Path.Combine(downloadDirectory, x.GetFileName())).Length == x.PackageSize);
+            if (AreHypergryphPackagePartsComplete(downloadDirectory, prePatch.DownloadParts))
+            {
+                return true;
+            }
+            return CheckHypergryphOfficialPreDownload(installPath, prePatch.DownloadParts);
         }
         string? predownloadVersion = null;
         GameConfig? gameConfig = await _hoYoPlayService.GetGameConfigAsync(gameId);
@@ -146,6 +170,79 @@ internal partial class GamePackageService
 
     [GeneratedRegex(@"predownload=(.+)")]
     private static partial Regex PreDownloadRegex();
+
+
+    private bool CheckHypergryphOfficialPreDownload(string installPath, IReadOnlyList<HypergryphPackagePart> parts)
+    {
+        try
+        {
+            string launcherTemporaryDirectory = Path.Combine(installPath, "launcher_tmp");
+            if (!Directory.Exists(launcherTemporaryDirectory))
+            {
+                return false;
+            }
+            foreach (string taskDirectory in Directory.EnumerateDirectories(launcherTemporaryDirectory))
+            {
+                string[] cacheDirectories =
+                [
+                    Path.Combine(taskDirectory, "preload"),
+                    Path.Combine(taskDirectory, "predownload"),
+                ];
+                foreach (string cacheDirectory in cacheDirectories)
+                {
+                    if (AreHypergryphPackagePartsComplete(cacheDirectory, parts))
+                    {
+                        _logger.LogDebug("Found completed Hypergryph pre-download in {Directory}.", cacheDirectory);
+                        return true;
+                    }
+                }
+            }
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            _logger.LogDebug(ex, "Failed to inspect the official Hypergryph pre-download cache.");
+        }
+        return false;
+    }
+
+
+    private static bool AreHypergryphPackagePartsComplete(string directory, IReadOnlyList<HypergryphPackagePart> parts)
+    {
+        if (!Directory.Exists(directory) || parts.Count == 0)
+        {
+            return false;
+        }
+        foreach (HypergryphPackagePart part in parts)
+        {
+            string file = Path.Combine(directory, part.GetFileName());
+            if (IsHypergryphPackagePartComplete(file, part.PackageSize))
+            {
+                continue;
+            }
+            if (!IsHypergryphPackagePartComplete(file + ".tmp", part.PackageSize))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private static bool IsHypergryphPackagePartComplete(string path, long expectedSize)
+    {
+        try
+        {
+            return expectedSize > 0 && File.Exists(path) && new FileInfo(path).Length == expectedSize;
+        }
+        catch (IOException)
+        {
+            return false;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
 
 
 
