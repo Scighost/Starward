@@ -17,6 +17,12 @@ internal class MainWindowStateChangedMessage
     public bool SessionLock { get; set; }
 
 
+    public bool SessionUnlock { get; set; }
+
+
+    public bool? Minimized { get; set; }
+
+
     public DateTimeOffset CurrentTime { get; set; }
 
 
