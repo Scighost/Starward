@@ -147,18 +147,16 @@ public class BackgroundService
         string firstBgId = backgrounds.FirstOrDefault()?.Id ?? string.Empty;
         if (!string.IsNullOrWhiteSpace(lastBg) && (lastBgIds?.StartsWith(firstBgId) ?? false))
         {
-            // 没有新背景
-            if (backgrounds.FirstOrDefault(x => Path.GetFileName(x.Background.Url) == lastBg) is GameBackground bg1)
-            {
-                bg1.StopVideo = true;
-                bg = bg1;
-            }
-            else if (backgrounds.Where(x => x.Video != null).FirstOrDefault(x => Path.GetFileName(x.Video.Url) == lastBg) is GameBackground bg2)
-            {
-                bg = bg2;
-            }
+            // 没有新背景，沿用上次选择的背景
+            bg = backgrounds.FirstOrDefault(x => Path.GetFileName(x.Background.Url) == lastBg)
+                 ?? backgrounds.Where(x => x.Video != null).FirstOrDefault(x => Path.GetFileName(x.Video.Url) == lastBg);
         }
         bg ??= backgrounds.FirstOrDefault();
+        // 视频背景是否播放，未手动设置时跟随全局开关
+        if (bg is not null && bg.Type is GameBackground.BACKGROUND_TYPE_VIDEO)
+        {
+            bg.StopVideo = AppConfig.GetVideoBgManualStop(gameId.GameBiz) ?? !AppConfig.VideoBgAutoPlay;
+        }
         return bg;
     }
 

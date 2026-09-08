@@ -246,7 +246,11 @@ public sealed partial class AppBackground : UserControl
                     CurrentGameBackground = gameBackground;
                     if (!apiCancelled && gameBackground?.Type is not GameBackground.BACKGROUND_TYPE_CUSTOM)
                     {
-                        AppConfig.SetBg(CurrentGameId.GameBiz, Path.GetFileName(filePath));
+                        // 视频背景即使因暂停而渲染为静态图，仍持久化视频文件名，以保证恢复播放时能正确匹配
+                        string persistName = gameBackground?.Type is GameBackground.BACKGROUND_TYPE_VIDEO
+                            ? Path.GetFileName(gameBackground.Video.Url)
+                            : Path.GetFileName(filePath);
+                        AppConfig.SetBg(CurrentGameId.GameBiz, persistName);
                         var list = await _backgroundService.GetGameBackgroundsAsync(CurrentGameId);
                         AppConfig.SetGameBackgroundIds(CurrentGameId.GameBiz, string.Join(',', list.Select(x => x.Id)));
                     }
