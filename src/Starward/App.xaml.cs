@@ -117,7 +117,7 @@ public partial class App : Application
             GameBiz biz = (GameBiz)config.GetValue<string>("biz");
             if (pid > 0)
             {
-                var playtime = AppConfig.GetService<Features.PlayTime.PlayTimeService>();
+                var playtime = AppConfig.GetService<Features.PlayTime.PlayTimeRecordService>();
                 await playtime.LogPlayTimeAsync(biz, pid);
             }
             Environment.Exit(0);

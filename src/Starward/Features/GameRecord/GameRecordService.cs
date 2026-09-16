@@ -1114,13 +1114,18 @@ internal class GameRecordService
             info.RankPercent,
             info.TotalScore,
             info.TotalStar,
+            info.HasHard,
+            HardTotalScore = info.HardNodes?.Sum(x => x.Score) ?? 0,
+            HardTotalStar = info.HardNodes?.Sum(x => x.Star) ?? 0,
             Value = JsonSerializer.Serialize(info, AppConfig.JsonSerializerOptions),
         };
         using var dapper = DatabaseService.CreateConnection();
         dapper.Execute("""
-            INSERT OR REPLACE INTO ZZZDeadlyAssaultInfo (Uid, ZoneId, StartTime, EndTime, HasData, RankPercent, TotalScore, TotalStar, Value)
-            VALUES (@Uid, @ZoneId, @StartTime, @EndTime, @HasData, @RankPercent, @TotalScore, @TotalStar, @Value);
+            INSERT OR REPLACE INTO ZZZDeadlyAssaultInfo (Uid, ZoneId, StartTime, EndTime, HasData, RankPercent, TotalScore, TotalStar, HasHard, HardTotalScore, HardTotalStar, Value)
+            VALUES (@Uid, @ZoneId, @StartTime, @EndTime, @HasData, @RankPercent, @TotalScore, @TotalStar, @HasHard, @HardTotalScore, @HardTotalStar, @Value);
             """, obj);
+        info.HardTotalScore = info.HardNodes?.Sum(x => x.Score) ?? 0;
+        info.HardTotalStar = info.HardNodes?.Sum(x => x.Star) ?? 0;
         return info;
     }
 
@@ -1134,7 +1139,7 @@ internal class GameRecordService
         }
         using var dapper = DatabaseService.CreateConnection();
         var list = dapper.Query<DeadlyAssaultInfo>("""
-            SELECT Uid, ZoneId, StartTime, EndTime, HasData, RankPercent, TotalScore, TotalStar FROM ZZZDeadlyAssaultInfo WHERE Uid = @Uid ORDER BY ZoneId DESC;
+            SELECT Uid, ZoneId, StartTime, EndTime, HasData, RankPercent, TotalScore, TotalStar, HasHard, HardTotalScore, HardTotalStar FROM ZZZDeadlyAssaultInfo WHERE Uid = @Uid ORDER BY ZoneId DESC;
             """, new { role.Uid });
         return list.ToList();
     }
@@ -1151,7 +1156,13 @@ internal class GameRecordService
         {
             return null;
         }
-        return JsonSerializer.Deserialize<DeadlyAssaultInfo>(value);
+        var info = JsonSerializer.Deserialize<DeadlyAssaultInfo>(value);
+        if (info is not null)
+        {
+            info.HardTotalScore = info.HardNodes?.Sum(x => x.Score) ?? 0;
+            info.HardTotalStar = info.HardNodes?.Sum(x => x.Star) ?? 0;
+        }
+        return info;
     }
 
 

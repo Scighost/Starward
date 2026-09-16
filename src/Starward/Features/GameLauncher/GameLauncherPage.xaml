@@ -552,6 +552,7 @@
                                    HorizontalAlignment="Right"
                                    GameCommand="{x:Bind ClickStartGameButtonCommand}"
                                    GameState="{x:Bind GameState}"
+                                   RunningGameTime="{x:Bind RunningGameTime}"
                                    RunningGameInfo="{x:Bind RunningGameInfo}"
                                    SettingCommand="{x:Bind OpenGameLauncherSettingDialogCommand}" />
 

@@ -33,6 +33,9 @@ public sealed partial class StartGameButton : UserControl
     public ICommand SettingCommand { get; set => SetProperty(ref field, value); }
 
 
+    public string? RunningGameTime { get; set { field = value; OnPropertyChanged(nameof(StartGameButtonText)); } }
+
+
     public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
 
 
@@ -58,7 +61,7 @@ public sealed partial class StartGameButton : UserControl
     public string StartGameButtonText => GameState switch
     {
         GameState.StartGame => Lang.LauncherPage_StartGame,
-        GameState.GameIsRunning => Lang.LauncherPage_GameIsRunning,
+        GameState.GameIsRunning => RunningGameTime ?? "",
         GameState.InstallGame => Lang.LauncherPage_InstallGame,
         GameState.UpdateGame => Lang.LauncherPage_UpdateGame,
         GameState.UpdatePlugin => "Update Plugins",

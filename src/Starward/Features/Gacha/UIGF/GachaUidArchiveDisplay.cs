@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Starward.Core;
+using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
 using System;
@@ -14,6 +15,24 @@ public class GachaUidArchiveDisplay : ObservableObject
     public GameBiz Game { get; set; }
 
     public string GameIcon { get; set; }
+
+    /// <summary>
+    /// 千星奇域与原神本体共用 Uid，需要单独成行，故用此标记区分
+    /// </summary>
+    public bool IsGenshinBeyond { get; set; }
+
+    /// <summary>
+    /// 列表中显示的抽卡记录名称，如「祈愿记录」「千星奇域颂愿」
+    /// </summary>
+    public string ArchiveName => IsGenshinBeyond
+        ? Lang.GenshinBeyondGachaPage_MiliastraWonderlandOde
+        : Game.Value switch
+        {
+            GameBiz.hk4e => Lang.GachaLogService_WishRecords,
+            GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
+            GameBiz.nap => Lang.GachaLogService_SignalSearchRecords,
+            _ => Game.ToGameName(),
+        };
 
     public long Uid { get; set; }
 
@@ -31,6 +50,8 @@ public class GachaUidArchiveDisplay : ObservableObject
     public List<StarRailGachaItem>? hkrpgList { get; set; }
 
     public List<ZZZGachaItem>? napList { get; set; }
+
+    public List<GenshinBeyondGachaItem>? hk4eUgcList { get; set; }
 
 
     public int Timezone

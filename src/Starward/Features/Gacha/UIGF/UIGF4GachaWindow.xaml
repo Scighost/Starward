@@ -23,7 +23,7 @@
                    VerticalAlignment="Center"
                    Foreground="{ThemeResource TextFillColorSecondaryBrush}">
             <Run Text="{x:Bind lang:Lang.ToolboxSetting_GachaRecordsImportExport}" />
-            <Run Text="(UIGF v4.0)" />
+            <Run Text="(UIGF v4.2)" />
         </TextBlock>
 
 

@@ -343,8 +343,14 @@ việc đóng ứng dụng trong khi giải nén sẽ gây ra hư hỏng tập t
   <data name="GachaLogPage_ExportAs" xml:space="preserve">
     <value>Xuất như</value>
   </data>
-  <data name="GachaLogPage_ImportFromJson" xml:space="preserve">
-    <value>Nhập từ file JSON</value>
+  <data name="GachaLogPage_ImportFrom0" xml:space="preserve">
+    <value>Nhập từ {0}</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOde" xml:space="preserve">
+    <value>UIGF v3.0 không hỗ trợ Miliastra Wonderland Ode</value>
+  </data>
+  <data name="GachaLogPage_UIGF30DoesNotSupportMiliastraWonderlandOdeDesc" xml:space="preserve">
+    <value>Tài khoản này có dữ liệu Miliastra Wonderland Ode, nhưng định dạng UIGF v3.0 không thể lưu trữ dữ liệu này. Nếu tiếp tục, những dữ liệu đó sẽ bị bỏ qua trong tệp xuất. Để xuất chúng, hãy sử dụng UIGF v4.2.</value>
   </data>
   <data name="GachaLogPage_ShowNoviceGachaType" xml:space="preserve">
     <value>Hiển thị Gacha người mới</value>
@@ -2589,7 +2595,7 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
     <value>Thử Thách Thánh Bài {0}</value>
   </data>
   <data name="GenshinBeyondGachaPage_MiliastraWonderlandOde" xml:space="preserve">
-    <value>Khúc ca kỳ quan Miliastra</value>
+    <value>Ca Tụng Thiên Tinh Kỳ Vực</value>
   </data>
   <data name="GameLauncherSettingDialog_LaunchGameUsingCMD" xml:space="preserve">
     <value>Khởi động game bằng CMD</value>
@@ -2737,5 +2743,53 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   </data>
   <data name="DailyNoteButton_StarRail_AccumulatedPoints" xml:space="preserve">
     <value>Điểm tích lũy</value>
+  </data>
+  <data name="DeadlyAssaultPage_TrialMode" xml:space="preserve">
+    <value>Chế độ thử nghiệm</value>
+  </data>
+  <data name="DeadlyAssaultPage_AdversityMode" xml:space="preserve">
+    <value>Chế độ nghịch cảnh</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlaytimeStatistics" xml:space="preserve">
+    <value>Thống kê thời gian chơi</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Total" xml:space="preserve">
+    <value>Tổng cộng</value>
+  </data>
+  <data name="PlayTimeStatsDialog_TotalPlaytime" xml:space="preserve">
+    <value>Tổng thời gian chơi</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestDailyPlaytime" xml:space="preserve">
+    <value>Thời gian chơi dài nhất trong ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last15Days" xml:space="preserve">
+    <value>15 ngày qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Weeks" xml:space="preserve">
+    <value>12 tuần qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Last12Months" xml:space="preserve">
+    <value>12 tháng qua</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestStreak" xml:space="preserve">
+    <value>Chuỗi ngày chơi dài nhất</value>
+  </data>
+  <data name="PlayTimeStatsDialog_LongestSession" xml:space="preserve">
+    <value>Phiên chơi dài nhất</value>
+  </data>
+  <data name="PlayTimeStatsDialog_0Days" xml:space="preserve">
+    <value>{0} ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_Started0Times" xml:space="preserve">
+    <value>Đã khởi động {0} lần</value>
+  </data>
+  <data name="PlayTimeStatsDialog_PlayedFor0Days" xml:space="preserve">
+    <value>Đã chơi {0} ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_AverageDailyPlaytime" xml:space="preserve">
+    <value>Thời gian chơi trung bình mỗi ngày</value>
+  </data>
+  <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
+    <value>Thống kê dựa trên thời gian chạy của trò chơi, không phải thời gian chơi thực tế, và chỉ mang tính chất tham khảo.</value>
   </data>
 </root>

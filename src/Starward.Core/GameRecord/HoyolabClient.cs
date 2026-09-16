@@ -804,7 +804,7 @@ public class HoyolabClient : GameRecordClient
     /// <returns></returns>
     public override async Task<DeadlyAssaultInfo> GetDeadlyAssaultInfoAsync(GameRecordRole role, int schedule, CancellationToken cancellationToken = default)
     {
-        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/mem_detail?schedule_type={schedule}&region={role.Region}&uid={role.Uid}";
+        var url = $"https://sg-public-api.hoyolab.com/event/game_record_zzz/api/zzz/hadal_mem_detail_v2?schedule_type={schedule}&region={role.Region}&uid={role.Uid}";
         var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(DS, CreateSecret2(url));

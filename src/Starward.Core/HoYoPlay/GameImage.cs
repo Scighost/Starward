@@ -15,7 +15,7 @@ public class GameImage
     public string Url { get; set; }
 
     [JsonPropertyName("hover_url")]
-    public string? HoverUrl { get; set; }
+    public string HoverUrl { get; set; }
 
     /// <summary>
     /// 点击图片后打开的链接
@@ -25,5 +25,14 @@ public class GameImage
 
     [JsonPropertyName("login_state_in_link")]
     public bool LoginStateInLink { get; set; }
+
+
+    [JsonPropertyName("md5")]
+    public string MD5 { get; set; }
+
+
+    [JsonPropertyName("size")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long Size { get; set; }
 
 }

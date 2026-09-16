@@ -1063,6 +1063,10 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Pool ON EndfieldGachaItem (PoolType, PoolId);
         CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Rarity ON EndfieldGachaItem (Rarity);
 
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HasHard INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalScore INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
+
         PRAGMA USER_VERSION = 20;
         COMMIT TRANSACTION;
         """;
@@ -1076,6 +1080,20 @@ internal static class DatabaseService
             LoginToken BLOB NOT NULL,
             UpdateTime TEXT NOT NULL
         );
+
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
 
         PRAGMA USER_VERSION = 21;
         COMMIT TRANSACTION;
