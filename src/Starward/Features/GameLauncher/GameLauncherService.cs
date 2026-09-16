@@ -150,10 +150,30 @@ internal partial class GameLauncherService
         {
             HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
             HypergryphInstallMetadata? metadata = await HypergryphInstallMetadata.ReadAsync(installPath);
+            Version? metadataVersion = null;
             if (metadata?.IsFor(gameBiz) is true
-                && Version.TryParse(metadata.Version, out Version? metadataVersion))
+                && Version.TryParse(metadata.Version, out metadataVersion))
             {
-                return metadataVersion;
+                // The official launcher updates the game in place and does not update
+                // Starward's sidecar metadata. Verify the small game_files marker before
+                // trusting the cached version, otherwise an official update looks stale.
+                string cachedGameFilesPath = Path.Combine(installPath, "game_files");
+                if (!File.Exists(cachedGameFilesPath)
+                    || string.IsNullOrWhiteSpace(metadata.GameFilesMD5))
+                {
+                    return metadataVersion;
+                }
+
+                await using FileStream stream = File.OpenRead(cachedGameFilesPath);
+                string currentGameFilesMD5 = Convert.ToHexStringLower(await MD5.HashDataAsync(stream));
+                if (string.Equals(currentGameFilesMD5, metadata.GameFilesMD5, StringComparison.OrdinalIgnoreCase))
+                {
+                    return metadataVersion;
+                }
+
+                _logger.LogInformation(
+                    "Hypergryph game marker changed for {GameBiz}; refreshing cached version metadata.",
+                    gameBiz.Value);
             }
 
             string exePath = Path.Combine(installPath, profile.ExeName);
@@ -182,7 +202,7 @@ internal partial class GameLauncherService
             }
 
             // The game is importable, but its encrypted launcher metadata does not expose a version.
-            return new Version(0, 0, 0);
+            return metadataVersion ?? new Version(0, 0, 0);
         }
         var config = Path.Join(installPath, "config.ini");
         if (File.Exists(config))
