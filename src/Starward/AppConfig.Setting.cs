@@ -616,6 +616,41 @@ public static partial class AppConfig
     }
 
 
+    /// <summary>
+    /// 自定义启动预设列表（JSON 序列化的 <see cref="Features.GameLauncher.GameLaunchScheme"/> 数组），
+    /// 参考 <see href="https://github.com/Scighost/Starward/issues/1858"/>
+    /// </summary>
+    public static string? GetLaunchSchemes(GameBiz biz)
+    {
+        return GetValue<string>(default, $"launch_schemes_{biz}");
+    }
+
+    /// <summary>
+    /// 自定义启动预设列表（JSON 序列化的 <see cref="Features.GameLauncher.GameLaunchScheme"/> 数组）
+    /// </summary>
+    public static void SetLaunchSchemes(GameBiz biz, string? value)
+    {
+        SetValue(value, $"launch_schemes_{biz}");
+    }
+
+
+    /// <summary>
+    /// 最近选择的启动预设 Id，为空或匹配 <see cref="Features.GameLauncher.GameLaunchScheme.BuiltInDefaultId"/> 表示使用内置默认预设
+    /// </summary>
+    public static string? GetSelectedLaunchSchemeId(GameBiz biz)
+    {
+        return GetValue<string>(default, $"selected_launch_scheme_{biz}");
+    }
+
+    /// <summary>
+    /// 最近选择的启动预设 Id
+    /// </summary>
+    public static void SetSelectedLaunchSchemeId(GameBiz biz, string? value)
+    {
+        SetValue(value, $"selected_launch_scheme_{biz}");
+    }
+
+
     #endregion
 
 
