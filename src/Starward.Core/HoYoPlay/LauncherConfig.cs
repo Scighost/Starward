@@ -42,4 +42,18 @@ public record LauncherConfig
     public static LauncherConfig BilibiliZZZ { get; } = new("xV0f4r1GT0", 14, 0, "mihoyo");
 
 
+    public static LauncherConfig FromLauncherId(string launcherId)
+    {
+        return launcherId switch
+        {
+            LauncherId.ChinaOfficial => ChinaOfficial,
+            LauncherId.GlobalOfficial => GlobalOfficial,
+            LauncherId.BilibiliGenshin => BilibiliGenshin,
+            LauncherId.BilibiliStarRail => BilibiliStarRail,
+            LauncherId.BilibiliZZZ => BilibiliZZZ,
+            _ => throw new ArgumentOutOfRangeException(nameof(launcherId), launcherId, "Unknown launcher ID."),
+        };
+    }
+
+
 }
