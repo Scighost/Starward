@@ -3,6 +3,7 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Core.GameRecord;
 using Starward.Frameworks;
+using System;
 using Windows.Graphics;
 
 
@@ -17,6 +18,7 @@ public sealed partial class BattleChronicleWindow : WindowEx
     {
         this.InitializeComponent();
         InitializeWindow();
+        bbsWebBridge.LoginRequested += (_, _) => LoginRequested?.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -53,6 +55,8 @@ public sealed partial class BattleChronicleWindow : WindowEx
 
 
     public GameRecordRole? CurrentRole { get; set => SetProperty(ref field, value); }
+
+    public event EventHandler? LoginRequested;
 
 
 
