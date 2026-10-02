@@ -124,7 +124,7 @@ internal partial class GamePackageService
             {
                 await PrepareForInstallOrRepairAsync(context, cancellationToken);
             }
-            context.WPFPackage = (await _hoyoplayClient.GetWPFPackageAsync(LauncherId.FromGameId(context.GameId)!, "en-us", context.GameId, cancellationToken))?.WPFPackage;
+            context.WPFPackage = (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(context.GameId)!, "en-us").GetWPFPackagesAsync([context.GameId], cancellationToken)).FirstOrDefault(x => x.GameId == context.GameId)?.WPFPackage;
             if (context.GameConfig.EnableResourceBlacklist && context.TaskFiles?.Count > 0)
             {
                 string blacklistPath = Path.Join(context.InstallPath, context.GameConfig.BlacklistDir);
@@ -196,7 +196,7 @@ internal partial class GamePackageService
         GameId gameId = context.GameId;
         if (context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
         {
-            var branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+            var branch = (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameBranchAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
             if (branch is not null)
             {
                 context.LatestGameVersion = branch.Main.Tag;
@@ -239,7 +239,7 @@ internal partial class GamePackageService
         context.LocalGameVersion = localVersion.ToString();
         if (context.GameConfig!.DefaultDownloadMode is DownloadMode.DOWNLOAD_MODE_CHUNK or DownloadMode.DOWNLOAD_MODE_LDIFF)
         {
-            GameBranch? branch = await _hoyoplayClient.GetGameBranchAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+            GameBranch? branch = (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameBranchAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
             if (branch is null)
             {
                 _logger.LogWarning("GameBranch of ({GameBiz}) is null.", gameId.GameBiz);
@@ -928,7 +928,7 @@ internal partial class GamePackageService
 
     private async Task<GameConfig?> GetGameConfigAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        GameConfig? config = await _hoyoplayClient.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        GameConfig? config = (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameConfigAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
         // 仅星穹铁道强制使用 Chunk 作为默认下载模式
         if (config is not null && config.GameId.GameBiz.Value is GameBiz.hkrpg)
         {
@@ -941,7 +941,7 @@ internal partial class GamePackageService
 
     private async Task<GamePackage?> GetGamePackageAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        return await _hoyoplayClient.GetGamePackageAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        return (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGamePackageAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
     }
 
 
@@ -950,7 +950,7 @@ internal partial class GamePackageService
     {
         try
         {
-            return await _hoyoplayClient.GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, tag, cancellationToken);
+            return await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameBranch.GameId)!, "en-us").GetGameSophonChunkBuildAsync(gameBranch, gameBranchPackage, tag, cancellationToken);
         }
         catch (miHoYoApiException)
         {
@@ -965,7 +965,7 @@ internal partial class GamePackageService
     {
         try
         {
-            GameSophonPatchBuild build = await _hoyoplayClient.GetGameSophonPatchBuildAsync(gameBranch, gameBranchPackage, cancellationToken);
+            GameSophonPatchBuild build = await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameBranch.GameId)!, "en-us").GetGameSophonPatchBuildAsync(gameBranch, gameBranchPackage, cancellationToken);
             if (string.IsNullOrWhiteSpace(build.BuildId))
             {
                 return null;
@@ -985,14 +985,14 @@ internal partial class GamePackageService
 
     private async Task<GameChannelSDK?> GetGameChannelSDKAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        return await _hoyoplayClient.GetGameChannelSDKAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        return (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameChannelSDKAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
     }
 
 
 
     private async Task<GameDeprecatedFileConfig?> GetGameDeprecatedFileAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        return await _hoyoplayClient.GetGameDeprecatedFileConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+        return (await _hoyoplayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameDeprecatedFileConfigAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
     }
 
 

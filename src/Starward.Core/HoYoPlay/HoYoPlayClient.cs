@@ -21,6 +21,21 @@ public class HoYoPlayClient
     }
 
 
+    public HoYoPlayClient WithLauncher(string launcherId, string language)
+    {
+        LauncherConfig config = launcherId switch
+        {
+            LauncherId.ChinaOfficial => LauncherConfig.ChinaOfficial,
+            LauncherId.GlobalOfficial => LauncherConfig.GlobalOfficial,
+            LauncherId.BilibiliGenshin => LauncherConfig.BilibiliGenshin,
+            LauncherId.BilibiliStarRail => LauncherConfig.BilibiliStarRail,
+            LauncherId.BilibiliZZZ => LauncherConfig.BilibiliZZZ,
+            _ => throw new ArgumentOutOfRangeException(nameof(launcherId), "Unknown launcher."),
+        };
+        return new HoYoPlayClient(_httpClient) { LauncherConfig = config, Language = language };
+    }
+
+
 
     private async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default)
     {
