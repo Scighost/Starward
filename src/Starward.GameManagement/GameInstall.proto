@@ -1,0 +1,55 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Starward.GameManagement";
+
+package Starward.GameManagement;
+
+import "google/protobuf/wrappers.proto";
+
+
+message GameInstallRequestDTO {
+  string launcher_id = 1;
+  int32  channel     = 2;
+  int32  sub_channel = 3;
+  string host        = 4;
+  string game_biz    = 5;
+  string game_id     = 6;
+
+  string install_path       = 7;
+  int32  operation          = 8;
+  int32  audio_language     = 9;
+  string category_scenario  = 10;
+}
+
+
+message GameInstallProgressDTO {
+  string launcher_id = 1;
+  int32  channel     = 2;
+  int32  sub_channel = 3;
+  string host        = 4;
+  string game_biz    = 5;
+  string game_id     = 6;
+
+  string install_path   = 7;
+  int32  operation      = 8;
+  int32  audio_language = 9;
+
+  int64 timestamp    = 10;
+  int32 current_step = 11;
+  int32 total_step   = 12;
+  int32 step         = 13;
+  int32 state        = 14;
+  google.protobuf.StringValue error_message = 15;
+
+  int32  progress_display        = 16;
+  double percent_progress        = 17;
+  int64  download_total_bytes    = 18;
+  int64  download_finished_bytes = 19;
+  int64  write_total_bytes       = 20;
+  int64  write_finished_bytes    = 21;
+  int64  hard_link_bytes         = 22;
+
+  int64 network_download_speed = 23;
+  int64 remain_time_seconds    = 24;
+}
+

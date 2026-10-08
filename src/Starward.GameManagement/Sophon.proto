@@ -1,0 +1,91 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Starward.GameManagement";
+
+package Starward.GameManagement;
+
+// Chunk 模式游戏文件清单
+message SophonChunkManifest {
+  repeated SophonChunkFile chunk_files = 1;
+}
+
+// Chunk 模式游戏文件
+message SophonChunkFile {
+  // 文件路径
+  string               file      = 1;
+  repeated SophonChunk chunks    = 2;
+  bool                 is_folder = 3;
+  int64                size      = 4;
+  string               md5       = 5;
+}
+
+// Chunk 模式游戏文件块
+message SophonChunk {
+  string id                = 1;
+  string uncompressed_md5  = 2;
+  int64  offset            = 3;
+  int64  compressed_size   = 4;
+  int64  uncompressed_size = 5;
+  int64  unknown           = 6;
+  string compressed_md5    = 7;
+}
+
+// Patch 更新模式游戏文件清单
+message SophonPatchManifest {
+    // 新版本所有文件
+  repeated SophonPatchFile patch_files = 1;
+    // 需要删除的文件
+  repeated SophonPatchDeleteTag delete_tags = 2;
+    // 压缩模式
+  int32 compress_mode = 3;
+}
+
+// Patch 更新模式，新版本游戏文件
+message SophonPatchFile {
+  string file = 1;
+  int64  size = 2;
+  string md5  = 3;
+    // 不同版本的补丁文件，如果为空则表示不需要更新
+  repeated SophonDiffInfo diffs = 4;
+}
+
+message SophonDiffInfo {
+    // 更新前游戏版本
+  string      tag   = 1;
+  SophonDiffFile diff_file = 2;
+}
+
+// Patch 更新模式，游戏文件补丁，注意：每个补丁都很小，一个文件中可能有多个补丁
+message SophonDiffFile {
+  string id       = 1;
+  string tag      = 2;
+  string build_id = 3;
+    // 文件大小
+  int64  diff_file_size = 4;
+  string diff_file_md5  = 5;
+    // 当前游戏文件补丁的偏移量
+  int64 diff_offset = 6;
+    // 当前游戏文件补丁的长度
+  int64 diff_length = 7;
+    // 如果有这个值，表示需要使用 hdiffpatch 更新，没有表示这是新文件，对应的补丁就是原文件，直接复制即可
+  string original_file_name = 8;
+  int64  original_file_size = 9;
+  string original_file_md5  = 10;
+}
+
+message SophonPatchDeleteTag {
+    // 更新前游戏版本
+  string                          tag               = 1;
+  SophonPatchDeleteFileCollection delete_collection = 2;
+}
+
+message SophonPatchDeleteFileCollection {
+  repeated SophonPatchDeleteFile delete_files = 1;
+}
+
+// Patch 更新模式，需要删除文件
+message SophonPatchDeleteFile {
+  string file = 1;
+  int64  size = 2;
+  string md5  = 3;
+}

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -43,6 +43,13 @@ public class GamePackageVersion
     /// </summary>
     [JsonPropertyName("patches")]
     public List<GamePackageResource> Patches { get; set; }
+
+
+    /// <summary>
+    /// 最低客户端版本，空字符串表示无限制
+    /// </summary>
+    [JsonPropertyName("required_client_version")]
+    public string? RequiredClientVersion { get; set; }
 
 }
 

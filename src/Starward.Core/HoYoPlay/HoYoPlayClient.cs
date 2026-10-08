@@ -141,8 +141,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏信息（包括游戏 ID、名称、图标、背景图等）
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameInfo>> GetGameInfoAsync(CancellationToken cancellationToken = default)
@@ -155,8 +153,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 版本背景图和版本亮点
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameBackgroundInfo>> GetGameBackgroundAsync(CancellationToken cancellationToken = default)
@@ -169,8 +165,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 轮播图、资讯、媒体标签
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -184,8 +178,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏安装包
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -199,8 +191,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 渠道服 SDK
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -214,8 +204,6 @@ public class HoYoPlayClient
     /// <summary>
     /// 需要删除的文件
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
@@ -229,12 +217,10 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏配置
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameConfig>> GetGameConfigAsync(IEnumerable<GameId>? gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameConfig>> GetGameConfigAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameConfigs", gameIds);
         return await CommonGetAsync<List<GameConfig>>(url, "launch_configs", cancellationToken);
@@ -244,12 +230,10 @@ public class HoYoPlayClient
     /// <summary>
     /// 获取游戏扫描信息，不同版本exe的md5
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameScanInfo", gameIds);
         return await CommonGetAsync<List<GameScanInfo>>(url, "game_scan_info", cancellationToken);
@@ -259,12 +243,10 @@ public class HoYoPlayClient
     /// <summary>
     /// Chunk 下载模式的正式和预下载分支
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameBranch>> GetGameBranchAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameBranch>> GetGameBranchAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameBranches", gameIds);
         return await CommonGetAsync<List<GameBranch>>(url, "game_branches", cancellationToken);
@@ -274,13 +256,12 @@ public class HoYoPlayClient
     /// <summary>
     /// Chunk 下载模式文件清单
     /// </summary>
-    /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
     /// <param name="version"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameSophonChunkBuild> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string? version = null, CancellationToken cancellationToken = default)
+    public async Task<GameSophonChunkBuild> GetGameSophonChunkBuildAsync(GameBranchPackage gameBranchPackage, string? version = null, CancellationToken cancellationToken = default)
     {
         string url = BuildSophonUrl("getBuild") + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         if (version is not null)
@@ -294,12 +275,11 @@ public class HoYoPlayClient
     /// <summary>
     /// Chunk 下载模式的增量更新补丁文件清单
     /// </summary>
-    /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameSophonPatchBuild> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
+    public async Task<GameSophonPatchBuild> GetGameSophonPatchBuildAsync(GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
         string url = BuildSophonUrl("getPatchBuild") + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
@@ -310,12 +290,10 @@ public class HoYoPlayClient
     /// <summary>
     /// WPF Package
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getWPFPackages", gameIds);
         return await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken);
@@ -325,13 +303,11 @@ public class HoYoPlayClient
     /// <summary>
     /// 获取 DirectX 配置
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
-    /// <param name="gameIds"></param>
     /// <param name="gpuInfos"></param>
+    /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameDXConfig>> GetDXConfigsAsync(IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default)
+    public async Task<List<GameDXConfig>> GetDXConfigsAsync(IEnumerable<GPUInfo> gpuInfos, IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getDXConfigs");
         var request = new HttpRequestMessage(HttpMethod.Post, url)
@@ -339,7 +315,7 @@ public class HoYoPlayClient
             Content = JsonContent.Create(new GetDXConfigsRequest
             {
                 LauncherId = LauncherConfig.Id,
-                GameIds = gameIds.Select(x => x.Id).ToList(),
+                GameIds = gameIds?.Select(x => x.Id).ToList(),
                 Language = LanguageUtil.FilterLanguage(Language),
                 GPUInfo = gpuInfos.ToList(),
             }, HoYoPlayJsonContext.Default.GetDXConfigsRequest)
@@ -352,12 +328,10 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏插件
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GamePluginRelease>> GetGamePluginsAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GamePluginRelease>> GetGamePluginsAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGamePlugins", gameIds);
         return await CommonGetAsync<List<GamePluginRelease>>(url, "plugin_releases", cancellationToken);

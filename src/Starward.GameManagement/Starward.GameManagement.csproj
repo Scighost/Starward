@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.1.89" />
+		<PackageReference Include="Google.Protobuf" Version="3.36.2" />
+		<PackageReference Include="Grpc.Tools" Version="2.84.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.12" />
+		<PackageReference Include="Polly" Version="8.8.0" />
+		<PackageReference Include="Starward.NativeLib" Version="0.3.1" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="10.0.12" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="5.0.7" />
+		<PackageReference Include="ZiggyCreatures.FusionCache" Version="2.9.0" />
+		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="**\*.proto" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+		<ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -52,6 +52,9 @@ public class GameBanner
     [JsonPropertyName("image")]
     public GameImage Image { get; set; }
 
+    [JsonPropertyName("i18n_identifier")]
+    public string? I18nIdentifier { get; set; }
+
 }
 
 
@@ -85,6 +88,12 @@ public class GamePost
     /// </summary>
     [JsonPropertyName("date")]
     public string Date { get; set; }
+
+    [JsonPropertyName("i18n_identifier")]
+    public string? I18nIdentifier { get; set; }
+
+    [JsonPropertyName("login_state_in_link")]
+    public bool LoginStateInLink { get; set; }
 
 }
 
