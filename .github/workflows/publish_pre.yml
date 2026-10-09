@@ -1,0 +1,74 @@
+name: Publish Pre-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Pre-release tag
+        required: true
+        default: v0.18.0-endfield-pre.1
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-2025-vs2026
+    strategy:
+      matrix:
+        platform: [x64, arm64]
+
+    env:
+      Configuration: Release
+      Platform: ${{ matrix.platform }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v5
+
+    - name: Install .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        global-json-file: global.json
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Build and package
+      shell: pwsh
+      run: |
+        New-Item -Path "build/Starward/" -Type Directory
+        msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform;OutDir=$(Resolve-Path "build/Starward/")"
+        dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-${{ inputs.tag }}" -p:Platform=$env:Platform -p:Version="0.0.1-${{ inputs.tag }}" -p:DefineConstants=DONOT_CHECK_UPDATE
+        Set-Content "build/Starward/version.ini" -Value "version=${{ inputs.tag }}"
+        Compress-Archive -Path "build/Starward/*" -DestinationPath "Starward_${{ matrix.platform }}_${{ inputs.tag }}.zip"
+
+    - name: Upload package
+      uses: actions/upload-artifact@v7
+      with:
+        name: pre-release-${{ matrix.platform }}
+        path: Starward_${{ matrix.platform }}_${{ inputs.tag }}.zip
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v8
+      with:
+        pattern: pre-release-*
+        path: release
+        merge-multiple: true
+
+    - name: Create pre-release
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: >-
+        gh release create "${{ inputs.tag }}"
+        release/*.zip
+        --repo "${{ github.repository }}"
+        --target "${{ github.sha }}"
+        --title "Starward Endfield ${{ inputs.tag }}"
+        --prerelease
+        --generate-notes

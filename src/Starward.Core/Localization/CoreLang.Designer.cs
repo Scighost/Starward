@@ -266,6 +266,24 @@ namespace Starward.Core.Localization {
                 return ResourceManager.GetString("Game_GenshinImpact", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   查找类似 Arknights 的本地化字符串。
+        /// </summary>
+        public static string Game_Arknights {
+            get {
+                return ResourceManager.GetString("Game_Arknights", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Arknights: Endfield 的本地化字符串。
+        /// </summary>
+        public static string Game_ArknightsEndfield {
+            get {
+                return ResourceManager.GetString("Game_ArknightsEndfield", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   查找类似 Honkai Impact 3rd 的本地化字符串。

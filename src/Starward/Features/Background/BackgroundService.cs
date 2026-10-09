@@ -166,6 +166,16 @@ public class BackgroundService
 
     public async Task<string> GetBackgroundFileAsync(string url, CancellationToken cancellationToken = default)
     {
+        if (url.StartsWith("ms-appx:///", StringComparison.OrdinalIgnoreCase))
+        {
+            string relativePath = url["ms-appx:///".Length..].Replace('/', Path.DirectorySeparatorChar);
+            string localPath = Path.Combine(AppContext.BaseDirectory, relativePath);
+            if (!File.Exists(localPath))
+            {
+                throw new FileNotFoundException("Built-in background file not found.", localPath);
+            }
+            return localPath;
+        }
         string name = Path.GetFileName(url);
         string file = GetBgFilePath(name);
         if (!File.Exists(file))

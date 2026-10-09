@@ -2,6 +2,8 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
+using Starward.Features.Hypergryph;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,13 +32,16 @@ public class HoYoPlayService
 
     private readonly IMemoryCache _memoryCache;
 
+    private readonly HypergryphLauncherClient _hypergryphLauncherClient;
 
-    public HoYoPlayService(ILogger<HoYoPlayService> logger, HoYoPlayClient client, HttpClient httpClient, IMemoryCache memoryCache)
+
+    public HoYoPlayService(ILogger<HoYoPlayService> logger, HoYoPlayClient client, HttpClient httpClient, IMemoryCache memoryCache, HypergryphLauncherClient hypergryphLauncherClient)
     {
         _logger = logger;
         _client = client;
         _httpClient = httpClient;
         _memoryCache = memoryCache;
+        _hypergryphLauncherClient = hypergryphLauncherClient;
     }
 
 
@@ -45,6 +50,10 @@ public class HoYoPlayService
 
     public async Task<GameInfo> GetGameInfoAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
+        if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            return HypergryphGameMetadata.CreateGameInfo(gameId.GameBiz);
+        }
         if (!_memoryCache.TryGetValue($"{nameof(GameInfo)}_{gameId.Id}", out GameInfo? info))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -82,6 +91,16 @@ public class HoYoPlayService
         {
             infos.AddRange(await _client.GetGameInfoAsync(launcherId, lang, cancellationToken));
         }
+        GameBiz[] hypergryphGameBizs = LanguageUtil.FilterLanguage(lang) is "zh-cn"
+            ? [GameBiz.arknights_cn, GameBiz.endfield_cn, GameBiz.endfield_global]
+            : [GameBiz.endfield_global, GameBiz.arknights_cn, GameBiz.endfield_cn];
+        foreach (GameBiz gameBiz in hypergryphGameBizs)
+        {
+            if (!infos.Any(x => x.GameBiz == gameBiz))
+            {
+                infos.Add(HypergryphGameMetadata.CreateGameInfo(gameBiz));
+            }
+        }
         foreach (var item in infos)
         {
             _memoryCache.Set($"{nameof(GameInfo)}_{item.Id}", item, TimeSpan.FromMinutes(10));
@@ -117,6 +136,10 @@ public class HoYoPlayService
                         return;
                     }
                     string url = info.Display.Background.Url;
+                    if (url.StartsWith("ms-appx:///", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return;
+                    }
                     try
                     {
                         string name = Path.GetFileName(url);
@@ -145,6 +168,11 @@ public class HoYoPlayService
 
     public async Task<GameBackgroundInfo> GetGameBackgroundAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
+        if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            HypergryphLauncherContent launcherContent = await GetHypergryphLauncherContentAsync(gameId, cancellationToken);
+            return HypergryphGameMetadata.CreateBackgroundInfo(gameId.GameBiz, launcherContent);
+        }
         if (!_memoryCache.TryGetValue($"{nameof(GameBackgroundInfo)}_{gameId.Id}", out GameBackgroundInfo? background))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -162,6 +190,17 @@ public class HoYoPlayService
 
     public async Task<GameContent> GetGameContentAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
+        if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            string key = $"{nameof(GameContent)}_{gameId.Id}";
+            if (!_memoryCache.TryGetValue(key, out GameContent? endfieldContent))
+            {
+                HypergryphLauncherContent launcherContent = await GetHypergryphLauncherContentAsync(gameId, cancellationToken);
+                endfieldContent = HypergryphGameMetadata.CreateGameContent(gameId.GameBiz, launcherContent);
+                _memoryCache.Set(key, endfieldContent, TimeSpan.FromMinutes(1));
+            }
+            return endfieldContent!;
+        }
         if (!_memoryCache.TryGetValue($"{nameof(GameContent)}_{gameId.Id}", out GameContent? content))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -173,8 +212,32 @@ public class HoYoPlayService
 
 
 
+    private async Task<HypergryphLauncherContent> GetHypergryphLauncherContentAsync(GameId gameId, CancellationToken cancellationToken)
+    {
+        string key = $"{nameof(HypergryphLauncherContent)}_{gameId.Id}";
+        if (!_memoryCache.TryGetValue(key, out HypergryphLauncherContent? launcherContent))
+        {
+            launcherContent = await _hypergryphLauncherClient.GetGameContentAsync(
+                gameId.GameBiz,
+                CultureInfo.CurrentUICulture.Name,
+                cancellationToken);
+            _memoryCache.Set(key, launcherContent, TimeSpan.FromMinutes(1));
+        }
+        return launcherContent!;
+    }
+
+
+
     public async Task<GamePackage> GetGamePackageAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
+        if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(
+                gameId.GameBiz,
+                null,
+                cancellationToken);
+            return HypergryphGameMetadata.CreateGamePackage(gameId.GameBiz, latest);
+        }
         if (!_memoryCache.TryGetValue($"{nameof(GamePackage)}_{gameId.Id}", out GamePackage? package))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -192,6 +255,10 @@ public class HoYoPlayService
 
     public async Task<GameConfig?> GetGameConfigAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
+        if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
+        {
+            return HypergryphGameMetadata.CreateGameConfig(gameId.GameBiz);
+        }
         if (!_memoryCache.TryGetValue($"{nameof(GameConfig)}_{gameId.Id}", out GameConfig? config))
         {
             string lang = CultureInfo.CurrentUICulture.Name;
@@ -292,6 +359,10 @@ public class HoYoPlayService
 
     public async Task<List<GameDXConfig>> GetGameDXConfigsAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
     {
+        if (gameIds.Any(x => HypergryphGameConstants.IsHypergryphGame(x.GameBiz)))
+        {
+            return [];
+        }
         string key = $"{nameof(GameDXConfig)}_{string.Join(',', gameIds.Select(x => x.Id))}";
         if (!_memoryCache.TryGetValue(key, out List<GameDXConfig>? dxConfigs))
         {

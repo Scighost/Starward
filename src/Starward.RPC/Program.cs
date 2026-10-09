@@ -7,6 +7,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Serilog;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.RPC.Env;
 using Starward.RPC.GameInstall;
 using Starward.Setup.Core;
@@ -102,6 +103,7 @@ public static class RpcRunner
             config.ConfigurePrimaryHttpMessageHandler(GetDefaultSocketsHttpHandler);
         });
         builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
+        builder.Services.AddHttpClient<HypergryphLauncherClient>().AddPolicyHandler(GetHttpRetryPolicy());
 
 
         builder.Logging.ClearProviders();
@@ -113,6 +115,7 @@ public static class RpcRunner
         builder.Services.AddScoped<GamePackageService>();
         builder.Services.AddSingleton<GameInstallService>();
         builder.Services.AddSingleton<GameInstallHelper>();
+        builder.Services.AddScoped<HypergryphGameInstallService>();
         builder.Services.AddScoped<GameUninstallService>();
 
 

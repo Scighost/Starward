@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<sf:PageBase x:Class="Starward.Features.Gacha.Endfield.EndfieldGachaPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Features.Gacha.Endfield"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sq="using:Starward.Features.SelfQuery"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <Page.Resources>
+        <sq:SelfQueryStatsNumberConverter x:Key="SelfQueryStatsNumberConverter" />
+        <sq:SelfQueryStatsNumberBrushConverter x:Key="SelfQueryStatsNumberBrushConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="44" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="24,0,0,0"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10">
+            <Image Width="28"
+                   Height="28"
+                   Source="ms-appx:///Assets/Image/icon_endfield.png" />
+            <TextBlock VerticalAlignment="Center"
+                       FontSize="20"
+                       FontWeight="SemiBold"
+                       Text="终末地" />
+            <cwc:Segmented SelectedIndex="{x:Bind SelectedViewIndex, Mode=TwoWay}">
+                <cwc:SegmentedItem Content="寻访记录" />
+                <cwc:SegmentedItem Content="账号记录" />
+            </cwc:Segmented>
+        </StackPanel>
+
+        <StackPanel Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="10">
+            <cwc:Segmented SelectedIndex="{x:Bind SelectedRecordTypeIndex, Mode=TwoWay}"
+                           Visibility="{x:Bind IsGachaView}">
+                <cwc:SegmentedItem Content="干员寻访" />
+                <cwc:SegmentedItem Content="武器申领" />
+            </cwc:Segmented>
+            <ComboBox Width="190"
+                      IsEnabled="{x:Bind IsSyncing, Converter={StaticResource BoolReversedConverter}}"
+                      ItemsSource="{x:Bind Accounts}"
+                      PlaceholderText="选择账号"
+                      SelectedItem="{x:Bind SelectedAccount, Mode=TwoWay}" />
+            <SplitButton Command="{x:Bind SyncGachaCommand}"
+                         IsEnabled="{x:Bind IsSyncing, Converter={StaticResource BoolReversedConverter}}"
+                         Visibility="{x:Bind IsGachaView}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                    <TextBlock Text="同步记录" />
+                </StackPanel>
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind LoginAccountCommand}"
+                                        Icon="Contact"
+                                        Text="登录鹰角账号" />
+                        <MenuFlyoutItem Command="{x:Bind InputLoginTokenCommand}"
+                                        Icon="Permissions"
+                                        Text="输入登录 Token" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Command="{x:Bind SyncFromGameLogCommand}"
+                                        Icon="OpenFile"
+                                        Text="从游戏日志同步" />
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
+            <Button Command="{x:Bind SyncAccountRecordsCommand}"
+                    IsEnabled="{x:Bind IsSyncing, Converter={StaticResource BoolReversedConverter}}"
+                    ToolTipService.ToolTip="同步账号记录"
+                    Visibility="{x:Bind IsAccountRecordView}">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <FontIcon FontSize="14" Glyph="&#xE72C;" />
+                    <TextBlock Text="同步" />
+                </StackPanel>
+            </Button>
+            <Button Command="{x:Bind CancelSyncCommand}"
+                    Content="取消"
+                    Visibility="{x:Bind IsSyncing}" />
+            <ProgressRing Width="18"
+                          Height="18"
+                          IsActive="{x:Bind IsSyncing}" />
+        </StackPanel>
+
+        <InfoBar Grid.Row="1"
+                 Margin="20,4,20,10"
+                 IsClosable="True"
+                 IsOpen="{x:Bind IsStatusOpen, Mode=TwoWay}"
+                 Message="{x:Bind StatusText}"
+                 Severity="{x:Bind StatusSeverity}" />
+
+        <Grid Grid.Row="2" Visibility="{x:Bind IsGachaView}">
+            <ScrollViewer x:Name="ScrollViewer_GachaStats"
+                          HorizontalScrollBarVisibility="Auto"
+                          HorizontalScrollMode="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollMode="Auto"
+                          SizeChanged="ScrollViewer_GachaStats_SizeChanged">
+                <Grid Margin="20,0,20,16" Background="Transparent">
+                    <ItemsControl x:Name="ItemsControl_GachaStats" ItemsSource="{x:Bind GachaStats}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" Spacing="12" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="local:EndfieldGachaPoolStats">
+                                <local:EndfieldGachaStatsCard Loaded="GachaStatsCard_Loaded"
+                                                               Unloaded="GachaStatsCard_Unloaded"
+                                                               PoolStats="{x:Bind}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="10"
+                        Visibility="{x:Bind IsEmpty}">
+                <FontIcon FontSize="42" Glyph="&#xF4A5;" />
+                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="暂无寻访记录" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" Visibility="{x:Bind IsAccountRecordView}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="190" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <ListView Grid.Column="0"
+                      Margin="0,8,0,16"
+                      Padding="12,0,8,0"
+                      ItemsSource="{x:Bind AccountRecordFilters}"
+                      SelectedIndex="{x:Bind SelectedAccountRecordCategoryIndex, Mode=TwoWay}"
+                      SelectionMode="Single">
+                <ListView.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="0,4,0,4" />
+                        <Setter Property="Padding" Value="4,0,4,0" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:EndfieldAccountRecordFilterOption"
+                                  x:DefaultBindMode="OneTime">
+                        <Grid Width="154"
+                              MinHeight="54"
+                              Padding="10,7"
+                              Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                              ColumnSpacing="10"
+                              CornerRadius="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid Width="30" Height="30">
+                                <sc:CachedImage Source="{x:Bind Icon}"
+                                                Stretch="Uniform"
+                                                Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <FontIcon FontSize="18"
+                                          Glyph="{x:Bind Glyph}"
+                                          Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                            </Grid>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                                <TextBlock FontSize="14" Text="{x:Bind Name}" />
+                                <TextBlock FontSize="11"
+                                           Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                           Text="{x:Bind CountText, Mode=OneWay}" />
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ScrollViewer Grid.Column="1"
+                          HorizontalScrollBarVisibility="Disabled"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Auto"
+                          VerticalScrollMode="Auto">
+                <StackPanel Margin="20,8,24,20" Spacing="8">
+                    <Grid>
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="账号概览" />
+                        <TextBlock HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind AccountRecordUpdatedText}" />
+                    </Grid>
+
+                    <Border Padding="20,14"
+                            Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                            CornerRadius="8"
+                            Shadow="{ThemeResource ThemeShadow}"
+                            Translation="0,0,16">
+                        <ItemsControl ItemsSource="{x:Bind AccountRecordSummaries}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <cwc:WrapPanel HorizontalSpacing="28" VerticalSpacing="14" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:EndfieldAccountRecordSummary"
+                                              x:DefaultBindMode="OneTime">
+                                    <Grid Width="176" MinHeight="58" ColumnSpacing="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="36" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Width="34" Height="34" VerticalAlignment="Center">
+                                            <sc:CachedImage Source="{x:Bind Icon}"
+                                                            Stretch="Uniform"
+                                                            Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <FontIcon FontSize="20"
+                                                      Glyph="{x:Bind Glyph}"
+                                                      Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="1">
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind Title}" />
+                                            <TextBlock FontSize="19"
+                                                       FontWeight="SemiBold"
+                                                       Text="{x:Bind Value}"
+                                                       Visibility="{x:Bind HasAmountBreakdown, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                            <StackPanel Visibility="{x:Bind HasAmountBreakdown, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <TextBlock FontSize="14"
+                                                           Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+                                                           Text="{x:Bind AddAmount, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                                                <TextBlock FontSize="14"
+                                                           Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                           Text="{x:Bind SubAmount, Converter={StaticResource SelfQueryStatsNumberConverter}}" />
+                                            </StackPanel>
+                                            <TextBlock FontSize="11"
+                                                       Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                       Text="{x:Bind Detail}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Border>
+
+                    <Grid Margin="0,8,0,0" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind AccountRecordListTitle}" />
+                        <TextBlock Grid.Column="1"
+                                   MaxWidth="500"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                   Text="官方在线记录存在延迟，理智为近 7 天，其余为近 90 天；同步后的历史会保存在本地"
+                                   TextAlignment="Right"
+                                   TextWrapping="Wrap" />
+                    </Grid>
+
+                    <Border Background="{ThemeResource CustomOverlayAcrylicBrush}"
+                            CornerRadius="8"
+                            Shadow="{ThemeResource ThemeShadow}"
+                            Translation="0,0,16"
+                            Visibility="{x:Bind IsAccountRecordEmpty, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                        <ItemsRepeater ItemsSource="{x:Bind AccountRecords}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="local:EndfieldAccountRecordItem"
+                                              x:DefaultBindMode="OneTime">
+                                    <StackPanel>
+                                        <Grid MinHeight="70" Padding="14,8" ColumnSpacing="12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="150" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Width="36" Height="36" VerticalAlignment="Center">
+                                                <sc:CachedImage Source="{x:Bind Icon}"
+                                                                Stretch="Uniform"
+                                                                Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <FontIcon FontSize="20"
+                                                          Glyph="{x:Bind FallbackGlyph}"
+                                                          Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                            </Grid>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                                <TextBlock FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Text="{x:Bind Title}"
+                                                           TextWrapping="Wrap" />
+                                                <TextBlock FontSize="12"
+                                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                           Text="{x:Bind Detail}"
+                                                           TextWrapping="Wrap"
+                                                           Visibility="{x:Bind HasDetail, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="2"
+                                                       MinWidth="70"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="17"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="{x:Bind Amount, Converter={StaticResource SelfQueryStatsNumberBrushConverter}}"
+                                                       Text="{x:Bind Amount, Converter={StaticResource SelfQueryStatsNumberConverter}}"
+                                                       TextAlignment="Right"
+                                                       Visibility="{x:Bind HasAmount, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            <TextBlock Grid.Column="3"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind TimeText}"
+                                                       TextAlignment="Right" />
+                                        </Grid>
+                                        <MenuFlyoutSeparator Margin="12,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Border>
+
+                    <StackPanel HorizontalAlignment="Center"
+                                Margin="0,36,0,20"
+                                Spacing="10"
+                                Visibility="{x:Bind IsAccountRecordEmpty}">
+                        <FontIcon FontSize="38" Glyph="&#xF4A5;" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="当前分类暂无本地记录" />
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</sf:PageBase>

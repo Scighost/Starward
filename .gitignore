@@ -218,6 +218,14 @@ rcf/
 
 # Windows Store app package directories and files
 Assets/
+!src/Starward/Assets/
+src/Starward/Assets/*
+!src/Starward/Assets/Image/
+src/Starward/Assets/Image/*
+!src/Starward/Assets/Image/background_endfield.jpg
+!src/Starward/Assets/Image/icon_endfield.png
+!src/Starward/Assets/Image/background_arknights.jpg
+!src/Starward/Assets/Image/icon_arknights.png
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
