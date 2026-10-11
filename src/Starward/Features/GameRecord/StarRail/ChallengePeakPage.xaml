@@ -465,7 +465,7 @@
                                                 Margin="20,4,0,0"
                                                 VerticalAlignment="Top"
                                                 Spacing="8"
-                                                Visibility="{x:Bind MobRecord.HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                Visibility="{x:Bind HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <StackPanel Spacing="8"
                                                     Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
                                             <!--  通关时间  -->
