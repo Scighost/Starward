@@ -46,7 +46,7 @@ internal class GameUninstallService
         GameConfig? gameConfig = null;
         try
         {
-            gameConfig = await _hoYoPlayClient.GetGameConfigAsync(LauncherId.FromGameId(gameId)!, "en-us", gameId, cancellationToken);
+            gameConfig = (await _hoYoPlayClient.WithLauncher(LauncherId.FromGameId(gameId)!, "en-us").GetGameConfigAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
         }
         catch (Exception ex)
         {
