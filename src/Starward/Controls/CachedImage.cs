@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUI.ImageEx;
@@ -66,7 +66,7 @@ public sealed partial class CachedImage : ImageEx
             }
             else
             {
-                var file = await FileCache.GetFromCacheAsync(imageUri, false, token);
+                var file = await FileCache.GetFromCacheAsync(imageUri.ToString(), false, token);
                 if (token.IsCancellationRequested)
                 {
                     throw new TaskCanceledException("Image source has changed.");
@@ -113,7 +113,7 @@ public sealed partial class CachedImage : ImageEx
         {
             image.ImageOpened -= BitmapImage_ImageOpened;
             image.ImageFailed -= BitmapImage_ImageFailed;
-            FileCache.DeleteCacheFile(image.UriSource);
+            FileCache.DeleteCacheFile(image.UriSource.ToString());
         }
     }
 

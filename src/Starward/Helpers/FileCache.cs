@@ -1,49 +1,55 @@
 ﻿using System;
 using System.Buffers;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Hashing;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Starward.Helpers;
+
 
 internal static class FileCache
 {
 
+    private const int RETRY_COUNT = 2;
+
+    private static readonly FusionCache _fusionCache;
 
     private static readonly HttpClient _httpClient;
-
-    private static readonly ConcurrentDictionary<string, Task<string?>> _concurrentTasks;
 
 
     static FileCache()
     {
+        _fusionCache = new FusionCache(new FusionCacheOptions
+        {
+            DefaultEntryOptions = new FusionCacheEntryOptions
+            {
+                Duration = TimeSpan.MaxValue,
+                FactoryHardTimeout = TimeSpan.FromMinutes(1),
+                AllowTimedOutFactoryBackgroundCompletion = false,
+            },
+        });
         _httpClient = new HttpClient(new SocketsHttpHandler
         {
-            AutomaticDecompression = DecompressionMethods.All,
             EnableMultipleHttp2Connections = true,
             EnableMultipleHttp3Connections = true,
             PooledConnectionLifetime = TimeSpan.FromMinutes(5),
-        });
-        _httpClient.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-        _concurrentTasks = new();
+        })
+        {
+            DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher,
+            Timeout = Timeout.InfiniteTimeSpan,
+        };
     }
 
 
 
-    public static int RetryCount { get; set; } = 3;
-
-    public static TimeSpan CacheDuration { get; set; } = TimeSpan.FromDays(90);
-
-
-    public static string CacheFolder { get; private set; }
+    public static string? CacheFolder { get; private set; }
 
 
 
@@ -57,34 +63,18 @@ internal static class FileCache
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error initializing FileCache: {ex.Message}");
+            Debug.WriteLine($"Error initializing FileCache2: {ex.Message}");
         }
         return false;
     }
 
 
 
-
-    public static async Task<string?> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default)
+    public static async Task<string?> GetFromCacheAsync(string url, bool throwOnError = false, CancellationToken cancellationToken = default)
     {
-        return await GetItemAsync(uri, throwOnError, cancellationToken);
-    }
-
-
-    private static async Task<string?> GetItemAsync(Uri uri, bool throwOnError, CancellationToken cancellationToken)
-    {
-        string fileName = GetCacheFileName(uri);
-        if (_concurrentTasks.TryGetValue(fileName, out var request))
-        {
-            return await request.ConfigureAwait(false);
-        }
-
-        request = GetFromCacheOrDownloadAsync(uri, fileName, cancellationToken);
-        _concurrentTasks.TryAdd(fileName, request);
-
         try
         {
-            return await request.ConfigureAwait(false);
+            return await _fusionCache.GetOrSetAsync(url, token => GetFromCacheOrDownloadAsync(url, token), token: cancellationToken).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -94,79 +84,80 @@ internal static class FileCache
                 throw;
             }
         }
-        finally
-        {
-            _concurrentTasks.TryRemove(fileName, out _);
-        }
-
         return null;
     }
 
 
 
-    private static async Task<string?> GetFromCacheOrDownloadAsync(Uri uri, string fileName, CancellationToken cancellationToken)
+    private static async Task<string> GetFromCacheOrDownloadAsync(string url, CancellationToken cancellationToken)
     {
         if (CacheFolder is null)
         {
             throw new DirectoryNotFoundException("Cache folder not initialized.");
         }
-
-        string filePath = Path.Combine(CacheFolder, fileName);
-
-        await Task.Delay(1, CancellationToken.None).ConfigureAwait(false);
-        if (IsFileCacheAvailable(filePath, CacheDuration))
+        string filePath = Path.Combine(CacheFolder, GetCacheFileName(url));
+        if (new FileInfo(filePath) is { Exists: true, Length: > 0 })
         {
             return filePath;
         }
-
-        uint retries = 0;
-        while (retries < RetryCount)
+        for (int i = 0; i < RETRY_COUNT + 1; i++)
         {
             try
             {
-                await DownloadFileAsync(uri, filePath, cancellationToken).ConfigureAwait(false);
+                await DownloadFileAsync(url, filePath, cancellationToken).ConfigureAwait(false);
+                return filePath;
             }
-            catch (HttpRequestException) { }
-            retries++;
+            catch (HttpRequestException)
+            {
+                if (i < RETRY_COUNT + 1)
+                {
+                    await Task.Delay(TimeSpan.FromMilliseconds(200 * (i + 1)), cancellationToken).ConfigureAwait(false);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
-
-        return filePath;
+        return null!;
     }
 
 
-    private static async Task DownloadFileAsync(Uri uri, string path, CancellationToken cancellationToken)
+
+    private static async Task DownloadFileAsync(string url, string path, CancellationToken cancellationToken)
     {
-        string path_tmp = path + "_tmp";
-        using var fs = File.Open(path_tmp, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
+        string tmpPath = path + ".tmp";
 
-        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
-        request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-        request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-
-        using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-        response.EnsureSuccessStatusCode();
-        if (response.Content.Headers.ContentRange?.From > 0)
+        using (FileStream fs = File.Open(tmpPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None))
         {
-            fs.Position = response.Content.Headers.ContentRange.From.Value;
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            if (response.Content.Headers.ContentRange is { From: > 0 } range)
+            {
+                fs.Position = range.From.Value;
+            }
+            else
+            {
+                fs.Position = 0;
+                fs.SetLength(0);
+            }
+            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            await hs.CopyToAsync(fs, cancellationToken).ConfigureAwait(false);
+            await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        using var hs = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-        await hs.CopyToAsync(fs, cancellationToken).ConfigureAwait(false);
-        await fs.FlushAsync(cancellationToken).ConfigureAwait(false);
-        fs.Dispose();
-
-        File.Move(path_tmp, path, true);
+        File.Move(tmpPath, path, true);
     }
 
 
-
-
-    private static string GetCacheFileName(Uri uri)
+    private static string GetCacheFileName(string url)
     {
         byte[] hashBytes = ArrayPool<byte>.Shared.Rent(24);
         try
         {
-            ReadOnlySpan<byte> pathSpan = MemoryMarshal.AsBytes(uri.ToString().AsSpan());
+            ReadOnlySpan<byte> pathSpan = MemoryMarshal.AsBytes(url.AsSpan());
             XxHash64.Hash(pathSpan, hashBytes.AsSpan(0, 8));
             MD5.HashData(pathSpan, hashBytes.AsSpan(8, 16));
             return Convert.ToHexString(hashBytes.AsSpan(0, 24));
@@ -178,37 +169,43 @@ internal static class FileCache
     }
 
 
-
-    private static bool IsFileCacheAvailable(string path, TimeSpan duration)
+    public static async void DeleteCacheFile(string url)
     {
-        if (File.Exists(path))
+        try
         {
-            var fileInfo = new FileInfo(path);
-            return fileInfo.Length > 0 && (DateTime.Now - fileInfo.LastWriteTime <= duration);
+            await _fusionCache.RemoveAsync(url).ConfigureAwait(false);
+            await Task.Run(() =>
+            {
+                if (CacheFolder is null)
+                {
+                    return;
+                }
+                string filePath = Path.Combine(CacheFolder, GetCacheFileName(url));
+                DeleteFileIfExists(filePath);
+                DeleteFileIfExists(filePath + ".tmp");
+            }).ConfigureAwait(false);
         }
-        return false;
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error deleting cache file: {ex.Message}");
+        }
     }
 
 
 
-    public static async void DeleteCacheFile(Uri uri)
+    private static void DeleteFileIfExists(string path)
     {
-        await Task.Run(() =>
+        try
         {
-            string fileName = GetCacheFileName(uri);
-            string filePath = Path.Join(CacheFolder, fileName);
-            if (File.Exists(filePath))
+            if (File.Exists(path))
             {
-                try
-                {
-                    File.Delete(filePath);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Error deleting cache file: {ex.Message}");
-                }
+                File.Delete(path);
             }
-        }).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error deleting cache file: {ex.Message}");
+        }
     }
 
 
