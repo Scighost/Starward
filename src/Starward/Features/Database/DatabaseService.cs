@@ -72,6 +72,21 @@ internal static class DatabaseService
             {
                 con.Execute(sql);
             }
+            if (version < 24)
+            {
+                // The upstream merge added schema changes to v20/v21 after existing
+                // Hypergryph databases had already reached v23. Repair both layouts.
+                using var transaction = con.BeginTransaction();
+                foreach (string column in new[] { "HasHard", "HardTotalScore", "HardTotalStar" })
+                {
+                    if (con.ExecuteScalar<int>("SELECT COUNT(*) FROM pragma_table_info('ZZZDeadlyAssaultInfo') WHERE name = @column;", new { column }, transaction) == 0)
+                    {
+                        con.Execute($"ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN {column} INTEGER DEFAULT 0 NOT NULL;", transaction: transaction);
+                    }
+                }
+                con.Execute(Sql_v24, transaction: transaction);
+                transaction.Commit();
+            }
         }
     }
 
@@ -1148,6 +1163,24 @@ internal static class DatabaseService
 
         PRAGMA USER_VERSION = 23;
         COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v24 = """
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
+
+        PRAGMA USER_VERSION = 24;
         """;
 
     #endregion
