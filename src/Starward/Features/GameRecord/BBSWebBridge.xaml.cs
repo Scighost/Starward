@@ -110,6 +110,8 @@ public sealed partial class BBSWebBridge : UserControl
 
     public event EventHandler<object> WebPageClosed;
 
+    public event EventHandler? LoginRequested;
+
 
 
     private async Task InitializeWebViewAsync()
@@ -132,8 +134,7 @@ public sealed partial class BBSWebBridge : UserControl
             var coreWebView2 = webview2.CoreWebView2;
             coreWebView2.Settings.UserAgent = _gameRecordClient.UAContent;
 
-            coreWebView2.NavigationStarting -= Corewebview2_NavigationStarting;
-            coreWebView2.NavigationStarting += Corewebview2_NavigationStarting;
+            await coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(miHoYoJSInterface);
             coreWebView2.DOMContentLoaded -= Corewebview2_DOMContentLoaded;
             coreWebView2.DOMContentLoaded += Corewebview2_DOMContentLoaded;
             coreWebView2.WebMessageReceived -= CoreWebView2_WebMessageReceived;
@@ -212,7 +213,7 @@ public sealed partial class BBSWebBridge : UserControl
         }
         foreach (var item in cookies)
         {
-            var kv = item.Split('=');
+            var kv = item.Split('=', 2);
             if (kv.Length == 2)
             {
                 var key = kv[0].Trim();
@@ -233,16 +234,6 @@ public sealed partial class BBSWebBridge : UserControl
 
     #region Core WebView
 
-
-
-    private async void Corewebview2_NavigationStarting(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
-    {
-        try
-        {
-            await webview2.ExecuteScriptAsync(miHoYoJSInterface);
-        }
-        catch { }
-    }
 
 
     private async void Corewebview2_DOMContentLoaded(Microsoft.Web.WebView2.Core.CoreWebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs args)
@@ -314,7 +305,7 @@ public sealed partial class BBSWebBridge : UserControl
             "closePage" => ClosePage(param),
             "configure_share" => null,
             "eventTrack" => null,
-            //"getActionTicket" => await GetActionTicketAsync(param),
+            "getActionTicket" => new JsResult { Code = -1, Message = "Action tickets are not available with web login credentials." },
             "getCookieInfo" => GetCookieInfo(param),
             "getCookieToken" => GetCookieToken(param),
             "getDS" => GetDynamicSecrectV1(param),
@@ -323,7 +314,7 @@ public sealed partial class BBSWebBridge : UserControl
             "getStatusBarHeight" => GetStatusBarHeight(param),
             "getUserInfo" => GetUserInfo(param),
             "hideLoading" => null,
-            "login" => null,
+            "login" => RequestLogin(),
             "pushPage" => PushPage(param),
             "showLoading" => null,
             "share" => await HandleShareAsync(param),
@@ -332,6 +323,12 @@ public sealed partial class BBSWebBridge : UserControl
         };
     }
 
+
+    private JsResult? RequestLogin()
+    {
+        LoginRequested?.Invoke(this, EventArgs.Empty);
+        return null;
+    }
 
 
     private async Task<JsResult?> HandleShareAsync(JsParam param)

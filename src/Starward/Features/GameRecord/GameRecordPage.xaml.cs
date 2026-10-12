@@ -77,6 +77,11 @@ public sealed partial class GameRecordPage : PageBase
         WeakReferenceMessenger.Default.Register<GameRecordRoleChangedMessage>(this, (r, m) =>
         {
             LoadGameRoles(m.GameRole);
+            if (_battleChronicleWindow?.AppWindow is not null && CurrentRole is not null)
+            {
+                _battleChronicleWindow.CurrentRole = CurrentRole;
+                _battleChronicleWindow.Activate();
+            }
         });
         WeakReferenceMessenger.Default.Register<GameRecordVerifyAccountMessage>(this, (r, m) =>
         {
@@ -99,6 +104,10 @@ public sealed partial class GameRecordPage : PageBase
         WeakReferenceMessenger.Default.UnregisterAll(this);
         NavigationViewItem_BattleChronicle.Tapped -= NavigationViewItem_BattleChronicle_Tapped;
         NavigationViewItem_UpdateDeviceInfo.Tapped -= NavigationViewItem_UpdateDeviceInfo_Tapped;
+        if (_battleChronicleWindow?.AppWindow is not null)
+        {
+            _battleChronicleWindow.Close();
+        }
         CurrentRole = null;
         GameRoleList = null!;
         _battleChronicleWindow = null;
@@ -545,6 +554,11 @@ public sealed partial class GameRecordPage : PageBase
             _battleChronicleWindow = new BattleChronicleWindow
             {
                 CurrentRole = CurrentRole,
+            };
+            _battleChronicleWindow.LoginRequested += (_, _) =>
+            {
+                WebLogin();
+                ((App)Application.Current).EnsureMainWindow();
             };
         }
         else if (_battleChronicleWindow.CurrentRole != CurrentRole)
