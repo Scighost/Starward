@@ -5,6 +5,7 @@ using Polly;
 using Polly.Retry;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.RPC.Env;
 using System;
 using System.Collections.Concurrent;
@@ -145,7 +146,7 @@ internal class GameInstallService
             ChangeToAnotherTask(context);
             return GameInstallContextDTO.FromTask(context);
         }
-        else if (context.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Verifying)
+        else if (context.State is GameInstallState.Waiting or GameInstallState.Downloading or GameInstallState.Decompressing or GameInstallState.Merging or GameInstallState.Verifying)
         {
             return GameInstallContextDTO.FromTask(context);
         }
@@ -219,6 +220,12 @@ internal class GameInstallService
                 HardLinkPath: {hardLinkPath}
                 """, context.Operation, context.GameId.Id, context.GameId.GameBiz, context.InstallPath, context.AudioLanguage, context.HardLinkPath);
             Directory.CreateDirectory(context.InstallPath);
+            if (HypergryphGameConstants.IsHypergryphGame(context.GameId.GameBiz))
+            {
+                HypergryphGameInstallService hypergryphService = _serviceProvider.GetRequiredService<HypergryphGameInstallService>();
+                await hypergryphService.ExecuteAsync(context, cancellationToken);
+                goto TaskCompleted;
+            }
             GamePackageService gamePackageService = _serviceProvider.GetRequiredService<GamePackageService>();
             if (context.AudioLanguage is not AudioLanguage.None)
             {
@@ -262,6 +269,7 @@ internal class GameInstallService
 
             ClearDeprecatedFiles(context);
 
+        TaskCompleted:
             context.State = GameInstallState.Finish;
             _logger.LogInformation("GameInstallTask Finished, GameBiz: {game_biz}, Operation: {operation}", context.GameId.GameBiz, context.Operation);
         }

@@ -6,6 +6,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Features.Background;
 using Starward.Features.CloudGame;
 using Starward.Features.GameInstall;
@@ -91,6 +92,8 @@ public sealed partial class GameLauncherPage : PageBase
     private void InitializeGameFeature()
     {
         GameFeatureConfig feature = GameFeatureConfig.FromGameId(CurrentGameId);
+        IsDX11OptionVisible = HypergryphGameConstants.IsEndfield(CurrentGameBiz);
+        EnableDX11 = IsDX11OptionVisible && AppConfig.GetEnableDX11(CurrentGameBiz);
         if (feature.SupportCloudGame)
         {
             Button_CloudGame.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -255,6 +258,30 @@ public sealed partial class GameLauncherPage : PageBase
     /// </summary>
     public bool IsDX12OptionVisible { get; set => SetProperty(ref field, value); }
 
+    /// <summary>
+    /// 是否显示 DX11 选项
+    /// </summary>
+    public bool IsDX11OptionVisible { get; set => SetProperty(ref field, value); }
+
+    /// <summary>
+    /// 使用 DX11 启动
+    /// </summary>
+    public bool EnableDX11
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SetEnableDX11(CurrentGameBiz, value);
+                if (value && EnableDX12)
+                {
+                    EnableDX12 = false;
+                }
+            }
+        }
+    }
+
 
     /// <summary>
     /// DX12 配置
@@ -273,6 +300,10 @@ public sealed partial class GameLauncherPage : PageBase
             if (SetProperty(ref field, value))
             {
                 AppConfig.SetEnableDX12(CurrentGameBiz, value);
+                if (value && EnableDX11)
+                {
+                    EnableDX11 = false;
+                }
             }
         }
     }
@@ -330,6 +361,10 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
+            if (HypergryphGameConstants.IsEndfield(CurrentGameBiz))
+            {
+                return;
+            }
             EnableDX12 = AppConfig.GetEnableDX12(CurrentGameBiz);
             if (EnableDX12)
             {

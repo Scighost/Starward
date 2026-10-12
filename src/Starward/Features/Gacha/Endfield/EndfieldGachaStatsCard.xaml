@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.Gacha.Endfield.EndfieldGachaStatsCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Features.Gacha.Endfield"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="Rarity6ForegroundBrush" Color="#FFA500" />
+        <SolidColorBrush x:Key="Rarity5ForegroundBrush" Color="#C864E0" />
+        <SolidColorBrush x:Key="Rarity4ForegroundBrush" Color="#5EAAED" />
+        <SolidColorBrush x:Key="AverageForegroundBrush" Color="#3BA272" />
+        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="TextTrimming" Value="None" />
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid MinWidth="262"
+          Padding="12,8"
+          Background="{ThemeResource CustomOverlayAcrylicBrush}"
+          CornerRadius="8"
+          RowSpacing="4"
+          Shadow="{ThemeResource ThemeShadow}"
+          Translation="0,0,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid ColumnSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock FontSize="16"
+                       Text="{x:Bind PoolStats.Name}"
+                       TextTrimming="CharacterEllipsis"
+                       ToolTipService.ToolTip="{x:Bind PoolStats.Name}" />
+            <TextBlock Grid.Column="1" FontSize="16" Text="{x:Bind PoolStats.Count}" />
+        </Grid>
+
+        <TextBlock Grid.Row="1"
+                   FontSize="12"
+                   TextTrimming="CharacterEllipsis">
+            <Run Text="{x:Bind PoolStats.StartTimeText}" />
+            <Run Text=" - " />
+            <Run Text="{x:Bind PoolStats.EndTimeText}" />
+        </TextBlock>
+
+        <MenuFlyoutSeparator Grid.Row="2" />
+
+        <TextBlock Grid.Row="3" Foreground="{StaticResource AverageForegroundBrush}" Text="6★ 平均" />
+        <TextBlock Grid.Row="3"
+                   HorizontalAlignment="Right"
+                   Foreground="{StaticResource AverageForegroundBrush}"
+                   Text="{x:Bind PoolStats.Average6.ToString('F2', x:Null)}" />
+
+        <TextBlock Grid.Row="4" Foreground="{StaticResource Rarity6ForegroundBrush}" Text="6★ 统计" />
+        <TextBlock Grid.Row="4"
+                   HorizontalAlignment="Right"
+                   Foreground="{StaticResource Rarity6ForegroundBrush}">
+            <Run Text="{x:Bind PoolStats.Count6}" />
+            <Run Text="[" /><Run Text="{x:Bind PoolStats.Ratio6.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="5" Foreground="{StaticResource Rarity5ForegroundBrush}" Text="5★ 统计" />
+        <TextBlock Grid.Row="5"
+                   HorizontalAlignment="Right"
+                   Foreground="{StaticResource Rarity5ForegroundBrush}">
+            <Run Text="{x:Bind PoolStats.Count5}" />
+            <Run Text="[" /><Run Text="{x:Bind PoolStats.Ratio5.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <TextBlock Grid.Row="6" Foreground="{StaticResource Rarity4ForegroundBrush}" Text="4★ 统计" />
+        <TextBlock Grid.Row="6"
+                   HorizontalAlignment="Right"
+                   Foreground="{StaticResource Rarity4ForegroundBrush}">
+            <Run Text="{x:Bind PoolStats.Count4}" />
+            <Run Text="[" /><Run Text="{x:Bind PoolStats.Ratio4.ToString('P2', x:Null)}" /><Run Text="]" />
+        </TextBlock>
+
+        <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
+
+        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_Rarity.SelectedIndex, Mode=TwoWay}">
+            <Pivot.Resources>
+                <Thickness x:Key="PivotItemMargin">0</Thickness>
+                <Thickness x:Key="PivotHeaderItemMargin">12,0</Thickness>
+                <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
+                    <Setter Property="Height" Value="36" />
+                </Style>
+            </Pivot.Resources>
+            <PivotItem>
+                <ItemsRepeater ItemsSource="{x:Bind PoolStats.List6}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="local:EndfieldGachaItem">
+                            <Grid Height="28"
+                                  ColumnSpacing="8"
+                                  ToolTipService.ToolTip="{x:Bind TimeText}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="28" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Width="28" Height="28">
+                                    <Border Width="22"
+                                            Height="22"
+                                            Background="{StaticResource Rarity6ForegroundBrush}"
+                                            CornerRadius="4"
+                                            Opacity="0.9"
+                                            Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Foreground="Black"
+                                                   Text="6" />
+                                    </Border>
+                                    <sc:CachedImage Width="28"
+                                                    Height="28"
+                                                    Source="{x:Bind Icon}"
+                                                    Stretch="Uniform"
+                                                    Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
+                                <TextBlock Grid.Column="1"
+                                           Text="{x:Bind ItemName}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="2"
+                                           FontSize="11"
+                                           Foreground="{StaticResource Rarity6ForegroundBrush}"
+                                           Text="{x:Bind ExtraText}" />
+                                <TextBlock Grid.Column="3"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource Rarity6ForegroundBrush}"
+                                           Text="{x:Bind PityText}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </PivotItem>
+            <PivotItem>
+                <ItemsRepeater ItemsSource="{x:Bind PoolStats.List5}">
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="local:EndfieldGachaItem">
+                            <Grid Height="28"
+                                  ColumnSpacing="8"
+                                  ToolTipService.ToolTip="{x:Bind TimeText}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="28" />
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="28" />
+                                </Grid.ColumnDefinitions>
+                                <Grid Width="28" Height="28">
+                                    <Border Width="22"
+                                            Height="22"
+                                            Background="{StaticResource Rarity5ForegroundBrush}"
+                                            CornerRadius="4"
+                                            Opacity="0.9"
+                                            Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   Foreground="White"
+                                                   Text="5" />
+                                    </Border>
+                                    <sc:CachedImage Width="28"
+                                                    Height="28"
+                                                    Source="{x:Bind Icon}"
+                                                    Stretch="Uniform"
+                                                    Visibility="{x:Bind HasIcon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                </Grid>
+                                <TextBlock Grid.Column="1"
+                                           Text="{x:Bind ItemName}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock Grid.Column="2"
+                                           FontSize="11"
+                                           Foreground="{StaticResource Rarity5ForegroundBrush}"
+                                           Text="{x:Bind ExtraText}" />
+                                <TextBlock Grid.Column="3"
+                                           HorizontalAlignment="Right"
+                                           Foreground="{StaticResource Rarity5ForegroundBrush}"
+                                           Text="{x:Bind PityText}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </PivotItem>
+        </Pivot>
+
+        <cwc:Segmented x:Name="Segmented_Rarity"
+                       Grid.Row="8"
+                       HorizontalAlignment="Stretch"
+                       VerticalAlignment="Top"
+                       SelectedIndex="0">
+            <cwc:SegmentedItem>
+                <TextBlock Foreground="{StaticResource Rarity6ForegroundBrush}" Text="6★" />
+            </cwc:SegmentedItem>
+            <cwc:SegmentedItem>
+                <TextBlock Foreground="{StaticResource Rarity5ForegroundBrush}" Text="5★" />
+            </cwc:SegmentedItem>
+        </cwc:Segmented>
+    </Grid>
+</UserControl>

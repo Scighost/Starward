@@ -615,6 +615,22 @@ public static partial class AppConfig
         SetValue(value, $"enable_dx12_{biz}");
     }
 
+    /// <summary>
+    /// 使用 DX11 启动
+    /// </summary>
+    public static bool GetEnableDX11(GameBiz biz)
+    {
+        return GetValue<bool>(default, $"enable_dx11_{biz}");
+    }
+
+    /// <summary>
+    /// 使用 DX11 启动
+    /// </summary>
+    public static void SetEnableDX11(GameBiz biz, bool value)
+    {
+        SetValue(value, $"enable_dx11_{biz}");
+    }
+
 
     #endregion
 

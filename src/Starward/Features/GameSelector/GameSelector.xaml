@@ -108,7 +108,13 @@
                     <ItemsControl ItemsSource="{x:Bind GameBizDisplays}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <StackPanel Orientation="Horizontal" Spacing="16" />
+                                <ItemsWrapGrid Orientation="Horizontal"
+                                                MaximumRowsOrColumns="5"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                ItemWidth="208"
+                                                ItemHeight="124"
+                                                />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
@@ -116,6 +122,7 @@
                                 <Grid Name="Grid_GameBizDisplay"
                                       Width="192"
                                       Height="108"
+                                      Margin="0,0,16,16"
                                       Padding="0"
                                       sh:PointerCursor.CursorShape="Hand"
                                       Background="#40000000"
