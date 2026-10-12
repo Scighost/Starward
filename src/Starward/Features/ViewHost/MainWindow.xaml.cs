@@ -178,6 +178,9 @@ public sealed partial class MainWindow : WindowEx
     private DateTimeOffset _lastActivatedTime = DateTimeOffset.Now;
 
 
+    private bool _isMinimized;
+
+
     protected override nint WindowSubclassProc(HWND hWnd, uint uMsg, nint wParam, nint lParam, nuint uIdSubclass, nint dwRefData)
     {
         if (uMsg == (uint)User32.WindowMessage.WM_ACTIVATE || uMsg == (uint)User32.WindowMessage.WM_POINTERACTIVATE)
@@ -205,6 +208,19 @@ public sealed partial class MainWindow : WindowEx
                 return IntPtr.Zero;
             }
         }
+        else if (uMsg == (uint)User32.WindowMessage.WM_SIZE)
+        {
+            // 窗口最小化或还原，通知动态背景暂停或恢复
+            if (wParam is 0 or 1 or 2)
+            {
+                bool minimized = wParam is 1;
+                if (minimized != _isMinimized)
+                {
+                    _isMinimized = minimized;
+                    WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage { Minimized = minimized, CurrentTime = DateTimeOffset.Now });
+                }
+            }
+        }
         else if (uMsg == (uint)User32.WindowMessage.WM_WTSSESSION_CHANGE)
         {
             if (wParam == 0x7)
@@ -215,7 +231,8 @@ public sealed partial class MainWindow : WindowEx
             }
             else if (wParam == 0x8)
             {
-                // WTS_SESSION_UNLOCK 
+                // WTS_SESSION_UNLOCK
+                WeakReferenceMessenger.Default.Send(new MainWindowStateChangedMessage { SessionUnlock = true, CurrentTime = DateTimeOffset.Now });
             }
         }
         else if (uMsg == (uint)User32.WindowMessage.WM_DEVICECHANGE)
