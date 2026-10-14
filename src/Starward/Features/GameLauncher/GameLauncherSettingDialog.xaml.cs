@@ -16,6 +16,7 @@ using Starward.Helpers;
 using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -136,6 +137,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         CheckCanRepairGame();
         await InitializeBasicInfoAsync();
         InitializeStartArgument();
+        InitializeLaunchSchemes();
         InitializeCustomBg();
         await InitializeGamePackagesAsync();
     }
@@ -622,6 +624,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     partial void OnStartGameArgumentChanged(string? value)
     {
         AppConfig.SetStartArgument(CurrentGameBiz, value);
+        RefreshDefaultLaunchSchemeArguments();
     }
 
 
@@ -738,6 +741,212 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
 
 
+
+
+    #endregion
+
+
+
+
+    #region 启动预设  https://github.com/Scighost/Starward/issues/1858
+
+
+    /// <summary>
+    /// 启动预设列表（含内置默认预设，位于首位）
+    /// </summary>
+    public ObservableCollection<LaunchSchemeItem> LaunchSchemes { get; } = new();
+
+
+    private bool _launchSchemesInitializing;
+
+
+    private void InitializeLaunchSchemes()
+    {
+        _launchSchemesInitializing = true;
+        try
+        {
+            LaunchSchemes.Clear();
+            List<GameLaunchScheme> all = GameLauncherService.GetAllLaunchSchemes(CurrentGameBiz);
+            string? defaultArgumentsHint = _StartGameArgument;
+            foreach (GameLaunchScheme scheme in all)
+            {
+                LaunchSchemes.Add(new LaunchSchemeItem(scheme, defaultArgumentsHint));
+            }
+        }
+        finally
+        {
+            _launchSchemesInitializing = false;
+        }
+    }
+
+
+    private void RefreshDefaultLaunchSchemeArguments()
+    {
+        foreach (LaunchSchemeItem item in LaunchSchemes)
+        {
+            item.RefreshDefaultArgumentsHint(_StartGameArgument);
+        }
+    }
+
+
+    /// <summary>
+    /// 保存当前预设列表到 AppConfig，并广播变更消息
+    /// </summary>
+    private void PersistLaunchSchemes()
+    {
+        if (_launchSchemesInitializing)
+        {
+            return;
+        }
+        IEnumerable<GameLaunchScheme> schemes = LaunchSchemes
+            .Where(x => !x.IsBuiltIn)
+            .Select(x => x.Scheme);
+        GameLauncherService.SaveLaunchSchemes(CurrentGameBiz, schemes);
+        WeakReferenceMessenger.Default.Send(new LaunchSchemesChangedMessage(CurrentGameBiz));
+    }
+
+
+    private void Button_AddLaunchScheme_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var scheme = new GameLaunchScheme
+            {
+                Name = $"{Lang.GameLauncherSettingDialog_LaunchOptions} {LaunchSchemes.Count(x => !x.IsBuiltIn) + 1}",
+            };
+            LaunchSchemes.Add(new LaunchSchemeItem(scheme, _StartGameArgument));
+            PersistLaunchSchemes();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Add launch scheme ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    private void LaunchScheme_Name_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is TextBox { DataContext: LaunchSchemeItem item } textBox && !item.IsBuiltIn)
+        {
+            item.Name = textBox.Text ?? string.Empty;
+            PersistLaunchSchemes();
+        }
+    }
+
+
+    private void LaunchScheme_Executable_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is TextBox { DataContext: LaunchSchemeItem item } textBox && !item.IsBuiltIn)
+        {
+            item.ExecutablePath = textBox.Text;
+            PersistLaunchSchemes();
+        }
+    }
+
+
+    private void LaunchScheme_Arguments_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is TextBox { DataContext: LaunchSchemeItem item } textBox && !item.IsBuiltIn)
+        {
+            item.Arguments = textBox.Text;
+            PersistLaunchSchemes();
+        }
+    }
+
+
+    private void LaunchScheme_RunAsAdmin_Changed(object sender, RoutedEventArgs e)
+    {
+        if (sender is CheckBox { DataContext: LaunchSchemeItem item } && !item.IsBuiltIn)
+        {
+            PersistLaunchSchemes();
+        }
+    }
+
+
+    private async void LaunchScheme_BrowseExecutable_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: LaunchSchemeItem item } && !item.IsBuiltIn)
+            {
+                string? file = await FileDialogHelper.PickSingleFileAsync(this.XamlRoot);
+                if (!string.IsNullOrWhiteSpace(file) && File.Exists(file))
+                {
+                    item.ExecutablePath = file;
+                    PersistLaunchSchemes();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Pick launch scheme executable ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    private void LaunchScheme_MoveUp_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: LaunchSchemeItem item } && !item.IsBuiltIn)
+            {
+                int index = LaunchSchemes.IndexOf(item);
+                // 索引 0 是内置默认预设，用户自定义预设的最小索引是 1
+                if (index > 1)
+                {
+                    LaunchSchemes.Move(index, index - 1);
+                    PersistLaunchSchemes();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Move launch scheme up ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    private void LaunchScheme_MoveDown_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: LaunchSchemeItem item } && !item.IsBuiltIn)
+            {
+                int index = LaunchSchemes.IndexOf(item);
+                if (index >= 1 && index < LaunchSchemes.Count - 1)
+                {
+                    LaunchSchemes.Move(index, index + 1);
+                    PersistLaunchSchemes();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Move launch scheme down ({biz})", CurrentGameBiz);
+        }
+    }
+
+
+    private void LaunchScheme_Delete_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: LaunchSchemeItem item } && !item.IsBuiltIn)
+            {
+                LaunchSchemes.Remove(item);
+                // 如果被删除的预设是当前选中的，回退到内置默认
+                if (AppConfig.GetSelectedLaunchSchemeId(CurrentGameBiz) == item.Scheme.Id)
+                {
+                    AppConfig.SetSelectedLaunchSchemeId(CurrentGameBiz, null);
+                }
+                PersistLaunchSchemes();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Delete launch scheme ({biz})", CurrentGameBiz);
+        }
+    }
 
 
     #endregion

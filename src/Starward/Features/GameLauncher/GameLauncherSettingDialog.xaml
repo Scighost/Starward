@@ -400,7 +400,10 @@
 
                 <!--  启动参数  -->
                 <FlipViewItem>
-                    <StackPanel Spacing="12">
+                    <ScrollViewer HorizontalScrollMode="Disabled"
+                                  VerticalScrollBarVisibility="Auto"
+                                  VerticalScrollMode="Auto">
+                        <StackPanel Margin="0,0,12,16" Spacing="12">
 
                         <TextBlock Text="{x:Bind lang:Lang.GameLauncherSettingDialog_CommandLineArgument}" />
 
@@ -489,7 +492,136 @@
                             </Grid>
                         </Grid>
 
-                    </StackPanel>
+
+                        <!--  多启动预设 https://github.com/Scighost/Starward/issues/1858  -->
+                        <TextBlock Margin="0,16,0,0"
+                                   FontSize="14"
+                                   Text="{x:Bind lang:Lang.GameLauncherSettingDialog_LaunchOptions}" />
+                        <TextBlock FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   Text="{x:Bind lang:Lang.GameLauncherSettingDialog_LaunchOptionsDescription}"
+                                   TextWrapping="Wrap" />
+                        <ItemsControl x:Name="ItemsControl_LaunchSchemes" ItemsSource="{x:Bind LaunchSchemes}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Spacing="8" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="local:LaunchSchemeItem">
+                                    <Border Padding="12"
+                                            Background="#40000000"
+                                            CornerRadius="8">
+                                        <StackPanel Spacing="8">
+                                            <Grid ColumnSpacing="8">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Header="{x:Bind NameHeader}"
+                                                         IsReadOnly="{x:Bind IsBuiltIn, Mode=OneTime}"
+                                                         IsSpellCheckEnabled="False"
+                                                         PlaceholderText="{x:Bind NamePlaceholder}"
+                                                         Text="{x:Bind DisplayName, Mode=OneWay}"
+                                                         TextChanged="LaunchScheme_Name_TextChanged" />
+                                                <StackPanel Grid.Column="1"
+                                                            VerticalAlignment="Bottom"
+                                                            Orientation="Horizontal"
+                                                            Spacing="4"
+                                                            Visibility="{x:Bind IsBuiltIn, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                                    <Button Width="32"
+                                                            Height="32"
+                                                            Padding="0"
+                                                            Click="LaunchScheme_MoveUp_Click"
+                                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                                            ToolTipService.ToolTip="{x:Bind MoveUpTooltip}">
+                                                        <FontIcon FontSize="14" Glyph="&#xE70E;" />
+                                                    </Button>
+                                                    <Button Width="32"
+                                                            Height="32"
+                                                            Padding="0"
+                                                            Click="LaunchScheme_MoveDown_Click"
+                                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                                            ToolTipService.ToolTip="{x:Bind MoveDownTooltip}">
+                                                        <FontIcon FontSize="14" Glyph="&#xE70D;" />
+                                                    </Button>
+                                                    <Button Width="32"
+                                                            Height="32"
+                                                            Padding="0"
+                                                            Click="LaunchScheme_Delete_Click"
+                                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                        <FontIcon FontSize="14"
+                                                                  Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                                                                  Glyph="&#xE74D;" />
+                                                    </Button>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <!--  Executable  -->
+                                            <Grid ColumnSpacing="8"
+                                                  Visibility="{x:Bind IsBuiltIn, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Header="{x:Bind ExecutableHeader}"
+                                                         IsSpellCheckEnabled="False"
+                                                         Text="{x:Bind ExecutablePath, Mode=OneWay}"
+                                                         TextChanged="LaunchScheme_Executable_TextChanged" />
+                                                <Button Grid.Column="1"
+                                                        Width="32"
+                                                        Height="32"
+                                                        Padding="0"
+                                                        VerticalAlignment="Bottom"
+                                                        Click="LaunchScheme_BrowseExecutable_Click"
+                                                        Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                                                    <FontIcon FontSize="14" Glyph="&#xE838;" />
+                                                </Button>
+                                            </Grid>
+
+                                            <!--  Arguments  -->
+                                            <TextBox Header="{x:Bind ArgumentsHeader}"
+                                                     IsReadOnly="{x:Bind IsBuiltIn, Mode=OneTime}"
+                                                     IsSpellCheckEnabled="False"
+                                                     Text="{x:Bind DisplayArguments, Mode=OneWay}"
+                                                     TextChanged="LaunchScheme_Arguments_TextChanged"
+                                                     TextWrapping="Wrap" />
+
+                                            <!--  Built-in tooltip  -->
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                       Text="{x:Bind DefaultTooltip}"
+                                                       TextWrapping="Wrap"
+                                                       Visibility="{x:Bind IsBuiltIn, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                            <!--  Run as admin  -->
+                                            <CheckBox Margin="0,0,0,-4"
+                                                      Checked="LaunchScheme_RunAsAdmin_Changed"
+                                                      Content="{x:Bind RunAsAdminText}"
+                                                      IsChecked="{x:Bind RunAsAdmin, Mode=TwoWay}"
+                                                      Unchecked="LaunchScheme_RunAsAdmin_Changed"
+                                                      Visibility="{x:Bind IsBuiltIn, Converter={StaticResource BoolToVisibilityReversedConverter}}" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button Height="36"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Left"
+                                BorderThickness="0"
+                                Click="Button_AddLaunchScheme_Click"
+                                CornerRadius="8"
+                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="14" Glyph="&#xE710;" />
+                                <TextBlock Text="{x:Bind lang:Lang.GameLauncherSettingDialog_AddLaunchOption}" />
+                            </StackPanel>
+                        </Button>
+
+                        </StackPanel>
+                    </ScrollViewer>
                 </FlipViewItem>
 
                 <!--  自定义背景  -->
