@@ -233,7 +233,7 @@ public sealed partial class GameSettingPage : PageBase
             {
                 IsGraphicsSettingEnable = true;
                 StackPanel_GenshinHDR.Visibility = Visibility.Visible;
-                EnableGenshinHDR = AppConfig.EnableGenshinHDR;
+                EnableGenshinHDR = GameSettingService.GetGenshinEnableHDR(CurrentGameBiz) ?? AppConfig.EnableGenshinHDR;
                 _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
                 _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
                 UpdateHdrState(_displayInformation);
