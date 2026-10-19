@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipelines;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -335,7 +336,7 @@ internal partial class GameInstallHelper
             long size_download = 0, size_write = 0;
             try
             {
-                using HttpClient httpClient = _httpClientFactory.CreateClient();
+                using HttpClient httpClient = _httpClientFactory.CreateClient(GameDownloadOptions.HttpClientName);
                 foreach (GameInstallFileChunk chunk in file.Chunks ?? [])
                 {
                     // 根据当前文件的长度判断 chunk 是否已完成下载和解压
@@ -523,8 +524,12 @@ internal partial class GameInstallHelper
         {
             try
             {
-                using HttpClient httpClient = _httpClientFactory.CreateClient();
-                HttpRequestMessage request = new(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
+                using HttpClient httpClient = _httpClientFactory.CreateClient(GameDownloadOptions.HttpClientName);
+                using HttpRequestMessage request = new(HttpMethod.Get, url)
+                {
+                    Version = HttpVersion.Version11,
+                    VersionPolicy = HttpVersionPolicy.RequestVersionOrLower,
+                };
                 request.Headers.Range = new RangeHeaderValue(fs.Length, null);
                 using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 response.EnsureSuccessStatusCode();

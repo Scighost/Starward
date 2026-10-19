@@ -102,6 +102,11 @@ public static class RpcRunner
             config.ConfigurePrimaryHttpMessageHandler(GetDefaultSocketsHttpHandler);
         });
         builder.Services.AddHttpClient<HoYoPlayClient>().AddPolicyHandler(GetHttpRetryPolicy());
+        builder.Services.AddHttpClient(GameDownloadOptions.HttpClientName, client =>
+        {
+            client.DefaultRequestVersion = HttpVersion.Version11;
+            client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrLower;
+        });
 
 
         builder.Logging.ClearProviders();
