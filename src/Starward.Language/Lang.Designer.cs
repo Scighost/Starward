@@ -1674,6 +1674,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Multi-WAN Compatibility 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_MultiDialCompatibility {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_MultiDialCompatibility", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Prefer HTTP/1.1 for game downloads. This may improve download speeds in multi-WAN environments. 的本地化字符串。
+        /// </summary>
+        public static string DownloadSettingPage_MultiDialCompatibilityDescription {
+            get {
+                return ResourceManager.GetString("DownloadSettingPage_MultiDialCompatibilityDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Speed Limit 的本地化字符串。
         /// </summary>
         public static string DownloadSettingPage_SpeedLimit {

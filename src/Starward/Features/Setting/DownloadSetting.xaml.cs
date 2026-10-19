@@ -149,6 +149,26 @@ public sealed partial class DownloadSetting : PageBase
 
 
 
+    #region 多拨兼容
+
+
+    public bool EnableMultiDialCompatibility
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableMultiDialCompatibility = value;
+                AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
+            }
+        }
+    } = AppConfig.EnableMultiDialCompatibility;
+
+
+    #endregion
+
+
+
     #region 下载限速
 
 
