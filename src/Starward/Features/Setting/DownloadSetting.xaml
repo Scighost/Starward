@@ -79,6 +79,17 @@
                           OffContent="{x:Bind lang:Lang.Common_Disabled}"
                           OnContent="{x:Bind lang:Lang.Common_Enabled}" />
 
+            <TextBlock Margin="0,20,0,0"
+                       FontSize="20"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_MultiDialCompatibility}" />
+            <TextBlock Margin="0,12,0,0"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       Text="{x:Bind lang:Lang.DownloadSettingPage_MultiDialCompatibilityDescription}"
+                       TextWrapping="Wrap" />
+            <ToggleSwitch IsOn="{x:Bind EnableMultiDialCompatibility, Mode=TwoWay}"
+                          OffContent="{x:Bind lang:Lang.Common_Disabled}"
+                          OnContent="{x:Bind lang:Lang.Common_Enabled}" />
+
             <!--  speed limit  -->
             <TextBlock Margin="0,20,0,0"
                        FontSize="20"

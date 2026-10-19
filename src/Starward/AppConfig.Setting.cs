@@ -205,6 +205,12 @@ public static partial class AppConfig
         set => SetValue(value);
     }
 
+    public static bool EnableMultiDialCompatibility
+    {
+        get => GetValue(false);
+        set => SetValue(value);
+    }
+
     /// <summary>
     /// 缓存的游戏信息 <see cref="Starward.Core.HoYoPlay.GameInfo"/>
     /// </summary>

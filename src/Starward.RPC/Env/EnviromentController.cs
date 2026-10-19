@@ -53,6 +53,7 @@ internal class EnviromentController : Env.EnvBase
     {
         LifecycleManager.SetParentProcess(request.ParentProcessId, request.KeepRunningOnExited);
         _gameInstallHelper.SetRateLimiter(request.DownloadRateLimit);
+        _gameInstallHelper.EnableMultiDialCompatibility = request.EnableMultiDialCompatibility;
         return Task.FromResult(new EmptyMessage());
     }
 

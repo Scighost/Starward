@@ -34,6 +34,22 @@ internal partial class GameInstallHelper
 
     private TokenBucketRateLimiter _rateLimiter;
 
+    private volatile bool _enableMultiDialCompatibility;
+
+    public bool EnableMultiDialCompatibility
+    {
+        get => _enableMultiDialCompatibility;
+        set => _enableMultiDialCompatibility = value;
+    }
+
+
+    private HttpClient CreateDownloadClient()
+    {
+        return _enableMultiDialCompatibility
+            ? _httpClientFactory.CreateClient(GameDownloadOptions.HttpClientName)
+            : _httpClientFactory.CreateClient();
+    }
+
 
 
     private FileStreamOptions SequentialReadFileStreamOptions = new FileStreamOptions
@@ -335,7 +351,6 @@ internal partial class GameInstallHelper
             long size_download = 0, size_write = 0;
             try
             {
-                using HttpClient httpClient = _httpClientFactory.CreateClient();
                 foreach (GameInstallFileChunk chunk in file.Chunks ?? [])
                 {
                     // 根据当前文件的长度判断 chunk 是否已完成下载和解压
@@ -374,6 +389,7 @@ internal partial class GameInstallHelper
                         if (needDownload)
                         {
                             // 从头开始下载
+                            using HttpClient httpClient = CreateDownloadClient();
                             using HttpResponseMessage response = await httpClient.GetAsync(chunk.Url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                             response.EnsureSuccessStatusCode();
                             using Stream hs = await response.Content.ReadAsStreamAsync(cancellationToken);
@@ -523,8 +539,12 @@ internal partial class GameInstallHelper
         {
             try
             {
-                using HttpClient httpClient = _httpClientFactory.CreateClient();
-                HttpRequestMessage request = new(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
+                using HttpClient httpClient = CreateDownloadClient();
+                using HttpRequestMessage request = new(HttpMethod.Get, url)
+                {
+                    Version = httpClient.DefaultRequestVersion,
+                    VersionPolicy = httpClient.DefaultVersionPolicy,
+                };
                 request.Headers.Range = new RangeHeaderValue(fs.Length, null);
                 using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
                 response.EnsureSuccessStatusCode();

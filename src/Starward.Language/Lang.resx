@@ -1497,6 +1497,12 @@ Do you accept the risk and continue to use it?</value>
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
     <value>The games will be installed in different subfolders, changing the default path will not move the installed game files.</value>
   </data>
+  <data name="DownloadSettingPage_MultiDialCompatibility" xml:space="preserve">
+    <value>Multi-WAN Compatibility</value>
+  </data>
+  <data name="DownloadSettingPage_MultiDialCompatibilityDescription" xml:space="preserve">
+    <value>Prefer HTTP/1.1 for game downloads. This may improve download speeds in multi-WAN environments.</value>
+  </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
     <value>Speed Limit</value>
   </data>

@@ -92,6 +92,7 @@ internal class RpcService
             ParentProcessId = Environment.ProcessId,
             KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
             DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+            EnableMultiDialCompatibility = AppConfig.EnableMultiDialCompatibility,
         }, deadline: DateTime.UtcNow.AddSeconds(3));
     }
 
@@ -109,6 +110,7 @@ internal class RpcService
                     ParentProcessId = Environment.ProcessId,
                     KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
                     DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
+                    EnableMultiDialCompatibility = AppConfig.EnableMultiDialCompatibility,
                 }, deadline: DateTime.UtcNow.AddSeconds(3));
             }
         }

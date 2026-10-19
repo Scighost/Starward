@@ -1497,6 +1497,12 @@
   <data name="DownloadSettingPage_DefaultGameInstallationPathDescription" xml:space="preserve">
     <value>游戏将被安装在不同的子文件夹中，修改默认路径不会移动已安装的游戏文件。</value>
   </data>
+  <data name="DownloadSettingPage_MultiDialCompatibility" xml:space="preserve">
+    <value>多拨兼容</value>
+  </data>
+  <data name="DownloadSettingPage_MultiDialCompatibilityDescription" xml:space="preserve">
+    <value>游戏下载优先使用 HTTP/1.1,在多拨环境下可能有助于提速</value>
+  </data>
   <data name="DownloadSettingPage_SpeedLimit" xml:space="preserve">
     <value>速度限制</value>
   </data>
