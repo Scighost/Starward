@@ -61,6 +61,7 @@
 		<PackageReference Include="Vanara.PInvoke.Ole" Version="5.0.7" />
 		<PackageReference Include="Vanara.PInvoke.SetupAPI" Version="5.0.7" />
 		<PackageReference Include="Vanara.PInvoke.Shell32" Version="5.0.7" />
+		<PackageReference Include="ZiggyCreatures.FusionCache" Version="2.9.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
