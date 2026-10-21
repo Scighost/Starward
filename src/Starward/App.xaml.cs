@@ -37,6 +37,7 @@ public partial class App : Application
         _uiDispatcherQueue = DispatcherQueue.GetForCurrentThread();
         UnhandledException += App_UnhandledException;
         _gcTimer.Elapsed += (_, _) => GC.Collect();
+        _gcTimer.Start();
     }
 
 
