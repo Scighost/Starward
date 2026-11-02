@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using System;
 using System.Text.Json.Nodes;
+using System.Threading;
 
 namespace Starward.Features.Gacha.Endfield;
 
@@ -16,11 +17,20 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         (() => {
             if (window.__starwardEndfieldLoginInstalled) return;
             window.__starwardEndfieldLoginInstalled = true;
-            let hasSent = false;
+            const sentTokens = new Map();
+
+            function isAuthUrl(value) {
+                try {
+                    const url = new URL(value, window.location.href);
+                    return url.origin === 'https://as.hypergryph.com' && url.pathname === '/user/auth';
+                } catch (_) { return false; }
+            }
 
             function sendToken(token) {
-                if (hasSent || typeof token !== 'string' || token.length === 0) return;
-                hasSent = true;
+                if (typeof token !== 'string' || token.trim().length === 0) return;
+                const now = Date.now();
+                if (now - (sentTokens.get(token) ?? 0) < 15000) return;
+                sentTokens.set(token, now);
                 window.chrome.webview.postMessage({ action: 'loginToken', token });
             }
 
@@ -33,7 +43,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             XMLHttpRequest.prototype.send = function(body) {
                 this.addEventListener('load', function() {
                     try {
-                        if (this.__starwardUrl.includes('as.hypergryph.com/user/auth')) {
+                        if (isAuthUrl(this.__starwardUrl)) {
                             const result = JSON.parse(this.responseText);
                             if (result.status === 0 && result.data?.token) sendToken(result.data.token);
                         }
@@ -46,7 +56,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             window.fetch = async function(...args) {
                 const response = await originalFetch(...args);
                 try {
-                    if (response.url?.includes('as.hypergryph.com/user/auth')) {
+                    if (isAuthUrl(response.url)) {
                         response.clone().json().then(result => {
                             if (result.status === 0 && result.data?.token) sendToken(result.data.token);
                         }).catch(() => {});
@@ -55,11 +65,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
                 return response;
             };
 
-            const timer = window.setInterval(() => {
-                if (hasSent) {
-                    window.clearInterval(timer);
-                    return;
-                }
+            window.setInterval(() => {
                 originalFetch('https://web-api.hypergryph.com/account/info/hg', {
                     method: 'GET',
                     credentials: 'include'
@@ -72,6 +78,10 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
 
     private readonly ILogger<EndfieldLoginDialog> _logger = AppConfig.GetLogger<EndfieldLoginDialog>();
     private bool _initialized;
+    private bool _validatingLogin;
+    private bool _closed;
+    private int _navigationVersion;
+    private readonly CancellationTokenSource _lifetime = new();
 
     public EndfieldLoginDialog()
     {
@@ -90,6 +100,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         try
         {
             await WebView_Login.EnsureCoreWebView2Async();
+            if (_closed) return;
             CoreWebView2 core = WebView_Login.CoreWebView2;
             core.Settings.UserAgent = BrowserUserAgent;
             core.Profile.PreferredColorScheme = CoreWebView2PreferredColorScheme.Dark;
@@ -117,6 +128,10 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         {
             args.Cancel = true;
         }
+        else
+        {
+            _navigationVersion++;
+        }
     }
 
     private void Core_NavigationCompleted(CoreWebView2 sender, CoreWebView2NavigationCompletedEventArgs args)
@@ -138,11 +153,13 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         sender.Navigate(args.Uri);
     }
 
-    private void Core_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+    private async void Core_WebMessageReceived(CoreWebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
     {
+        if (_closed || _validatingLogin) return;
         try
         {
             if (!Uri.TryCreate(args.Source, UriKind.Absolute, out Uri? source) ||
+                source.Scheme != Uri.UriSchemeHttps ||
                 !source.Host.Equals("user.hypergryph.com", StringComparison.OrdinalIgnoreCase))
             {
                 return;
@@ -157,16 +174,28 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             {
                 return;
             }
+            _validatingLogin = true;
+            int navigationVersion = _navigationVersion;
+            InfoBar_Status.Severity = InfoBarSeverity.Informational;
+            InfoBar_Status.Message = "正在验证登录状态。";
+            using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
+            timeout.CancelAfter(TimeSpan.FromSeconds(15));
+            await AppConfig.GetService<EndfieldGachaService>().ValidateLoginTokenAsync(token, timeout.Token);
+            // A redirect/logout or a closed dialog invalidates this document's pending result.
+            if (_closed || navigationVersion != _navigationVersion) return;
             LoginToken = token;
             InfoBar_Status.Severity = InfoBarSeverity.Success;
             InfoBar_Status.Message = "登录成功，正在读取终末地角色。";
-            DispatcherQueue.TryEnqueue(Hide);
+            Hide();
         }
+        catch (OperationCanceledException) when (_closed) { }
         catch (Exception ex)
         {
+            if (_closed) return;
             _logger.LogWarning("Read Endfield login result failed: {ErrorType}", ex.GetType().Name);
-            ShowError("无法读取登录结果，请重试。");
+            ShowError("登录凭证已失效或暂时无法验证，请在页面中重新登录；验证成功后会自动继续。");
         }
+        finally { _validatingLogin = false; }
     }
 
     private void Core_ProcessFailed(CoreWebView2 sender, CoreWebView2ProcessFailedEventArgs args)
@@ -183,6 +212,9 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
 
     private void ContentDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
+        _closed = true;
+        _lifetime.Cancel();
+        _lifetime.Dispose();
         if (WebView_Login.CoreWebView2 is not CoreWebView2 core)
         {
             return;

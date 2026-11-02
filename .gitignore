@@ -408,3 +408,6 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
+
+# Local-only Codex build skill
+/.agents/skills/starward-local-build/

@@ -4,6 +4,7 @@ using Starward.Core.HoYoPlay;
 using Starward.Core.Hypergryph;
 using Starward.Features.GameSetting;
 using Starward.Features.HoYoPlay;
+using Starward.Features.Hypergryph;
 using Starward.Features.PlayTime;
 using Starward.Helpers;
 using System;
@@ -469,6 +470,13 @@ internal partial class GameLauncherService
                 arg += " -use-d3d12";
             }
 
+            if (!thirdPartyTool && HypergryphGameConstants.IsEndfield(gameId.GameBiz))
+            {
+                _logger.LogInformation("Start Endfield with a signed auxiliary parent: {Path}", exe);
+                Process game = await EndfieldLauncher.StartAsync(exe, arg);
+                await _playTimeRecorderService.StartProcessToLogAsync(gameId, game.Id);
+                return game;
+            }
             if (gameId.GameBiz.Game is GameBiz.hk4e)
             {
                 GameSettingService.SetGenshinEnableHDR(gameId.GameBiz, AppConfig.EnableGenshinHDR);

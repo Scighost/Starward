@@ -428,19 +428,21 @@ public sealed partial class EndfieldGachaPage : PageBase
             List6 = list6,
             List5 = list5,
         };
-        stats.List6.Insert(0, CreatePityItem(6, pity6, items[^1].GachaTime));
-        stats.List5.Insert(0, CreatePityItem(5, pity5, items[^1].GachaTime));
+        stats.List6.Insert(0, CreatePityItem(6, pity6, items[^1]));
+        stats.List5.Insert(0, CreatePityItem(5, pity5, items[^1]));
         return stats;
     }
 
-    private static EndfieldGachaItem CreatePityItem(int rarity, int pity, string time)
+    private static EndfieldGachaItem CreatePityItem(int rarity, int pity, EndfieldGachaItem latest)
     {
         return new EndfieldGachaItem
         {
             ItemName = "保底",
             Rarity = rarity,
             Pity = pity,
-            GachaTime = time,
+            GachaTime = latest.GachaTime,
+            RecordType = latest.RecordType,
+            PoolType = latest.PoolType,
             IsPityPlaceholder = true,
         };
     }

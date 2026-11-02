@@ -69,6 +69,15 @@ public partial class App : Application
     {
         string[] args = Environment.GetCommandLineArgs().Skip(1).ToArray();
 
+        // Release builds can use the generated XAML entry point instead of Program.Main.
+        // Handle the launch helper before initializing the UI, database or single-instance routing.
+        if (args.Length > 0 && args[0] == Features.Hypergryph.EndfieldLauncher.Command)
+        {
+            int exitCode = await Task.Run(() => Features.Hypergryph.EndfieldLauncher.RunHelper(args));
+            Environment.Exit(exitCode);
+            return;
+        }
+
         if (args.Length > 0 && args[0].ToLower().StartsWith("starward://test/"))
         {
             new TestUrlProtocolWindow().Activate();

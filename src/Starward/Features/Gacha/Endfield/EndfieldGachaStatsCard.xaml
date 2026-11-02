@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:gacha="using:Starward.Features.Gacha"
              xmlns:local="using:Starward.Features.Gacha.Endfield"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
@@ -11,6 +12,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
+        <gacha:GachaPityProgressBackgroundBrushConverter x:Key="PityProgressBrushConverter" />
         <SolidColorBrush x:Key="Rarity6ForegroundBrush" Color="#FFA500" />
         <SolidColorBrush x:Key="Rarity5ForegroundBrush" Color="#C864E0" />
         <SolidColorBrush x:Key="Rarity4ForegroundBrush" Color="#5EAAED" />
@@ -117,6 +119,11 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="28" />
                                 </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1"
+                                        Height="24"
+                                        Margin="-4,0,-4,0"
+                                        VerticalAlignment="Center"
+                                        Background="{x:Bind Converter={StaticResource PityProgressBrushConverter}}" />
                                 <Grid Width="28" Height="28">
                                     <Border Width="22"
                                             Height="22"

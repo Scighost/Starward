@@ -261,6 +261,12 @@ internal sealed partial class EndfieldGachaService
         }
     }
 
+    internal async Task ValidateLoginTokenAsync(string loginToken, CancellationToken cancellationToken)
+    {
+        // Validate without saving accounts or replacing the previously stored credentials.
+        _ = await GetOAuthTokenAsync(loginToken, cancellationToken);
+    }
+
     private async Task<string> GetOAuthTokenAsync(string loginToken, CancellationToken cancellationToken)
     {
         using var request = CreateBrowserRequest(HttpMethod.Post, OAuthGrantApi);
