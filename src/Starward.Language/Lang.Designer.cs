@@ -2619,6 +2619,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Launch with DX11 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_LaunchWithDX11 {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_LaunchWithDX11", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 Launch with DX12 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_LaunchWithDX12 {

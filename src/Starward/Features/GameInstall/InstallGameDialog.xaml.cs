@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Helpers;
@@ -78,7 +79,7 @@ public sealed partial class InstallGameDialog : ContentDialog
             string? defaultFolder = AppConfig.DefaultGameInstallationPath;
             if (Directory.Exists(defaultFolder))
             {
-                SetInstallationPath(Path.GetFullPath(Path.Combine(defaultFolder, CurrentGameId.GameBiz)));
+                SetInstallationPath(Path.GetFullPath(Path.Combine(defaultFolder, GetInstallationDirectoryName())));
                 return;
             }
             string baseFolder = "";
@@ -102,10 +103,14 @@ public sealed partial class InstallGameDialog : ContentDialog
                 }
                 else
                 {
-                    baseFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "miHoYo");
+                    baseFolder = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                        HypergryphGameConstants.IsHypergryphGame(CurrentGameId.GameBiz)
+                            ? HypergryphGameConstants.GetGameProfile(CurrentGameId.GameBiz).PublisherDirectory
+                            : "miHoYo");
                 }
             }
-            string target = Path.Combine(baseFolder, CurrentGameId.GameBiz);
+            string target = Path.Combine(baseFolder, GetInstallationDirectoryName());
             if (Path.IsPathFullyQualified(target))
             {
                 SetInstallationPath(Path.GetFullPath(target));
@@ -115,6 +120,13 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             _logger.LogError(ex, "Set default install path.");
         }
+    }
+
+    private string GetInstallationDirectoryName()
+    {
+        return HypergryphGameConstants.IsHypergryphGame(CurrentGameId.GameBiz)
+            ? HypergryphGameConstants.GetGameProfile(CurrentGameId.GameBiz).InstallationDirectory
+            : CurrentGameId.GameBiz;
     }
 
 
@@ -224,7 +236,7 @@ public sealed partial class InstallGameDialog : ContentDialog
         {
             if (value)
             {
-                SetInstallationPath(Path.Combine(_selectPath, CurrentGameId.GameBiz));
+                SetInstallationPath(Path.Combine(_selectPath, GetInstallationDirectoryName()));
             }
             else
             {
@@ -333,7 +345,7 @@ public sealed partial class InstallGameDialog : ContentDialog
                 _selectPath = path;
                 if (AutomaticallyCreateSubfolderForInstall)
                 {
-                    path = Path.Combine(path, CurrentGameId.GameBiz);
+                    path = Path.Combine(path, GetInstallationDirectoryName());
                 }
                 SetInstallationPath(path);
             }

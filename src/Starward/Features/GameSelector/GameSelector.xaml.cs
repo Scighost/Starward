@@ -10,6 +10,7 @@ using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
+using Starward.Features.Hypergryph;
 using Starward.Features.Setting;
 using Starward.Features.ViewHost;
 using Starward.Helpers;
@@ -154,16 +155,24 @@ public sealed partial class GameSelector : UserControl
 
     private List<GameInfo> GetCachedGameInfos()
     {
+        List<GameInfo> gameInfos = [];
         try
         {
             string? json = AppConfig.CachedGameInfo;
             if (!string.IsNullOrWhiteSpace(json))
             {
-                return JsonSerializer.Deserialize<List<GameInfo>>(json) ?? [];
+                gameInfos = JsonSerializer.Deserialize<List<GameInfo>>(json) ?? [];
             }
         }
         catch { }
-        return [];
+        foreach (GameBiz gameBiz in new GameBiz[] { GameBiz.arknights_cn, GameBiz.endfield_cn, GameBiz.endfield_global })
+        {
+            if (!gameInfos.Any(x => x.GameBiz == gameBiz))
+            {
+                gameInfos.Add(HypergryphGameMetadata.CreateGameInfo(gameBiz));
+            }
+        }
+        return gameInfos;
     }
 
 

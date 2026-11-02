@@ -162,6 +162,12 @@
   <data name="Game_GenshinImpact" xml:space="preserve">
     <value>原神</value>
   </data>
+  <data name="Game_Arknights" xml:space="preserve">
+    <value>明日方舟</value>
+  </data>
+  <data name="Game_ArknightsEndfield" xml:space="preserve">
+    <value>明日方舟：终末地</value>
+  </data>
   <data name="Game_HonkaiStarRail" xml:space="preserve">
     <value>崩坏：星穹铁道</value>
   </data>

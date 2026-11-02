@@ -21,6 +21,11 @@ public static class Program
     [global::System.STAThreadAttribute]
     static void Main(string[] args)
     {
+        if (args.Length > 0 && args[0] == Features.Hypergryph.EndfieldLauncher.Command)
+        {
+            Environment.ExitCode = Features.Hypergryph.EndfieldLauncher.RunHelper(args);
+            return;
+        }
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
 

@@ -151,6 +151,21 @@ public class GameSophonManifestUrl
     [JsonPropertyName("url_suffix")]
     public string UrlSuffix { get; set; }
 
+
+
+    public string BuildUrl(string id)
+    {
+        if (string.IsNullOrWhiteSpace(UrlSuffix))
+        {
+            return $"{UrlPrefix}/{id}";
+        }
+        else
+        {
+            return $"{UrlPrefix}/{id}?{UrlSuffix}";
+        }
+    }
+
+
 }
 
 

@@ -170,6 +170,42 @@ public class GameConfig
     [JsonPropertyName("enable_ldiff")]
     public bool EnableLdiff { get; set; }
 
+
+    [JsonPropertyName("scenario_pkg_info")]
+    public ScenarioPackageInfo ScenarioPackageInfo { get; set; }
+
+
+    [JsonPropertyName("local_scenario_config_path")]
+    public string LocalScenarioConfigPath { get; set; }
+
+
+    [JsonPropertyName("enable_full_pkg_recommend")]
+    public bool EnableFullPackageRecommend { get; set; }
+
+
+    [JsonPropertyName("enable_scenario_pkg")]
+    public bool EnableScenarioPackage { get; set; }
+
+
+    [JsonPropertyName("enable_dx_switch")]
+    public bool EnableDxSwitch { get; set; }
+
+
+    [JsonPropertyName("enable_write_verify_result")]
+    public bool EnableWriteVerifyResult { get; set; }
+
+
+    [JsonPropertyName("write_verify_result_path")]
+    public string WriteVerifyResultPath { get; set; }
+
+
+    [JsonPropertyName("enable_driver_upgrade_alert")]
+    public bool EnableDriverUpgradeAlert { get; set; }
+
+
+    [JsonPropertyName("disable_reservation_auto_download")]
+    public bool DisableReservationAutoDownload { get; set; }
+
 }
 
 
@@ -180,4 +216,26 @@ public abstract class DownloadMode
     public const string DOWNLOAD_MODE_CHUNK = "DOWNLOAD_MODE_CHUNK";
 
     public const string DOWNLOAD_MODE_LDIFF = "DOWNLOAD_MODE_LDIFF";
+}
+
+
+
+public class ScenarioPackageInfo
+{
+
+    [JsonPropertyName("full_pkg_name")]
+    public string FullPackageName { get; set; }
+
+
+    [JsonPropertyName("full_pkg_desc")]
+    public string FullPackageDescription { get; set; }
+
+
+    [JsonPropertyName("base_pkg_name")]
+    public string BasePackageName { get; set; }
+
+
+    [JsonPropertyName("base_pkg_desc")]
+    public string BasePackageDescription { get; set; }
+
 }

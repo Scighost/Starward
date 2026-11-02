@@ -71,21 +71,49 @@ public class GameInfoDisplay
     /// 大背景图
     /// </summary>
     [JsonPropertyName("background")]
-    public GameImage? Background { get; set; }
+    public GameImage Background { get; set; }
 
 
     /// <summary>
     /// 游戏Logo
     /// </summary>
     [JsonPropertyName("logo")]
-    public GameImage? Logo { get; set; }
+    public GameImage Logo { get; set; }
 
 
     /// <summary>
     /// 小缩略背景图
     /// </summary>
     [JsonPropertyName("thumbnail")]
-    public GameImage? Thumbnail { get; set; }
+    public GameImage Thumbnail { get; set; }
+
+
+    /// <summary>
+    /// 快捷方式图标
+    /// </summary>
+    [JsonPropertyName("shortcut")]
+    public GameImage Shortcut { get; set; }
+
+
+    /// <summary>
+    /// WPF 图标
+    /// </summary>
+    [JsonPropertyName("wpf_icon")]
+    public GameImage WpfIcon { get; set; }
+
+
+    /// <summary>
+    /// 左上角 Logo
+    /// </summary>
+    [JsonPropertyName("top_left_logo")]
+    public GameImage? TopLeftLogo { get; set; }
+
+
+    /// <summary>
+    /// 游戏介绍
+    /// </summary>
+    [JsonPropertyName("introduction")]
+    public string Introduction { get; set; }
 
 }
 

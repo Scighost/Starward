@@ -411,7 +411,10 @@ public sealed partial class AppBackground : UserControl
         if (BackgroundService.FileIsSupportedVideo(filePath))
         {
             StartMediaPlayer(filePath);
-            _ = PrepareVideoOverlayImageAsync(gameBackground.Theme.Url, cancellationToken);
+            if (!string.IsNullOrWhiteSpace(gameBackground.Theme?.Url))
+            {
+                _ = PrepareVideoOverlayImageAsync(gameBackground.Theme.Url, cancellationToken);
+            }
             _ = ChangeAccentColorToImageFileAsync(gameBackground.Background.Url, cancellationToken);
         }
         else
