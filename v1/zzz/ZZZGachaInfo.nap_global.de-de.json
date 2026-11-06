@@ -470,9 +470,33 @@
         "profession": 1
       },
       {
+        "id": 1611,
+        "name": "Claret",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1611.png",
+        "rarity": 4,
+        "element_type": 203,
+        "profession": 7
+      },
+      {
+        "id": 1621,
+        "name": "Roxy",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1621.png",
+        "rarity": 4,
+        "element_type": 204,
+        "profession": 2
+      },
+      {
+        "id": 1641,
+        "name": "Phoenix",
+        "icon": "https://act-webstatic.hoyoverse.com/game_record/zzzv2/role_square_avatar/role_square_avatar_1641.png",
+        "rarity": 4,
+        "element_type": 201,
+        "profession": 3
+      },
+      {
         "id": 12001,
         "name": "„Mondphase“ – Pleniluna",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/9e3d6693b1f5b15b1315e02e452d6122.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9087d41f70d59e9015c34f46b368df50.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -480,7 +504,7 @@
       {
         "id": 12002,
         "name": "„Mondphase“ – Abnehmend",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/0b2f62abc261a7111278503f3cb0d295.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/d8dde192c782d78542ffc43aa1c200f4.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -488,7 +512,7 @@
       {
         "id": 12003,
         "name": "„Mondphase“ – Noviluna",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/3c31eeb3e25e1bed4634ba2ad79266b4.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/00d01fb7d544d52a8e9c02e169324779.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 1
@@ -496,7 +520,7 @@
       {
         "id": 12004,
         "name": "„Nachhall“ – Typ I",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/7d260c71c65aa7252baab9a037cd7ac1.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/880146aa32113dd28275a1ba3a68ff1e.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -504,7 +528,7 @@
       {
         "id": 12005,
         "name": "„Nachhall“ – Typ II",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/952cea1f3a7f07d16020a063fc7dc6b4.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3b077e3843fd36061e58a71f908f864b.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -512,7 +536,7 @@
       {
         "id": 12006,
         "name": "„Nachhall“ – Typ III",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/b0e2511c894b8e051c60dabc1b047e1b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/2e8c5657ec3ef5fdf1ee722fb573e93b.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 4
@@ -520,7 +544,7 @@
       {
         "id": 12007,
         "name": "„Turbulenz“ – Revolver",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/8a1c43d188767b8bffdc5889d2fc0ef2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/d88d876c84c30df89b9a6f92939b8395.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -528,7 +552,7 @@
       {
         "id": 12008,
         "name": "„Turbulenz“ – Pfeil",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/9fbe134167e8d2328a8abc27b26732b9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3a2d5935972321c8605d912827afc19e.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -536,7 +560,7 @@
       {
         "id": 12009,
         "name": "„Turbulenz“ – Beil",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/e8627252603a9395ab7e9094c9930e65.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/a80263b831f65604a76d6e91705e4025.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 2
@@ -544,7 +568,7 @@
       {
         "id": 12010,
         "name": "„Magnetischer Sturm“ – Alpha",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/370f36aa0ec1e1c0c91a4b2cd30cc306.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9e8b4f2c5a00668ff372ed277bf54f27.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -552,7 +576,7 @@
       {
         "id": 12011,
         "name": "„Magnetischer Sturm“ – Bravo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ca9ce7a5751bf22362471e55e331759a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/d1025c9772e239fb68474bf276428230.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -560,7 +584,7 @@
       {
         "id": 12012,
         "name": "„Magnetischer Sturm“ – Charlie",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c9397772ff2b5b58a7ef29ae5d62c196.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/320ba37d967c01e190f806bd15369708.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 3
@@ -568,7 +592,7 @@
       {
         "id": 12013,
         "name": "„Identität“ – Basis",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4194796723e9b416a5b819bf7b4ef871.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/43bead15d68e1ed28a558e0be329c372.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -576,7 +600,7 @@
       {
         "id": 12014,
         "name": "„Identität“ – Flexion",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f68faab1ff724d9ca1cfbfa2b7a09223.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/de4b98820c6c2df726cc3aff6da3beeb.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 5
@@ -584,15 +608,23 @@
       {
         "id": 12015,
         "name": "„Asche“ – Kobalt",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/eb42871a76793ac57babde7cceee5c66.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/bfd1e437fbdab51867c23199d7fc027b.png",
         "rarity": 2,
         "element_type": 0,
         "profession": 6
       },
       {
+        "id": 12016,
+        "name": "„Mondphase“ – Semiluna",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/2b3287a9698959e1d0e76795d37cd1d0.png",
+        "rarity": 2,
+        "element_type": 0,
+        "profession": 7
+      },
+      {
         "id": 13001,
         "name": "Straßenstar",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/600322d1fb8fa3c890ee9b61f10f5a5d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f6e0e1de80c0be68664ebf8d3e609f5c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -600,7 +632,7 @@
       {
         "id": 13002,
         "name": "Zeitfragment",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ac85b9ec651ac106928c5e4069619cae.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/6c8fe7bb3451d2569e58622bd832b45e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -608,7 +640,7 @@
       {
         "id": 13003,
         "name": "Regenwald-Gourmet",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ca90d58b10d1ddb166c7279062c69067.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/84017eb92e04ba8130fe9771ded62439.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -616,7 +648,7 @@
       {
         "id": 13004,
         "name": "Sternenlicht-Engine",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/5bc53534adeb404c0b47ab56601a405f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/16574a3404ecf1ade04de470e8d0bc9a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -624,7 +656,7 @@
       {
         "id": 13005,
         "name": "Dampfofen",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ebcf9ae6bf7dd8336c014e9cf1ec31ad.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/fffdff969cb81ccb5c52e1fafd149f29.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -632,7 +664,7 @@
       {
         "id": 13006,
         "name": "Kostbarer Fossilkern",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c46cd24bf35168fa34d764d2c516c09f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/6000218a403afdedb6783b622f822486.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -640,7 +672,7 @@
       {
         "id": 13007,
         "name": "Original-Verwandler",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/da299b9209e0bb020b6eed869715ab19.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/1d81bfbefe1cbf59c5c837104ad34c1c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -648,7 +680,7 @@
       {
         "id": 13008,
         "name": "Weinende Gemini",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/64de636a98df5c34fbbe7c8c98dd834a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b58f14256fbccaccb846fc1e2b81d49e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -656,7 +688,7 @@
       {
         "id": 13009,
         "name": "Elektro-Lippenglanz",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/9ab8b27b8e957f5d3df905988a41fa8c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/338ba709d0b0e2dd819064677f39740e.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -664,7 +696,7 @@
       {
         "id": 13010,
         "name": "Häschenband",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/d5ea6f2c7078e0f3a9cbf82b294599ab.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/0569e9d6de5635cd9ec3b8c7c8fb3bb2.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -672,7 +704,7 @@
       {
         "id": 13011,
         "name": "Frühlingsumarmung",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/99bb4975e9e517b21ae08e75a6fb66e0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/32043676fe13d45a23d713a2fb2cbf4c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -680,7 +712,7 @@
       {
         "id": 13012,
         "name": "Rätselsphäre",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/3d1d2ed9b3d339f817428666a961d868.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f9dc58f989a20e643b4c4d851e6410dd.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -688,7 +720,7 @@
       {
         "id": 13013,
         "name": "Vergoldete Blüte",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/3ff58a6c4fce21b62d065f4134ecfe3d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/09d83b69d2f83fc3a017443e33069bb1.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -696,7 +728,7 @@
       {
         "id": 13014,
         "name": "Radiowellenreise",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ed8f7332ca4af4493ac2940c489ecf2a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/fdf254604b2f0e0773470ecb5d64738f.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -704,7 +736,7 @@
       {
         "id": 13015,
         "name": "Sehnsucht in Marcato",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c8565a37cabbf8a5facf9c5898d7e6ac.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3c6195dd6ad5d895e95109468830d527.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -712,15 +744,23 @@
       {
         "id": 13016,
         "name": "Filmrollenprojektor",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c130158323f7d510ca55b81085b170d7.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c358b3ae68ef13c3028e5f180baa3400.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
       },
       {
+        "id": 13017,
+        "name": "Enormiaues Glück",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/10e2b87ea2452446e83829d4efa5be56.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 7
+      },
+      {
         "id": 13018,
         "name": "Ausgelassene Echos",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ded263488407bfa6b0a1812b2fd0c6bf.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/bd6de8ae18320e88c90028d18d7db12d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -728,7 +768,7 @@
       {
         "id": 13019,
         "name": "Kessel der Klarheit",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/bc1e6acbab9e32deb2db9e9d7f678b0b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/468fb56daee2569e072fff3d4da10ccc.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -736,15 +776,31 @@
       {
         "id": 13020,
         "name": "Der simmernde Topf",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/99b30dce9a9382eb065b5992b4ae66af.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/32c53b6eed54dc6fe8a4fa89270bf370.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
       },
       {
+        "id": 13021,
+        "name": "Blutmarktruhe",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9dcc3cd0889415020d8d9f42425edc1a.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 7
+      },
+      {
+        "id": 13022,
+        "name": "Intrige im Kerzenlicht",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/100ca3fee0aa90523ad05a26ab803d7e.png",
+        "rarity": 3,
+        "element_type": 0,
+        "profession": 7
+      },
+      {
         "id": 13101,
         "name": "Demara-Batterie Typ II",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/2e31cf6daa5f7ad3d84ccb3e1691c1c6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e46d6498fbe5fd48ed11df3f3cfe4fb9.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -752,7 +808,7 @@
       {
         "id": 13103,
         "name": "Füllhorn",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/8aeda46bfbc651f0a78c908892362d17.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c6a08aaaa757d7ff71297aa97dc792ba.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -760,7 +816,7 @@
       {
         "id": 13106,
         "name": "Haushälter",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/191dc5a735aeea7e43e0a1755ac58597.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ce96855532440fe4d385a863d9f4a966.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -768,7 +824,7 @@
       {
         "id": 13108,
         "name": "Replikat der Sternenlicht-Engine",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/1b3d6267267400a32a002992bdf01361.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/5ae5d093815e89b36319ba7a2df9aea2.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -776,7 +832,7 @@
       {
         "id": 13111,
         "name": "Drehbohrer – Rote Achse",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ec1607b21a650a6d5126a75291a68921.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/95fdcd3b8cc7c73e626d4f2268fe4b97.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -784,7 +840,7 @@
       {
         "id": 13112,
         "name": "Big-Cylinder",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/90e67a4a10f34947ceab0b05d9afbffc.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/84ea1cfbcc5f4acbcab71654bc2092ed.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -792,7 +848,7 @@
       {
         "id": 13113,
         "name": "Verwegener Dämon",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/6644d799cf80b974555cd5d8a609d144.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/0fc26ecc4043cb6edb28aff6369afab0.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -800,7 +856,7 @@
       {
         "id": 13115,
         "name": "Kanone Kaboom",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/1744980fc0f47ed64c000d59d674012d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9fb5bce8d67624bfca4a16f5a5ff31c3.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -808,7 +864,7 @@
       {
         "id": 13127,
         "name": "Friedenswächter – Spezialisiert",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f0d458d97f38a1f7014f24763dc9f855.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/843a94778664508236d71fe3ccceb1ae.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -816,7 +872,7 @@
       {
         "id": 13128,
         "name": "Donnerndes Gefährt",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/8c7e56ca0953417fa4eaa2aa50e0215e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/61ab440bb6ced147ceea3f84bef6b473.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 3
@@ -824,7 +880,7 @@
       {
         "id": 13135,
         "name": "Kartonmesser",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a3e6b65a22acd4e5799a7a78ea85fa99.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ce80bac4b988d717af3e00e6ead19e41.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -832,7 +888,7 @@
       {
         "id": 13142,
         "name": "Schocktrigramm-Gefäß",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/596178d335eee126575ea7937ab16907.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/fdecab6955e475cf74c21ed27610a4c2.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 5
@@ -840,7 +896,7 @@
       {
         "id": 13144,
         "name": "Irres Grilllicht",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/3a0c28fbb6d146e7cb5f0e6b2909a6bd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b0954a1f7c3a6143bb960bdb99b33afa.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 6
@@ -848,7 +904,7 @@
       {
         "id": 14001,
         "name": "Kanonenrotor",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/27e1da3a838e3f2ca7678dceb2baa92c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/d0c3acb0c5607b803516d5a2b8cef4e6.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 1
@@ -856,7 +912,7 @@
       {
         "id": 14002,
         "name": "Ungezügelter Spielball",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/d5510f398c82fd20f1eab2d77ecce7bd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9a3f12b8ef63dc5e172bbed377d01ccc.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 4
@@ -864,7 +920,7 @@
       {
         "id": 14003,
         "name": "Revolver-Rotor",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ff0e6a43d74e039f46ad039c00904fc8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/aea653287ec25012a031d413297de42a.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 2
@@ -872,7 +928,7 @@
       {
         "id": 14102,
         "name": "Stahlpfote",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/1226bd23a7ede12c3eaf91433cd9b7e9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9e1e3cd931053489b85377635f9244be.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -880,7 +936,7 @@
       {
         "id": 14104,
         "name": "Schwefelstein",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/63fdec57c98792780b2acf14f59cb925.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9d011d7749099f57169e81a19fad6a03.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -888,7 +944,7 @@
       {
         "id": 14105,
         "name": "Krakenwiege",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/b02469d1817cc87fdcaf1c6280e9f39f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/620b1a4205afb279044a6ea0e00ba6ee.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -896,7 +952,7 @@
       {
         "id": 14107,
         "name": "Hauer der Furie",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/5217e3ac811c0bf757fb225c231c9807.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e0e22e66c6bb9e72116ff1918bbfeb92.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 5
@@ -904,7 +960,7 @@
       {
         "id": 14109,
         "name": "Schrein des Hagelsturms",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/83d0fbe178e680832b2a9dbeafc62ddb.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c97ff33b53d9ec847643651ad6a1a3d7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -912,7 +968,7 @@
       {
         "id": 14110,
         "name": "Höllenfeuer-Zahnräder",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/5d0374a64ab629e798607a848345124e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b786f03e5332661a3168465406c1cee8.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -920,7 +976,7 @@
       {
         "id": 14114,
         "name": "Der Gefesselte",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a4dddbebb0721a9eda62bbacdfbb24d8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/2fae2718cb6e01e95fb8110a8180d422.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -928,7 +984,7 @@
       {
         "id": 14116,
         "name": "Lodernde Lorbeeren",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/e3ff21b31cefa59f3189af799cd2b938.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/470682010a923c615dbb0f2da664bf69.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -936,7 +992,7 @@
       {
         "id": 14117,
         "name": "Entflammender Mixbecher",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/525a16bfc9ff73158218578cf92c04dd.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c918391e502dc02b3007fa02e6775f73.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -944,7 +1000,7 @@
       {
         "id": 14118,
         "name": "Integrierter Compiler",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a3c97269fec71502270cd5b09b2a675b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/64c74d01fea694d521cecac066b79b94.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -952,7 +1008,7 @@
       {
         "id": 14119,
         "name": "Tiefseebesucher",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/253a0ffa244a8b8d298c4b0592296e61.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/1020d985e9d0096bf82e0641bd874c29.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -960,7 +1016,7 @@
       {
         "id": 14120,
         "name": "Zanshin-Sanitätsorb",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/be10db0236c621b027324797e9f1b1a0.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b863cb8d213872f91e06f689badc81a1.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -968,7 +1024,7 @@
       {
         "id": 14121,
         "name": "Weinende Wiege",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/45cdbb7921ca4d016c4b176bae29fb57.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b7208cfbb31e6f1cf4bf00b1a6bd2791.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -976,7 +1032,7 @@
       {
         "id": 14122,
         "name": "Weberin der Zeit",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/8e21e10eb7a07cbd3f77875f01bb7b52.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/34ba9eb92bad560baccae072ab3dfc17.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -984,7 +1040,7 @@
       {
         "id": 14124,
         "name": "Krawall-Unterdrücker Typ VI",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/5ae9edfa608c76b78176fc127211b8b3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c6c1548f823179f0cb59b0319727f110.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -992,7 +1048,7 @@
       {
         "id": 14125,
         "name": "Teekanne aus Jade",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/e267ba2223017bd9e2b0c2f9da3c2c4a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/fa30f4d9767ae3e34a74563fc0c046dd.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1000,7 +1056,7 @@
       {
         "id": 14126,
         "name": "Geschliffener Stachel",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4abead7610c7b9706593b6c7840d5d7f.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/7d2ee4e7ba02b81f394559b3fadb7185.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1008,7 +1064,7 @@
       {
         "id": 14129,
         "name": "Myriadenfinsternis",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/d7a5f9c950bfb27858ec551d1fbc3758.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3970162cd1f417b49f9c05d04061a4cd.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1016,7 +1072,7 @@
       {
         "id": 14130,
         "name": "Angriffslustiges Geloder",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/40c655f3ba3bcaf8a6f0dd3f58a6d89b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/4b74c0dfc35d9a4dd829706d5e11a1e0.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1024,7 +1080,7 @@
       {
         "id": 14131,
         "name": "Elegante Kosmetiktasche",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/cae53105cd178f895a5fe8102dfade40.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/d407ccf4c04443df20e6702aabb2fb77.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -1032,7 +1088,7 @@
       {
         "id": 14132,
         "name": "Rührende Nachtmelodie",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f0c4e0bb0bd7819d76f42456daf09c1e.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f481a794c6b7d7933c1433db0dc96ee4.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1040,7 +1096,7 @@
       {
         "id": 14133,
         "name": "Träumereiflug",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/90a20421bc93c9c246d49826859a5d76.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/fac447f750f94f22d91b13113aaee2f9.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1048,7 +1104,7 @@
       {
         "id": 14134,
         "name": "Halbzuckerhäschen",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/6d2d55300a8b741dfdf1154de2f62f7c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9ba6461f7f9a37c0307db879958ad351.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 5
@@ -1056,7 +1112,7 @@
       {
         "id": 14136,
         "name": "Spektralvision",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/e10e3431c2ab98ef7667a4c1a42ef013.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/cc80ee0d777ea1250c495760d86e1f52.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1064,7 +1120,7 @@
       {
         "id": 14137,
         "name": "Käfig des Qingming",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f4cf37aaf4d0472a9748f51e84a19c2d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/05129168e7102c1d32d5901019f28f83.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -1072,7 +1128,7 @@
       {
         "id": 14138,
         "name": "Zerrissene Unschuld",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/970f0e92433327310a7d944d800f7801.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/6e23005715eabd162e6191e9fb36b073.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1080,7 +1136,7 @@
       {
         "id": 14139,
         "name": "Mäch-tiger Brüllofen",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/fcdad8acdd17d724d7b6b6eeae6152c8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ce190547c53fd70e77a16d8130e7ce8c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1088,7 +1144,7 @@
       {
         "id": 14140,
         "name": "Geübte Perfektion",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/b7344770b3fc44b03afa2ee8cccc578d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b446e69fb4f7f145c1084a7dd788b7d4.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1096,7 +1152,7 @@
       {
         "id": 14141,
         "name": "Metanukimorphose",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f971b46667d9a0e48292ab1ea927d177.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/46351ed7403d8b91ee7d687051495283.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -1104,7 +1160,7 @@
       {
         "id": 14143,
         "name": "Wolkenspaltglanz",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ce1195f5c5cf726f0c211d608d5f4bed.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/be9650197c68765f26845dab05bdbeef.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1112,7 +1168,7 @@
       {
         "id": 14145,
         "name": "Traumlichtherd",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/b65bb547027c90b456247a2147e90792.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/dbbf59a3f797325e5fbbad5610b54a05.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -1120,7 +1176,7 @@
       {
         "id": 14146,
         "name": "Cordis Germina",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/47f3e97beff752724703e5ef9c475f0a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ec02824b7904e6ef88a563b8b939ec1a.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1128,7 +1184,7 @@
       {
         "id": 14147,
         "name": "Zorniger Vajra",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/8529b9812aedc9e7536f3f26ecb8e006.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c6d2430ceddb132ee310b9ea7eb51ef9.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -1136,7 +1192,7 @@
       {
         "id": 14148,
         "name": "Anruf des Gestrigen",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/db5c174ed3fb5727921985637ca75581.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/525867b056febf9cedf67a14b61f30a7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1144,7 +1200,7 @@
       {
         "id": 14149,
         "name": "Gedankentakt",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/fca8df0982355f54a0d1202aee323ff6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/253862a9548d691b1e7519d0aa4cf374.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 4
@@ -1152,7 +1208,7 @@
       {
         "id": 14150,
         "name": "Engel in Verhüllung",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ec598ea198f4d86e5647f5f9183c9281.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/942044ab971d53218c7501c906954c23.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1160,7 +1216,7 @@
       {
         "id": 14151,
         "name": "Neon-Fantasie",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/970b4d8056e89a08f8b607f4c32e0cec.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/adff21006cb03a511f9b09797e55b122.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1168,7 +1224,7 @@
       {
         "id": 14152,
         "name": "Schlängelnde Spurensuche",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/00fb0ac1dbbb5f8bb4e743422b07f353.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b31e5fc83ad8f3f66813ee667ad08c0e.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1176,7 +1232,7 @@
       {
         "id": 14153,
         "name": "Sternenlicht-Bikervisier",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/3d8d5a63bdccf54cb4f50563c68ca705.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f1a3e98647aad25d8ff378a4da532434.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 6
@@ -1184,7 +1240,7 @@
       {
         "id": 14154,
         "name": "Frostschlitz-Sichel",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/615b64f8b3e7064a49fa3937651898f9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e5392c2b88ff5b73505fdd919d1d5ed4.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1192,7 +1248,7 @@
       {
         "id": 14155,
         "name": "Sol Exuvia",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4284775d30e5356dd758c61896e9b929.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/6ea6ff4a0ab7a9f4e78648a9b374c6ed.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
@@ -1200,7 +1256,7 @@
       {
         "id": 14156,
         "name": "Joyau Doré",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ca3164601b86694e5434c6275f7253c5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/83199cc2e726ba2f0cd613b952a5b82a.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1208,7 +1264,7 @@
       {
         "id": 14157,
         "name": "Leitendes Helferlein",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/dc88796787ca7c5ae176dbc4dc11ede1.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/7026e77b578cf858909ae83d8dddc250.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 2
@@ -1216,7 +1272,7 @@
       {
         "id": 14158,
         "name": "Ode der auferstandenen Flügel",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/1766a484fe171c79a57f509c93c091fe.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9ee9adbcc126daf9118e6b39cc379fb4.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 3
@@ -1224,15 +1280,39 @@
       {
         "id": 14159,
         "name": "Lobpreisung der Ritterin",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4058ffad4ba66a3622fc05edd1f91d9a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/974ad3916b011130c13583be1bbb717e.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 1
       },
       {
+        "id": 14161,
+        "name": "Blutroter Durst",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/6e2dd4514f7012e833c84cda20058576.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 7
+      },
+      {
+        "id": 14162,
+        "name": "Sarg des Karmesinmonds",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b052095fe4348cde136dadc940acc775.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 2
+      },
+      {
+        "id": 14164,
+        "name": "Feder der Wiedergeburt",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/70ebfb9805d48068f6b885a52be08132.png",
+        "rarity": 4,
+        "element_type": 0,
+        "profession": 3
+      },
+      {
         "id": 53001,
         "name": "Pinguinboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/399bc93ddc0fb48fd004e0ae55065046.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/12e8b89293e27879bbff5520a73aee84.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1240,7 +1320,7 @@
       {
         "id": 53002,
         "name": "Glücksboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a75031d44669d9400284097f28f5e876.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/a8f6d6ab1147b1293b32551e61251e0f.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1248,7 +1328,7 @@
       {
         "id": 53003,
         "name": "Entdeckerboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/48e8028fb8838b9de8d50992dba793ee.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/7115359b096fc9a9c09edd344a10c9c4.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1256,7 +1336,7 @@
       {
         "id": 53004,
         "name": "Sumoboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/00c2552326f0d2a1c20a7d1d548ec9cc.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f81443d1e1e68fef97a2bab53accd87d.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1264,7 +1344,7 @@
       {
         "id": 53005,
         "name": "Papierboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/180b193caf05f0febd4b02cde8b21db3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/8abdecdfa597605dc9a279cf603704cd.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1272,7 +1352,7 @@
       {
         "id": 53006,
         "name": "Tüteboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/44b46af6b9fb2294eb21115636460266.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f51cfc074261379b4bbf7c5497a32f66.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1280,7 +1360,7 @@
       {
         "id": 53007,
         "name": "Tränenboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f98be50344327cca6738b68047e2777a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/8c0f682c1235373db20d0e51444b3c0c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1288,7 +1368,7 @@
       {
         "id": 53008,
         "name": "Avocaboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a4eb18984be97a1578bb8269630792cf.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/061f971e5cb92c544eb08efed5290648.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1296,7 +1376,7 @@
       {
         "id": 53009,
         "name": "Zielscheiboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/d7cbefc742ce9949e20ccc1439a8157c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c30b333cd542d654f85b9505de266dfc.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1304,7 +1384,7 @@
       {
         "id": 53010,
         "name": "Elektroboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/a2785127f32a1d8e5530d4031c98fc0b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/981f02d13e5cda23cbc8e2a0a0f55de3.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1312,7 +1392,7 @@
       {
         "id": 53011,
         "name": "Magnetoboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c9087bd7020e6f36e5bb18296d1f78cc.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/65bd7b215b176e480c3f8b3bfc81d0fa.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1320,7 +1400,7 @@
       {
         "id": 53012,
         "name": "Baroboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/967bd12668940707cb8b2e7a0d04fa5a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/21fe5cc2a75e34510c41fed7c41c5219.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1328,7 +1408,7 @@
       {
         "id": 53013,
         "name": "Böseboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/c04e59f09bde967b0d5c439b62cf0569.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/a3151c50212034826ca354b9732131a8.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1336,7 +1416,7 @@
       {
         "id": 53014,
         "name": "Überstundenboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/32ef32ed02b9f0202cb71d0b2cdc726d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/47cb0a7b28e76e6d7a2dd3dbec947464.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1344,7 +1424,7 @@
       {
         "id": 53015,
         "name": "Rauferboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/31ed4145c1412bb58442f15f0f40379d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/879c562b2d9d763befc139da64c428ea.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1352,7 +1432,7 @@
       {
         "id": 53016,
         "name": "Excaliboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/48a1a6ba757d58da47fcdc1c2b728a99.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ab21a0e54425e548e961cb12dbe515f6.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1360,7 +1440,7 @@
       {
         "id": 53017,
         "name": "Ritterboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/30abbc1db73d9d2134f9709a01fa085a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ca14ae40a6e32591a0b932d5df07998c.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1368,7 +1448,7 @@
       {
         "id": 53019,
         "name": "Bild N. Boolok",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/fdc539f18e487d67fb57af38c664b6ac.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3c2952a25588ddd99bf1ba8e0f01a2cf.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1376,7 +1456,7 @@
       {
         "id": 53021,
         "name": "Booltergeist",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/137ad4ac6ef42167487c6d46046e4a4a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/efc9bcb152462ba46754fd19f868ceb7.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1384,7 +1464,7 @@
       {
         "id": 54001,
         "name": "Haiboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/5f2e58e92425a13e681e0dfd76a4a4b5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/9b8957095f90bb84a27650b7770cbdee.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1392,7 +1472,7 @@
       {
         "id": 54002,
         "name": "Sicherheitsboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/63945aead0f5cef16f5b0395d594b44c.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/a1964eba91a8d91739bc054bb8138cc3.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1400,7 +1480,7 @@
       {
         "id": 54003,
         "name": "Teufelsboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f1d43bb995138990d29013c05d8e5a8a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e53923434eaf321dfd80b277b9f4a140.png",
         "rarity": 3,
         "element_type": 0,
         "profession": 0
@@ -1408,7 +1488,7 @@
       {
         "id": 54004,
         "name": "Butler",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/99db4c70ab322675c4b8f9607a00f2b2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f146b697fec3cb6d5232894c74368c39.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1416,7 +1496,7 @@
       {
         "id": 54005,
         "name": "Amillion",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4a548d6192b701e0ef0652d31b62ae96.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/776ee23574a9aa3fe4b9e441f9021a7f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1424,7 +1504,7 @@
       {
         "id": 54006,
         "name": "Raketenboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/85b45085bbcdb459ab004713254a28b5.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e79747f4796d54c7d12f3e74fab34ac9.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1432,7 +1512,7 @@
       {
         "id": 54008,
         "name": "Plugboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/407233c326ee828e21e5f25c1145fa93.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/0081996b796cb7de4fb0b3405821501f.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1440,7 +1520,7 @@
       {
         "id": 54009,
         "name": "Resonanzboo",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/ede159f4c9551393dee5493c7f0288b3.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/e3dac079eb37878a205eaf68f5dd72fc.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1448,7 +1528,7 @@
       {
         "id": 54010,
         "name": "Größter Fan",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/84e91f76ef7521784b28dc7c9103c2d9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/817a0c40a567100def53522f8c5236eb.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1456,7 +1536,7 @@
       {
         "id": 54011,
         "name": "Rotes Moccus",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/90b93a5b7ca88cf7883568defc1ce0c9.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/0e7401c48e3f4a580877f0b2f4b5c340.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1464,7 +1544,7 @@
       {
         "id": 54012,
         "name": "Offizier Cui",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f257371e49d85b956fd9c0b3dcac830a.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/c58591fa19ed0a75f4c80f96ee3f5ed9.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1472,7 +1552,7 @@
       {
         "id": 54013,
         "name": "Bangvolver",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/f5a380b84e931765d68eac0550edefd8.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b8eb11b0fd67fd9289e69ea31ebd2002.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1480,7 +1560,7 @@
       {
         "id": 54014,
         "name": "Agent Gulliver",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/0ad36fa56a9549c21199922ec8c1f9e6.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/f31058a550e702fa7d6be8024e6196e8.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1488,7 +1568,7 @@
       {
         "id": 54015,
         "name": "Snap",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/d27b13906290ce821f513b3735ec6e33.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/83313770a62e4a6de2c652ce98178345.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1496,7 +1576,7 @@
       {
         "id": 54016,
         "name": "Robin",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/76f238a36e92366db4c95e98c4e58eec.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/ed012abda3b1d1c1dafe7edd5d4b248b.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1504,7 +1584,7 @@
       {
         "id": 54017,
         "name": "Belion",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/69e8e5b68aa19fdcf18e05f843b40ed1.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/558c2a98d7fcbfa1a31c0c0ddfc9f9e6.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1512,7 +1592,7 @@
       {
         "id": 54018,
         "name": "Miss Esme",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/4678e00396d2ea94280d29bb93096c2d.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/30228c32a67591ec349c3465351e85f7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1520,7 +1600,7 @@
       {
         "id": 54019,
         "name": "Mercury",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/0c15df2157214a6143c56e6df8f9de73.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/4b7cf30402020e675e05e97d12fda0c7.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1528,7 +1608,7 @@
       {
         "id": 54020,
         "name": "Birkblick",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/379e9a658a61d6819123d49eb10e5832.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/29ea85151b27c61ef984c99d47c30199.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1536,7 +1616,7 @@
       {
         "id": 54021,
         "name": "Sprout",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/2d6fe152d5d1fb5509b5f38024d0d72b.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/78f43e2645df9382fbab21b679d98a23.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1544,7 +1624,7 @@
       {
         "id": 54022,
         "name": "Ultra-Jake",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/97365b761420558720d4c1ffd68f61b2.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/3454f35eee208f8b23ad8f0af84eaf50.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
@@ -1552,7 +1632,7 @@
       {
         "id": 54023,
         "name": "Ariel",
-        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_u9039d/7006ef3faf50cf9bdc64509bb3629474.png",
+        "icon": "https://act-webstatic.hoyoverse.com/darkmatter/nap/prod_gf_cn/item_icon_ua8fhe/b84bd231b2366d30812f4427deee431c.png",
         "rarity": 4,
         "element_type": 0,
         "profession": 0
