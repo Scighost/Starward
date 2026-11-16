@@ -236,7 +236,7 @@
     <value>喧响测试</value>
   </data>
   <data name="GameServer_ChinaOfficial" xml:space="preserve">
-    <value>中国官方</value>
+    <value>中国官方版</value>
   </data>
   <data name="GameServer_GlobalOfficial" xml:space="preserve">
     <value>全球官方</value>
