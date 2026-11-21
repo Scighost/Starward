@@ -120,6 +120,42 @@ public sealed class HypergryphLauncherClient
         return GetVerifiedBytesAsync(patch.V2VerifyFilesUrl, patch.V2VerifyFilesSize, patch.V2VerifyFilesMD5, cancellationToken);
     }
 
+    public async Task<string?> GetEndfieldMainResourceIndexAsync(GameBiz gameBiz, string installedManifestMD5, CancellationToken cancellationToken)
+    {
+        HypergryphLatestGame latest = await GetLatestGameAsync(gameBiz, null, cancellationToken);
+        if (!string.Equals(latest.Package.GameFilesMD5, installedManifestMD5, StringComparison.OrdinalIgnoreCase)
+            || !Uri.TryCreate(latest.Package.FilePath, UriKind.Absolute, out Uri? packageUri)
+            || !Uri.TryCreate(HypergryphGameConstants.GetGameProfile(gameBiz).BatchProxyUrl, UriKind.Absolute, out Uri? proxyUri))
+        {
+            return null;
+        }
+        string[] path = packageUri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        if (path.Length < 4)
+        {
+            return null;
+        }
+        string[] seed = path[^2].Split('_', 2);
+        if (seed.Length != 2)
+        {
+            return null;
+        }
+        string appCode = HypergryphGameConstants.GetGameProfile(gameBiz).GameAppCode;
+        string endpoint = new Uri(proxyUri, "/api/game/get_latest_resources").AbsoluteUri;
+        string query = $"appcode={appCode}&platform=Windows&game_version={Uri.EscapeDataString(path[1])}"
+            + $"&version={Uri.EscapeDataString(seed[0])}&rand_str={Uri.EscapeDataString(seed[1])}";
+        using Stream response = await _httpClient.GetStreamAsync($"{endpoint}?{query}", cancellationToken);
+        using JsonDocument document = await JsonDocument.ParseAsync(response, cancellationToken: cancellationToken);
+        foreach (JsonElement resource in document.RootElement.GetProperty("resources").EnumerateArray())
+        {
+            if (resource.GetProperty("name").GetString() == "main"
+                && resource.GetProperty("path").GetString() is string resourcePath)
+            {
+                return await _httpClient.GetStringAsync($"{resourcePath.TrimEnd('/')}/index_main.json", cancellationToken);
+            }
+        }
+        return null;
+    }
+
     private async Task<byte[]> GetVerifiedBytesAsync(string url, long size, string md5, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(url))

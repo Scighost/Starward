@@ -472,6 +472,7 @@ internal partial class GameLauncherService
 
             if (!thirdPartyTool && HypergryphGameConstants.IsEndfield(gameId.GameBiz))
             {
+                await TryShareEndfieldVoiceFilesAsync(gameId.GameBiz, Path.GetDirectoryName(exe)!);
                 _logger.LogInformation("Start Endfield with a signed auxiliary parent: {Path}", exe);
                 Process game = await EndfieldLauncher.StartAsync(exe, arg);
                 await _playTimeRecorderService.StartProcessToLogAsync(gameId, game.Id);
