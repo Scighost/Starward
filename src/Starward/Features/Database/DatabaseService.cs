@@ -72,6 +72,21 @@ internal static class DatabaseService
             {
                 con.Execute(sql);
             }
+            if (version < 24)
+            {
+                // The upstream merge added schema changes to v20/v21 after existing
+                // Hypergryph databases had already reached v23. Repair both layouts.
+                using var transaction = con.BeginTransaction();
+                foreach (string column in new[] { "HasHard", "HardTotalScore", "HardTotalStar" })
+                {
+                    if (con.ExecuteScalar<int>("SELECT COUNT(*) FROM pragma_table_info('ZZZDeadlyAssaultInfo') WHERE name = @column;", new { column }, transaction) == 0)
+                    {
+                        con.Execute($"ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN {column} INTEGER DEFAULT 0 NOT NULL;", transaction: transaction);
+                    }
+                }
+                con.Execute(Sql_v24, transaction: transaction);
+                transaction.Commit();
+            }
         }
     }
 
@@ -259,6 +274,8 @@ internal static class DatabaseService
         Sql_v19,
         Sql_v20,
         Sql_v21,
+        Sql_v22,
+        Sql_v23
     ];
 
 
@@ -1029,6 +1046,38 @@ internal static class DatabaseService
     private const string Sql_v20 = """
         BEGIN TRANSACTION;
 
+        CREATE TABLE IF NOT EXISTS EndfieldGachaAccount
+        (
+            AccountKey   TEXT PRIMARY KEY,
+            Uid          TEXT NOT NULL,
+            RoleId       TEXT NOT NULL,
+            RoleName     TEXT,
+            ServerId     TEXT NOT NULL,
+            ServerName   TEXT,
+            LastSyncTime TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS EndfieldGachaItem
+        (
+            AccountKey  TEXT    NOT NULL,
+            RecordType  TEXT    NOT NULL,
+            SeqId       TEXT    NOT NULL,
+            ItemId      TEXT,
+            ItemName    TEXT    NOT NULL,
+            ItemType    TEXT,
+            Rarity      INTEGER NOT NULL,
+            IsNew       INTEGER NOT NULL,
+            IsFree      INTEGER NOT NULL,
+            PoolId      TEXT,
+            PoolName    TEXT,
+            PoolType    TEXT,
+            GachaTime   TEXT    NOT NULL,
+            PRIMARY KEY (AccountKey, RecordType, SeqId)
+        );
+        CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_AccountType ON EndfieldGachaItem (AccountKey, RecordType);
+        CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Pool ON EndfieldGachaItem (PoolType, PoolId);
+        CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Rarity ON EndfieldGachaItem (Rarity);
+
         ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HasHard INTEGER DEFAULT 0 NOT NULL;
         ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalScore INTEGER DEFAULT 0 NOT NULL;
         ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
@@ -1039,6 +1088,13 @@ internal static class DatabaseService
 
     private const string Sql_v21 = """
         BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS EndfieldGachaAuth
+        (
+            AccountKey TEXT PRIMARY KEY,
+            LoginToken BLOB NOT NULL,
+            UpdateTime TEXT NOT NULL
+        );
 
         UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
 
@@ -1056,6 +1112,75 @@ internal static class DatabaseService
 
         PRAGMA USER_VERSION = 21;
         COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v22 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS EndfieldGachaInfo
+        (
+            RecordType TEXT NOT NULL,
+            ItemId     TEXT NOT NULL,
+            IconId     TEXT,
+            Icon       TEXT NOT NULL,
+            PRIMARY KEY (RecordType, ItemId)
+        );
+
+        PRAGMA USER_VERSION = 22;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v23 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS EndfieldAccountRecord
+        (
+            AccountKey  TEXT    NOT NULL,
+            RecordType  TEXT    NOT NULL,
+            Id          TEXT    NOT NULL,
+            Category    INTEGER NOT NULL,
+            TypeName    TEXT,
+            Title       TEXT,
+            Subtitle    TEXT,
+            Detail      TEXT,
+            Icon        TEXT,
+            Timestamp   INTEGER NOT NULL,
+            Amount      INTEGER NOT NULL,
+            HasAmount   INTEGER NOT NULL,
+            CountValue  INTEGER NOT NULL,
+            PRIMARY KEY (AccountKey, RecordType, Id)
+        );
+        CREATE INDEX IF NOT EXISTS IX_EndfieldAccountRecord_AccountTime
+        ON EndfieldAccountRecord (AccountKey, Timestamp DESC);
+        CREATE INDEX IF NOT EXISTS IX_EndfieldAccountRecord_AccountType
+        ON EndfieldAccountRecord (AccountKey, RecordType);
+
+        CREATE TABLE IF NOT EXISTS EndfieldAccountRecordSync
+        (
+            AccountKey TEXT PRIMARY KEY,
+            UpdateTime TEXT NOT NULL
+        );
+
+        PRAGMA USER_VERSION = 23;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v24 = """
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
+
+        PRAGMA USER_VERSION = 24;
         """;
 
     #endregion

@@ -2726,6 +2726,9 @@
   <data name="GameLauncherPage_LaunchWithDX12" xml:space="preserve">
     <value>使用 DX12 啟動</value>
   </data>
+  <data name="GameLauncherPage_LaunchWithDX11" xml:space="preserve">
+    <value>使用 DX11 啟動</value>
+  </data>
   <data name="GameLauncherPage_DetailsGt" xml:space="preserve">
     <value>說明 &gt;</value>
   </data>

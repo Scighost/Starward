@@ -8,6 +8,7 @@ using NuGet.Versioning;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
+using Starward.Features.Gacha.Endfield;
 using Starward.Features.GameLauncher;
 using Starward.Features.GamepadControl;
 using Starward.Features.GameRecord;
@@ -132,7 +133,8 @@ public sealed partial class MainView : UserControl
         NavigationViewItem_Launcher.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameLauncherPage)).ToVisibility();
         NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameSettingPage)).ToVisibility();
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(ScreenshotPage)).ToVisibility();
-        NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
+        NavigationViewItem_GachaLog.Visibility = (CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)) ||
+                                                   CurrentGameFeatureConfig.SupportedPages.Contains(nameof(EndfieldGachaPage))).ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameRecordPage)).ToVisibility();
         NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(SelfQueryPage)).ToVisibility();
         NavigationViewItem_GenshinBeyondGacha.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GenshinBeyondGachaPage)).ToVisibility();
@@ -143,8 +145,11 @@ public sealed partial class MainView : UserControl
             GameBiz.hk4e => Lang.GachaLogService_WishRecords,
             GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
             GameBiz.nap => Lang.GachaLogService_SignalSearchRecords,
+            GameBiz.endfield => "寻访记录",
             _ => "",
         };
+        TextBlock_GachaLog.Text = gachalogText;
+        ToolTipService.SetToolTip(NavigationViewItem_GachaLog, gachalogText);
 
         if (CurrentGameId?.GameBiz.IsChinaServer() ?? false)
         {
@@ -190,7 +195,9 @@ public sealed partial class MainView : UserControl
                         nameof(GameLauncherPage) => typeof(GameLauncherPage),
                         nameof(GameSettingPage) => typeof(GameSettingPage),
                         nameof(ScreenshotPage) => typeof(ScreenshotPage),
-                        nameof(GachaLogPage) => typeof(GachaLogPage),
+                        nameof(GachaLogPage) => CurrentGameId?.GameBiz.Game == GameBiz.endfield
+                            ? typeof(EndfieldGachaPage)
+                            : typeof(GachaLogPage),
                         nameof(GameRecordPage) => typeof(GameRecordPage),
                         nameof(SelfQueryPage) => typeof(SelfQueryPage),
                         nameof(GenshinBeyondGachaPage) => typeof(GenshinBeyondGachaPage),

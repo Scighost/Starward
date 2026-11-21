@@ -664,7 +664,14 @@ internal partial class GameInstallHelper
     /// <param name="file"></param>
     /// <param name="percentRatio"></param>
     /// <param name="cancellationToken"></param>
-    public async Task ExtractCompressedPackageAsync(GameInstallContext task, GameInstallFile file, double percentRatio, CancellationToken cancellationToken = default)
+    public async Task ExtractCompressedPackageAsync(
+        GameInstallContext task,
+        GameInstallFile file,
+        double percentRatio,
+        CancellationToken cancellationToken = default,
+        string? password = null,
+        string? destinationPath = null,
+        bool applyPackageDiff = true)
     {
         if (file.DownloadMode is not GameInstallDownloadMode.CompressedPackage)
         {
@@ -677,7 +684,9 @@ internal partial class GameInstallHelper
         }
         _logger.LogInformation("GameInstallTask ({GameBiz}): Extracting compressed package {file}", task.GameId.GameBiz, files[0]);
         using FileCombinedStream fs = new FileCombinedStream(files);
-        using var archive = new SharpSevenZipExtractor(fs, leaveOpen: true);
+        using SharpSevenZipExtractor archive = string.IsNullOrEmpty(password)
+            ? new SharpSevenZipExtractor(fs, leaveOpen: true)
+            : new SharpSevenZipExtractor(fs, password);
 
         double lastPercent = task.Progress_Percent;
         double extractRatio = percentRatio;
@@ -693,7 +702,7 @@ internal partial class GameInstallHelper
         };
         try
         {
-            Task extractTask = Task.Run(() => archive.ExtractArchive(task.InstallPath), cancellationToken);
+            Task extractTask = Task.Run(() => archive.ExtractArchive(destinationPath ?? task.InstallPath), cancellationToken);
             while (!extractTask.IsCompleted)
             {
                 await Task.Delay(50, CancellationToken.None);
@@ -710,7 +719,10 @@ internal partial class GameInstallHelper
             throw new OperationCanceledException("Decompress operation canceled.");
         }
         task.Progress_Percent = lastPercent + extractRatio;
-        await PatchCompressedPackageDiffFilesAsync(task, file, halfRatio, cancellationToken);
+        if (applyPackageDiff)
+        {
+            await PatchCompressedPackageDiffFilesAsync(task, file, halfRatio, cancellationToken);
+        }
         task.Progress_Percent = lastPercent + percentRatio;
         _logger.LogInformation("GameInstallTask ({GameBiz}): Extract compressed package finished {file}", task.GameId.GameBiz, files[0]);
     }

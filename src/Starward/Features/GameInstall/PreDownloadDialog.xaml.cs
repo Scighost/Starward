@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Features.HoYoPlay;
 using Starward.Helpers;
 using Starward.RPC.GameInstall;
@@ -87,6 +88,8 @@ public sealed partial class PreDownloadDialog : ContentDialog
 
     private GameSophonPatchBuild? _gameSophonPatchBuild;
 
+    private HypergryphGamePatch? _hypergryphPrePatch;
+
     private AudioLanguage _audioLanguage;
 
     private List<string> _ignoreMatchingFields;
@@ -113,6 +116,20 @@ public sealed partial class PreDownloadDialog : ContentDialog
                 return;
             }
             _localGameVersion = version.ToString();
+            if (HypergryphGameConstants.IsHypergryphGame(CurrentGameId.GameBiz))
+            {
+                _hypergryphPrePatch = await _gamePackageService.GetHypergryphPreDownloadPatchAsync(CurrentGameId, _installationPath);
+                if (_hypergryphPrePatch is null)
+                {
+                    _logger.LogWarning("Hypergryph pre-download package of ({GameBiz}) is null.", CurrentGameId.GameBiz);
+                    TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
+                    return;
+                }
+                _audioLanguage = AudioLanguage.None;
+                await ComputePackageSizeAsync();
+                CheckCanPreDownload();
+                return;
+            }
             // 游戏配置
             GameConfig? config = await _hoYoPlayService.GetGameConfigAsync(CurrentGameId);
             if (config is null)
@@ -164,6 +181,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
         catch (Exception ex)
         {
             _logger.LogError(ex, "Get game package.");
+            TextBlock_PredownloadUnavailable.Visibility = Visibility.Visible;
         }
     }
 
@@ -199,7 +217,12 @@ public sealed partial class PreDownloadDialog : ContentDialog
         {
             AvailableSpaceBytes = DriveHelper.GetDriveAvailableSpace(_installationPath);
             long size = 0, unzipSize = 0;
-            if (_gamePackage is not null)
+            if (_hypergryphPrePatch is not null)
+            {
+                size = _hypergryphPrePatch.DownloadParts.Sum(x => x.PackageSize);
+                unzipSize = _hypergryphPrePatch.TotalSize > 0 ? _hypergryphPrePatch.TotalSize : size;
+            }
+            else if (_gamePackage is not null)
             {
                 if (_gamePackage.PreDownload.Patches.FirstOrDefault(x => x.Version == _localGameVersion) is GamePackageResource patch)
                 {
@@ -317,7 +340,7 @@ public sealed partial class PreDownloadDialog : ContentDialog
     {
         try
         {
-            if (_gamePackage is not null || _gameSophonChunkBuild is not null || _gameSophonPatchBuild is not null)
+            if (_hypergryphPrePatch is not null || _gamePackage is not null || _gameSophonChunkBuild is not null || _gameSophonPatchBuild is not null)
             {
                 if (Path.IsPathFullyQualified(_installationPath) && !string.IsNullOrWhiteSpace(_localGameVersion))
                 {

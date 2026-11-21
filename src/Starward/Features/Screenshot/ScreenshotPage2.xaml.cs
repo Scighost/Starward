@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
+using Starward.Core.Hypergryph;
 using Starward.Features.GameLauncher;
 using Starward.Features.HoYoPlay;
 using Starward.Frameworks;
@@ -52,6 +53,7 @@ public sealed partial class ScreenshotPage2 : PageBase
             GameBiz.hkrpg => new BitmapImage(AppConfig.EmojiPom),
             GameBiz.bh3 => new BitmapImage(AppConfig.EmojiAI),
             GameBiz.nap => new BitmapImage(AppConfig.EmojiBangboo),
+            GameBiz.endfield => new BitmapImage(new Uri(HypergryphGameConstants.EndfieldIcon)),
             _ => null,
         };
     }
@@ -241,14 +243,17 @@ public sealed partial class ScreenshotPage2 : PageBase
             {
                 folder = Path.Join(AppConfig.UserDataFolder, "Screenshots");
             }
-            folder = Path.Join(folder, name);
+            folder = Path.Join(folder, name ?? CurrentGameBiz.Game);
             Directory.CreateDirectory(folder);
             backupFolder = folder;
             string? installPath = GameLauncherService.GetGameInstallPath(CurrentGameId);
-            folder = Path.Join(installPath, relativePath);
-            if (Directory.Exists(folder))
+            if (!string.IsNullOrWhiteSpace(installPath) && !string.IsNullOrWhiteSpace(relativePath))
             {
-                screenshotFolder = folder;
+                folder = Path.Join(installPath, relativePath);
+                if (Directory.Exists(folder))
+                {
+                    screenshotFolder = folder;
+                }
             }
             return (backupFolder, screenshotFolder);
         }

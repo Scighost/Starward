@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
+using Starward.Core.Hypergryph;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameSelector;
 using Starward.Frameworks;
@@ -47,6 +48,7 @@ public sealed partial class GameSettingPage : PageBase
             GameBiz.hk4e => new BitmapImage(AppConfig.EmojiPaimon),
             GameBiz.hkrpg => new BitmapImage(AppConfig.EmojiPom),
             GameBiz.nap => new BitmapImage(AppConfig.EmojiBangboo),
+            GameBiz.endfield => new BitmapImage(new Uri(HypergryphGameConstants.EndfieldIcon)),
             _ => null,
         };
         if (CurrentGameId.GameBiz == GameBiz.bh3_global)

@@ -8,10 +8,12 @@ using Starward.Core.Gacha.ZZZ;
 using Starward.Core.GameNotice;
 using Starward.Core.GameRecord;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Core.SelfQuery;
 using Starward.Features.Background;
 using Starward.Features.Database;
 using Starward.Features.Gacha;
+using Starward.Features.Gacha.Endfield;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameAccount;
 using Starward.Features.GameInstall;
@@ -55,6 +57,7 @@ public static partial class AppConfig
             sc.AddHttpClient().ConfigureHttpClientDefaults(ConfigDefaultHttpClient);
 
             sc.AddSingleton<HoYoPlayClient>();
+            sc.AddSingleton<HypergryphLauncherClient>();
             sc.AddSingleton<GameNoticeClient>();
             sc.AddSingleton<HoYoPlayService>();
             sc.AddSingleton<BackgroundService>();
@@ -74,6 +77,7 @@ public static partial class AppConfig
             sc.AddSingleton<UIGFGachaService>();
             sc.AddSingleton<GenshinBeyondGachaClient>();
             sc.AddSingleton<GenshinBeyondGachaService>();
+            sc.AddSingleton<EndfieldGachaService>();
 
             sc.AddSingleton<HoyolabClient>();
             sc.AddSingleton<HyperionClient>();

@@ -6,6 +6,7 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Features.Background;
 using Starward.Features.CloudGame;
 using Starward.Features.GameInstall;
@@ -91,6 +92,7 @@ public sealed partial class GameLauncherPage : PageBase
     private void InitializeGameFeature()
     {
         GameFeatureConfig feature = GameFeatureConfig.FromGameId(CurrentGameId);
+        EnableDX11 = HypergryphGameConstants.IsEndfield(CurrentGameBiz) && AppConfig.GetEnableDX11(CurrentGameBiz);
         if (feature.SupportCloudGame)
         {
             Button_CloudGame.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -108,6 +110,7 @@ public sealed partial class GameLauncherPage : PageBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(InstalledLocateGameEnabled))]
+    [NotifyPropertyChangedFor(nameof(IsDX11OptionVisible), nameof(IsGraphicsOptionsVisible))]
     public partial GameState GameState { get; set; }
 
 
@@ -253,7 +256,36 @@ public sealed partial class GameLauncherPage : PageBase
     /// <summary>
     /// 是否显示 DX12 选项
     /// </summary>
-    public bool IsDX12OptionVisible { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphicsOptionsVisible))]
+    public partial bool IsDX12OptionVisible { get; set; }
+
+    /// <summary>
+    /// 是否显示 DX11 选项
+    /// </summary>
+    public bool IsDX11OptionVisible => HypergryphGameConstants.IsEndfield(CurrentGameBiz)
+        && GameState is GameState.StartGame or GameState.GameIsRunning or GameState.UpdateGame;
+
+    public bool IsGraphicsOptionsVisible => IsDX11OptionVisible || IsDX12OptionVisible;
+
+    /// <summary>
+    /// 使用 DX11 启动
+    /// </summary>
+    public bool EnableDX11
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SetEnableDX11(CurrentGameBiz, value);
+                if (value && EnableDX12)
+                {
+                    EnableDX12 = false;
+                }
+            }
+        }
+    }
 
 
     /// <summary>
@@ -273,6 +305,10 @@ public sealed partial class GameLauncherPage : PageBase
             if (SetProperty(ref field, value))
             {
                 AppConfig.SetEnableDX12(CurrentGameBiz, value);
+                if (value && EnableDX11)
+                {
+                    EnableDX11 = false;
+                }
             }
         }
     }
@@ -330,6 +366,10 @@ public sealed partial class GameLauncherPage : PageBase
     {
         try
         {
+            if (HypergryphGameConstants.IsEndfield(CurrentGameBiz))
+            {
+                return;
+            }
             EnableDX12 = AppConfig.GetEnableDX12(CurrentGameBiz);
             if (EnableDX12)
             {

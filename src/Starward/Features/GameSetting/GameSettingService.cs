@@ -30,6 +30,12 @@ internal static class GameSettingService
     // 1 full, 3 window
     private const string Screenmanager_Fullscreen_mode_h3630240806 = "Screenmanager Fullscreen mode_h3630240806";
 
+    private const string Endfield_Video_FullScreen = "video_full_screen_h1998742411";
+    private const string Endfield_Video_Resolution_Width = "video_resolution_width_h583690364";
+    private const string Endfield_Video_Resolution_Height = "video_resolution_height_h2517654917";
+    private const string Screenmanager_Resolution_Window_Width = "Screenmanager Resolution Window Width_h2524650974";
+    private const string Screenmanager_Resolution_Window_Height = "Screenmanager Resolution Window Height_h1684712807";
+
 
     private const string GENERAL_DATA_V2_ScreenSettingData_h1916288658 = "GENERAL_DATA_V2_ScreenSettingData_h1916288658";
 
@@ -74,6 +80,21 @@ internal static class GameSettingService
                 return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
             }
         }
+        if (biz.ToGame() == GameBiz.endfield)
+        {
+            object? endfieldFullScreen = Registry.GetValue(keyPath, Endfield_Video_FullScreen, null);
+            var fullScreen = endfieldFullScreen is int value
+                ? value != 0
+                : (int)(Registry.GetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, 3) ?? 3) != 3;
+            var width = (int)(Registry.GetValue(keyPath, Endfield_Video_Resolution_Width,
+                Registry.GetValue(keyPath, Screenmanager_Resolution_Width_h182942802, 0)) ?? 0);
+            var height = (int)(Registry.GetValue(keyPath, Endfield_Video_Resolution_Height,
+                Registry.GetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, 0)) ?? 0);
+            if (width * height > 0)
+            {
+                return new GraphicsSettings_PCResolution_h431323223 { Width = width, Height = height, IsFullScreen = fullScreen };
+            }
+        }
         return null;
     }
 
@@ -109,6 +130,20 @@ internal static class GameSettingService
             Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
             Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+        }
+        if (biz.ToGame() == GameBiz.endfield)
+        {
+            Registry.SetValue(keyPath, Endfield_Video_FullScreen, model.IsFullScreen ? 1 : 0);
+            Registry.SetValue(keyPath, Endfield_Video_Resolution_Width, model.Width);
+            Registry.SetValue(keyPath, Endfield_Video_Resolution_Height, model.Height);
+            Registry.SetValue(keyPath, Screenmanager_Fullscreen_mode_h3630240806, model.IsFullScreen ? 1 : 3);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Width_h182942802, model.Width);
+            Registry.SetValue(keyPath, Screenmanager_Resolution_Height_h2627697771, model.Height);
+            if (!model.IsFullScreen)
+            {
+                Registry.SetValue(keyPath, Screenmanager_Resolution_Window_Width, model.Width);
+                Registry.SetValue(keyPath, Screenmanager_Resolution_Window_Height, model.Height);
+            }
         }
     }
 

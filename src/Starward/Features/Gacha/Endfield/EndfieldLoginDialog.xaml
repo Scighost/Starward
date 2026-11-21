@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentDialog x:Class="Starward.Features.Gacha.Endfield.EndfieldLoginDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="登录鹰角通行证"
+               CloseButtonText="取消"
+               DefaultButton="Close"
+               Loaded="ContentDialog_Loaded"
+               Closed="ContentDialog_Closed"
+               mc:Ignorable="d">
+
+    <Grid Width="500" Height="620">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <InfoBar x:Name="InfoBar_Status"
+                 Margin="0,0,0,10"
+                 IsClosable="False"
+                 IsOpen="True"
+                 Message="请在下方完成登录，成功后将自动继续同步。"
+                 Severity="Informational" />
+
+        <Grid Grid.Row="1">
+            <ProgressRing x:Name="ProgressRing_Loading"
+                          Width="36"
+                          Height="36"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          IsActive="True" />
+            <WebView2 x:Name="WebView_Login"
+                      DefaultBackgroundColor="Transparent"
+                      Visibility="Collapsed">
+                <WebView2.Resources>
+                    <SolidColorBrush x:Key="BrushForThemeBackgroundColor" Color="Transparent" />
+                </WebView2.Resources>
+            </WebView2>
+        </Grid>
+    </Grid>
+</ContentDialog>

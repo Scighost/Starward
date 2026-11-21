@@ -37,6 +37,9 @@ public class GameId : IEquatable<GameId>
             GameBiz.nap_cn => new GameId { Id = "x6znKlJ0xK", GameBiz = "nap_cn" },
             GameBiz.nap_global => new GameId { Id = "U5hbdsT9W7", GameBiz = "nap_global" },
             GameBiz.nap_bilibili => new GameId { Id = "HXAFlmYa17", GameBiz = "nap_bilibili" },
+            GameBiz.arknights_cn => new GameId { Id = Hypergryph.HypergryphGameConstants.ArknightsAppCode, GameBiz = GameBiz.arknights_cn },
+            GameBiz.endfield_cn => new GameId { Id = Hypergryph.HypergryphGameConstants.EndfieldAppCode, GameBiz = GameBiz.endfield_cn },
+            GameBiz.endfield_global => new GameId { Id = Hypergryph.HypergryphGameConstants.GlobalEndfieldAppCode, GameBiz = GameBiz.endfield_global },
             _ => null,
         };
     }
