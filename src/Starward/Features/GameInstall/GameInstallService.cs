@@ -2,6 +2,7 @@ using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Features.GameLauncher;
 using Starward.Features.RPC;
 using Starward.Helpers;
@@ -368,6 +369,17 @@ internal class GameInstallService
         if (!AppConfig.EnableHardLink)
         {
             return null;
+        }
+        if (HypergryphGameConstants.IsEndfield(gameId.GameBiz))
+        {
+            GameBiz otherRegion = gameId.GameBiz == GameBiz.endfield_cn ? GameBiz.endfield_global : GameBiz.endfield_cn;
+            string? path = GameLauncherService.GetGameInstallPath(otherRegion);
+            return path is not null
+                && Path.GetPathRoot(path) == Path.GetPathRoot(installPath)
+                && DriveHelper.GetDriveFormat(path) is "NTFS"
+                && File.Exists(Path.Combine(path, HypergryphGameConstants.EndfieldExeName))
+                && File.Exists(Path.Combine(path, "game_files"))
+                ? path : null;
         }
         if (GameFeatureConfig.FromGameId(gameId).SupportHardLink)
         {
