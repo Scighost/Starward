@@ -92,8 +92,7 @@ public sealed partial class GameLauncherPage : PageBase
     private void InitializeGameFeature()
     {
         GameFeatureConfig feature = GameFeatureConfig.FromGameId(CurrentGameId);
-        IsDX11OptionVisible = HypergryphGameConstants.IsEndfield(CurrentGameBiz);
-        EnableDX11 = IsDX11OptionVisible && AppConfig.GetEnableDX11(CurrentGameBiz);
+        EnableDX11 = HypergryphGameConstants.IsEndfield(CurrentGameBiz) && AppConfig.GetEnableDX11(CurrentGameBiz);
         if (feature.SupportCloudGame)
         {
             Button_CloudGame.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -111,6 +110,7 @@ public sealed partial class GameLauncherPage : PageBase
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(InstalledLocateGameEnabled))]
+    [NotifyPropertyChangedFor(nameof(IsDX11OptionVisible), nameof(IsGraphicsOptionsVisible))]
     public partial GameState GameState { get; set; }
 
 
@@ -256,12 +256,17 @@ public sealed partial class GameLauncherPage : PageBase
     /// <summary>
     /// 是否显示 DX12 选项
     /// </summary>
-    public bool IsDX12OptionVisible { get; set => SetProperty(ref field, value); }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGraphicsOptionsVisible))]
+    public partial bool IsDX12OptionVisible { get; set; }
 
     /// <summary>
     /// 是否显示 DX11 选项
     /// </summary>
-    public bool IsDX11OptionVisible { get; set => SetProperty(ref field, value); }
+    public bool IsDX11OptionVisible => HypergryphGameConstants.IsEndfield(CurrentGameBiz)
+        && GameState is GameState.StartGame or GameState.GameIsRunning or GameState.UpdateGame;
+
+    public bool IsGraphicsOptionsVisible => IsDX11OptionVisible || IsDX12OptionVisible;
 
     /// <summary>
     /// 使用 DX11 启动

@@ -599,7 +599,8 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Background="{ThemeResource ControlOnImageFillColorDefaultBrush}"
-                    CornerRadius="12">
+                    CornerRadius="12"
+                    Visibility="{x:Bind IsGraphicsOptionsVisible}">
 
                 <StackPanel>
                     <CheckBox MinWidth="0"
