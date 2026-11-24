@@ -75,6 +75,12 @@
                         <MenuFlyoutItem Command="{x:Bind SyncFromGameLogCommand}"
                                         Icon="OpenFile"
                                         Text="从游戏日志同步" />
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Command="{x:Bind ExportAkegfCommand}"
+                                        IsEnabled="{x:Bind IsExportingAkegf, Converter={StaticResource BoolReversedConverter}}"
+                                        Text="导出 AKEGF v0.4" />
+                        <MenuFlyoutItem Command="{x:Bind OpenAkegfSpecificationCommand}"
+                                        Text="AKEGF 格式说明" />
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>
