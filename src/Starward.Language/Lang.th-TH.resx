@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -187,7 +187,7 @@
     <value>ไม่มีสิทธิในการเขียน</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>ตกลง</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
     <value>เลือกเพิ่มเติม</value>
@@ -319,7 +319,7 @@
     <value>ซิงค์จาก Miyoushe (ทดลอง)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync All from Miyoushe (Experimental)</value>
+    <value>ซิงค์ทั้งหมดจาก Miyoushe (ทดลอง)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>ใส่ URL บันทึกการสุ่ม</value>
@@ -1787,6 +1787,12 @@
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>ตรวจสอบ</value>
   </data>
+  <data name="StartGameButton_Cleaning" xml:space="preserve">
+    <value>กำลังทำความสะอาด</value>
+  </data>
+  <data name="StartGameButton_StepProgress" xml:space="preserve">
+    <value>ขั้นตอนที่ {0}/{1}</value>
+  </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>บริการ RPC ไม่ได้ทำงาน</value>
   </data>
@@ -2788,5 +2794,152 @@
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>สถิติอ้างอิงจากเวลาที่เกมทำงาน ไม่ใช่เวลาเล่นจริง และใช้เพื่อการอ้างอิงเท่านั้น</value>
+  </data>
+  <data name="LauncherConfigView_ViewDetails" xml:space="preserve">
+    <value>ดูรายละเอียด</value>
+  </data>
+  <data name="LauncherConfigView_PreRegister" xml:space="preserve">
+    <value>ลงทะเบียนล่วงหน้า</value>
+  </data>
+  <data name="GameReservationView_PreRegister" xml:space="preserve">
+    <value>ลงทะเบียนล่วงหน้าเลย</value>
+  </data>
+  <data name="LauncherConfigView_InstalledGames" xml:space="preserve">
+    <value>เกมที่ติดตั้งแล้ว</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_LauncherChannelSetting" xml:space="preserve">
+    <value>ตั้งค่าช่องทางของ Launcher</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AddCustomChannel" xml:space="preserve">
+    <value>เพิ่มช่องทางกำหนดเอง</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AuthLogin" xml:space="preserve">
+    <value>เข้าสู่ระบบด้วยการอนุญาต</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_BetaServer" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ทดสอบ</value>
+  </data>
+  <data name="FindGamesDialog_FindInstalledGames" xml:space="preserve">
+    <value>ค้นหาเกมที่ติดตั้งแล้ว</value>
+  </data>
+  <data name="FindGamesDialog_ScanAllDrives" xml:space="preserve">
+    <value>สแกนทุกไดรฟ์</value>
+  </data>
+  <data name="FindGamesDialog_NoGameFilesWereFound" xml:space="preserve">
+    <value>ไม่พบไฟล์เกม</value>
+  </data>
+  <data name="FindGamesDialog_SelectTheGamesToAdd" xml:space="preserve">
+    <value>เลือกเกมที่จะเพิ่ม</value>
+  </data>
+  <data name="FindGamesDialog_AddGames" xml:space="preserve">
+    <value>เพิ่มเกม</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
+    <value>ID, Name และ Region ต้องไม่เว้นว่าง</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_NoGamesFoundForThisLauncher" xml:space="preserve">
+    <value>ไม่พบเกมสำหรับ Launcher นี้</value>
+  </data>
+  <data name="MainView_LogInAgain" xml:space="preserve">
+    <value>เข้าสู่ระบบอีกครั้ง</value>
+  </data>
+  <data name="MainView_UseTheCurrentAccountToLogIntoTheGame" xml:space="preserve">
+    <value>ล็อกอินเกมด้วยบัญชีปัจจุบัน</value>
+  </data>
+  <data name="MainView_LoginFailed" xml:space="preserve">
+    <value>เข้าสู่ระบบไม่สำเร็จ</value>
+  </data>
+  <data name="InstallGameDialog_LoadingDownloadResources" xml:space="preserve">
+    <value>กำลังดาวน์โหลดทรัพยากร</value>
+  </data>
+  <data name="InstallGameDialog_VoiceoverResources" xml:space="preserve">
+    <value>ทรัพยากรเสียงพากย์</value>
+  </data>
+  <data name="InstallGameDialog_DownloadResources" xml:space="preserve">
+    <value>ดาวน์โหลดทรัพยากร</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequired" xml:space="preserve">
+    <value>ต้องการพื้นที่</value>
+  </data>
+  <data name="InstallGameDialog_FailedToAcquireDownloadResources" xml:space="preserve">
+    <value>ดาวน์โหลดทรัพยากรล้มเหลว</value>
+  </data>
+  <data name="InstallGameDialog_GameResourcesDoNotExist" xml:space="preserve">
+    <value>ไม่มีทรัพยากรเกม</value>
+  </data>
+  <data name="InstallGameDialog_LoginExpiredPleaseLogInAgain" xml:space="preserve">
+    <value>หมดเวลาการล็อกอิน กรุณาล็อกอินใหม่อีกครั้ง</value>
+  </data>
+  <data name="InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess" xml:space="preserve">
+    <value>บัญชีปัจจุบันไม่มีสิทธิ์เข้าร่วมการทดสอบ Beta</value>
+  </data>
+  <data name="InstallGameDialog_GameVersion" xml:space="preserve">
+    <value>เวอร์ชันเกม</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupSetting" xml:space="preserve">
+    <value>ตั้งค่าการเริ่มต้น</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RenderMode" xml:space="preserve">
+    <value>โหมดการเรนเดอร์</value>
+  </data>
+  <data name="StartGameButton_UpdatePlugin" xml:space="preserve">
+    <value>อัปเดตปลั๊กอิน</value>
+  </data>
+  <data name="Common_LogOut" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="PlayTimeStatsDialog_DayStartsAt" xml:space="preserve">
+    <value>เวลาเริ่มต้นของวัน</value>
+  </data>
+  <data name="PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime" xml:space="preserve">
+    <value>ตั้งค่าออฟเซ็ตเทียบกับเขตเวลาท้องถิ่นเพื่อให้ตรงกับเวลาของเซิร์ฟเวอร์</value>
+  </data>
+  <data name="LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks" xml:space="preserve">
+    <value>แชร์พื้นที่จัดเก็บกับเกมอื่นผ่านฮาร์ดลิงก์:</value>
+  </data>
+  <data name="LauncherConfigView_ActualStorageSpaceUsed" xml:space="preserve">
+    <value>พื้นที่จัดเก็บที่ใช้จริง:</value>
+  </data>
+  <data name="LauncherConfigView_FindInstalledGamesOrAddChannelServers" xml:space="preserve">
+    <value>ค้นหาเกมที่ติดตั้งแล้วหรือเพิ่มเซิร์ฟเวอร์ช่องทาง</value>
+  </data>
+  <data name="FindGamesDialog_QuickSearch" xml:space="preserve">
+    <value>ค้นหาด่วน</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ResourceManagement" xml:space="preserve">
+    <value>การจัดการทรัพยากร</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManagement" xml:space="preserve">
+    <value>การจัดการทรัพยากรคัตซีน</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ManageResource" xml:space="preserve">
+    <value>จัดการทรัพยากร</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GameOrInstallTaskIsRunning" xml:space="preserve">
+    <value>เกมหรืองานติดตั้งกำลังทำงานอยู่</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DeletedResource" xml:space="preserve">
+    <value>ทรัพยากรที่ถูกลบ</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManageDesc" xml:space="preserve">
+    <value>ลบทรัพยากรคัตซีนบางส่วนเพื่อประหยัดพื้นที่จัดเก็บ เมื่อเปิดใช้งาน Launcher จะจัดการฮอตอัปเดตของเกม</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable" xml:space="preserve">
+    <value>ไม่สามารถใช้งาน manifest ของทรัพยากรคัตซีนได้</value>
+  </data>
+  <data name="StartGameButton_HotUpdate" xml:space="preserve">
+    <value>ฮอตอัปเดต</value>
+  </data>
+  <data name="StartGameButton_ComingSoon" xml:space="preserve">
+    <value>เร็วๆ นี้</value>
+  </data>
+  <data name="GameLauncherPage_HotUpdateCheckFailed" xml:space="preserve">
+    <value>ตรวจสอบฮอตอัปเดตไม่สำเร็จ</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LocalResource" xml:space="preserve">
+    <value>ทรัพยากรในเครื่อง</value>
+  </data>
+  <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
+    <value>แอพที่ไม่เป็นทางการ โปรดระวังความปลอดภัยของบัญชีของคุณ</value>
   </data>
 </root>
