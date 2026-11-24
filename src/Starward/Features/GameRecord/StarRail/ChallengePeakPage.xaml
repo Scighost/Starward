@@ -464,8 +464,9 @@
                                                 Margin="20,4,0,0"
                                                 VerticalAlignment="Top"
                                                 Spacing="8"
-                                                Visibility="{x:Bind MobRecord.HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <StackPanel Spacing="8" Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
+                                                Visibility="{x:Bind HasChallengeRecord, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <StackPanel Spacing="8"
+                                                    Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
                                             <!--  通关时间  -->
                                             <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
                                             <!--  队伍  -->
