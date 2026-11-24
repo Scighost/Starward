@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.SpiralAbyss;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ public sealed partial class SpiralAbyssPage : PageBase
 
     private readonly ILogger<SpiralAbyssPage> _logger = AppConfig.GetLogger<SpiralAbyssPage>();
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordGenshinService _gameRecordService = AppConfig.GetService<GameRecordGenshinService>();
 
 
 
@@ -121,7 +120,7 @@ public sealed partial class SpiralAbyssPage : PageBase
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Refresh abyss data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            GameRecordPage.HandleMiHoYoApiException(ex);
+            InAppToast.MainWindow?.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {

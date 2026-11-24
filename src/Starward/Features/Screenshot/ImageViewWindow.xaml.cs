@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Scighost.WinUI.ImageEx;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -25,7 +24,7 @@ using Windows.UI.Core;
 namespace Starward.Features.Screenshot;
 
 [INotifyPropertyChanged]
-public sealed partial class ImageViewWindow : WindowEx
+public sealed partial class ImageViewWindow : WindowBase
 {
 
     private readonly ILogger<ImageViewWindow> _logger = AppConfig.GetLogger<ImageViewWindow>();

@@ -1,10 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Features.Setting;
-using Starward.Frameworks;
 using Starward.Helpers;
 using Vanara.PInvoke;
 using Windows.Foundation;
@@ -13,7 +12,7 @@ using Windows.Foundation;
 namespace Starward.Features.ViewHost;
 
 [INotifyPropertyChanged]
-public sealed partial class SystemTrayWindow : WindowEx
+public sealed partial class SystemTrayWindow : WindowBase
 {
 
 

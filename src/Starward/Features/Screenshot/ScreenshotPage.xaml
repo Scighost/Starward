@@ -8,7 +8,7 @@
              xmlns:mxi="using:Microsoft.Xaml.Interactivity"
              xmlns:s="using:Starward"
              xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sh="using:Starward.Helpers"
              xmlns:ui="using:CommunityToolkit.WinUI"
              x:DefaultBindMode="OneWay"

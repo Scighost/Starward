@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core.HoYoPlay;
-using Starward.Features.HoYoPlay;
+using Starward.GameInstall;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -9,6 +9,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -38,18 +40,6 @@ public class BackgroundService
 
 
     /// <summary>
-    /// 获取背景图文件路径，保存在 CacheFolder\bg
-    /// </summary>
-    /// <param name="name"></param>
-    /// <returns></returns>
-    [return: NotNullIfNotNull(nameof(name))]
-    public static string? GetBgFilePath(string? name)
-    {
-        return Path.Join(AppConfig.CacheFolder, "bg", name);
-    }
-
-
-    /// <summary>
     /// 获取自定义背景图文件路径
     /// </summary>
     /// <param name="gameId"></param>
@@ -62,15 +52,8 @@ public class BackgroundService
         {
             return false;
         }
-        if (AppConfig.GetEnableCustomBg(gameId.GameBiz))
-        {
-            path = GetBgFilePath(AppConfig.GetCustomBg(gameId.GameBiz));
-            if (File.Exists(path))
-            {
-                return true;
-            }
-        }
-        return false;
+        path = Path.Join(AppConfig.UserDataFolder, "bg", AppConfig.GetCustomBg(gameId));
+        return File.Exists(path);
     }
 
 
@@ -94,85 +77,121 @@ public class BackgroundService
     /// </summary>
     /// <param name="gameId"></param>
     /// <returns></returns>
-    public static string? GetCachedBackgroundFile(GameId gameId)
+    public static string? GetLastAppBackgroundFile(GameId gameId)
     {
-        if (gameId is null)
+        string? name = AppConfig.GetBg(gameId);
+        if (string.IsNullOrWhiteSpace(name))
         {
             return null;
         }
-        if (TryGetCustomBgFilePath(gameId, out string? path))
+        string? path = Path.Join(AppConfig.CacheFolder, "bg", name);
+        if (File.Exists(path))
         {
             return path;
         }
-        path = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
-        return File.Exists(path) ? path : null;
+        path = Path.Join(AppConfig.UserDataFolder, "bg", name);
+        if (File.Exists(path))
+        {
+            return path;
+        }
+        return null;
     }
 
 
 
     /// <summary>
-    /// 背景图和版本海报链接
+    /// 游戏背景图
     /// </summary>
     /// <param name="gameId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameBackground>> GetGameBackgroundsAsync(GameId gameId, CancellationToken cancellationToken = default)
+    public async Task<(List<GameBackgroundModel> List, GameBackgroundModel? Selected)> GetGameBackgroundsAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        GameBackgroundInfo backgroundInfo = await _hoYoPlayService.GetGameBackgroundAsync(gameId, cancellationToken);
+        GameBackgroundInfo? backgroundInfo = await _hoYoPlayService.GetGameBackgroundInfoAsync(gameId, cancellationToken);
         List<GameBackground> backgrounds = backgroundInfo?.Backgrounds?.ToList() ?? [];
-        GameInfo gameInfo = await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken);
-        if (!string.IsNullOrWhiteSpace(gameInfo?.Display?.Background?.Url))
+        if (await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken) is GameInfo gameInfo)
         {
-            backgrounds.Add(GameBackground.FromPosterUrl(gameInfo.Display.Background.Url));
+            backgrounds.Add(new GameBackground
+            {
+                Id = gameInfo.Id,
+                Background = new GameImage { Url = gameInfo.Display.Background?.Url! },
+                Icon = new(),
+                Video = new(),
+                Theme = new(),
+                Type = GameBackground.BACKGROUND_TYPE_UNSPECIFIED,
+            });
         }
-        if (TryGetCustomBgFilePath(gameId, out string? path))
+        List<GameBackgroundModel> models = backgrounds.Select(x => new GameBackgroundModel(x)).ToList();
+        if (models.Count is 0)
         {
-            backgrounds.Add(GameBackground.FromCustomFile(path));
+            return (models, null);
         }
-        return backgrounds;
+
+        // 这个设置的格式为：$"{index};{id1},{type1};{id2},{type2}"
+        string? last = AppConfig.GetGameBackground(gameId);
+        if (string.IsNullOrWhiteSpace(last))
+        {
+            return (models, models?.FirstOrDefault());
+        }
+
+        int index = 0;
+        int i = last.IndexOf(';');
+        if (i >= 0)
+        {
+            _ = int.TryParse(last.AsSpan().Slice(0, i), out index);
+        }
+
+        List<(string Id, int Type)> lastIds = new();
+        foreach (Match match in Regex.Matches(last, @"([0-9A-Za-z]+),(\d)"))
+        {
+            string id = match.Groups[1].Value;
+            int.TryParse(match.Groups[2].Value, out int type);
+            lastIds.Add((id, type));
+        }
+
+        foreach (var model in models)
+        {
+            if (lastIds.FirstOrDefault(x => x.Id == model.Id) is (string id, int type))
+            {
+                model.Last = true;
+                model.Type = Math.Clamp(type, 0, 1);
+            }
+        }
+
+        if (models.FirstOrDefault(x => !x.Last) is GameBackgroundModel model1)
+        {
+            return (models, model1);
+        }
+        else if (models.Count > index)
+        {
+            return (models, models[index]);
+        }
+        else
+        {
+            return (models, models.FirstOrDefault());
+        }
     }
 
-
-
-    public async Task<GameBackground?> GetSuggestedGameBackgroundAsync(GameId gameId, CancellationToken cancellationToken = default)
-    {
-        if (TryGetCustomBgFilePath(gameId, out string? file))
-        {
-            return GameBackground.FromCustomFile(file);
-        }
-        List<GameBackground> backgrounds = await GetGameBackgroundsAsync(gameId, cancellationToken);
-        GameBackground? bg = null;
-        string? lastBg = AppConfig.GetBg(gameId.GameBiz);
-        string? lastBgIds = AppConfig.GetGameBackgroundIds(gameId.GameBiz);
-        string firstBgId = backgrounds.FirstOrDefault()?.Id ?? string.Empty;
-        if (!string.IsNullOrWhiteSpace(lastBg) && (lastBgIds?.StartsWith(firstBgId) ?? false))
-        {
-            // 没有新背景
-            if (backgrounds.FirstOrDefault(x => Path.GetFileName(x.Background.Url) == lastBg) is GameBackground bg1)
-            {
-                bg1.StopVideo = true;
-                bg = bg1;
-            }
-            else if (backgrounds.Where(x => x.Video != null).FirstOrDefault(x => Path.GetFileName(x.Video.Url) == lastBg) is GameBackground bg2)
-            {
-                bg = bg2;
-            }
-        }
-        bg ??= backgrounds.FirstOrDefault();
-        return bg;
-    }
 
 
 
     public async Task<string> GetBackgroundFileAsync(string url, CancellationToken cancellationToken = default)
     {
-        string name = Path.GetFileName(url);
-        string file = GetBgFilePath(name);
+        string file = Path.Combine(AppConfig.CacheFolder, "bg", Path.GetFileName(url));
         if (!File.Exists(file))
         {
-            var bytes = await _httpClient.GetByteArrayAsync(url, cancellationToken);
-            Directory.CreateDirectory(Path.GetDirectoryName(file)!);
-            await File.WriteAllBytesAsync(file, bytes, cancellationToken);
+            Directory.CreateDirectory(Path.Combine(AppConfig.CacheFolder, "bg"));
+            string tmp = file + ".tmp";
+            using var fs = File.Open(tmp, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite);
+            using var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
+            using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+            response.EnsureSuccessStatusCode();
+            fs.Position = response.Content.Headers.ContentRange?.From ?? 0;
+            using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+            await hs.CopyToAsync(fs, cancellationToken);
+            fs.Dispose();
+            File.Move(tmp, file, true);
         }
         return file;
     }
@@ -183,20 +202,17 @@ public class BackgroundService
     /// <summary>
     /// 获取默认的背景图文件路径
     /// </summary>
-    /// <param name="gameId"></param>
     /// <returns></returns>
-    public static string? GetFallbackBackgroundImage(GameId gameId)
+    public static string? GetFallbackBackgroundImage()
     {
-        string? bg = GetBgFilePath(AppConfig.GetBg(gameId.GameBiz));
-        if (!File.Exists(bg))
-        {
-            string baseFolder = AppContext.BaseDirectory;
-            string path = Path.Combine(baseFolder, @"Assets\Image\UI_CutScene_1130320101A.png");
-            bg = File.Exists(path) ? path : null;
-        }
-        return bg;
+        string baseFolder = AppContext.BaseDirectory;
+        string path = Path.Combine(baseFolder, @"Assets\Image\UI_CutScene_1130320101A.png");
+        return File.Exists(path) ? path : null;
     }
 
+
+
+    #region Pick Custom Background
 
 
     /// <summary>
@@ -212,7 +228,7 @@ public class BackgroundService
             return null;
         }
         await CheckBackgroundFileAvailableAsync(file);
-        string bg = Path.Join(AppConfig.CacheFolder, "bg");
+        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
         Directory.CreateDirectory(bg);
         string name = Path.GetFileName(file);
         string path = Path.Combine(bg, name);
@@ -232,7 +248,7 @@ public class BackgroundService
     /// <returns></returns>
     public static async Task<string?> ChangeCustomBackgroundFileAsync(StorageFile file)
     {
-        string bg = Path.Join(AppConfig.CacheFolder, "bg");
+        string bg = Path.Join(AppConfig.UserDataFolder, "bg");
         if (Path.GetDirectoryName(file.Path) != bg)
         {
             if (FileIsSupportedVideo(file.Name))
@@ -301,6 +317,9 @@ public class BackgroundService
             var decoder = await BitmapDecoder.CreateAsync(fs.AsRandomAccessStream());
         }
     }
+
+
+    #endregion
 
 
 }

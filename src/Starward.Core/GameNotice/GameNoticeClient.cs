@@ -1,5 +1,4 @@
-using System.Net;
-using System.Net.Http.Json;
+﻿using System.Net;
 
 namespace Starward.Core.GameNotice;
 
@@ -21,9 +20,9 @@ public class GameNoticeClient
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default) where T : class
     {
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameNoticeJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameNoticeJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -75,7 +74,7 @@ public class GameNoticeClient
             _ => throw new ArgumentOutOfRangeException($"Unknown region {biz}"),
         };
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        var alertAnn = await CommonSendAsync<AlertAnn>(request, cancellationToken);
+        var alertAnn = await CommonSendAsync<AlertAnn>(request, cancellationToken).ConfigureAwait(false);
         return alertAnn.Remind || alertAnn.ExtraRemind;
     }
 

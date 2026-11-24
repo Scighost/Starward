@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using SharpGameInput.V0;
 using Starward.Features.Setting;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Numerics;
@@ -23,7 +22,7 @@ using Windows.Graphics;
 namespace Starward.Features.GamepadControl;
 
 [INotifyPropertyChanged]
-public sealed partial class SimulateInputTipsWindow : WindowEx
+public sealed partial class SimulateInputTipsWindow : WindowBase
 {
 
 

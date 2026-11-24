@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sf:WindowBase x:Class="Starward.Features.Passport.HypLoginWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.Passport"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:sf="using:Starward.Features"
+               Title="HypLoginWindow"
+               x:DefaultBindMode="OneWay"
+               mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Loaded="Grid_Loaded">
+        <InfoBar MinHeight="48"
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 BorderThickness="0"
+                 CloseButtonCommand="{x:Bind CloseWindowCommand}"
+                 CornerRadius="0"
+                 IsClosable="False"
+                 IsOpen="True"
+                 Severity="Warning">
+            <TextBlock Margin="0,0,48,0"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity}"
+                       TextWrapping="Wrap" />
+        </InfoBar>
+        <ProgressRing Width="60"
+                      Height="60"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Foreground="{ThemeResource AccentFillColorDefaultBrush}"
+                      IsIndeterminate="True" />
+        <WebView2 Name="webview"
+                  Margin="0,48,0,0"
+                  DefaultBackgroundColor="{ThemeResource SolidBackgroundFillColorBase}"
+                  Visibility="Collapsed" />
+
+    </Grid>
+
+</sf:WindowBase>

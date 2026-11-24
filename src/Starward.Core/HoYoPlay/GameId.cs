@@ -1,4 +1,4 @@
-using Starward.Core.JsonConverter;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
@@ -16,6 +16,18 @@ public class GameId : IEquatable<GameId>
     [JsonPropertyName("biz")]
     [JsonConverter(typeof(GameBizJsonConverter))]
     public GameBiz GameBiz { get; set; }
+
+
+
+    public GameId() { }
+
+
+    public GameId(string id, GameBiz gameBiz)
+    {
+        Id = id;
+        GameBiz = gameBiz;
+    }
+
 
 
     public static GameId? FromGameBiz(GameBiz gameBiz)
@@ -42,18 +54,10 @@ public class GameId : IEquatable<GameId>
     }
 
 
-
-    public bool IsBilibiliServer()
+    public override string ToString()
     {
-        return Id switch
-        {
-            "T2S0Gz4Dr2" => true,
-            "EdtUqXfCHh" => true,
-            "HXAFlmYa17" => true,
-            _ => false,
-        };
+        return $"{GameBiz}-{Id}";
     }
-
 
 
     public bool Equals(GameId? other)
@@ -81,6 +85,41 @@ public class GameId : IEquatable<GameId>
 
 
     public static bool operator !=(GameId? left, GameId? right) => !(left == right);
+
+
+
+    public const string bh3_cn = "osvnlOc0S8";
+    public const string bh3_glb = "5TIVvvcwtM";
+    public const string bh3_jp = "g0mMIvshDb";
+    public const string bh3_kr = "uxB4MC7nzC";
+    public const string bh3_os = "bxPTXSET5t";
+    public const string bh3_asia = "wkE5P5WsIf";
+
+    public const string hk4e_cn = "1Z8W5NHUQb";
+    public const string hk4e_global = "gopR6Cufr3";
+    public const string hk4e_bili = "T2S0Gz4Dr2";
+
+    public const string hkrpg_cn = "64kMb5iAWu";
+    public const string hkrpg_global = "4ziysqXOQ8";
+    public const string hkrpg_bili = "EdtUqXfCHh";
+
+    public const string nap_cn = "x6znKlJ0xK";
+    public const string nap_global = "U5hbdsT9W7";
+    public const string nap_bili = "HXAFlmYa17";
+
+    public const string hyg_cn = "ERYDdvf0w8";
+    public const string hyg_global = "viiywh5G2H";
+
+    public const string abc_cn = "m8TGERqknS";
+    public const string abc_global = "yneO4yGc4x";
+
+
+
+
+
+
+
+
 
 
 }

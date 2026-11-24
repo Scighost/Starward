@@ -1,9 +1,7 @@
-using Starward.Core;
-using Starward.Core.HoYoPlay;
+﻿using Starward.Core.HoYoPlay;
 using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
-using Starward.Features.GameSetting;
 using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using System.Collections.Generic;
@@ -12,7 +10,6 @@ namespace Starward.Features;
 
 internal partial class GameFeatureConfig
 {
-
 
     private GameFeatureConfig()
     {
@@ -25,36 +22,20 @@ internal partial class GameFeatureConfig
     /// </summary>
     public List<string> SupportedPages { get; init; } = [];
 
-
     /// <summary>
     /// 游戏内通知内容
     /// </summary>
     public bool InGameNoticesWindow { get; init; }
-
-
-    /// <summary>
-    /// 支持硬链接
-    /// </summary>
-    public bool SupportHardLink { get; init; }
-
 
     /// <summary>
     /// 支持云游戏
     /// </summary>
     public bool SupportCloudGame { get; init; }
 
-
-    /// <summary>
-    /// 支持游戏账号切换
-    /// </summary>
-    public bool SupportGameAccountSwitcher { get; init; }
-
-
     /// <summary>
     /// 支持实时便笺
     /// </summary>
     public bool SupportDailyNote { get; init; }
-
 
 
     public static GameFeatureConfig FromGameId(GameId? gameId)
@@ -63,26 +44,23 @@ internal partial class GameFeatureConfig
         {
             return None;
         }
-        GameFeatureConfig config = gameId.GameBiz.Value switch
+        GameFeatureConfig config = gameId.Id switch
         {
-            GameBiz.bh3_cn => bh3_cn,
-            GameBiz.bh3_global => bh3_global,
-            GameBiz.hk4e_cn => hk4e_cn,
-            GameBiz.hk4e_global => hk4e_global,
-            GameBiz.hk4e_bilibili => hk4e_bilibili,
-            GameBiz.hkrpg_cn => hkrpg_cn,
-            GameBiz.hkrpg_global => hkrpg_global,
-            GameBiz.hkrpg_bilibili => hkrpg_bilibili,
-            GameBiz.nap_cn => nap_cn,
-            GameBiz.nap_global => nap_global,
-            GameBiz.nap_bilibili => nap_bilibili,
+            GameId.bh3_cn => bh3_cn,
+            GameId.bh3_glb or GameId.bh3_jp or GameId.bh3_kr or GameId.bh3_os or GameId.bh3_asia => bh3_global,
+            GameId.hk4e_cn => hk4e_cn,
+            GameId.hk4e_global => hk4e_global,
+            GameId.hk4e_bili => hk4e_bilibili,
+            GameId.hkrpg_cn => hkrpg_cn,
+            GameId.hkrpg_global => hkrpg_global,
+            GameId.hkrpg_bili => hkrpg_bilibili,
+            GameId.nap_cn => nap_cn,
+            GameId.nap_global => nap_global,
+            GameId.nap_bili => nap_bilibili,
             _ => Default,
         };
         return config;
     }
-
-
-
 
 
     private static readonly GameFeatureConfig None = new();
@@ -99,12 +77,10 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GameRecordPage),
         ],
         InGameNoticesWindow = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -114,7 +90,6 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GameRecordPage),
         ],
@@ -128,7 +103,6 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
@@ -136,9 +110,7 @@ internal partial class GameFeatureConfig
             nameof(GenshinBeyondGachaPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
         SupportCloudGame = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -148,7 +120,6 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
@@ -156,9 +127,7 @@ internal partial class GameFeatureConfig
             nameof(GenshinBeyondGachaPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
         SupportCloudGame = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -168,7 +137,6 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
@@ -176,7 +144,6 @@ internal partial class GameFeatureConfig
             nameof(GenshinBeyondGachaPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
         SupportDailyNote = true,
     };
 
@@ -186,15 +153,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -204,15 +168,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -222,14 +183,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
         SupportDailyNote = true,
     };
 
@@ -240,15 +199,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
         SupportCloudGame = true,
     };
@@ -259,15 +215,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
-        SupportGameAccountSwitcher = true,
         SupportDailyNote = true,
     };
 
@@ -277,14 +230,12 @@ internal partial class GameFeatureConfig
         SupportedPages =
         [
             nameof(GameLauncherPage),
-            nameof(GameSettingPage),
             nameof(ScreenshotPage),
             nameof(GachaLogPage),
             nameof(GameRecordPage),
             nameof(SelfQueryPage),
         ],
         InGameNoticesWindow = true,
-        SupportHardLink = true,
         SupportDailyNote = true,
     };
 

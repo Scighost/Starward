@@ -1,9 +1,8 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Starward.Frameworks;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,7 +14,7 @@ using Windows.System;
 namespace Starward.Features.Background;
 
 [INotifyPropertyChanged]
-public sealed partial class BackgroundViewWindow : WindowEx
+public sealed partial class BackgroundViewWindow : WindowBase
 {
 
 

@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ public sealed partial class SimulatedUniversePage : PageBase
 
     private readonly ILogger<SimulatedUniversePage> _logger = AppConfig.GetLogger<SimulatedUniversePage>();
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordStarRailService _gameRecordService = AppConfig.GetService<GameRecordStarRailService>();
 
 
 
@@ -130,7 +129,7 @@ public sealed partial class SimulatedUniversePage : PageBase
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Get simulated universe data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            GameRecordPage.HandleMiHoYoApiException(ex);
+            InAppToast.MainWindow?.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {

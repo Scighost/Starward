@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using Vanara.PInvoke;

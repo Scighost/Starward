@@ -26,6 +26,10 @@ public class GameBranch
     [JsonPropertyName("pre_download")]
     public GameBranchPackage? PreDownload { get; set; }
 
+
+    [JsonPropertyName("enable_base_pkg_predownload")]
+    public bool EnableBasePackagePreDownload { get; set; }
+
 }
 
 
@@ -65,6 +69,10 @@ public class GameBranchPackage
     [JsonPropertyName("categories")]
     public List<GameBranchPackageCategory> Categories { get; set; }
 
+
+    [JsonPropertyName("required_client_version")]
+    public string RequiredClientVersion { get; set; }
+
 }
 
 
@@ -78,5 +86,40 @@ public class GameBranchPackageCategory
 
     [JsonPropertyName("matching_field")]
     public string MatchingField { get; set; }
+
+    /// <summary>
+    /// <see cref="CategoryType"/>
+    /// </summary>
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
+
+    /// <summary>
+    /// <see cref="CategoryScenario"/>
+    /// </summary>
+    [JsonPropertyName("scenarios")]
+    public List<string> Scenarios { get; set; }
+
+}
+
+
+public abstract class CategoryType
+{
+    public const string CATEGORY_TYPE_RESOURCE = "CATEGORY_TYPE_RESOURCE";
+
+    public const string CATEGORY_TYPE_AUDIO = "CATEGORY_TYPE_AUDIO";
+
+}
+
+public abstract class CategoryScenario
+{
+    /// <summary>
+    /// url query: scenarios_filter[]=1
+    /// </summary>
+    public const string CATEGORY_SCENARIO_FULL = "CATEGORY_SCENARIO_FULL";
+
+    /// <summary>
+    /// url query: scenarios_filter[]=2
+    /// </summary>
+    public const string CATEGORY_SCENARIO_BASE = "CATEGORY_SCENARIO_BASE";
 
 }

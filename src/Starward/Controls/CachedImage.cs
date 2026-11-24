@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Scighost.WinUI.ImageEx;
@@ -15,7 +15,7 @@ namespace Starward.Controls;
 public sealed partial class CachedImage : ImageEx
 {
 
-
+    // todo 优化缩略图大小
 
     public bool IsThumbnail
     {
@@ -66,7 +66,7 @@ public sealed partial class CachedImage : ImageEx
             }
             else
             {
-                var file = await FileCache.GetFromCacheAsync(imageUri, false, token);
+                var file = await FileCache.GetFromCacheAsync(imageUri.ToString(), false, token);
                 if (token.IsCancellationRequested)
                 {
                     throw new TaskCanceledException("Image source has changed.");
@@ -91,6 +91,7 @@ public sealed partial class CachedImage : ImageEx
         }
         catch (Exception)
         {
+            FileCache.DeleteCacheFile(imageUri.ToString());
             throw;
         }
     }
@@ -113,7 +114,7 @@ public sealed partial class CachedImage : ImageEx
         {
             image.ImageOpened -= BitmapImage_ImageOpened;
             image.ImageFailed -= BitmapImage_ImageFailed;
-            FileCache.DeleteCacheFile(image.UriSource);
+            FileCache.DeleteCacheFile(image.UriSource.ToString());
         }
     }
 

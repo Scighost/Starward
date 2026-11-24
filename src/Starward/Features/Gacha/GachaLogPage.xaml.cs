@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
@@ -15,7 +15,6 @@ using Starward.Features.Gacha.UIGF;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameRecord;
 using Starward.Features.ViewHost;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -37,8 +36,6 @@ public sealed partial class GachaLogPage : PageBase
     private readonly ILogger<GachaLogPage> _logger = AppConfig.GetLogger<GachaLogPage>();
 
     private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
-
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
 
     private readonly GenshinBeyondGachaService _genshinBeyondGachaService = AppConfig.GetService<GenshinBeyondGachaService>();
 
@@ -609,7 +606,7 @@ public sealed partial class GachaLogPage : PageBase
                 throw new InvalidOperationException($"Current gacha service type is {_gachaLogService.GetType().Name}.");
             }
             GameBiz roleGameBiz = CurrentGameBiz == GameBiz.nap_bilibili ? GameBiz.nap_cn : CurrentGameBiz;
-            var roles = _gameRecordService.GetGameRoles(roleGameBiz);
+            var roles = GameRecordRoleService.GetGameRoles(roleGameBiz);
             if (roles.Count == 0)
             {
                 InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_PleaseLoginMiyousheAndAddZZZRole);
@@ -634,7 +631,7 @@ public sealed partial class GachaLogPage : PageBase
                 InAppToast.MainWindow?.Warning(null, Lang.GachaLogPage_CurrentAccountMissingCookiePleaseReloginMiyoushe);
                 return;
             }
-            _gameRecordService.SetLastSelectGachaSyncRole(roleGameBiz, role);
+            AppConfig.SetLastSelectGameRecordRole(roleGameBiz, role.Uid);
             var cancelSource = new CancellationTokenSource();
             var button = new Button
             {
@@ -703,7 +700,7 @@ public sealed partial class GachaLogPage : PageBase
         {
             selectedItem = items.FirstOrDefault(x => x.Role.Uid == currentUid);
         }
-        var selectedRole = _gameRecordService.GetLastSelectGachaSyncRoleOrTheFirstOne(roleGameBiz);
+        var selectedRole = GameRecordRoleService.GetLastSelectGameRecordRoleOrTheFirstOne(roleGameBiz);
         selectedItem ??= items.FirstOrDefault(x =>
             selectedRole is not null
             && x.Role.Uid == selectedRole.Uid);

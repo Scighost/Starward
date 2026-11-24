@@ -1,5 +1,6 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Starward.Core;
 using Starward.Core.Gacha.Genshin;
 using Starward.Features.GameLauncher;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -45,7 +45,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
     public partial long? SelectUid { get; set; }
     partial void OnSelectUidChanged(long? value)
     {
-        AppConfig.SetLastUidInGachaLogPage("hk4eugc", value ?? 0);
+        AppConfig.LastUgcGachaUid = value ?? 0;
         UpdateGachaTypeStats(value);
     }
 
@@ -76,7 +76,7 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
         {
             SelectUid = null;
             UidList = new(_gachaLogService.GetUids());
-            var lastUid = AppConfig.GetLastUidInGachaLogPage("hk4eugc");
+            var lastUid = AppConfig.LastUgcGachaUid;
             if (UidList.Contains(lastUid))
             {
                 SelectUid = lastUid;
@@ -421,6 +421,32 @@ public sealed partial class GenshinBeyondGachaPage : PageBase
     private void OpenItemStatsPane()
     {
         SplitView_Content.IsPaneOpen = true;
+    }
+
+
+    private void GachaItemList1000_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Pivot pivot)
+        {
+            Segmented_GachaItemList1000.SelectedIndex = Math.Clamp(pivot.SelectedIndex, 0, Segmented_GachaItemList1000.Items.Count);
+        }
+        if (sender is Segmented segmented)
+        {
+            Pivot_GachaItemList1000.SelectedIndex = Math.Clamp(segmented.SelectedIndex, 0, Pivot_GachaItemList1000.Items.Count);
+        }
+    }
+
+
+    private void GachaItemList2000_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Pivot pivot)
+        {
+            Segmented_GachaItemList2000.SelectedIndex = Math.Clamp(pivot.SelectedIndex, 0, Segmented_GachaItemList2000.Items.Count);
+        }
+        if (sender is Segmented segmented)
+        {
+            Pivot_GachaItemList2000.SelectedIndex = Math.Clamp(segmented.SelectedIndex, 0, Pivot_GachaItemList2000.Items.Count);
+        }
     }
 
 

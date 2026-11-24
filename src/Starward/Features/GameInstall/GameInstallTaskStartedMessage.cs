@@ -1,12 +1,12 @@
-using Starward.RPC.GameInstall;
+﻿using Starward.GameInstall;
 
 namespace Starward.Features.GameInstall;
 
 class GameInstallTaskStartedMessage
 {
-    public GameInstallContext InstallTask { get; init; }
+    public GameInstallProgress InstallTask { get; init; }
 
-    public GameInstallTaskStartedMessage(GameInstallContext installTask)
+    public GameInstallTaskStartedMessage(GameInstallProgress installTask)
     {
         InstallTask = installTask;
     }

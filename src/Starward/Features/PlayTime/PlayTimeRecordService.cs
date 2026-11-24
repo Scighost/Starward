@@ -1,11 +1,11 @@
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AppLifecycle;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
 using Starward.Features.Database;
 using Starward.Features.GameLauncher;
-using Starward.Features.HoYoPlay;
+using Starward.GameInstall;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -38,7 +38,7 @@ internal class PlayTimeRecordService
         try
         {
             biz = biz.IsBilibili() ? $"{biz.Game}_cn" : biz;
-            var instance = AppInstance.FindOrRegisterForKey($"playtime_{pid}");
+            var instance = AppInstance.FindOrRegisterForKey($"Starward.PlayTime.{pid}");
             if (!instance.IsCurrent)
             {
                 _logger.LogWarning("Game process ({biz}, {gamePid}) has been recorded by process ({playtimePid})", biz, pid, instance.ProcessId);

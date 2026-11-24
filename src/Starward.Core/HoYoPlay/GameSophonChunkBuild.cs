@@ -134,7 +134,8 @@ public class GameSophonManifestUrl
     public string Password { get; set; }
 
     /// <summary>
-    /// 压缩
+    /// 压缩，0 不压缩，1 zstd，2 zlib
+    /// todo zlib 适配
     /// </summary>
     [JsonPropertyName("compression")]
     public int Compression { get; set; }
@@ -150,6 +151,21 @@ public class GameSophonManifestUrl
     /// </summary>
     [JsonPropertyName("url_suffix")]
     public string UrlSuffix { get; set; }
+
+
+
+    public string BuildUrl(string id)
+    {
+        if (string.IsNullOrWhiteSpace(UrlSuffix))
+        {
+            return $"{UrlPrefix}/{id}";
+        }
+        else
+        {
+            return $"{UrlPrefix}/{id}?{UrlSuffix}";
+        }
+    }
+
 
 }
 

@@ -1,4 +1,4 @@
-using Starward.Core.GameRecord.Genshin.SpiralAbyss;
+﻿using Starward.Core.GameRecord.Genshin.SpiralAbyss;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
 using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
@@ -6,8 +6,6 @@ using Starward.Core.GameRecord.StarRail.ApocalypticShadow;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
 using Starward.Core.GameRecord.ZZZ.DeadlyAssault;
@@ -22,6 +20,10 @@ using Starward.Core.GameRecord.Genshin.StygianOnslaught;
 using Starward.Core.GameRecord.ZZZ.ThresholdSimulation;
 using Starward.Core.GameRecord.StarRail.ChallengePeak;
 using Starward.Core.GameRecord.ZZZ.GachaRecord;
+using Starward.Core.DeviceFp;
+
+
+
 
 
 
@@ -63,88 +65,10 @@ public abstract class GameRecordClient
 
     public abstract string AppVersion { get; }
 
-    public string DeviceId { get; set; } = Guid.NewGuid().ToString("D");
+    public string DeviceId { get; set; } = Guid.NewGuid().ToString();
 
     public string DeviceFp { get; set; } = "0000000000000";
 
-
-
-
-    #region Dynamic Secret
-
-
-    protected abstract string ApiSalt { get; }
-
-    protected abstract string ApiSalt2 { get; }
-
-
-    private static string GetRandomString(int timestamp)
-    {
-        var sb = new StringBuilder(6);
-        var random = new Random(timestamp);
-        for (int i = 0; i < 6; i++)
-        {
-            int v8 = random.Next(0, 32768) % 26;
-            int v9 = 87;
-            if (v8 < 10)
-            {
-                v9 = 48;
-            }
-            _ = sb.Append((char)(v8 + v9));
-        }
-        return sb.ToString();
-    }
-
-
-    protected string CreateSecret()
-    {
-        var t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string r = GetRandomString(t);
-        var bytes = MD5.HashData(Encoding.UTF8.GetBytes($"salt={ApiSalt}&t={t}&r={r}"));
-        var check = Convert.ToHexString(bytes).ToLower();
-        return $"{t},{r},{check}";
-    }
-
-
-    protected string CreateSecret2(string url)
-    {
-        int t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string r = Random.Shared.Next(100000, 200000).ToString();
-        string b = "";
-        string q = "";
-        string[] urls = url.Split('?');
-        if (urls.Length == 2)
-        {
-            string[] queryParams = urls[1].Split('&').OrderBy(x => x).ToArray();
-            q = string.Join("&", queryParams);
-        }
-        var bytes = MD5.HashData(Encoding.UTF8.GetBytes($"salt={ApiSalt2}&t={t}&r={r}&b={b}&q={q}"));
-        var check = Convert.ToHexString(bytes).ToLower();
-        string result = $"{t},{r},{check}";
-        return result;
-    }
-
-
-    protected string CreateSecret2<T>(string url, T postBody)
-    {
-        int t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string r = Random.Shared.Next(100000, 200000).ToString();
-        string b = JsonSerializer.Serialize(postBody, typeof(T), GameRecordJsonContext.Default);
-        string q = "";
-        string[] urls = url.Split('?');
-        if (urls.Length == 2)
-        {
-            string[] queryParams = urls[1].Split('&').OrderBy(x => x).ToArray();
-            q = string.Join("&", queryParams);
-        }
-        var bytes = MD5.HashData(Encoding.UTF8.GetBytes($"salt={ApiSalt2}&t={t}&r={r}&b={b}&q={q}"));
-        var check = Convert.ToHexString(bytes).ToLower();
-        string result = $"{t},{r},{check}";
-        return result;
-    }
-
-
-    #endregion
 
 
 
@@ -172,13 +96,17 @@ public abstract class GameRecordClient
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
         request.Headers.Add(Accept, Application_Json);
         request.Headers.Add(UserAgent, UAContent);
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        request.Headers.Add("x-rpc-device_name", "Xiaomi 17 Pro Max");
+        request.Headers.Add("x-rpc-device_model", "2509FPN0BC");
+        request.Headers.Add("x-rpc-sys_version", "17");
+        request.Headers.Add("x-rpc-channel", "miyousheluodi");
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
 #if DEBUG
-        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        var content = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         var responseData = JsonSerializer.Deserialize(content, typeof(miHoYoApiWrapper<T>), GameRecordJsonContext.Default) as miHoYoApiWrapper<T>;
 #else
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameRecordJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), GameRecordJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
 #endif
         if (responseData is null)
         {
@@ -195,7 +123,7 @@ public abstract class GameRecordClient
 
     protected virtual async Task CommonSendAsync(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
-        _ = await CommonSendAsync<object>(request, cancellationToken);
+        _ = await CommonSendAsync<object>(request, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -227,11 +155,11 @@ public abstract class GameRecordClient
     /// <summary>
     /// 获取游戏账号信息
     /// </summary>
-    /// <param name="cookie"></param>
     /// <param name="gameBiz"></param>
+    /// <param name="cookie"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<List<GameRecordRole>> GetGameRolesAsync(string cookie, GameBiz gameBiz, CancellationToken cancellationToken = default);
+    public abstract Task<List<GameRecordRole>> GetGameRolesAsync(GameBiz gameBiz, string cookie, CancellationToken cancellationToken = default);
 
 
 
@@ -252,7 +180,7 @@ public abstract class GameRecordClient
     /// <returns></returns>
     public async Task<GameRecordRole> UpdateGameRoleHeadIconAsync(GameRecordRole role, CancellationToken cancellationToken = default)
     {
-        role.HeadIcon = await GetGameRoleHeadIconAsync(role, cancellationToken);
+        role.HeadIcon = await GetGameRoleHeadIconAsync(role, cancellationToken).ConfigureAwait(false);
         return role;
     }
 
@@ -263,7 +191,7 @@ public abstract class GameRecordClient
     /// </summary>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public abstract Task<string> GetDeviceFpAsync(CancellationToken cancellationToken = default);
+    public abstract Task<string> GetDeviceFpAsync(AndroidDeviceInfo deviceInfo, CancellationToken cancellationToken = default);
 
 
 
@@ -584,8 +512,8 @@ public abstract class GameRecordClient
     public Task<ZZZGachaWiki> GetZZZGachaWikiAsync(GameRecordRole role, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
-        //var items = await GetZZZUpgradeGuideItemListAsync(role, cancellationToken: cancellationToken);
-        //var icons = await GetZZZUpgradeGuideIconInfoAsync(role, cancellationToken);
+        //var items = await GetZZZUpgradeGuideItemListAsync(role, cancellationToken: cancellationToken).ConfigureAwait(false);
+        //var icons = await GetZZZUpgradeGuideIconInfoAsync(role, cancellationToken).ConfigureAwait(false);
         //var wiki = new ZZZGachaWiki
         //{
         //    Avatar = items.AvatarList.Select(x => new ZZZGachaInfo { Id = x.Id, Name = x.Name, Rarity = x.Rarity }).ToList(),

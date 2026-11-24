@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
@@ -17,7 +17,7 @@ namespace Starward.Features.PlayTime;
 /// 布局参数：方块大小 <see cref="CellSize" />（默认 NaN = 按可用宽度自动计算）
 /// 与方块间距 <see cref="CellGap" />（默认 2）。
 /// </summary>
-public sealed class CalendarHeatmap : Grid
+public sealed partial class CalendarHeatmap : Grid
 {
 
 

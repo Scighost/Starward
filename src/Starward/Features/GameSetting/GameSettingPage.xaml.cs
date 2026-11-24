@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Display;
@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Features.GameLauncher;
 using Starward.Features.GameSelector;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -102,7 +101,7 @@ public sealed partial class GameSettingPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppConfig.SetStartArgument(CurrentGameBiz, value);
+                AppConfig.SetStartArgument(CurrentGameId, value);
             }
         }
     }
@@ -238,8 +237,8 @@ public sealed partial class GameSettingPage : PageBase
                 _displayInformation.AdvancedColorInfoChanged += _displayInformation_AdvancedColorInfoChanged;
                 UpdateHdrState(_displayInformation);
             }
-            StartArgument = AppConfig.GetStartArgument(CurrentGameBiz);
-            UsePopupWindow = AppConfig.GetUsePopupWindow(CurrentGameBiz);
+            StartArgument = AppConfig.GetStartArgument(CurrentGameId);
+            //UsePopupWindow = AppConfig.GetUsePopupWindow(CurrentGameId);
             var resolutionSetting = GameSettingService.GetGameResolutionSetting(CurrentGameBiz);
             if (resolutionSetting != null)
             {
@@ -418,7 +417,7 @@ public sealed partial class GameSettingPage : PageBase
                     Height = ResolutionHeight,
                 };
                 GameSettingService.SetGameResolutionSetting(CurrentGameBiz, model);
-                AppConfig.SetUsePopupWindow(CurrentGameBiz, UsePopupWindow);
+                //AppConfig.SetUsePopupWindow(CurrentGameId, UsePopupWindow);
             }
             if (IsLanguageSettingEnable)
             {

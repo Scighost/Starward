@@ -1,5 +1,4 @@
-using System.Net;
-using System.Net.Http.Json;
+﻿using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -45,7 +44,7 @@ public class GenshinBeyondGachaClient
         var result = new List<GenshinBeyondGachaItem>();
         foreach (var gachaType in QueryGachaTypes)
         {
-            result.AddRange(await GetGachaLogByTypeAsync(prefix, gachaType, endId, progress, cancellationToken));
+            result.AddRange(await GetGachaLogByTypeAsync(prefix, gachaType, endId, progress, cancellationToken).ConfigureAwait(false));
         }
         return result;
     }
@@ -59,7 +58,7 @@ public class GenshinBeyondGachaClient
         while (true)
         {
             progress?.Report((gachaType, param.Page));
-            var list = await GetGachaLogByQueryAsync(prefix, param, cancellationToken);
+            var list = await GetGachaLogByQueryAsync(prefix, param, cancellationToken).ConfigureAwait(false);
             result.AddRange(list);
             if (list.Count == 5 && list.Last().Id > endId)
             {
@@ -139,9 +138,9 @@ public class GenshinBeyondGachaClient
 
     protected virtual async Task<List<GenshinBeyondGachaItem>> GetGachaLogByQueryAsync(string gachaUrlPrefix, BeyondGachaLogQuery param, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken);
+        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken).ConfigureAwait(false);
         var url = $"{gachaUrlPrefix}&{param}";
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GenshinBeyondGachaResult>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GenshinBeyondGachaResult>;
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GenshinBeyondGachaResult>), GachaLogJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<GenshinBeyondGachaResult>;
         if (wrapper is null)
         {
             return new List<GenshinBeyondGachaItem>();
@@ -250,7 +249,7 @@ public class GenshinBeyondGachaClient
         foreach (var gachaType in QueryGachaTypes)
         {
             var param = new BeyondGachaLogQuery(gachaType, 1, 1, 0);
-            var list = await GetGachaLogByQueryAsync(prefix, param);
+            var list = await GetGachaLogByQueryAsync(prefix, param).ConfigureAwait(false);
             if (list.Count != 0)
             {
                 return list.First().Uid;
@@ -264,7 +263,7 @@ public class GenshinBeyondGachaClient
     public async Task<List<GenshinBeyondGachaInfo>> GetGenshinBeyondGachaInfoAsync(CancellationToken cancellationToken = default)
     {
         const string url = "https://starward-static.scighost.com/game-assets/genshin/GenshinBeyondGachaInfo.json";
-        var result = await _httpClient.GetFromJsonAsync(url, typeof(List<GenshinBeyondGachaInfo>), GachaLogJsonContext.Default, cancellationToken) as List<GenshinBeyondGachaInfo>;
+        var result = await _httpClient.GetFromJsonAsync(url, typeof(List<GenshinBeyondGachaInfo>), GachaLogJsonContext.Default, cancellationToken).ConfigureAwait(false) as List<GenshinBeyondGachaInfo>;
         return result ?? [];
     }
 

@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<sf:WindowEx x:Class="Starward.Features.Screenshot.ImageBatchConvertWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:lang="using:Starward.Language"
-             xmlns:local="using:Starward.Features.Screenshot"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sf="using:Starward.Frameworks"
-             Title="{x:Bind lang:Lang.ImageBatchConvertWindow_ImageBatchConvert}"
-             x:DefaultBindMode="OneWay"
-             mc:Ignorable="d">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sf:WindowBase x:Class="Starward.Features.Screenshot.ImageBatchConvertWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.Screenshot"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:sf="using:Starward.Features"
+               Title="{x:Bind lang:Lang.ImageBatchConvertWindow_ImageBatchConvert}"
+               x:DefaultBindMode="OneWay"
+               mc:Ignorable="d">
 
 
     <Grid x:Name="RootGrid"
@@ -210,4 +210,4 @@
 
     </Grid>
 
-</sf:WindowEx>
+</sf:WindowBase>

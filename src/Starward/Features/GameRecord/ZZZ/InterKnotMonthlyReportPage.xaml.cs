@@ -9,7 +9,6 @@ using Starward.Controls;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.ZZZ.InterKnotReport;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ public sealed partial class InterKnotMonthlyReportPage : PageBase
     private readonly ILogger<InterKnotMonthlyReportPage> _logger = AppConfig.GetLogger<InterKnotMonthlyReportPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordZZZService _gameRecordService = AppConfig.GetService<GameRecordZZZService>();
 
 
     public InterKnotMonthlyReportPage()

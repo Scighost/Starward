@@ -1,17 +1,14 @@
-using Grpc.Core;
+﻿using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
-using Starward.Features.GameLauncher;
+using Starward.Core.Passport;
 using Starward.Features.RPC;
-using Starward.Helpers;
-using Starward.RPC;
-using Starward.RPC.GameInstall;
+using Starward.GameInstall;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,117 +19,29 @@ internal class GameInstallService
 
     private readonly ILogger<GameInstallService> _logger;
 
-    private readonly RpcService _rpcService;
-
     private readonly GameInstaller.GameInstallerClient _gameInstallerClient;
 
-    private readonly GameLauncherService _gameLauncherService;
+    private readonly HoYoPlayService _hoYoPlayService;
 
     private readonly SemaphoreSlim _getProgressSemaphore = new(1);
 
 
-    public GameInstallService(ILogger<GameInstallService> logger, RpcService rpcService, GameLauncherService gameLauncherService)
+    public GameInstallService(ILogger<GameInstallService> logger, HoYoPlayService hoYoPlayService)
     {
         _logger = logger;
-        _rpcService = rpcService;
-        _gameLauncherService = gameLauncherService;
+        _hoYoPlayService = hoYoPlayService;
         _gameInstallerClient = RpcService.CreateRpcClient<GameInstaller.GameInstallerClient>();
     }
 
 
 
-
-    private ConcurrentDictionary<GameId, GameInstallContext> _tasks = new();
-
+    private ConcurrentDictionary<GameId, GameInstallProgress> _tasks = new();
 
 
-
-
-    public GameInstallContext? GetGameInstallTask(GameId gameId)
+    public GameInstallProgress? GetGameInstallTask(GameId gameId)
     {
         return _tasks.GetValueOrDefault(gameId);
     }
-
-
-
-
-
-    public async Task SyncGameInstallTasksFromRPCAsync()
-    {
-        try
-        {
-            if (RpcService.CheckRpcServerRunning())
-            {
-                GameInstallContextList list = await _gameInstallerClient.SyncGameInstallContextAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(1));
-                Dictionary<GameId, GameInstallContext> tasks = _tasks.Values.ToDictionary(x => x.GameId);
-                _tasks.Clear();
-                foreach (GameInstallContextDTO? item in list.List)
-                {
-                    GameId gameId = new() { GameBiz = item.GameBiz, Id = item.GameId };
-                    if (tasks.Remove(gameId, out GameInstallContext? task))
-                    {
-                        task.Timestamp = item.Timestamp;
-                        task.State = (GameInstallState)item.State;
-                        task.ErrorMessage = item.ErrorMessage;
-                        task.Progress_DownloadTotalBytes = item.ProgressDownloadTotalBytes;
-                        task.Progress_DownloadFinishBytes = item.ProgressDownloadFinishBytes;
-                        task.Progress_ReadTotalBytes = item.ProgressReadTotalBytes;
-                        task.Progress_ReadFinishBytes = item.ProgressReadFinishBytes;
-                        task.Progress_WriteTotalBytes = item.ProgressWriteTotalBytes;
-                        task.Progress_WriteFinishBytes = item.ProgressWriteFinishBytes;
-                        task.Progress_Percent = item.ProgressPercent;
-                        task.NetworkDownloadSpeed = item.NetworkDownloadSpeed;
-                        task.StorageReadSpeed = item.StorageReadSpeed;
-                        task.StorageWriteSpeed = item.StorageWriteSpeed;
-                        task.RemainTimeSeconds = item.RemainTimeSeconds;
-                        task.DownloadMode = (GameInstallDownloadMode)item.DownloadMode;
-                    }
-                    else
-                    {
-                        task = new GameInstallContext
-                        {
-                            GameId = gameId,
-                            InstallPath = item.InstallPath,
-                            Operation = (GameInstallOperation)item.Operation,
-                            AudioLanguage = (AudioLanguage)item.AudioLanguage,
-                            HardLinkPath = item.HardLinkPath,
-                            Timestamp = item.Timestamp,
-                            State = (GameInstallState)item.State,
-                            ErrorMessage = item.ErrorMessage,
-                            Progress_DownloadTotalBytes = item.ProgressDownloadTotalBytes,
-                            Progress_DownloadFinishBytes = item.ProgressDownloadFinishBytes,
-                            Progress_ReadTotalBytes = item.ProgressReadTotalBytes,
-                            Progress_ReadFinishBytes = item.ProgressReadFinishBytes,
-                            Progress_WriteTotalBytes = item.ProgressWriteTotalBytes,
-                            Progress_WriteFinishBytes = item.ProgressWriteFinishBytes,
-                            Progress_Percent = item.ProgressPercent,
-                            NetworkDownloadSpeed = item.NetworkDownloadSpeed,
-                            StorageReadSpeed = item.StorageReadSpeed,
-                            StorageWriteSpeed = item.StorageWriteSpeed,
-                            RemainTimeSeconds = item.RemainTimeSeconds,
-                            DownloadMode = (GameInstallDownloadMode)item.DownloadMode,
-                        };
-                    }
-                    _tasks.TryAdd(gameId, task);
-                }
-                foreach (var item in tasks.Values)
-                {
-                    item.State = GameInstallState.Stop;
-                }
-                if (!_tasks.IsEmpty)
-                {
-                    StartUpdateTaskProgress();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Sync game install tasks");
-        }
-    }
-
-
-
 
 
     public async void StartUpdateTaskProgress()
@@ -146,10 +55,13 @@ internal class GameInstallService
             await _getProgressSemaphore.WaitAsync().ConfigureAwait(false);
             if (RpcService.CheckRpcServerRunning())
             {
-                using var call = _gameInstallerClient.GetTaskProgress(new EmptyMessage());
-                await foreach (GameInstallContextDTO item in call.ResponseStream.ReadAllAsync().ConfigureAwait(false))
+                using var call = _gameInstallerClient.GetProgress(new EmptyMessage());
+                await foreach (GameInstallProgressList? list in call.ResponseStream.ReadAllAsync().ConfigureAwait(false))
                 {
-                    AddOrUpdateTask(item);
+                    foreach (GameInstallProgressDTO? item in list.List)
+                    {
+                        AddOrUpdateTask(item);
+                    }
                 }
             }
         }
@@ -170,13 +82,11 @@ internal class GameInstallService
                 else
                 {
                     _logger.LogWarning("RPC server is not running, set {count} running install tasks state to error.", _tasks.Count);
-                    foreach (GameInstallContext item in _tasks.Values)
+                    foreach (GameInstallProgress item in _tasks.Values)
                     {
-                        item.State = GameInstallState.Error;
+                        item.State = RunnerState.Error;
                         item.ErrorMessage = Lang.RPCServiceExitedUnexpectedly;
                         item.NetworkDownloadSpeed = 0;
-                        item.StorageReadSpeed = 0;
-                        item.StorageWriteSpeed = 0;
                         item.RemainTimeSeconds = 0;
                     }
                 }
@@ -185,21 +95,40 @@ internal class GameInstallService
     }
 
 
-
-
-    private GameInstallContext AddOrUpdateTask(GameInstallContextDTO dto)
+    private GameInstallProgress AddOrUpdateTask(GameInstallProgressDTO dto)
     {
-        GameId gameId = dto.GetGameId();
-        if (_tasks.TryGetValue(gameId, out GameInstallContext? task))
+        GameId gameId = new GameId { Id = dto.GameId.GameId, GameBiz = dto.GameId.GameBiz };
+        if (_tasks.TryGetValue(gameId, out GameInstallProgress? task))
         {
-            dto.UpdateTask(task);
+            GameInstallProgress value = GameInstallProgress.FromDTO(dto);
+            task.LauncherConfig = value.LauncherConfig;
+            task.GameId = value.GameId;
+            task.InstallPath = value.InstallPath;
+            task.Operation = value.Operation;
+            task.AudioLanguage = value.AudioLanguage;
+            task.CategoryScenario = value.CategoryScenario;
+            task.Timestamp = value.Timestamp;
+            task.CurrentStep = value.CurrentStep;
+            task.TotalStep = value.TotalStep;
+            task.Step = value.Step;
+            task.State = value.State;
+            task.ErrorMessage = value.ErrorMessage;
+            task.PercentProgress = value.PercentProgress;
+            task.ProgressDisplay = value.ProgressDisplay;
+            task.NetworkTotalBytes = value.NetworkTotalBytes;
+            task.NetworkFinishedBytes = value.NetworkFinishedBytes;
+            task.StorageTotalBytes = value.StorageTotalBytes;
+            task.StorageFinishedBytes = value.StorageFinishedBytes;
+            task.HardLinkBytes = value.HardLinkBytes;
+            task.NetworkDownloadSpeed = value.NetworkDownloadSpeed;
+            task.RemainTimeSeconds = value.RemainTimeSeconds;
         }
         else
         {
-            task = dto.UpdateTask();
+            task = GameInstallProgress.FromDTO(dto);
             _tasks.TryAdd(gameId, task);
         }
-        if (task.State is GameInstallState.Stop or GameInstallState.Finish)
+        if (task.State is RunnerState.Stop or RunnerState.Finish)
         {
             _tasks.TryRemove(gameId, out _);
         }
@@ -207,47 +136,132 @@ internal class GameInstallService
     }
 
 
-
-    public async Task<GameInstallContext?> StartInstallAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
+    private GameInstallRequestDTO ToRequestDTO(GameInstallProgress task)
     {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, audioLanguage);
-    }
-
-
-
-    public async Task<GameInstallContext?> StartPredownloadAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
-    {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Predownload, gameId, installPath, audioLanguage);
-    }
-
-
-
-    public async Task<GameInstallContext?> StartUpdateAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
-    {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, audioLanguage);
-    }
-
-
-
-    public async Task<GameInstallContext?> StartRepairAsync(GameId gameId, string installPath, AudioLanguage audioLanguage)
-    {
-        return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, audioLanguage);
-    }
-
-
-
-    private async Task<GameInstallContext?> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, AudioLanguage audioLanguage)
-    {
-        var request = new GameInstallRequest
+        return new GameInstallRequestDTO
         {
-            GameBiz = gameId.GameBiz,
-            GameId = gameId.Id,
+            GameId = new GameIdDTO
+            {
+                GameBiz = task.GameId.GameBiz,
+                GameId = task.GameId.Id,
+                LauncherId = task.LauncherConfig.Id,
+                Channel = task.LauncherConfig.Channel,
+                SubChannel = task.LauncherConfig.SubChannel,
+                Region = (int)task.LauncherConfig.Region,
+                IsBeta = task.LauncherConfig.IsBeta,
+            },
+            InstallPath = task.InstallPath,
+            Operation = (int)task.Operation,
+            AudioLanguage = (int)task.AudioLanguage,
+            CategoryScenario = task.CategoryScenario,
+            Passport = task.LauncherConfig.IsBeta ? ToPassportDTO(_hoYoPlayService.PassportUserInfo) : null,
+        };
+    }
+
+
+    private static PassportUserInfoDTO? ToPassportDTO(PassportUserInfo? passportUserInfo)
+    {
+        return passportUserInfo is null ? null : new PassportUserInfoDTO
+        {
+            Aid = passportUserInfo.Aid,
+            Mid = passportUserInfo.Mid,
+            Stoken = passportUserInfo.Stoken,
+        };
+    }
+
+
+    public async Task<GameInstallProgress?> StartInstallAsync(GameId gameId, string installPath, string categoryScenario, AudioLanguage audioLanguage, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, categoryScenario, audioLanguage, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> ResumeDownloadAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.Install, gameId, installPath, null, AudioLanguage.None, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> StartPredownloadAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.Predownload, gameId, installPath, null, AudioLanguage.None, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> StartUpdateAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.Update, gameId, installPath, null, AudioLanguage.None, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> StartRepairAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.Repair, gameId, installPath, null, AudioLanguage.None, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> StarUpdatePluginAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        return await StartOrContinueTaskAsync(GameInstallOperation.UpdatePlugin, gameId, installPath, null, AudioLanguage.None, cancellation);
+    }
+
+
+    public async Task<GameInstallProgress?> StarHotUpdateAsync(GameId gameId, string installPath, CancellationToken cancellation)
+    {
+        if (gameId.GameBiz.Game is GameBiz.hk4e)
+        {
+            return await StartOrContinueTaskAsync(GameInstallOperation.HotUpdate, gameId, installPath, null, AudioLanguage.None, cancellation);
+        }
+        else
+        {
+            throw new NotSupportedException($"Hot update operation is not support for ({gameId})");
+        }
+    }
+
+
+    public async Task<GameInstallProgress?> UpdateCutsceneAsync(GameId gameId, string installPath, List<string> blockList, CancellationToken cancellation)
+    {
+        if (gameId.GameBiz.Game is GameBiz.hk4e)
+        {
+            return await StartOrContinueTaskAsync(GameInstallOperation.UpdateCutscene, gameId, installPath, null, AudioLanguage.None, cancellation, blockList);
+        }
+        else
+        {
+            throw new NotSupportedException($"Update cutscene operation is not support for ({gameId})");
+        }
+    }
+
+
+    private async Task<GameInstallProgress?> StartOrContinueTaskAsync(GameInstallOperation operation, GameId gameId, string installPath, string? categoryScenario, AudioLanguage audioLanguage, CancellationToken cancellation, List<string>? blockList = null)
+    {
+        LauncherConfig? launcher = _hoYoPlayService.GetLauncherConfig(gameId);
+        if (launcher is null)
+        {
+            throw new ArgumentNullException($"LauncherConfig of game ({gameId}) is null");
+        }
+        var request = new GameInstallRequestDTO
+        {
+            GameId = new GameIdDTO
+            {
+                GameBiz = gameId.GameBiz,
+                GameId = gameId.Id,
+                LauncherId = launcher.Id,
+                Channel = launcher.Channel,
+                SubChannel = launcher.SubChannel,
+                Region = (int)launcher.Region,
+                IsBeta = launcher.IsBeta,
+            },
             InstallPath = installPath,
             Operation = (int)operation,
+            CategoryScenario = categoryScenario,
             AudioLanguage = (int)audioLanguage,
-            HardLinkPath = await GetHardLinkPathAsync(gameId, installPath),
+            Passport = launcher.IsBeta ? ToPassportDTO(_hoYoPlayService.PassportUserInfo) : null,
         };
-        if (await _rpcService.EnsureRpcServerRunningAsync())
+        if (blockList?.Count > 0)
+        {
+            request.CutsceneBlockList.AddRange(blockList);
+        }
+        if (await RpcService.EnsureRpcServerRunningAsync())
         {
             _logger.LogInformation("""
                 Start game install task: 
@@ -255,9 +269,11 @@ internal class GameInstallService
                 GameId: {gameId} {gameBiz}
                 InstallPath: {installPath}
                 AudioLanguage: {audioLanguage}
-                HardLinkPath: {hardLinkPath}
-                """, operation, gameId.Id, gameId.GameBiz, installPath, audioLanguage, request.HardLinkPath);
-            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+                """, operation, gameId.Id, gameId.GameBiz, installPath, audioLanguage);
+            int limit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue);
+            await _gameInstallerClient.SetRateLimiterAsync(new RateLimiterMessage { Enable = limit > 0, BytesPerSecond = limit }, cancellationToken: cancellation);
+            await _gameInstallerClient.CreateContextAsync(request, cancellationToken: cancellation);
+            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(5), cancellationToken: cancellation);
             StartUpdateTaskProgress();
             return AddOrUpdateTask(dto);
         }
@@ -269,35 +285,31 @@ internal class GameInstallService
     }
 
 
-
-    public async Task<GameInstallContext> PauseTaskAsync(GameInstallContext task)
+    public async Task<GameInstallProgress> PauseTaskAsync(GameInstallProgress task)
     {
         if (RpcService.CheckRpcServerRunning())
         {
-            var request = GameInstallRequest.FromTask(task);
-            await _rpcService.EnsureRpcServerRunningAsync();
+            await RpcService.EnsureRpcServerRunningAsync();
             _logger.LogInformation("Pause game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
-            var dto = await _gameInstallerClient.PauseTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+            var dto = await _gameInstallerClient.PauseTaskAsync(ToRequestDTO(task), deadline: DateTime.UtcNow.AddSeconds(3));
             task = AddOrUpdateTask(dto);
             StartUpdateTaskProgress();
         }
         else
         {
-            task.State = GameInstallState.Stop;
+            task.State = RunnerState.Stop;
             task.ErrorMessage = Lang.RPCServiceExitedUnexpectedly;
         }
         return task;
     }
 
 
-
-    public async Task<GameInstallContext> ContinueTaskAsync(GameInstallContext task)
+    public async Task<GameInstallProgress> ContinueTaskAsync(GameInstallProgress task)
     {
-        var request = GameInstallRequest.FromTask(task);
-        if (await _rpcService.EnsureRpcServerRunningAsync())
+        if (await RpcService.EnsureRpcServerRunningAsync())
         {
             _logger.LogInformation("Continue game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
-            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+            var dto = await _gameInstallerClient.StartOrContinueTaskAsync(ToRequestDTO(task), deadline: DateTime.UtcNow.AddSeconds(3));
             task = AddOrUpdateTask(dto);
             StartUpdateTaskProgress();
         }
@@ -305,49 +317,60 @@ internal class GameInstallService
     }
 
 
-
-    public async Task<GameInstallContext> StopTaskAsync(GameInstallContext task)
+    public async Task<GameInstallProgress> StopTaskAsync(GameInstallProgress task)
     {
         if (RpcService.CheckRpcServerRunning())
         {
-            var request = GameInstallRequest.FromTask(task);
-            await _rpcService.EnsureRpcServerRunningAsync();
+            await RpcService.EnsureRpcServerRunningAsync();
             _logger.LogInformation("Stop game install task: {gameId} {gameBiz}", task.GameId.Id, task.GameId.GameBiz);
-            var dto = await _gameInstallerClient.StopTaskAsync(request, deadline: DateTime.UtcNow.AddSeconds(3));
+            var dto = await _gameInstallerClient.StopTaskAsync(ToRequestDTO(task), deadline: DateTime.UtcNow.AddSeconds(3));
             task = AddOrUpdateTask(dto);
             StartUpdateTaskProgress();
         }
         else
         {
-            task.State = GameInstallState.Stop;
+            task.State = RunnerState.Stop;
             task.ErrorMessage = Lang.RPCServiceExitedUnexpectedly;
         }
         return task;
     }
 
 
-
-    public async Task<bool> StartUninstallAsync(GameId gameId, string installPath)
+    public async Task<bool> StartUninstallAsync(GameId gameId, string installPath, CancellationToken cancellation)
     {
-        if (await _rpcService.EnsureRpcServerRunningAsync())
+        if (await RpcService.EnsureRpcServerRunningAsync())
         {
             _logger.LogInformation("""
                 Start uninstall game:
-                GameId: {gameId} {gameBiz}
+                GameId: {gameId}
                 InstallPath: {installPath}
-                """, gameId.Id, gameId.GameBiz, installPath);
-            var request = new UninstallGameRequest
+                """, gameId, installPath);
+            var request = new UninstallGameRequestDTO
             {
-                GameBiz = gameId.GameBiz,
-                GameId = gameId.Id,
+                GameId = new GameIdDTO { GameBiz = gameId.GameBiz, GameId = gameId.Id },
                 InstallPath = installPath,
-                UserDataFolder = AppConfig.UserDataFolder,
-                ScreenshotFolder = AppConfig.ScreenshotFolder,
-                GameExeName = GameLauncherService.GetGameExeName(gameId.GameBiz),
             };
+            try
+            {
+                GameConfig? config = await _hoYoPlayService.GetGameConfigAsync(gameId, cancellation);
+                if (!string.IsNullOrWhiteSpace(config?.GameScreenshotDir))
+                {
+                    request.ScreenshotPath = Path.GetFullPath(Path.Combine(installPath, config.GameScreenshotDir));
+                    if (Directory.Exists(AppConfig.ScreenshotFolder))
+                    {
+                        request.ScreenshotBackupPath = Path.Combine(AppConfig.ScreenshotFolder, Path.GetFileNameWithoutExtension(config.ExeFileName));
+                    }
+                    else if (Directory.Exists(AppConfig.UserDataFolder))
+                    {
+                        request.ScreenshotBackupPath = Path.Combine(AppConfig.UserDataFolder, "Screenshots", Path.GetFileNameWithoutExtension(config.ExeFileName));
+                    }
+                }
+            }
+            catch { }
             var response = await _gameInstallerClient.UninstallGameAsync(request);
             if (response.Success)
             {
+                _tasks.TryRemove(gameId, out _);
                 return true;
             }
             else
@@ -360,58 +383,6 @@ internal class GameInstallService
             return false;
         }
     }
-
-
-
-    private async Task<string?> GetHardLinkPathAsync(GameId gameId, string installPath)
-    {
-        if (!AppConfig.EnableHardLink)
-        {
-            return null;
-        }
-        if (GameFeatureConfig.FromGameId(gameId).SupportHardLink)
-        {
-            string game = gameId.GameBiz.Game;
-            Version? lastVersion = null;
-            string? lastPath = null;
-            foreach (string server in new[] { "cn", "bilibili", "global", })
-            {
-                string biz = $"{game}_{server}";
-                if (gameId.GameBiz != biz)
-                {
-                    if (_tasks.Values.FirstOrDefault(x => x.GameId.GameBiz == biz) is GameInstallContext task)
-                    {
-                        if (task.Operation is GameInstallOperation.Install or GameInstallOperation.Update or GameInstallOperation.Repair)
-                        {
-                            if (!string.IsNullOrWhiteSpace(task.InstallPath) && Path.GetPathRoot(task.InstallPath) == Path.GetPathRoot(installPath) && DriveHelper.GetDriveFormat(installPath) is "NTFS")
-                            {
-                                return task.InstallPath;
-                            }
-                        }
-                    }
-                    string? path = GameLauncherService.GetGameInstallPath(biz);
-                    if (!string.IsNullOrWhiteSpace(path) && Path.GetPathRoot(path) == Path.GetPathRoot(installPath) && DriveHelper.GetDriveFormat(path) is "NTFS")
-                    {
-                        Version? version = await _gameLauncherService.GetLocalGameVersionAsync(biz, path);
-                        if (lastPath is null)
-                        {
-                            lastVersion = version;
-                            lastPath = path;
-                        }
-                        else if (version > lastVersion)
-                        {
-                            lastVersion = version;
-                            lastPath = path;
-                        }
-                    }
-
-                }
-            }
-            return lastPath;
-        }
-        return null;
-    }
-
 
 
 }

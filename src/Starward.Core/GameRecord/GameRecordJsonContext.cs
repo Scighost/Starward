@@ -1,3 +1,4 @@
+﻿using Starward.Core.DeviceFp;
 using Starward.Core.GameRecord.BH3.DailyNote;
 using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.Genshin.ImaginariumTheater;
@@ -38,6 +39,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<ApocalypticShadowInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<SimulatedUniverseInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ChallengePeakData>))]
+[JsonSerializable(typeof(DeviceFpRequest))]
 [JsonSerializable(typeof(miHoYoApiWrapper<DeviceFpResult>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ImaginariumTheaterWarpper>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<InterKnotReportSummary>))]
@@ -53,6 +55,7 @@ namespace Starward.Core.GameRecord;
 [JsonSerializable(typeof(miHoYoApiWrapper<BH3DailyNote>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationAbstractInfo>))]
 [JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationDetailInfo>))]
+[JsonSerializable(typeof(miHoYoApiWrapper<ThresholdSimulationPeriodDetail>))]
 [JsonSerializable(typeof(DateTimeObjectJsonConverter.DateTimeObject))]
 internal partial class GameRecordJsonContext : JsonSerializerContext
 {

@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
@@ -10,7 +10,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Starward.Features.Setting;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Diagnostics;
@@ -29,7 +28,7 @@ using Windows.System;
 namespace Starward.Features.Screenshot;
 
 [INotifyPropertyChanged]
-public sealed partial class ScreenCaptureInfoWindow : WindowEx
+public sealed partial class ScreenCaptureInfoWindow : WindowBase
 {
 
     private const int WindowWidth = 320;

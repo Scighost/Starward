@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.StarRail.ChallengePeakPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,7 @@
              xmlns:local="using:Starward.Features.GameRecord.StarRail"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sfg="using:Starward.Features.Gacha"
              xmlns:sfgr="using:Starward.Features.GameRecord"
              x:DefaultBindMode="OneWay"
@@ -270,12 +270,11 @@
                     <StackPanel Grid.Row="0" Margin="20,12,0,0">
                         <!--  BOSS 名称  -->
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Horizontal"
-                                        Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord.HardMode, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" Visibility="{x:Bind CurrentChallengePeakRecord.BossRecord.HardMode, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock FontSize="16" FontWeight="Bold">
-                                    <Run Text="["/>
-                                    <Run Text="{x:Bind CurrentChallengePeakRecord.BossInfo.HardModeNameMi18n}"/>
-                                    <Run Text="]"/>
+                                    <Run Text="[" />
+                                    <Run Text="{x:Bind CurrentChallengePeakRecord.BossInfo.HardModeNameMi18n}" />
+                                    <Run Text="]" />
                                 </TextBlock>
                             </StackPanel>
                             <TextBlock FontSize="16"
@@ -469,8 +468,7 @@
                                         <StackPanel Spacing="8"
                                                     Visibility="{x:Bind MobRecord.IsFast, Converter={StaticResource BoolToVisibilityReversedConverter}}">
                                             <!--  通关时间  -->
-                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                                       Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
+                                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind MobRecord.ChallengeTime.ToString('yyyy.MM.dd HH:mm', x:Null)}" />
                                             <!--  队伍  -->
                                             <ItemsControl HorizontalAlignment="Left"
                                                           ItemTemplate="{StaticResource StarRailTeamDataTemplate}"
@@ -483,7 +481,7 @@
                                             </ItemsControl>
                                         </StackPanel>
 
-                                        <!-- 快速通关 -->
+                                        <!--  快速通关  -->
                                         <Image Width="120"
                                                Margin="60,0,0,0"
                                                HorizontalAlignment="Left"

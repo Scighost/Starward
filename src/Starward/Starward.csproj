@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+		<TargetFramework>net11.0-windows10.0.26100.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<LangVersion>preview</LangVersion>
 		<RootNamespace>Starward</RootNamespace>
@@ -23,6 +23,7 @@
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' == 'Debug'">false</CsWinRTAotOptimizerEnabled>
 		<CsWinRTAotOptimizerEnabled Condition="'$(Configuration)' != 'Debug'">true</CsWinRTAotOptimizerEnabled>
 		<CETCompat>false</CETCompat>
+		<StartupHookSupport Condition="'$(Configuration)' == 'Debug'">true</StartupHookSupport>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,45 +31,52 @@
 		<PackageReference Include="CommunityToolkit.WinUI.Animations" Version="8.2.251219" />
 		<PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.251219" />
 		<PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.251219" />
-		<!--  DO NOT Update Segmented https://github.com/CommunityToolkit/Windows/pull/699  -->
-		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250402" />
+		<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.251219" />
 		<PackageReference Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
 		<PackageReference Include="ComputeSharp.D2D1.WinUI" Version="3.2.0" />
-		<PackageReference Include="Dapper" Version="2.1.79" />
+		<PackageReference Include="Dapper" Version="2.1.100" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.85.0" />
 		<PackageReference Include="H.InputSimulator" Version="1.5.0" />
 		<PackageReference Include="H.NotifyIcon.WinUI" Version="2.4.1" />
-		<PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="10.0.11" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="10.0.11" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Ini" Version="11.0.0" />
 		<PackageReference Include="Microsoft.Graphics.Win2D" Version="1.3.2" ExcludeAssets="all" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260804001" />
-		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.9169" />
-		<PackageReference Include="MiniExcel" Version="1.46.0" />
-		<PackageReference Include="NuGet.Versioning" Version="7.9.0" />
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.260921001" />
+		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.9457" />
+		<PackageReference Include="MiniExcel" Version="2.0.0" />
+		<PackageReference Include="NuGet.Versioning" Version="8.0.0" />
 		<PackageReference Include="Scighost.WinUI" Version="0.1.0" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="10.0.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="11.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.6.5" />
+		<PackageReference Include="Starward.Assets" Version="0.6.7" />
 		<PackageReference Include="Starward.Codec" Version="0.5.2" />
 		<PackageReference Include="Starward.GameInput" Version="0.3.1" />
-		<PackageReference Include="Starward.NativeLib" Version="0.3.1" />
+		<PackageReference Include="Starward.HPatch" Version="0.1.0" />
 		<PackageReference Include="Starward.Win2D" Version="1.3.2-release.1" />
-		<PackageReference Include="System.IO.Hashing" Version="10.0.11" />
-		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="5.0.7" />
-		<PackageReference Include="Vanara.PInvoke.Ole" Version="5.0.7" />
-		<PackageReference Include="Vanara.PInvoke.SetupAPI" Version="5.0.7" />
-		<PackageReference Include="Vanara.PInvoke.Shell32" Version="5.0.7" />
+		<PackageReference Include="System.IO.Hashing" Version="11.0.0" />
+		<PackageReference Include="Vanara.PInvoke.DwmApi" Version="5.0.8" />
+		<PackageReference Include="Vanara.PInvoke.DXGI" Version="5.0.8" />
+		<PackageReference Include="Vanara.PInvoke.Ole" Version="5.0.8" />
+		<PackageReference Include="Vanara.PInvoke.SetupAPI" Version="5.0.8" />
+		<PackageReference Include="Vanara.PInvoke.Shell32" Version="5.0.8" />
+		<PackageReference Include="ZiggyCreatures.FusionCache" Version="2.10.0" />
+		<PackageReference Include="ZiggyCreatures.FusionCache.Serialization.SystemTextJson" Version="2.10.0" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+		<ProjectReference Include="..\Starward.GameInstall\Starward.GameInstall.csproj" />
 		<ProjectReference Include="..\Starward.Language\Starward.Language.csproj" />
-		<ProjectReference Include="..\Starward.RPC\Starward.RPC.csproj" />
 		<ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="**\*.proto" />
 	</ItemGroup>
 
 	<ItemGroup>

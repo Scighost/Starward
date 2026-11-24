@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
@@ -7,9 +7,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.Web.WebView2.Core;
 using NuGet.Versioning;
-using Starward.Features.RPC;
 using Starward.Features.Setting;
-using Starward.Frameworks;
 using Starward.Setup.Core;
 using Starward.Setup.Core.Github;
 using System;
@@ -30,7 +28,7 @@ using Windows.System;
 namespace Starward.Features.Update;
 
 [INotifyPropertyChanged]
-public sealed partial class UpdateWindow : WindowEx
+public sealed partial class UpdateWindow : WindowBase
 {
 
 
@@ -401,7 +399,6 @@ public sealed partial class UpdateWindow : WindowEx
         AppConfig.IgnoreVersion = null;
         Button_UpdateNow.Visibility = Visibility.Collapsed;
         Button_Restart.Visibility = Visibility.Visible;
-        AppConfig.GetService<RpcService>().KeepRunningOnExited(false, noLongerChange: true);
         if (AutoRestartWhenUpdateFinished && !skipRestart)
         {
             Restart();
@@ -642,7 +639,7 @@ public sealed partial class UpdateWindow : WindowEx
     private async Task<string> RenderMarkdownAsync(string markdown)
     {
         string html = await _releaseClient.RenderGithubMarkdownAsync(markdown);
-        var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\CSS\github-markdown.css");
+        var cssFile = Path.Combine(AppContext.BaseDirectory, @"Assets\Web\github-markdown.css");
         string? css = null;
         if (File.Exists(cssFile))
         {
@@ -651,7 +648,7 @@ public sealed partial class UpdateWindow : WindowEx
         }
         else
         {
-            css = """<link href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown.min.css" type="text/css" rel="stylesheet" />""";
+            css = """<link href="https://starward-static.scighost.com/resource/web/github-markdown.css" type="text/css" rel="stylesheet" />""";
         }
         return $$"""
             <!DOCTYPE html>

@@ -1,5 +1,4 @@
-using System.Net.Http.Json;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Starward.Core.Gacha.ZZZ;
 
@@ -67,7 +66,7 @@ public class ZZZGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, endId, lang, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -75,7 +74,7 @@ public class ZZZGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<ZZZGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -84,15 +83,15 @@ public class ZZZGachaClient : GachaLogClient
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default)
     {
         string prefix = GetGachaUrlPrefix(gachaUrl);
-        return await GetGachaLogByQueryAsync<ZZZGachaItem>(prefix, query, cancellationToken);
+        return await GetGachaLogByQueryAsync<ZZZGachaItem>(prefix, query, cancellationToken).ConfigureAwait(false);
     }
 
 
     protected override async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken);
+        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken).ConfigureAwait(false);
         var url = $"{gachaUrlPrefix}&{param}";
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)
         {
             return new List<T>();

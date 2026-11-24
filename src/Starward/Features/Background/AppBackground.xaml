@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="Starward.Features.Background.AppBackground"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,26 +11,27 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="AppBackgroundImageExStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="AppBackgroundImageExStyle.xaml" />
     </UserControl.Resources>
 
     <Grid>
 
         <swi:ImageEx HorizontalAlignment="Center"
                      VerticalAlignment="Center"
-                     PlaceholderSource="{x:Bind PlacehoderImageSource}"
+                     PlaceholderSource="{x:Bind PlaceholderImageSource}"
                      PlaceholderStretch="UniformToFill"
                      Source="{x:Bind BackgroundImageSource}"
                      Stretch="UniformToFill"
                      Style="{ThemeResource AppBackgroundImageExStyle}" />
 
+        <swi:ImageEx HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     PlaceholderStretch="UniformToFill"
+                     Source="{x:Bind ThemeImageUrl}"
+                     Stretch="UniformToFill"
+                     Style="{ThemeResource AppBackgroundImageExStyle}" />
 
-
-        <Rectangle Width="400"
+        <Rectangle Width="00"
                    Height="400"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Top"
@@ -42,7 +43,6 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-
         <Rectangle Width="400"
                    Height="400"
                    HorizontalAlignment="Right"
@@ -55,8 +55,6 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-
-
         <Rectangle Width="200"
                    HorizontalAlignment="Right"
                    VerticalAlignment="Stretch"

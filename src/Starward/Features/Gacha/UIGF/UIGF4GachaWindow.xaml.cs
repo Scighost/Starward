@@ -1,10 +1,9 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -18,7 +17,7 @@ using Windows.System;
 namespace Starward.Features.Gacha.UIGF;
 
 [INotifyPropertyChanged]
-public sealed partial class UIGF4GachaWindow : WindowEx
+public sealed partial class UIGF4GachaWindow : WindowBase
 {
 
     private readonly ILogger<UIGF4GachaWindow> _logger = AppConfig.GetLogger<UIGF4GachaWindow>();

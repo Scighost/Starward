@@ -1,4 +1,5 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -11,17 +12,22 @@ using Starward.Features.Gacha;
 using Starward.Features.GameLauncher;
 using Starward.Features.GamepadControl;
 using Starward.Features.GameRecord;
-using Starward.Features.GameSetting;
-using Starward.Features.RPC;
+using Starward.Features.GameSelector;
+using Starward.Features.Passport;
 using Starward.Features.Screenshot;
 using Starward.Features.SelfQuery;
 using Starward.Features.Setting;
 using Starward.Features.Update;
+using Starward.GameInstall;
 using Starward.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 
 namespace Starward.Features.ViewHost;
@@ -30,12 +36,21 @@ namespace Starward.Features.ViewHost;
 public sealed partial class MainView : UserControl
 {
 
+    public static MainView Current { get; private set; }
+
 
     private readonly ILogger<MainView> _logger = AppConfig.GetLogger<MainView>();
+
+    private readonly PassportService _passportService = AppConfig.GetService<PassportService>();
+
+    private readonly HoYoPlayService _hoYoPlayService = AppConfig.GetService<HoYoPlayService>();
+
+    private readonly WindowsDeviceFpService _windowsDeviceFpService = AppConfig.GetService<WindowsDeviceFpService>();
 
 
     public GameId? CurrentGameId { get; private set => SetProperty(ref field, value); }
 
+    public LauncherConfigModel? CurrentLauncherConfig { get; private set => SetProperty(ref field, value); }
 
     private GameFeatureConfig CurrentGameFeatureConfig { get; set; }
 
@@ -43,6 +58,7 @@ public sealed partial class MainView : UserControl
 
     public MainView()
     {
+        Current = this;
         this.InitializeComponent();
         InitializeMainView();
     }
@@ -52,21 +68,27 @@ public sealed partial class MainView : UserControl
     private void InitializeMainView()
     {
         this.Loaded += MainView_Loaded;
-        GameId? gameId = GameSelector.CurrentGameId;
+        WeakReferenceMessenger.Default.Register<MainViewNavigateMessage>(this, OnMainViewNavigateMessageReceived);
+        WeakReferenceMessenger.Default.Register<BH3GlobalGameServerChangedMessage>(this, OnBH3GlobalGameServerChanged);
+        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, (_, _) => _ = CheckUpdateOrShowRecentUpdateContentAsync());
+        WeakReferenceMessenger.Default.Register<EnabledLauncherConfigChangedMessage>(this, OnEnabledLauncherConfigChanged);
+        GameId? gameId = GameSwitcher.CurrentGameIcon?.GameId;
         if (gameId?.GameBiz == GameBiz.bh3_global)
         {
             string? id = AppConfig.LastGameIdOfBH3Global;
             if (!string.IsNullOrWhiteSpace(id))
             {
-                gameId.Id = id;
+                gameId = new GameId(id, GameBiz.bh3_global);
             }
         }
         CurrentGameId = gameId;
-        CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
+        CurrentLauncherConfig = LauncherConfigModel.FromId(GameSwitcher.CurrentGameIcon?.LauncherId);
         UpdateNavigationView();
-        WeakReferenceMessenger.Default.Register<MainViewNavigateMessage>(this, OnMainViewNavigateMessageReceived);
-        WeakReferenceMessenger.Default.Register<BH3GlobalGameServerChangedMessage>(this, OnBH3GlobalGameServerChanged);
-        WeakReferenceMessenger.Default.Register<MainWindowStateChangedMessage>(this, (_, _) => _ = CheckUpdateOrShowRecentUpdateContentAsync());
+        InitializePassportUser();
+        if (CurrentGameId is null)
+        {
+            ShowLauncherConfigView();
+        }
     }
 
 
@@ -77,7 +99,6 @@ public sealed partial class MainView : UserControl
         CheckSystemProxy();
         HotkeyManager.InitializeHotkey(this.XamlRoot.GetWindowHandle());
         _ = CheckUpdateOrShowRecentUpdateContentAsync();
-        AppConfig.GetService<RpcService>().TrySetEnviromentAsync();
         LogUploadService.Start();
         if (AppConfig.EnableGamepadController)
         {
@@ -88,36 +109,99 @@ public sealed partial class MainView : UserControl
     }
 
 
-
-
-    private void GameSelector_CurrentGameChanged(object? sender, (GameId, bool DoubleTapped) e)
+    private async void CheckSystemProxy()
     {
-        if (e.Item1.GameBiz == GameBiz.bh3_global)
+        try
         {
-            // 崩坏3国际服区服
+            await Task.Delay(1500);
+            Uri? proxy = HttpClient.DefaultProxy.GetProxy(new Uri("https://starward.scighost.com"));
+            if (proxy is not null)
+            {
+                InAppToast.MainWindow?.Information(Lang.MainView_CheckSystemProxy_SystemProxyIsEnabled, proxy.ToString(), 5000);
+            }
+        }
+        catch { }
+    }
+
+
+    private void GameSwitcher_CurrentGameChanged(object? sender, PinnedGameIcon icon)
+    {
+        GameId gameId = icon.GameId;
+        if (icon.GameId.GameBiz == GameBiz.bh3_global)
+        {
             string? id = AppConfig.LastGameIdOfBH3Global;
             if (!string.IsNullOrWhiteSpace(id))
             {
-                e.Item1.Id = id;
+                gameId = new GameId(id, GameBiz.bh3_global);
             }
         }
-        CurrentGameId = e.Item1;
-        CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
+        CurrentGameId = gameId;
+        var newConfig = LauncherConfigModel.FromId(icon.LauncherId);
+        if (CurrentLauncherConfig != newConfig)
+        {
+            CurrentLauncherConfig = newConfig;
+            InitializePassportUser();
+        }
         UpdateNavigationView();
+        HideLauncherConfigView();
+        UpdateDragableArea();
     }
-
 
 
     private void OnBH3GlobalGameServerChanged(object _, BH3GlobalGameServerChangedMessage message)
     {
-        if (CurrentGameId?.GameBiz == GameBiz.bh3_global)
+        if (CurrentGameId?.GameBiz == GameBiz.bh3_global && CurrentGameId.Id != message.GameId)
         {
-            CurrentGameId.Id = message.GameId;
-            OnPropertyChanged(nameof(CurrentGameId));
+            CurrentGameId = new(message.GameId, GameBiz.bh3_global);
             NavigateTo(typeof(GameLauncherPage), CurrentGameId, new SuppressNavigationTransitionInfo());
         }
     }
 
+
+
+    #region UI
+
+
+    [RelayCommand]
+    private void ShowLauncherConfigView()
+    {
+        LauncherConfigView.Visibility = Visibility.Visible;
+        LauncherConfigView.Opacity = 1;
+        LauncherConfigView.IsHitTestVisible = true;
+        LauncherConfigView.ShowGameInfosIfNoGames();
+    }
+
+
+
+    private void HideLauncherConfigView()
+    {
+        LauncherConfigView.GoBack();
+        LauncherConfigView.GoBack();
+    }
+
+
+    /// <summary>
+    /// 更新窗口拖拽区域
+    /// </summary>
+    private void GameSwitcher_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        UpdateDragableArea();
+    }
+
+
+
+    private void UpdateDragableArea()
+    {
+        try
+        {
+            double x = GameSwitcher.ActualWidth + 62;
+            this.XamlRoot.SetWindowDragRectangles([new Rect(x, 0, 10000, 48)]);
+        }
+        catch { }
+    }
+
+
+    #endregion
 
 
 
@@ -129,22 +213,14 @@ public sealed partial class MainView : UserControl
 
     private void UpdateNavigationView()
     {
+        CurrentGameFeatureConfig = GameFeatureConfig.FromGameId(CurrentGameId);
+
         NavigationViewItem_Launcher.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameLauncherPage)).ToVisibility();
-        NavigationViewItem_GameSetting.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameSettingPage)).ToVisibility();
         NavigationViewItem_Screenshot.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(ScreenshotPage)).ToVisibility();
         NavigationViewItem_GachaLog.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GachaLogPage)).ToVisibility();
         NavigationViewItem_HoyolabToolbox.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GameRecordPage)).ToVisibility();
         NavigationViewItem_SelfQuery.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(SelfQueryPage)).ToVisibility();
         NavigationViewItem_GenshinBeyondGacha.Visibility = CurrentGameFeatureConfig.SupportedPages.Contains(nameof(GenshinBeyondGachaPage)).ToVisibility();
-
-        // 抽卡记录名称
-        string gachalogText = CurrentGameId?.GameBiz.Game switch
-        {
-            GameBiz.hk4e => Lang.GachaLogService_WishRecords,
-            GameBiz.hkrpg => Lang.GachaLogService_WarpRecords,
-            GameBiz.nap => Lang.GachaLogService_SignalSearchRecords,
-            _ => "",
-        };
 
         if (CurrentGameId?.GameBiz.IsChinaServer() ?? false)
         {
@@ -188,7 +264,6 @@ public sealed partial class MainView : UserControl
                     var type = item.Tag switch
                     {
                         nameof(GameLauncherPage) => typeof(GameLauncherPage),
-                        nameof(GameSettingPage) => typeof(GameSettingPage),
                         nameof(ScreenshotPage) => typeof(ScreenshotPage),
                         nameof(GachaLogPage) => typeof(GachaLogPage),
                         nameof(GameRecordPage) => typeof(GameRecordPage),
@@ -235,14 +310,28 @@ public sealed partial class MainView : UserControl
 
     private void OnMainViewNavigateMessageReceived(object _, MainViewNavigateMessage message)
     {
-        NavigateTo(message.Page);
+        if (message.GameId is not null)
+        {
+            CurrentGameId = message.GameId;
+            UpdateNavigationView();
+        }
+        NavigateTo(message.Page, message.GameId);
+        HideLauncherConfigView();
+    }
+
+
+
+    private async void OnEnabledLauncherConfigChanged(object _, EnabledLauncherConfigChangedMessage message)
+    {
+        await Task.Delay(300);
+        CurrentGameId = GameSwitcher.CurrentGameIcon?.GameId;
+        UpdateNavigationView();
     }
 
 
 
 
     #endregion
-
 
 
 
@@ -314,20 +403,201 @@ public sealed partial class MainView : UserControl
 
 
 
+    #region Passport
 
-    private async void CheckSystemProxy()
+
+    [ObservableProperty]
+    public partial PassportUserInfoModel? CurrentPassportUser { get; set; }
+
+    public ObservableCollection<PassportUserInfoModel>? PassportUsers { get; set => SetProperty(ref field, value); }
+
+    public bool AuthLoginGameByPassportAccount
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.AuthLoginGameByPassportAccount = value;
+            }
+        }
+    } = AppConfig.AuthLoginGameByPassportAccount;
+
+
+    private void InitializePassportUser()
     {
         try
         {
-            await Task.Delay(1500);
-            Uri? proxy = HttpClient.DefaultProxy.GetProxy(new Uri("https://starward.scighost.com"));
-            if (proxy is not null)
+            CurrentPassportUser = null;
+            PassportUsers = null;
+            UpdateHypFlyoutLayout();
+            if (CurrentLauncherConfig?.CanLogin ?? false)
             {
-                InAppToast.MainWindow?.Information(Lang.MainView_CheckSystemProxy_SystemProxyIsEnabled, proxy.ToString(), 5000);
+                _ = _windowsDeviceFpService.InitializeDeviceFpAsync(CurrentLauncherConfig.Region);
+                PassportUsers = new(PassportService.GetPassportUserInfos(CurrentLauncherConfig.Region));
+                if (PassportUsers.Count > 0)
+                {
+                    CurrentPassportUser = PassportUsers.FirstOrDefault(x => x.Aid == AppConfig.GetLastPassportUserAid(CurrentLauncherConfig.Region));
+                    CurrentPassportUser ??= PassportUsers.FirstOrDefault();
+                    UpdateHypFlyoutLayout();
+                    _ = VerifyPassportSessionAsync(PassportUsers);
+                }
             }
         }
-        catch { }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Initialize passport user");
+        }
     }
+
+
+    private async Task VerifyPassportSessionAsync(IEnumerable<PassportUserInfoModel> list)
+    {
+        try
+        {
+            await Task.WhenAll(list.Select(x => _passportService.VerifySessionAsync(x)));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Verfiy passport session");
+        }
+    }
+
+
+    partial void OnCurrentPassportUserChanged(PassportUserInfoModel? value)
+    {
+        _hoYoPlayService.PassportUserInfo = value;
+        if (value is not null)
+        {
+            AppConfig.SetLastPassportUserAid(value.Region, value.Aid);
+        }
+    }
+
+
+    [RelayCommand]
+    public async Task<PassportUserInfoModel?> HypLoginAsync()
+    {
+        try
+        {
+            if (CurrentLauncherConfig?.CanLogin ?? false)
+            {
+                var model = await new HypLoginWindow
+                {
+                    ParentWindowHandle = MainWindow.Current.WindowHandle,
+                    ServerRegion = CurrentLauncherConfig.Region
+                }.LoginAsync();
+                if (model is not null)
+                {
+                    PassportUsers ??= new();
+                    if (PassportUsers.FirstOrDefault(x => x.Aid == model.Aid) is PassportUserInfoModel oldModel)
+                    {
+                        int index = PassportUsers.IndexOf(oldModel);
+                        PassportUsers.Remove(oldModel);
+                        PassportUsers.Insert(index, model);
+                    }
+                    else
+                    {
+                        PassportUsers.Add(model);
+                    }
+                    CurrentPassportUser = model;
+                    UpdateHypFlyoutLayout();
+                    PassportService.SavePassportUserInfo(model);
+                    MainWindow.Current.Show();
+                    await AppConfig.GetService<GameRecordRoleService>().UpdateGameRolesByPassportAsync(model);
+                    return model;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Hyp login");
+            InAppToast.MainWindow?.Error(ex, Lang.MainView_LoginFailed);
+        }
+        return null;
+    }
+
+
+    private void Button_HypLogout_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (sender is FrameworkElement { DataContext: PassportUserInfoModel model })
+            {
+                PassportService.DeletePassportUserInfo(model);
+                _ = _passportService.LogoutAsync(model);
+                if (AppConfig.GetLastPassportUserAid(model.Region) == model.Aid)
+                {
+                    AppConfig.SetLastPassportUserAid(model.Region, 0);
+                }
+                if (CurrentPassportUser == model)
+                {
+                    PassportUsers?.Remove(model);
+                    CurrentPassportUser = PassportUsers?.FirstOrDefault();
+                }
+                else
+                {
+                    PassportUsers?.Remove(model);
+                }
+                UpdateHypFlyoutLayout();
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Hyp logout");
+        }
+    }
+
+
+    [RelayCommand]
+    private void HypLogout()
+    {
+        try
+        {
+            var model = CurrentPassportUser;
+            if (model is null)
+            {
+                return;
+            }
+            PassportService.DeletePassportUserInfo(model);
+            _ = _passportService.LogoutAsync(model);
+            if (AppConfig.GetLastPassportUserAid(model.Region) == model.Aid)
+            {
+                AppConfig.SetLastPassportUserAid(model.Region, 0);
+            }
+            PassportUsers?.Remove(model);
+            CurrentPassportUser = PassportUsers?.FirstOrDefault();
+            UpdateHypFlyoutLayout();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Hyp logout");
+        }
+    }
+
+
+    private void UpdateHypFlyoutLayout()
+    {
+        if (PassportUsers?.Count > 1)
+        {
+            ColumnDefinition_HypLoginColumn0.MaxWidth = 200;
+            ListView_HypAccunt.Visibility = Visibility.Visible;
+            Button_HypLogout.Visibility = Visibility.Collapsed;
+        }
+        else if (PassportUsers?.Count > 0)
+        {
+            ColumnDefinition_HypLoginColumn0.MaxWidth = double.PositiveInfinity;
+            ListView_HypAccunt.Visibility = Visibility.Collapsed;
+            Button_HypLogout.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            ColumnDefinition_HypLoginColumn0.MaxWidth = double.PositiveInfinity;
+            ListView_HypAccunt.Visibility = Visibility.Collapsed;
+            Button_HypLogout.Visibility = Visibility.Collapsed;
+        }
+    }
+
+
+    #endregion
 
 
 }

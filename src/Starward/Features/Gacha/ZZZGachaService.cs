@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using Microsoft.Extensions.Logging;
 using MiniExcelLibs;
 using Starward.Core;
@@ -10,7 +10,7 @@ using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.ZZZ.GachaRecord;
 using Starward.Features.Database;
 using Starward.Features.Gacha.UIGF;
-using Starward.Features.GameRecord;
+using Starward.Features.GameRecord.ZZZ;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -32,11 +32,11 @@ internal class ZZZGachaService : GachaLogService
     protected override string GachaTableName { get; } = "ZZZGachaItem";
 
 
-    private readonly GameRecordService _gameRecordService;
+    private readonly GameRecordZZZService _gameRecordService;
 
 
 
-    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client, GameRecordService gameRecordService) : base(logger, client)
+    public ZZZGachaService(ILogger<ZZZGachaService> logger, ZZZGachaClient client, GameRecordZZZService gameRecordService) : base(logger, client)
     {
         _gameRecordService = gameRecordService;
     }

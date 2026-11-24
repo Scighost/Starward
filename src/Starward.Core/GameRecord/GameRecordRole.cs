@@ -37,6 +37,9 @@ public class GameRecordRole
     [JsonIgnore]
     public string HeadIcon { get; set; }
 
+    [JsonIgnore]
+    public long Aid { get; set; }
+
 }
 
 

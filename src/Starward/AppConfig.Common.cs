@@ -1,10 +1,11 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Timers;
 
 namespace Starward;
 
@@ -26,6 +27,20 @@ public static partial class AppConfig
         string? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string;
         DeviceId = new(MD5.HashData(Encoding.UTF8.GetBytes($"{systemBiosVersion}{machineGuid}{Environment.MachineName}")));
         SessionId = Guid.CreateVersion7();
+    }
+
+
+    private static Timer? _gcTimer;
+
+
+    public static void StartGCTimer()
+    {
+        if (_gcTimer is null)
+        {
+            _gcTimer = new(TimeSpan.FromSeconds(60));
+            _gcTimer.Elapsed += (_, _) => GC.Collect();
+        }
+        _gcTimer.Start();
     }
 
 

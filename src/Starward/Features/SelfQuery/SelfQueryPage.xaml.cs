@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.SelfQuery;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
