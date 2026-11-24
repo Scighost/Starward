@@ -1,8 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI.Controls;
 using Microsoft.Extensions.Logging;
+using Microsoft.Graphics.Display;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
@@ -11,62 +10,48 @@ using Starward.Core.HoYoPlay;
 using Starward.Features.Background;
 using Starward.Features.GameInstall;
 using Starward.Features.GameSelector;
-using Starward.Features.HoYoPlay;
+using Starward.Features.GameSetting;
+using Starward.GameInstall;
+using Starward.GameInstall.HotUpdate;
 using Starward.Helpers;
-using Starward.RPC.GameInstall;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 
-#pragma warning disable MVVMTK0034 // Direct field reference to [ObservableProperty] backing field
-#pragma warning disable MVVMTK0045 // Using [ObservableProperty] on fields is not AOT compatible for WinRT
-
-
 namespace Starward.Features.GameLauncher;
 
-[INotifyPropertyChanged]
-public sealed partial class GameLauncherSettingDialog : ContentDialog
-{
 
+public sealed partial class GameLauncherSettingDialog : ContentDialogBase
+{
 
     private readonly ILogger<GameLauncherSettingDialog> _logger = AppConfig.GetLogger<GameLauncherSettingDialog>();
 
-
     private readonly HoYoPlayService _hoyoPlayService = AppConfig.GetService<HoYoPlayService>();
-
 
     private readonly GameLauncherService _gameLauncherService = AppConfig.GetService<GameLauncherService>();
 
-
-    private readonly GamePackageService _gamePackageService = AppConfig.GetService<GamePackageService>();
-
     private readonly GameInstallService _gameInstallService = AppConfig.GetService<GameInstallService>();
 
-
     private readonly BackgroundService _backgroundService = AppConfig.GetService<BackgroundService>();
+
+    private readonly GenshinDispatchClient _genshinDispatchClient = AppConfig.GetService<GenshinDispatchClient>();
 
 
     public GameLauncherSettingDialog()
     {
         this.InitializeComponent();
-        this.Loaded += GameLauncherSettingDialog_Loaded;
-        this.Unloaded += GameLauncherSettingDialog_Unloaded;
     }
-
 
 
     public GameId CurrentGameId { get; set; }
 
-
     public GameBiz CurrentGameBiz { get; set; }
-
 
 
 
@@ -100,7 +85,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         try
@@ -128,50 +112,30 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
-
-    private async void GameLauncherSettingDialog_Loaded(object sender, RoutedEventArgs e)
+    protected override async void OnLoaded()
     {
-        CurrentGameBiz = CurrentGameId?.GameBiz ?? GameBiz.None;
+        CurrentGameBiz = CurrentGameId?.GameBiz ?? default;
         CheckCanRepairGame();
         await InitializeBasicInfoAsync();
         InitializeStartArgument();
         InitializeCustomBg();
-        await InitializeGamePackagesAsync();
+        await InitializeGraphicsSettingAsync();
+        await InitializeResourceManageAsync();
     }
 
 
-    private void GameLauncherSettingDialog_Unloaded(object sender, RoutedEventArgs e)
+    protected override void OnUnloaded()
     {
-        LatestPackageGroups = null!;
-        PreInstallPackageGroups = null!;
         FlipView_Settings.Items.Clear();
+        UnloadGraphicsSetting();
     }
-
-
-
-
-    [RelayCommand]
-    private void Close()
-    {
-        this.Hide();
-    }
-
-
 
 
 
     #region 基本信息
 
 
-
-    private bool? _hasAudioPackages;
-
-
-    public bool CanRepairGame { get; set => SetProperty(ref field, value); } = true;
-
-
-    public GameBizIcon CurrentGameBizIcon { get; set => SetProperty(ref field, value); }
+    public PinnedGameIcon CurrentGameBizIcon { get; set => SetProperty(ref field, value); }
 
     /// <summary>
     /// 安装路径
@@ -204,7 +168,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
     } = AppConfig.EnableBannerAndPost;
 
-
     /// <summary>
     /// 是否启用游戏公告红点
     /// </summary>
@@ -222,40 +185,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     } = AppConfig.DisableGameNoticeRedHot;
 
 
-    /// <summary>
-    /// 使用 CMD 启动游戏
-    /// </summary>
-    public bool StartGameWithCMD
-    {
-        get;
-        set
-        {
-            if (SetProperty(ref field, value))
-            {
-                AppConfig.StartGameWithCMD = value;
-            }
-        }
-    } = AppConfig.StartGameWithCMD;
-
-
-
-
     private async Task InitializeBasicInfoAsync()
     {
         try
         {
-            if (CurrentGameId.GameBiz.IsKnown())
-            {
-                CurrentGameBizIcon = new GameBizIcon(CurrentGameId.GameBiz);
-            }
-            else
-            {
-                var info = await _hoyoPlayService.GetGameInfoAsync(CurrentGameId);
-                CurrentGameBizIcon = new GameBizIcon(info);
-            }
             InstallPath = GameLauncherService.GetGameInstallPath(CurrentGameId, out bool storageRemoved);
             GameSize = GetSize(InstallPath);
-            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId) is null)
+            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId, UnloadCancellationToken) is null)
             {
                 UninstallAndRepairEnabled = InstallPath != null && !storageRemoved;
             }
@@ -263,14 +199,23 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             {
                 UninstallAndRepairEnabled = false;
             }
-            await InitializeAudioLanguageAsync();
+            var gameInfo = await _hoyoPlayService.GetGameInfoAsync(CurrentGameId);
+            var launcher = LauncherConfigModel.FromId(_hoyoPlayService.GetLauncherConfig(CurrentGameId)?.Id);
+            if (gameInfo is not null && launcher is not null)
+            {
+                var icon = new PinnedGameIcon(launcher, gameInfo);
+                if (gameInfo.GameServerConfigs?.FirstOrDefault(x => x.GameId == CurrentGameId.Id) is GameServerConfig serverConfig)
+                {
+                    icon.GameName = serverConfig.I18nName;
+                }
+                CurrentGameBizIcon = icon;
+            }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "InitializeBasicInfoAsync ({biz})", CurrentGameBiz);
         }
     }
-
 
 
     private static string? GetSize(string? path)
@@ -283,50 +228,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         var gb = (double)size / (1 << 30);
         return $"{gb:F2}GB";
     }
-
-
-
-    private async Task InitializeAudioLanguageAsync()
-    {
-        try
-        {
-            GameConfig? config = await _hoyoPlayService.GetGameConfigAsync(CurrentGameId);
-            if (config is not null)
-            {
-                if (!string.IsNullOrWhiteSpace(config.AudioPackageScanDir))
-                {
-                    _hasAudioPackages = true;
-                    Segmented_SelectLanguage.SelectedItems.Clear();
-                    AudioLanguage audioLanguage = await _gamePackageService.GetAudioLanguageAsync(CurrentGameId, InstallPath);
-                    if (audioLanguage.HasFlag(AudioLanguage.Chinese))
-                    {
-                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Chinese);
-                    }
-                    if (audioLanguage.HasFlag(AudioLanguage.English))
-                    {
-                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_English);
-                    }
-                    if (audioLanguage.HasFlag(AudioLanguage.Japanese))
-                    {
-                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Japanese);
-                    }
-                    if (audioLanguage.HasFlag(AudioLanguage.Korean))
-                    {
-                        Segmented_SelectLanguage.SelectedItems.Add(SegmentedItem_Korean);
-                    }
-                }
-                else
-                {
-                    _hasAudioPackages = false;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "InitializeAudioLanguageAsync ({biz})", CurrentGameBiz);
-        }
-    }
-
 
 
     /// <summary>
@@ -356,14 +257,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            GameLauncherService.ChangeGameInstallPath(CurrentGameId, null);
+            _gameLauncherService.ChangeGameInstallPath(CurrentGameId, null);
             WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
             await InitializeBasicInfoAsync();
             await TryStopGameInstallTaskAsync();
         }
         catch { }
     }
-
 
 
     /// <summary>
@@ -386,7 +286,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 else
                 {
                     TextBlock_NetworkDriveWarning.Visibility = Visibility.Collapsed;
-                    GameLauncherService.ChangeGameInstallPath(CurrentGameId, folder);
+                    _gameLauncherService.ChangeGameInstallPath(CurrentGameId, folder);
                     await InitializeBasicInfoAsync();
                     WeakReferenceMessenger.Default.Send(new GameInstallPathChangedMessage());
                     if (previousInstallPath != folder)
@@ -403,21 +303,19 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     /// <summary>
     /// 检查是否可以修复游戏
     /// </summary>
     private void CheckCanRepairGame()
     {
-        if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
+        if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallProgress task)
         {
-            if (task.State is not GameInstallState.Stop and not GameInstallState.Finish)
+            if (task.State is not RunnerState.Stop and not RunnerState.Finish)
             {
                 Button_RepairGame.IsEnabled = false;
             }
         }
     }
-
 
 
     /// <summary>
@@ -427,47 +325,14 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     [RelayCommand]
     private async Task RepairGameAsync()
     {
-        if (_hasAudioPackages is null)
-        {
-            return;
-        }
-        if (_hasAudioPackages.Value && Button_StartRepairing.Visibility is Visibility.Collapsed)
-        {
-            Segmented_SelectLanguage.Visibility = Visibility.Visible;
-            Button_StartRepairing.Visibility = Visibility.Visible;
-            Button_RepairGame.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            await RepairGameInternalAsync();
-        }
-    }
-
-
-
-    [RelayCommand]
-    private async Task RepairGameInternalAsync()
-    {
         try
         {
             if (!Directory.Exists(InstallPath))
             {
                 return;
             }
-            AudioLanguage audio = AudioLanguage.None;
-            foreach (SegmentedItem item in Segmented_SelectLanguage.SelectedItems.Cast<SegmentedItem>())
-            {
-                audio |= item.Tag switch
-                {
-                    "zh-cn" => AudioLanguage.Chinese,
-                    "en-us" => AudioLanguage.English,
-                    "ja-jp" => AudioLanguage.Japanese,
-                    "ko-kr" => AudioLanguage.Korean,
-                    _ => AudioLanguage.None,
-                };
-            }
-            GameInstallContext? task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, audio);
-            if (task is not null && task.State is not GameInstallState.Stop and not GameInstallState.Error)
+            GameInstallProgress? task = await _gameInstallService.StartRepairAsync(CurrentGameId, InstallPath, UnloadCancellationToken);
+            if (task is not null && task.State is not RunnerState.Stop and not RunnerState.Error)
             {
                 WeakReferenceMessenger.Default.Send(new GameInstallTaskStartedMessage(task));
                 Close();
@@ -480,10 +345,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
-
     public string? UninstallError { get; set => SetProperty(ref field, value); }
-
 
 
     [RelayCommand]
@@ -531,14 +393,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     [RelayCommand]
     private async Task UninstallGameAsync()
     {
         try
         {
             UninstallError = null;
-            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId) is not null)
+            if (await _gameLauncherService.GetGameProcessAsync(CurrentGameId, UnloadCancellationToken) is not null)
             {
                 UninstallError = Lang.LauncherPage_GameIsRunning;
                 await InitializeBasicInfoAsync();
@@ -546,7 +407,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             }
             if (Directory.Exists(InstallPath))
             {
-                if (await _gameInstallService.StartUninstallAsync(CurrentGameId, InstallPath))
+                if (await _gameInstallService.StartUninstallAsync(CurrentGameId, InstallPath, UnloadCancellationToken))
                 {
                     _logger.LogInformation("""
                         Uninstall game finished:
@@ -572,24 +433,13 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
-    private void Segmented_SelectLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is Segmented segmented)
-        {
-            CanRepairGame = segmented.SelectedItems.Count > 0;
-        }
-    }
-
-
-
     private async Task TryStopGameInstallTaskAsync()
     {
         try
         {
-            if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallContext task)
+            if (_gameInstallService.GetGameInstallTask(CurrentGameId) is GameInstallProgress task)
             {
-                if (task.State is not GameInstallState.Stop and not GameInstallState.Finish)
+                if (task.State is not RunnerState.Stop and not RunnerState.Finish)
                 {
                     await _gameInstallService.StopTaskAsync(task);
                     await Task.Delay(1000);
@@ -604,10 +454,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
-
     #endregion
-
 
 
 
@@ -617,21 +464,23 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     /// <summary>
     /// 命令行启动参数
     /// </summary>
-    [ObservableProperty]
-    public string? _StartGameArgument;
-    partial void OnStartGameArgumentChanged(string? value)
+    public string? StartGameArgument
     {
-        AppConfig.SetStartArgument(CurrentGameBiz, value);
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SetStartArgument(CurrentGameId, value);
+            }
+        }
     }
-
 
     /// <summary>
     /// 启动游戏后的操作
     /// </summary>
     public int StartGameAction
     {
-        get;
-        set
+        get; set
         {
             if (SetProperty(ref field, value))
             {
@@ -640,44 +489,56 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
         }
     } = Math.Clamp((int)AppConfig.StartGameAction, 0, 2);
 
-
     /// <summary>
     /// 是否启用第三方工具
     /// </summary>
-    [ObservableProperty]
-    public bool _EnableThirdPartyTool;
-    partial void OnEnableThirdPartyToolChanged(bool value)
+    public bool EnableThirdPartyTool
     {
-        AppConfig.SetEnableThirdPartyTool(CurrentGameBiz, value);
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SetEnableThirdPartyTool(CurrentGameId, value);
+            }
+        }
     }
-
 
     /// <summary>
     /// 第三方工具路径
     /// </summary>
-    [ObservableProperty]
-    public string? _ThirdPartyToolPath;
-    partial void OnThirdPartyToolPathChanged(string? value)
+    public string? ThirdPartyToolPath
     {
-        try
+        get; set
         {
-            GameLauncherService.SetThirdPartyToolPath(CurrentGameId, value);
+            if (SetProperty(ref field, value))
+            {
+                GameLauncherService.SetThirdPartyToolPath(CurrentGameId, value);
+            }
         }
-        catch { }
     }
+
+    /// <summary>
+    /// 使用 CMD 启动游戏
+    /// </summary>
+    public bool StartGameWithCMD
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.StartGameWithCMD = value;
+            }
+        }
+    } = AppConfig.StartGameWithCMD;
 
 
 
     private void InitializeStartArgument()
     {
-        _StartGameArgument = AppConfig.GetStartArgument(CurrentGameBiz);
-        _EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameBiz);
-        _ThirdPartyToolPath = GameLauncherService.GetThirdPartyToolPath(CurrentGameId);
-        OnPropertyChanged(nameof(StartGameArgument));
-        OnPropertyChanged(nameof(EnableThirdPartyTool));
-        OnPropertyChanged(nameof(ThirdPartyToolPath));
+        StartGameArgument = AppConfig.GetStartArgument(CurrentGameId);
+        EnableThirdPartyTool = AppConfig.GetEnableThirdPartyTool(CurrentGameId);
+        ThirdPartyToolPath = GameLauncherService.GetThirdPartyToolPath(CurrentGameId);
     }
-
 
 
     /// <summary>
@@ -737,35 +598,17 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
-
-
     #endregion
-
 
 
 
     #region 自定义背景
 
 
-
-    /// <summary>
-    /// 是否启用自定义背景
-    /// </summary>
-    [ObservableProperty]
-    public bool _EnableCustomBg;
-    partial void OnEnableCustomBgChanged(bool value)
-    {
-        AppConfig.SetEnableCustomBg(CurrentGameBiz, value);
-        WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
-    }
-
-
     /// <summary>
     /// 自定义背景，文件名，存储在 UserDataFolder/bg
     /// </summary>
     public string? CustomBg { get; set => SetProperty(ref field, value); }
-
 
     /// <summary>
     /// 修改背景错误信息
@@ -775,11 +618,12 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
 
     private void InitializeCustomBg()
     {
-        _EnableCustomBg = AppConfig.GetEnableCustomBg(CurrentGameBiz);
-        CustomBg = AppConfig.GetCustomBg(CurrentGameBiz);
-        OnPropertyChanged(nameof(EnableCustomBg));
+        try
+        {
+            CustomBg = AppConfig.GetCustomBg(CurrentGameId);
+        }
+        catch { }
     }
-
 
 
     /// <summary>
@@ -798,8 +642,8 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
                 return;
             }
             CustomBg = name;
-            AppConfig.SetCustomBg(CurrentGameBiz, name);
-            WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+            AppConfig.SetCustomBg(CurrentGameId, name);
+            await AppBackground.Current.UpdateBackgroundAsync();
         }
         catch (COMException ex)
         {
@@ -814,7 +658,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     /// <summary>
     /// 打开自定义背景文件
     /// </summary>
@@ -824,7 +667,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     {
         try
         {
-            string path = Path.Join(AppConfig.CacheFolder, "bg", CustomBg);
+            string path = Path.Join(AppConfig.UserDataFolder, "bg", CustomBg);
             if (File.Exists(path))
             {
                 await Launcher.LaunchUriAsync(new Uri(path));
@@ -834,7 +677,6 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
-
     /// <summary>
     /// 删除自定义背景
     /// </summary>
@@ -842,10 +684,9 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     private void DeleteCustomBg()
     {
         CustomBg = null;
-        AppConfig.SetCustomBg(CurrentGameBiz, null);
-        WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+        AppConfig.SetCustomBg(CurrentGameId, null);
+        _ = AppBackground.Current.UpdateBackgroundAsync();
     }
-
 
 
     /// <summary>
@@ -858,12 +699,10 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
             if (SetProperty(ref field, value))
             {
                 OnPropertyChanged(nameof(VideoBgVolumeButtonIcon));
-                WeakReferenceMessenger.Default.Send(new VideoBgVolumeChangedMessage(value));
-                AppConfig.VideoBgVolume = value;
+                AppBackground.Current.VideoBgVolume = value;
             }
         }
     } = AppConfig.VideoBgVolume;
-
 
 
     /// <summary>
@@ -898,335 +737,241 @@ public sealed partial class GameLauncherSettingDialog : ContentDialog
     }
 
 
+    #endregion
 
 
 
-    /// <summary>
-    /// 接受拖放文件
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void Grid_BackgroundDragIn_DragOver(object sender, DragEventArgs e)
+    #region 图形设置
+
+
+    private async Task InitializeGraphicsSettingAsync()
     {
-        e.AcceptedOperation = DataPackageOperation.Copy;
+        try
+        {
+            if (CurrentGameId.GameBiz.Game is GameBiz.hk4e)
+            {
+                StackPanel_GenshinHDR.Visibility = Visibility.Visible;
+                NavigationViewItem_GraphicsSetting.Visibility = Visibility.Visible;
+                _displayInformation = DisplayInformation.CreateForWindowId(this.XamlRoot.GetAppWindow().Id);
+                _displayInformation.AdvancedColorInfoChanged += DisplayInformation_AdvancedColorInfoChanged;
+                UpdateHdrState(_displayInformation);
+            }
+            if (CurrentGameId.GameBiz.Game is GameBiz.hkrpg)
+            {
+                StackPanel_StarRailFPS.Visibility = Visibility.Visible;
+                NavigationViewItem_GraphicsSetting.Visibility = Visibility.Visible;
+                ComboBox_StarRailFPS.SelectedIndex = GameSettingService.GetStarRailFPSIndex(CurrentGameId.GameBiz);
+                ComboBox_StarRailFPS.SelectionChanged += ComboBox_StarRailFPS_SelectionChanged;
+            }
+            var gameConfig = await _hoyoPlayService.GetGameConfigAsync(CurrentGameId, UnloadCancellationToken);
+            if (gameConfig?.EnableDxSwitch is true)
+            {
+                var dxConfig = await _hoyoPlayService.GetDXConfigAsync(CurrentGameId, GPUInfoHelper.GetGPUInfos(), UnloadCancellationToken);
+                if (dxConfig?.EnableDXSwitch is true && dxConfig.AutoMode)
+                {
+                    ComboBox_DXRenderMode.Visibility = Visibility.Visible;
+                    NavigationViewItem_GraphicsSetting.Visibility = Visibility.Visible;
+                    ComboBox_DXRenderMode.SelectedIndex = AppConfig.GetEnableDX12(CurrentGameId) switch
+                    {
+                        null => 0,
+                        false => 1,
+                        true => 2,
+                    };
+                    ComboBox_DXRenderMode.SelectionChanged += ComboBox_DXRenderMode_SelectionChanged;
+                }
+            }
+        }
+        catch { }
+    }
+
+
+    private void UnloadGraphicsSetting()
+    {
+        try
+        {
+            if (_displayInformation is not null)
+            {
+                _displayInformation.AdvancedColorInfoChanged -= DisplayInformation_AdvancedColorInfoChanged;
+                _displayInformation.Dispose();
+                _displayInformation = null;
+            }
+            ComboBox_DXRenderMode.SelectionChanged -= ComboBox_DXRenderMode_SelectionChanged;
+            ComboBox_StarRailFPS.SelectionChanged -= ComboBox_StarRailFPS_SelectionChanged;
+        }
+        catch { }
     }
 
 
 
-    /// <summary>
-    /// 拖放文件，修改自定义背景
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private async void Grid_BackgroundDragIn_Drop(object sender, DragEventArgs e)
+    private DisplayInformation? _displayInformation;
+
+    public bool EnableGenshinHDR
     {
-        ChangeBgError = null;
-        var defer = e.GetDeferral();
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.EnableGenshinHDR = value;
+            }
+        }
+    }
+
+    public bool HDRNotSupported { get; set => SetProperty(ref field, value); }
+
+    public bool HDRNotEnabled { get; set => SetProperty(ref field, value); }
+
+    private void DisplayInformation_AdvancedColorInfoChanged(DisplayInformation sender, object args)
+    {
+        UpdateHdrState(sender);
+    }
+
+    private void UpdateHdrState(DisplayInformation displayInformation)
+    {
         try
         {
-            if ((await e.DataView.GetStorageItemsAsync()).FirstOrDefault() is StorageFile file)
+            HDRNotEnabled = false;
+            HDRNotSupported = false;
+            var info = displayInformation.GetAdvancedColorInfo();
+            if (!info.IsAdvancedColorKindAvailable(DisplayAdvancedColorKind.HighDynamicRange))
             {
-                string? name = await BackgroundService.ChangeCustomBackgroundFileAsync(file);
-                if (string.IsNullOrWhiteSpace(name))
+                HDRNotSupported = true;
+            }
+            else if (info.CurrentAdvancedColorKind is not DisplayAdvancedColorKind.HighDynamicRange)
+            {
+                HDRNotEnabled = true;
+            }
+        }
+        catch { }
+    }
+
+
+
+    private void ComboBox_StarRailFPS_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        try
+        {
+            GameSettingService.SetStarRailFPSIndex(CurrentGameId.GameBiz, ComboBox_StarRailFPS.SelectedIndex);
+        }
+        catch { }
+    }
+
+
+
+    private void ComboBox_DXRenderMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        AppConfig.SetEnableDX12(CurrentGameId, ComboBox_DXRenderMode.SelectedIndex switch
+        {
+            1 => false,
+            2 => true,
+            _ => null,
+        });
+    }
+
+
+    #endregion
+
+
+
+    #region 资源管理
+
+
+
+    public bool EnableCutsceneManage
+    {
+        get; set
+        {
+            if (SetProperty(ref field, value))
+            {
+                AppConfig.SetEnableCutsceneManage(CurrentGameId, value);
+            }
+        }
+    }
+
+    public string? ResourceManageError { get; set => SetProperty(ref field, value); }
+
+    public string CutsceneSizeText { get; set => SetProperty(ref field, value); }
+
+
+
+    private async Task InitializeResourceManageAsync()
+    {
+        const double GB = 1 << 30;
+        try
+        {
+            if (CurrentGameId.GameBiz.Game is not GameBiz.hk4e)
+            {
+                return;
+            }
+            if (InstallPath is null)
+            {
+                return;
+            }
+            var launcher = _hoyoPlayService.GetLauncherConfig(CurrentGameId);
+            if (launcher is null || launcher.IsBeta)
+            {
+                return;
+            }
+            EnableCutsceneManage = AppConfig.GetEnableCutsceneManage(CurrentGameId);
+            NavigationViewItem_ResourceManagement.Visibility = Visibility.Visible;
+
+            var branch = await _hoyoPlayService.GetGameBranchAsync(CurrentGameId, UnloadCancellationToken);
+            if (branch is not null)
+            {
+                var collection = await _genshinDispatchClient.GetCutsceneCollectionAsync(CultureInfo.CurrentUICulture.Name, UnloadCancellationToken);
+                var dispatchInfo = collection.Dispatch.GetValueOrDefault($"{(CurrentGameId.GameBiz.IsChinaServer() ? "CN" : "OS")}RELWin{branch.Main.Tag}");
+                if (dispatchInfo is not null)
                 {
-                    return;
-                }
-                CustomBg = name;
-                AppConfig.SetCustomBg(CurrentGameBiz, name);
-                if (EnableCustomBg)
-                {
-                    WeakReferenceMessenger.Default.Send(new BackgroundChangedMessage());
+                    long size = dispatchInfo.Cutscene.Sum(x => x.Size);
+                    long existSize = 0;
+                    long count = 0;
+                    foreach (CutsceneInfo item in dispatchInfo.Cutscene)
+                    {
+                        string path = Path.Join(InstallPath, item.Path);
+                        if (File.Exists(path))
+                        {
+                            existSize += item.Size;
+                            count++;
+                        }
+                    }
+                    CutsceneSizeText = $"{(existSize) / GB:F2}/{size / GB:F2} GB";
+                    StackPanel_CutsceneSize.Visibility = Visibility.Visible;
+                    if (_gameInstallService.GetGameInstallTask(CurrentGameId) is null && await _gameLauncherService.GetGameProcessAsync(CurrentGameId, UnloadCancellationToken) is null)
+                    {
+                        Button_ManageResource.IsEnabled = true;
+                        TextBlock_GameOrInstallRunning.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        Button_ManageResource.IsEnabled = false;
+                        TextBlock_GameOrInstallRunning.Visibility = Visibility.Visible;
+                    }
+                    Button_ManageResource.Visibility = Visibility.Visible;
                 }
                 else
                 {
-                    EnableCustomBg = true;
+                    ResourceManageError = Lang.GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable;
                 }
             }
         }
-        catch (COMException ex)
-        {
-            ChangeBgError = Lang.GameLauncherSettingDialog_CannotDecodeFile;
-            _logger.LogError(ex, "Change custom background failed");
-        }
         catch (Exception ex)
         {
-            ChangeBgError = Lang.GameLauncherSettingDialog_AnUnknownErrorOccurredPleaseCheckTheLogs;
-            _logger.LogError(ex, "Change custom background failed");
+            _logger.LogError(ex, "InitializeResourceManageAsync");
+            ResourceManageError = ex.Message;
         }
-        defer.Complete();
     }
+
+
+
+    [RelayCommand]
+    private void OpenCutsceneWindow()
+    {
+        new CutsceneResourceWindow() { CurrentGameId = CurrentGameId }.Show();
+    }
+
 
 
 
     #endregion
-
-
-
-
-    #region 游戏包体
-
-
-
-    /// <summary>
-    /// 最新版本
-    /// </summary>
-    public string LatestVersion { get; set => SetProperty(ref field, value); }
-
-    /// <summary>
-    /// 最新版本包体
-    /// </summary>
-    public List<PackageGroup> LatestPackageGroups { get; set => SetProperty(ref field, value); }
-
-    /// <summary>
-    /// 预下载版本
-    /// </summary>
-    public string PreInstallVersion { get; set => SetProperty(ref field, value); }
-
-    /// <summary>
-    /// 预下载版本包体
-    /// </summary>
-    public List<PackageGroup> PreInstallPackageGroups { get; set => SetProperty(ref field, value); }
-
-
-
-
-    private async Task InitializeGamePackagesAsync()
-    {
-        try
-        {
-            var gamePackage = await _hoyoPlayService.GetGamePackageAsync(CurrentGameId);
-            LatestVersion = gamePackage.Main.Major!.Version;
-            var list = GetGameResourcePackageGroups(gamePackage.Main);
-            var sdk = await _hoyoPlayService.GetGameChannelSDKAsync(CurrentGameId);
-            if (sdk is not null)
-            {
-                list.Add(new PackageGroup
-                {
-                    Name = "Channel SDK",
-                    Items = [new PackageItem
-                    {
-                        FileName = Path.GetFileName(sdk.ChannelSDKPackage.Url),
-                        Url = sdk.ChannelSDKPackage.Url,
-                        Md5 = sdk.ChannelSDKPackage.MD5,
-                        PackageSize = sdk.ChannelSDKPackage.Size,
-                        DecompressSize = sdk.ChannelSDKPackage.DecompressedSize,
-                    }],
-                });
-            }
-            // todo plugin
-            LatestPackageGroups = list;
-            if (!string.IsNullOrWhiteSpace(gamePackage.PreDownload?.Major?.Version))
-            {
-                PreInstallVersion = gamePackage.PreDownload.Major.Version;
-                PreInstallPackageGroups = GetGameResourcePackageGroups(gamePackage.PreDownload);
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Get game resource failed, gameBiz: {gameBiz}", CurrentGameBiz);
-        }
-    }
-
-
-
-    private List<PackageGroup> GetGameResourcePackageGroups(GamePackageVersion gameResource)
-    {
-        var list = new List<PackageGroup>();
-        var fullPackageGroup = new PackageGroup
-        {
-            Name = Lang.GameResourcePage_FullPackages,
-            Items = new List<PackageItem>()
-        };
-        foreach (var item in gameResource.Major?.GamePackages ?? [])
-        {
-            fullPackageGroup.Items.Add(new PackageItem
-            {
-                FileName = Path.GetFileName(item.Url),
-                Url = item.Url,
-                Md5 = item.MD5,
-                PackageSize = item.Size,
-                DecompressSize = item.DecompressedSize,
-            });
-        }
-        foreach (var item in gameResource.Major?.AudioPackages ?? [])
-        {
-            fullPackageGroup.Items.Add(new PackageItem
-            {
-                FileName = Path.GetFileName(item.Url),
-                Url = item.Url,
-                Md5 = item.MD5,
-                PackageSize = item.Size,
-                DecompressSize = item.DecompressedSize,
-            });
-        }
-        list.Add(fullPackageGroup);
-
-        foreach (var patch in gameResource.Patches ?? [])
-        {
-            var diffPackageGroup = new PackageGroup
-            {
-                Name = $"{Lang.GameResourcePage_DiffPackages}  {patch.Version}",
-                Items = new List<PackageItem>()
-            };
-            foreach (var item in patch.GamePackages ?? [])
-            {
-                diffPackageGroup.Items.Add(new PackageItem
-                {
-                    FileName = Path.GetFileName(item.Url),
-                    Url = item.Url,
-                    Md5 = item.MD5,
-                    PackageSize = item.Size,
-                    DecompressSize = item.DecompressedSize,
-                });
-            }
-            foreach (var item in patch.AudioPackages ?? [])
-            {
-                diffPackageGroup.Items.Add(new PackageItem
-                {
-                    FileName = Path.GetFileName(item.Url),
-                    Url = item.Url,
-                    Md5 = item.MD5,
-                    PackageSize = item.Size,
-                    DecompressSize = item.DecompressedSize,
-                });
-            }
-            list.Add(diffPackageGroup);
-        }
-        return list;
-    }
-
-
-
-    private async void Button_CopyUrl_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
-    {
-        try
-        {
-            if (sender is Button button)
-            {
-                if (button.DataContext is PackageGroup group)
-                {
-                    if (group.Items is not null)
-                    {
-                        var sb = new StringBuilder();
-                        foreach (var item in group.Items)
-                        {
-                            if (!string.IsNullOrEmpty(item.Url))
-                            {
-                                sb.AppendLine(item.Url);
-                            }
-                        }
-                        string url = sb.ToString().TrimEnd();
-                        if (!string.IsNullOrWhiteSpace(url))
-                        {
-                            ClipboardHelper.SetText(url);
-                            await CopySuccessAsync(button);
-                        }
-                    }
-                }
-                if (button.DataContext is PackageItem package)
-                {
-                    if (!string.IsNullOrEmpty(package.Url))
-                    {
-                        ClipboardHelper.SetText(package.Url);
-                        await CopySuccessAsync(button);
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Copy url failed");
-        }
-    }
-
-
-
-    private async Task CopySuccessAsync(Button button)
-    {
-        try
-        {
-            button.IsEnabled = false;
-            if (button.Content is FontIcon icon)
-            {
-                // Accpet
-                icon.Glyph = "\uF78C";
-                await Task.Delay(1000);
-            }
-        }
-        finally
-        {
-            button.IsEnabled = true;
-            if (button.Content is FontIcon icon)
-            {
-                // Link
-                icon.Glyph = "\uE71B";
-            }
-        }
-    }
-
-
-
-
-    public class PackageGroup
-    {
-        public string Name { get; set; }
-
-        public List<PackageItem> Items { get; set; }
-    }
-
-
-
-    public class PackageItem
-    {
-        public string FileName { get; set; }
-
-        public string Url { get; set; }
-
-        public string Md5 { get; set; }
-
-        public long PackageSize { get; set; }
-
-        public long DecompressSize { get; set; }
-
-        public string PackageSizeString => GetSizeString(PackageSize);
-
-        public string DecompressSizeString => GetSizeString(DecompressSize);
-
-        private string GetSizeString(long size)
-        {
-            const double KB = 1 << 10;
-            const double MB = 1 << 20;
-            const double GB = 1 << 30;
-            if (size >= GB)
-            {
-                return $"{size / GB:F2} GB";
-            }
-            else if (size >= MB)
-            {
-                return $"{size / MB:F2} MB";
-            }
-            else
-            {
-                return $"{size / KB:F2} KB";
-            }
-        }
-    }
-
-
-
-    #endregion
-
-
-
-
-
-    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
-    {
-        if (sender.FontSize > 12)
-        {
-            sender.FontSize -= 1;
-        }
-    }
 
 
 }

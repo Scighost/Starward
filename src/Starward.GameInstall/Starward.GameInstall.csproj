@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net11.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.1.100" />
+		<PackageReference Include="Google.Protobuf" Version="3.36.2" />
+		<PackageReference Include="Grpc.Core.Api" Version="2.85.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.85.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Data.Sqlite" Version="11.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="11.0.0" />
+		<PackageReference Include="Polly" Version="8.9.1" />
+		<PackageReference Include="Starward.HPatch" Version="0.1.0" />
+		<PackageReference Include="Starward.SharpSevenZip" Version="2.0.130" />
+		<PackageReference Include="System.Threading.RateLimiting" Version="11.0.0" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="5.0.8" />
+		<PackageReference Include="ZiggyCreatures.FusionCache" Version="2.10.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Starward.Core\Starward.Core.csproj" />
+		<ProjectReference Include="..\Starward.Setup.Core\Starward.Setup.Core.csproj" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Protobuf Include="**\*.proto" />
+	</ItemGroup>
+
+</Project>

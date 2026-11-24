@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI;
@@ -63,31 +63,37 @@ internal static class AccentColorHelper
     {
         try
         {
-            uint* p = (uint*)bgra;
-            long b = 0, g = 0, r = 0;
-            int[] hueCircle = new int[360];
-            for (int y = 0; y < height; y += 2)
+            const int step = 4;
+            int startX = width / 3;
+            uint* basePtr = (uint*)bgra;
+            long b = 0, g = 0, r = 0, count = 0;
+            for (int y = 0; y < height; y += step)
             {
-                for (int x = 0; x < width; x += 2)
+                uint* p = basePtr + (long)y * width + startX;
+                for (int x = startX; x < width; x += step)
                 {
                     Bgra32 pixel = Unsafe.AsRef<Bgra32>(p);
                     b += pixel.B;
                     g += pixel.G;
                     r += pixel.R;
-                    p += 2;
+                    count++;
+                    p += step;
                 }
-                p += width - width % 2;
             }
 
-            int c = (width / 2) * (height / 2);
+            if (count == 0)
+            {
+                return null;
+            }
+
             Unsafe.SkipInit(out Color color);
-            color.B = (byte)(b / c);
-            color.G = (byte)(g / c);
-            color.R = (byte)(r / c);
+            color.B = (byte)(b / count);
+            color.G = (byte)(g / count);
+            color.R = (byte)(r / count);
             color.A = 255;
             HsvColor hsv = color.ToHsv();
 
-            return CommunityToolkit.WinUI.Helpers.ColorHelper.FromHsv(hsv.H, 0.6, hsv.V);
+            return CommunityToolkit.WinUI.Helpers.ColorHelper.FromHsv(hsv.H, 0.5, hsv.V);
         }
         catch { }
         return null;

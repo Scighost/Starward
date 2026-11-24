@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
@@ -12,7 +12,7 @@ namespace Starward.Features.PlayTime;
 /// 图表共享的自绘悬浮提示卡：鼠标移入数据元素即在其上方显示，无系统 ToolTip 的延迟。
 /// 需作为覆盖整个图表区域的最后一层子元素加入可视化树。
 /// </summary>
-public sealed class HoverCard : Canvas
+public sealed partial class HoverCard : Canvas
 {
 
 

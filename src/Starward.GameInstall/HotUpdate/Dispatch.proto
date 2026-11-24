@@ -1,0 +1,208 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Starward.GameInstall.HotUpdate";
+
+package Starward.GameInstall.HotUpdate;
+
+// query_region_list 响应。
+// 该接口返回的是 base64 编码的明文 protobuf，不需要 RSA 解密。
+message QueryRegionListHttpRsp {
+  // 0 表示成功。
+  int32 retcode = 1;
+
+  // 当前渠道可用的区服列表。
+  repeated RegionSimpleInfo region_list = 2;
+
+  // 全局游戏协议密钥材料（magic: Ec2b），不参与 dispatch 解密。
+  bytes client_secret_key = 5;
+
+  // 全局客户端自定义配置密文，不参与 dispatch 解密。
+  bytes client_custom_config_encrypted = 6;
+
+  // 是否允许 PC 登录。
+  bool enable_login_pc = 7;
+}
+
+// 区服简要信息。
+message RegionSimpleInfo {
+  // 区服内部名，例如 cn_gf01、os_usa。
+  string name = 1;
+
+  // 展示名称，例如 天空岛、America。
+  string title = 2;
+
+  // 区服类型，例如 DEV_PUBLIC。
+  string type = 3;
+
+  // 该区服的 query_cur_region 地址。
+  string dispatch_url = 4;
+}
+
+// query_cur_region 响应。
+// 该接口的 content 字段是 RSA 分块加密的 protobuf，需要使用客户端内置私钥解密。
+message QueryCurRegionHttpRsp {
+  // 0 表示成功。
+  int32 retcode = 1;
+
+  // 错误信息（失败时可能出现）。
+  string msg = 2;
+
+  // 区服详细配置。
+  RegionInfo region_info = 3;
+
+  // 区服级游戏协议密钥材料（magic: Ec2b）。
+  bytes client_secret_key = 11;
+
+  // 区服级客户端自定义配置密文。
+  bytes region_custom_config_encrypted = 12;
+
+  // 客户端区域自定义配置密文。
+  bytes client_region_custom_config_encrypted = 13;
+
+  // 网关连接票据。
+  string connect_gate_ticket = 14;
+
+  // 强制更新 / 停服维护二选一。
+  oneof detail {
+    ForceUpdateInfo force_update = 4;
+    StopServerInfo stop_server = 5;
+  }
+}
+
+// 强制更新信息。
+message ForceUpdateInfo {
+  // 强制更新提示地址。
+  string force_update_url = 1;
+}
+
+// 停服维护信息。
+message StopServerInfo {
+  // 停服开始时间（Unix 时间戳）。
+  uint32 stop_begin_time = 1;
+
+  // 停服结束时间（Unix 时间戳）。
+  uint32 stop_end_time = 2;
+
+  // 停服公告地址。
+  string url = 3;
+
+  // 停服公告内容。
+  string content_msg = 4;
+}
+
+// 区服详细配置。
+message RegionInfo {
+  // 游戏网关地址。
+  string gateserver_ip = 1;
+
+  // 游戏网关端口。
+  uint32 gateserver_port = 2;
+
+  // 充值回调地址。
+  string pay_callback_url = 3;
+
+  // 区域类型，例如 USA、euro、JP、CN。
+  string area_type = 7;
+
+  // 游戏资源仓库根地址。
+  string resource_url = 8;
+
+  // 设计数据仓库根地址。
+  string data_url = 9;
+
+  // 客服反馈地址。
+  string feedback_url = 10;
+
+  // 公告地址。
+  string bulletin_url = 11;
+
+  // 游戏资源仓库备用地址（可能是分支名，例如 7.2_live）。
+  string resource_url_bak = 12;
+
+  // 设计数据仓库备用地址。
+  string data_url_bak = 13;
+
+  // 客户端设计数据版本号。
+  uint32 client_data_version = 14;
+
+  // 游戏手册地址。
+  string handbook_url = 16;
+
+  // 客户端静默设计数据版本号。
+  uint32 client_silence_data_version = 18;
+
+  // 客户端设计数据清单（逐行 JSON）。
+  string client_data_md5 = 19;
+
+  // 客户端静默设计数据清单（逐行 JSON）。
+  string client_silence_data_md5 = 20;
+
+  // 资源版本配置。
+  ResVersionConfig res_version_config = 22;
+
+  // 区服级游戏协议密钥材料。
+  bytes secret_key = 23;
+
+  // 官方社区地址。
+  string official_community_url = 24;
+
+  // 客户端资源版本后缀。
+  string client_version_suffix = 26;
+
+  // 客户端静默资源版本后缀。
+  string client_silence_version_suffix = 27;
+
+  // 是否使用网关域名而不是 IP。
+  bool use_gateserver_domain_name = 28;
+
+  // 网关域名。
+  string gateserver_domain_name = 29;
+
+  // 用户中心地址。
+  string user_center_url = 30;
+
+  // 账号绑定地址。
+  string account_bind_url = 31;
+
+  // 兑换码地址。
+  string cdkey_url = 32;
+
+  // 隐私政策地址。
+  string privacy_policy_url = 33;
+
+  // 下一版本资源地址。
+  string next_resource_url = 34;
+
+  // 下一版本资源版本配置。
+  ResVersionConfig next_res_version_config = 35;
+
+  // 游戏业务标识，例如 hk4e_cn、hk4e_global。
+  string game_biz = 36;
+
+  // 37-47 为 7.x 新增字段：IPv6 网关地址、UGC 下载/上传/图片/API/社区/客服等 URL。
+  // 当前不参与资源更新流程，未建模；解析时会保留在 UnknownFields 中。
+}
+
+// 资源版本配置。
+message ResVersionConfig {
+  // 资源版本号。
+  uint32 version = 1;
+
+  // 是否需要重新登录。
+  bool relogin = 2;
+
+  // 资源清单（逐行 JSON）。
+  string md5 = 3;
+
+  // 资源总大小（字符串形式）。
+  string release_total_size = 4;
+
+  // 资源版本后缀。
+  string version_suffix = 5;
+
+  // 资源分支，例如 7.2_live。
+  string branch = 6;
+
+  // 下一版本客户端脚本版本。
+  string next_script_version = 7;
+}

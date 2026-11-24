@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Dapper;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,6 @@ using Microsoft.Web.WebView2.Core;
 using Starward.Core;
 using Starward.Core.Gacha.ZZZ;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -30,7 +29,7 @@ using Windows.System;
 namespace Starward.Features.Gacha.ZZZGachaToolbox;
 
 [INotifyPropertyChanged]
-public sealed partial class ZZZGachaInfoWindow : WindowEx
+public sealed partial class ZZZGachaInfoWindow : WindowBase
 {
 
     private readonly ILogger<ZZZGachaInfoWindow> _logger = AppConfig.GetLogger<ZZZGachaInfoWindow>();

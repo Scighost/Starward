@@ -2,7 +2,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Starward.Features.Update;
-using Starward.Frameworks;
 using System;
 using System.Threading.Tasks;
 

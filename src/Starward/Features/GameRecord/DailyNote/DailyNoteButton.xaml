@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="Starward.Features.GameRecord.DailyNote.DailyNoteButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -441,8 +441,8 @@
                             <!--  每日实训  -->
                             <StackPanel>
                                 <TextBlock FontSize="12"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_DailyTraining}" />
                                 <TextBlock>
                                     <Run Text="{x:Bind StarRailDailyNote.CurrentTrainScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.MaxTrainScore}" />
                                 </TextBlock>
@@ -451,8 +451,8 @@
                             <!--  历战余响剩余  -->
                             <StackPanel>
                                 <TextBlock FontSize="12"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_EchoOfWar}" />
                                 <TextBlock>
                                     <Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonCnt}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.WeeklyCocoonLimit}" />
                                 </TextBlock>
@@ -461,10 +461,10 @@
                             <!--  周期积分  -->
                             <StackPanel>
                                 <TextBlock FontSize="12"
-                                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                               Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_AccumulatedPoints}" />
+                                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                           Text="{x:Bind lang:Lang.DailyNoteButton_StarRail_AccumulatedPoints}" />
                                 <TextBlock>
-                                        <Run Text="{x:Bind StarRailDailyNote.PeriodScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.PeriodMaxScore}" />
+                                    <Run Text="{x:Bind StarRailDailyNote.PeriodScore}" /><Run Text="/" /><Run Text="{x:Bind StarRailDailyNote.PeriodMaxScore}" />
                                 </TextBlock>
                             </StackPanel>
 

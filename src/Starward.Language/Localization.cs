@@ -9,6 +9,7 @@ public static class Localization
     {
         ("Deutsch (de-DE)", "de-DE"),
         ("English (en-US)", "en-US"),
+        ("Español (es-ES)", "es-ES"),
         ("Bahasa Indonesia (id-ID)", "id-ID"),
         ("Italiano (it-IT)", "it-IT"),
         ("日本語 (ja-JP)", "ja-JP"),

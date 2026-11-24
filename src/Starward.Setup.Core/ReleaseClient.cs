@@ -49,7 +49,7 @@ public class ReleaseClient
             false => $"/release/latest?version={currentVersion}",
             true => $"/release/latest-preview?version={currentVersion}",
         };
-        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken).ConfigureAwait(false);
         return info ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
@@ -61,7 +61,7 @@ public class ReleaseClient
             false => $"/release/latest?version={currentVersion}",
             true => $"/release/latest-preview?version={currentVersion}",
         };
-        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken).ConfigureAwait(false);
         if (info is null)
         {
             throw new NullReferenceException($"Cannot get json content from '{url}'.");
@@ -80,14 +80,14 @@ public class ReleaseClient
     public async Task<ReleaseInfo> GetReleaseInfoAsync(string version, CancellationToken cancellationToken = default)
     {
         var url = $"/release/version/{version}";
-        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken);
+        var info = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseInfo, cancellationToken).ConfigureAwait(false);
         return info ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
 
     public async Task<ReleaseManifest> GetReleaseManifestAsync(string url, CancellationToken cancellationToken = default)
     {
-        var manifest = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseManifest, cancellationToken);
+        var manifest = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ReleaseManifest, cancellationToken).ConfigureAwait(false);
         return manifest ?? throw new NullReferenceException($"Cannot get json content from '{url}'.");
     }
 
@@ -100,7 +100,7 @@ public class ReleaseClient
     public async Task<GithubRelease?> GetGithubLatestReleaseAsync(CancellationToken cancellationToken = default)
     {
         const string url = "https://api.github.com/repos/Scighost/Starward/releases?page=1&per_page=1";
-        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken);
+        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken).ConfigureAwait(false);
         return list?.FirstOrDefault();
     }
 
@@ -109,7 +109,7 @@ public class ReleaseClient
     public async Task<List<GithubRelease>> GetGithubReleaseAsync(int page, int perPage, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases?page={page}&per_page={perPage}";
-        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken);
+        var list = await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.ListGithubRelease, cancellationToken).ConfigureAwait(false);
         return list ?? new List<GithubRelease>();
     }
 
@@ -118,7 +118,7 @@ public class ReleaseClient
     public async Task<GithubRelease?> GetGithubReleaseAsync(string tag, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases/tags/{tag}";
-        return await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.GithubRelease, cancellationToken);
+        return await _httpClient.GetFromJsonAsync(url, ReleaseJsonContext.Default.GithubRelease, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -132,9 +132,9 @@ public class ReleaseClient
             Context = "Scighost/Starward",
         };
         var content = new StringContent(JsonSerializer.Serialize(request, ReleaseJsonContext.Default.GithubMarkdownRequest), Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        var response = await _httpClient.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
 

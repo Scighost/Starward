@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentDialog x:Class="Starward.Features.PlayTime.PlayTimeStatsDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -54,6 +54,83 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+
+            <TextBlock Margin="20,0,0,0"
+                       VerticalAlignment="Center"
+                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                       IsTextScaleFactorEnabled="False"
+                       Text="{x:Bind lang:Lang.PlayTimeStatsDialog_DayStartsAt}" />
+            <Button Padding="4"
+                    VerticalAlignment="Top"
+                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
+                <FontIcon FontSize="12"
+                          Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                          Glyph="&#xE946;" />
+                <Button.Flyout>
+                    <Flyout Placement="Bottom">
+                        <TextBlock MaxWidth="400"
+                                   FontSize="12"
+                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                   IsTextScaleFactorEnabled="False"
+                                   Text="{x:Bind lang:Lang.PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime}"
+                                   TextWrapping="Wrap" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <ComboBox x:Name="ComboBox_DayStartsAt"
+                      Width="120"
+                      Margin="0,0,0,0"
+                      Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                <ComboBoxItem Content="-23:00" />
+                <ComboBoxItem Content="-22:00" />
+                <ComboBoxItem Content="-21:00" />
+                <ComboBoxItem Content="-20:00" />
+                <ComboBoxItem Content="-19:00" />
+                <ComboBoxItem Content="-18:00" />
+                <ComboBoxItem Content="-17:00" />
+                <ComboBoxItem Content="-16:00" />
+                <ComboBoxItem Content="-15:00" />
+                <ComboBoxItem Content="-14:00" />
+                <ComboBoxItem Content="-13:00" />
+                <ComboBoxItem Content="-12:00" />
+                <ComboBoxItem Content="-11:00" />
+                <ComboBoxItem Content="-10:00" />
+                <ComboBoxItem Content="-09:00" />
+                <ComboBoxItem Content="-08:00" />
+                <ComboBoxItem Content="-07:00" />
+                <ComboBoxItem Content="-06:00" />
+                <ComboBoxItem Content="-05:00" />
+                <ComboBoxItem Content="-04:00" />
+                <ComboBoxItem Content="-03:00" />
+                <ComboBoxItem Content="-02:00" />
+                <ComboBoxItem Content="-01:00" />
+                <ComboBoxItem Content="00:00" />
+                <ComboBoxItem Content="+01:00" />
+                <ComboBoxItem Content="+02:00" />
+                <ComboBoxItem Content="+03:00" />
+                <ComboBoxItem Content="+04:00" />
+                <ComboBoxItem Content="+05:00" />
+                <ComboBoxItem Content="+06:00" />
+                <ComboBoxItem Content="+07:00" />
+                <ComboBoxItem Content="+08:00" />
+                <ComboBoxItem Content="+09:00" />
+                <ComboBoxItem Content="+10:00" />
+                <ComboBoxItem Content="+11:00" />
+                <ComboBoxItem Content="+12:00" />
+                <ComboBoxItem Content="+13:00" />
+                <ComboBoxItem Content="+14:00" />
+                <ComboBoxItem Content="+15:00" />
+                <ComboBoxItem Content="+16:00" />
+                <ComboBoxItem Content="+17:00" />
+                <ComboBoxItem Content="+18:00" />
+                <ComboBoxItem Content="+19:00" />
+                <ComboBoxItem Content="+20:00" />
+                <ComboBoxItem Content="+21:00" />
+                <ComboBoxItem Content="+22:00" />
+                <ComboBoxItem Content="+23:00" />
+            </ComboBox>
+
         </StackPanel>
 
         <StackPanel Margin="0,12,16,0"

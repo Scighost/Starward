@@ -1,15 +1,13 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Graphics.Display;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Starward.Codec.ICC;
 using Starward.Features.Codec;
 using Starward.Features.Screenshot;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.IO;
@@ -439,15 +437,6 @@ public sealed partial class ScreenshotSetting : PageBase
         {
             _logger.LogError(ex, "Failed to clear thumbnail cache");
             InAppToast.MainWindow?.Error(ex, Lang.ScreenshotSetting_ClearFailed);
-        }
-    }
-
-
-    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
-    {
-        if (sender.FontSize > 12)
-        {
-            sender.FontSize -= 1;
         }
     }
 

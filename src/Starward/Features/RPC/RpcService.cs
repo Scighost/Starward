@@ -1,45 +1,38 @@
-using Grpc.Core;
-using Microsoft.Extensions.Logging;
-using Starward.RPC;
-using Starward.RPC.Env;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Starward.Features.RPC;
 
-internal class RpcService
+internal static class RpcService
 {
 
+    public const string StartupMagic = "zb8L3ShgFjeyDxeA";
 
-    private ILogger<RpcService> _logger;
+    public static string PipeName => $"Starward.RPC/{Process.GetCurrentProcess().SessionId}/{AppConfig.AppVersion}";
 
-
-    private bool _noLongerChange;
-
-
-    public RpcService(ILogger<RpcService> logger)
-    {
-        _logger = logger;
-    }
-
-
-
+    public static string Authorization => field ??= RandomNumberGenerator.GetHexString(16);
 
 
     public static bool CheckRpcServerRunning()
     {
-        return RpcClientFactory.CheckRpcServerRunning();
+        var instance = App.FindInstanceForKey("Starward.RPC");
+        return instance is not null && !instance.IsCurrent;
     }
 
 
 
-    public async Task<RpcServerInfo> GetRpcServerInfoAsync(DateTime deadline)
-    {
-        var client = CreateRpcClient<Env.EnvClient>();
-        return await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: deadline);
-    }
+    //public static async Task<RpcServerInfo> GetRpcServerInfoAsync(DateTime deadline)
+    //{
+    //    var client = CreateRpcClient<Env.EnvClient>();
+    //    return await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: deadline);
+    //}
 
 
 
@@ -48,7 +41,7 @@ internal class RpcService
     /// 仅在操作取消时返回 false
     /// </summary>
     /// <returns></returns>
-    public async Task<bool> EnsureRpcServerRunningAsync()
+    public static async Task<bool> EnsureRpcServerRunningAsync()
     {
         const int ERROR_CANCELLED = 0x000004C7;
         try
@@ -61,19 +54,18 @@ internal class RpcService
                     Verb = "runas",
                     UseShellExecute = true,
                     CreateNoWindow = true,
-                    Arguments = $"rpc {RpcClientFactory.StartupMagic} {Environment.ProcessId}",
+                    Arguments = $"rpc {StartupMagic} {Environment.ProcessId} {Authorization}",
                 });
             }
-            try
-            {
-                var client = RpcClientFactory.CreateRpcClient<Env.EnvClient>();
-                await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(5));
-            }
-            catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
-            {
-                throw new TimeoutException("Checking RPC server timed out.");
-            }
-            await SetEnviromentAsync();
+            //try
+            //{
+            //    var client = RpcClientFactory.CreateRpcClient<Env.EnvClient>();
+            //    await client.GetRpcServerInfoAsync(new EmptyMessage(), deadline: DateTime.UtcNow.AddSeconds(5));
+            //}
+            //catch (RpcException ex) when (ex.Status is { StatusCode: StatusCode.DeadlineExceeded })
+            //{
+            //    throw new TimeoutException("Checking RPC server timed out.");
+            //}
         }
         catch (Win32Exception ex) when (ex.NativeErrorCode == ERROR_CANCELLED)
         {
@@ -84,84 +76,30 @@ internal class RpcService
 
 
 
-    private async Task SetEnviromentAsync()
+    private static GrpcChannel CreateChannel()
     {
-        var client = CreateRpcClient<Env.EnvClient>();
-        await client.SetEnviromentAsync(new EnviromentMessage
+        var connectionFactory = new NamedPipesConnectionFactory(PipeName);
+        var httpClient = new HttpClient(new SocketsHttpHandler
         {
-            ParentProcessId = Environment.ProcessId,
-            KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
-            DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
-        }, deadline: DateTime.UtcNow.AddSeconds(3));
-    }
-
-
-
-    public async void TrySetEnviromentAsync()
-    {
-        try
+            ConnectCallback = connectionFactory.ConnectAsync,
+            // 防止因为系统代理无法建立连接
+            UseProxy = false,
+        }, true);
+        httpClient.DefaultRequestHeaders.Add("Authorization", Authorization);
+        return GrpcChannel.ForAddress("http://localhost", new GrpcChannelOptions
         {
-            if (CheckRpcServerRunning())
-            {
-                var client = CreateRpcClient<Env.EnvClient>();
-                await client.SetEnviromentAsync(new EnviromentMessage
-                {
-                    ParentProcessId = Environment.ProcessId,
-                    KeepRunningOnExited = AppConfig.KeepRpcServerRunningInBackground,
-                    DownloadRateLimit = Math.Clamp(AppConfig.SpeedLimitKBPerSecond * 1024, 0, int.MaxValue),
-                }, deadline: DateTime.UtcNow.AddSeconds(3));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Set enviroment when startup");
-        }
-    }
-
-
-
-    public async void KeepRunningOnExited(bool value, bool noLongerChange = false)
-    {
-        try
-        {
-            if (CheckRpcServerRunning() && !_noLongerChange)
-            {
-                var client = CreateRpcClient<Env.EnvClient>();
-                await client.SetParentProcessAsync(new ParentProcessMessage
-                {
-                    ProcessId = Environment.ProcessId,
-                    KeepRunningOnExited = value,
-                    NoLongerChange = noLongerChange,
-                });
-            }
-            _noLongerChange = _noLongerChange || noLongerChange;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Keep rpc server running on exited");
-        }
+            HttpClient = httpClient,
+        });
     }
 
 
 
 
-    public async Task StopRpcServerAsync(DateTime deadline)
+    public static T CreateRpcClient<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>() where T : ClientBase<T>
     {
-        if (CheckRpcServerRunning())
-        {
-            var client = CreateRpcClient<Env.EnvClient>();
-            await client.StopRpcServerAsync(new EmptyMessage(), deadline: deadline);
-        }
+        return (T)Activator.CreateInstance(typeof(T), CreateChannel())!;
     }
 
-
-
-
-
-    public static T CreateRpcClient<T>() where T : Grpc.Core.ClientBase<T>
-    {
-        return RpcClientFactory.CreateRpcClient<T>();
-    }
 
 
 

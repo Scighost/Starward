@@ -1,10 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Starward.Features.Database;
-using Starward.Frameworks;
+using Starward.GameInstall;
 using Starward.Helpers;
 using System;
 using System.Diagnostics;
@@ -18,7 +18,7 @@ using Windows.System;
 namespace Starward.Features.ViewHost;
 
 [ObservableObject]
-public sealed partial class WelcomeWindow : WindowEx
+public sealed partial class WelcomeWindow : WindowBase
 {
 
 
@@ -258,6 +258,7 @@ public sealed partial class WelcomeWindow : WindowEx
             }
             AppConfig.UserDataFolder = UserDataFolder;
             DatabaseService.SetDatabase(UserDataFolder);
+            GameFileDatabase.SetDatabase(UserDataFolder);
             AppConfig.SaveConfiguration();
             _taskCompletionSource.SetResult(true);
             this.Close();

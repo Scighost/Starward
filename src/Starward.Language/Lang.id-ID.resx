@@ -1788,6 +1788,12 @@ Apakah kamu menerima risikonya dan ingin melanjutkan?</value>
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>Verifikasi</value>
   </data>
+  <data name="StartGameButton_Cleaning" xml:space="preserve">
+    <value>Membersihkan</value>
+  </data>
+  <data name="StartGameButton_StepProgress" xml:space="preserve">
+    <value>Langkah {0}/{1}</value>
+  </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>Layanan RPC Tidak Berjalan</value>
   </data>
@@ -2794,5 +2800,152 @@ Kamu dipersilakan mengirimkan data hasil ekspor ke repositori berikut:</value>
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Statistik didasarkan pada waktu proses game, bukan waktu bermain sebenarnya, dan hanya sebagai referensi.</value>
+  </data>
+  <data name="LauncherConfigView_ViewDetails" xml:space="preserve">
+    <value>Lihat Detail</value>
+  </data>
+  <data name="LauncherConfigView_PreRegister" xml:space="preserve">
+    <value>Praregistrasi</value>
+  </data>
+  <data name="GameReservationView_PreRegister" xml:space="preserve">
+    <value>Praregistrasi</value>
+  </data>
+  <data name="LauncherConfigView_InstalledGames" xml:space="preserve">
+    <value>Game Terpasang</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_LauncherChannelSetting" xml:space="preserve">
+    <value>Pengaturan Channel Launcher</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AddCustomChannel" xml:space="preserve">
+    <value>Tambah Channel Kustom</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AuthLogin" xml:space="preserve">
+    <value>Login Otorisasi</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_BetaServer" xml:space="preserve">
+    <value>Server Beta</value>
+  </data>
+  <data name="FindGamesDialog_FindInstalledGames" xml:space="preserve">
+    <value>Cari Game Terpasang</value>
+  </data>
+  <data name="FindGamesDialog_ScanAllDrives" xml:space="preserve">
+    <value>Pindai Semua Drive</value>
+  </data>
+  <data name="FindGamesDialog_NoGameFilesWereFound" xml:space="preserve">
+    <value>Tidak ada file game yang ditemukan.</value>
+  </data>
+  <data name="FindGamesDialog_SelectTheGamesToAdd" xml:space="preserve">
+    <value>Pilih Game yang Akan Ditambahkan</value>
+  </data>
+  <data name="FindGamesDialog_AddGames" xml:space="preserve">
+    <value>Tambah Game</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
+    <value>ID, Name, dan Region tidak boleh kosong.</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_NoGamesFoundForThisLauncher" xml:space="preserve">
+    <value>Tidak ada game yang ditemukan untuk launcher ini.</value>
+  </data>
+  <data name="MainView_LogInAgain" xml:space="preserve">
+    <value>Masuk lagi</value>
+  </data>
+  <data name="MainView_UseTheCurrentAccountToLogIntoTheGame" xml:space="preserve">
+    <value>Gunakan akun saat ini untuk masuk ke game</value>
+  </data>
+  <data name="MainView_LoginFailed" xml:space="preserve">
+    <value>Gagal masuk</value>
+  </data>
+  <data name="InstallGameDialog_LoadingDownloadResources" xml:space="preserve">
+    <value>Memuat resource unduhan</value>
+  </data>
+  <data name="InstallGameDialog_VoiceoverResources" xml:space="preserve">
+    <value>Resource Suara</value>
+  </data>
+  <data name="InstallGameDialog_DownloadResources" xml:space="preserve">
+    <value>Resource Unduhan</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequired" xml:space="preserve">
+    <value>Ruang yang Diperlukan</value>
+  </data>
+  <data name="InstallGameDialog_FailedToAcquireDownloadResources" xml:space="preserve">
+    <value>Gagal mendapatkan resource unduhan</value>
+  </data>
+  <data name="InstallGameDialog_GameResourcesDoNotExist" xml:space="preserve">
+    <value>Resource game tidak ada</value>
+  </data>
+  <data name="InstallGameDialog_LoginExpiredPleaseLogInAgain" xml:space="preserve">
+    <value>Sesi login telah berakhir. Silakan masuk lagi.</value>
+  </data>
+  <data name="InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess" xml:space="preserve">
+    <value>Akun saat ini tidak memiliki akses uji beta</value>
+  </data>
+  <data name="InstallGameDialog_GameVersion" xml:space="preserve">
+    <value>Versi Game</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupSetting" xml:space="preserve">
+    <value>Pengaturan Peluncuran</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RenderMode" xml:space="preserve">
+    <value>Mode Render</value>
+  </data>
+  <data name="StartGameButton_UpdatePlugin" xml:space="preserve">
+    <value>Perbarui Plugin</value>
+  </data>
+  <data name="Common_LogOut" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="PlayTimeStatsDialog_DayStartsAt" xml:space="preserve">
+    <value>Hari Dimulai Pada</value>
+  </data>
+  <data name="PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime" xml:space="preserve">
+    <value>Atur offset relatif terhadap zona waktu lokal untuk menyelaraskan waktu server.</value>
+  </data>
+  <data name="LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks" xml:space="preserve">
+    <value>Bagikan ruang penyimpanan dengan game lain melalui hard link:</value>
+  </data>
+  <data name="LauncherConfigView_ActualStorageSpaceUsed" xml:space="preserve">
+    <value>Ruang penyimpanan yang benar-benar digunakan:</value>
+  </data>
+  <data name="LauncherConfigView_FindInstalledGamesOrAddChannelServers" xml:space="preserve">
+    <value>Cari game yang terpasang atau tambahkan server channel.</value>
+  </data>
+  <data name="FindGamesDialog_QuickSearch" xml:space="preserve">
+    <value>Pencarian Cepat</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ResourceManagement" xml:space="preserve">
+    <value>Manajemen Resource</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManagement" xml:space="preserve">
+    <value>Manajemen Resource Cutscene</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ManageResource" xml:space="preserve">
+    <value>Kelola Resource</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GameOrInstallTaskIsRunning" xml:space="preserve">
+    <value>Game atau tugas pemasangan sedang berjalan.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DeletedResource" xml:space="preserve">
+    <value>Resource yang Dihapus</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManageDesc" xml:space="preserve">
+    <value>Hapus sebagian resource cutscene untuk menghemat ruang penyimpanan. Setelah diaktifkan, launcher akan menangani pembaruan cepat game.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable" xml:space="preserve">
+    <value>Manifest resource cutscene tidak tersedia.</value>
+  </data>
+  <data name="StartGameButton_HotUpdate" xml:space="preserve">
+    <value>Pembaruan Cepat</value>
+  </data>
+  <data name="StartGameButton_ComingSoon" xml:space="preserve">
+    <value>Segera Hadir</value>
+  </data>
+  <data name="GameLauncherPage_HotUpdateCheckFailed" xml:space="preserve">
+    <value>Pemeriksaan pembaruan cepat gagal</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LocalResource" xml:space="preserve">
+    <value>Resource Lokal</value>
+  </data>
+  <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
+    <value>Aplikasi tidak resmi. Harap perhatikan keamanan akunmu.</value>
   </data>
 </root>

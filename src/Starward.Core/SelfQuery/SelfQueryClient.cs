@@ -1,5 +1,4 @@
-using System.Net;
-using System.Net.Http.Json;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
 namespace Starward.Core.SelfQuery;
@@ -30,9 +29,9 @@ public class SelfQueryClient
 
     private async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default) where T : class
     {
-        var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var wrapper = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), SelfQueryJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var wrapper = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), SelfQueryJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
         if (wrapper is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -86,7 +85,7 @@ public class SelfQueryClient
             {
                 throw new ArgumentException($"Input url is invalid.", nameof(url));
             }
-            await GetGenshinUserInfoAsync(cancellationToken);
+            await GetGenshinUserInfoAsync(cancellationToken).ConfigureAwait(false);
         }
         if (gameBiz.ToGame() == GameBiz.hkrpg)
         {
@@ -102,7 +101,7 @@ public class SelfQueryClient
             {
                 throw new ArgumentException($"Input url is invalid.", nameof(url));
             }
-            await GetStarRailUserInfoAsync(cancellationToken);
+            await GetStarRailUserInfoAsync(cancellationToken).ConfigureAwait(false);
         }
         if (gameBiz.ToGame() == GameBiz.nap)
         {
@@ -118,7 +117,7 @@ public class SelfQueryClient
             {
                 throw new ArgumentException($"Input url is invalid.", nameof(url));
             }
-            await GetZZZUserInfoAsync(cancellationToken);
+            await GetZZZUserInfoAsync(cancellationToken).ConfigureAwait(false);
         }
         if (UserInfo is null)
         {
@@ -130,7 +129,7 @@ public class SelfQueryClient
 
     public void Reset()
     {
-        gameBiz = GameBiz.None;
+        gameBiz = default;
         authQuery = null;
         prefixUrl = null;
         UserInfo = null;
@@ -159,7 +158,7 @@ public class SelfQueryClient
     public async Task<SelfQueryUserInfo> GetGenshinUserInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetUserInfo{authQuery}";
-        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken).ConfigureAwait(false);
         UserInfo.GameBiz = gameBiz;
         return UserInfo;
     }
@@ -181,7 +180,7 @@ public class SelfQueryClient
             GenshinQueryType.BeyondGachaCoin => $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondGachaCoin{authQuery}&size=20&selfquery_type=4&end_id={endId}",
             _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinQueryItem>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinQueryItem>>(url, cancellationToken).ConfigureAwait(false);
         var list = wrapper.List ?? new List<GenshinQueryItem>(0);
         long uid = UserInfo?.Uid ?? 0;
         foreach (var item in list)
@@ -204,7 +203,7 @@ public class SelfQueryClient
     {
         EnsureInitialized();
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondCostume{authQuery}&size=20&selfquery_type=8&end_id={endId}";
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostume>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostume>>(url, cancellationToken).ConfigureAwait(false);
         return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondCostume>(0);
     }
 
@@ -220,7 +219,7 @@ public class SelfQueryClient
     {
         EnsureInitialized();
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondCostumeSuit{authQuery}&size=20&selfquery_type=8&end_id={endId}";
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostumeSuit>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondCostumeSuit>>(url, cancellationToken).ConfigureAwait(false);
         return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondCostumeSuit>(0);
     }
 
@@ -236,7 +235,7 @@ public class SelfQueryClient
     {
         EnsureInitialized();
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBattlePath{authQuery}&size=20&selfquery_type=8&end_id={endId}";
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BattlePath>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BattlePath>>(url, cancellationToken).ConfigureAwait(false);
         var list = wrapper.List ?? new List<GenshinSelfQueryItem_BattlePath>(0);
         long uid = UserInfo?.Uid ?? 0;
         foreach (var item in list)
@@ -258,7 +257,7 @@ public class SelfQueryClient
     {
         EnsureInitialized();
         string url = $"{prefixUrl}/common/hk4e_self_help_query/User/GetBeyondBattlePath{authQuery}&size=20&selfquery_type=8&end_id={endId}";
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondBattlePath>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<GenshinSelfQueryItem_BeyondBattlePath>>(url, cancellationToken).ConfigureAwait(false);
         return wrapper.List ?? new List<GenshinSelfQueryItem_BeyondBattlePath>(0);
     }
 
@@ -279,7 +278,7 @@ public class SelfQueryClient
     public async Task<SelfQueryUserInfo> GetStarRailUserInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = $"{prefixUrl}/common/hkrpg_self_help_inquiry/UserInfo/GetUserInfo{authQuery}";
-        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken).ConfigureAwait(false);
         UserInfo.GameBiz = gameBiz;
         return UserInfo;
     }
@@ -299,7 +298,7 @@ public class SelfQueryClient
             StarRailQueryType.Power => $"{prefixUrl}/common/hkrpg_self_help_inquiry/Power/GetList{authQuery}&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<StarRailQueryItem>>(url, cancellationToken).ConfigureAwait(false);
         var list = wrapper.List ?? new List<StarRailQueryItem>(0);
         foreach (var item in list)
         {
@@ -323,7 +322,7 @@ public class SelfQueryClient
     public async Task<SelfQueryUserInfo> GetZZZUserInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = $"{prefixUrl}/common/nap_self_help_query/UserInfo/GetUserInfo{authQuery}";
-        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken);
+        UserInfo ??= await CommonGetAsync<SelfQueryUserInfo>(url, cancellationToken).ConfigureAwait(false);
         UserInfo.GameBiz = gameBiz;
         return UserInfo;
     }
@@ -344,7 +343,7 @@ public class SelfQueryClient
             ZZZQueryType.BattlePass => $"{prefixUrl}/common/nap_self_help_query/Coin/GetList{authQuery}&coin_type=battle_pass&end_id={endId}&size={size}&begin_time={beginTime}&end_time={endTime}",
             _ => throw new ArgumentOutOfRangeException(nameof(type), $"Unknown query type ({type})"),
         };
-        var wrapper = await CommonGetAsync<SelfQueryListWrapper<ZZZQueryItem>>(url, cancellationToken);
+        var wrapper = await CommonGetAsync<SelfQueryListWrapper<ZZZQueryItem>>(url, cancellationToken).ConfigureAwait(false);
         var list = wrapper.List ?? new List<ZZZQueryItem>(0);
         foreach (var item in list)
         {

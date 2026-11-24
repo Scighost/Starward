@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
@@ -11,7 +11,7 @@ namespace Starward.Features.PlayTime;
 /// <summary>
 /// 通用柱状图：纵轴刻度与网格线随数据自适应（5 等分），圆角柱体，悬停显示提示卡。
 /// </summary>
-public sealed class BarChart : Grid
+public sealed partial class BarChart : Grid
 {
 
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.GameRecordPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
              xmlns:scg="using:Starward.Core.GameRecord"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sh="using:Starward.Helpers"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -89,24 +89,10 @@
                             Grid.ColumnSpan="2"
                             Margin="0,0,12,0"
                             BorderThickness="0"
+                            Command="{x:Bind LoginCommand}"
                             Content="{x:Bind lang:Lang.HoyolabToolboxPage_LogIn}"
                             Style="{ThemeResource AccentButtonStyle}"
-                            Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
-                        <Button.Flyout>
-                            <MenuFlyout x:Name="Flyout_LoginMenu_1" Placement="BottomEdgeAlignedLeft">
-                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE774;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE70F;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Button.Flyout>
-                    </Button>
+                            Visibility="{x:Bind CurrentRole, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
 
                     <!--  角色列表  -->
                     <Button Grid.Column="2"
@@ -133,7 +119,7 @@
                                         <Setter Property="Padding" Value="4" />
                                     </Style>
                                 </Flyout.FlyoutPresenterStyle>
-                                <Grid MinWidth="240"
+                                <Grid MinWidth="220"
                                       Padding="0,8,0,8"
                                       RowSpacing="4">
                                     <Grid.RowDefinitions>
@@ -151,11 +137,11 @@
                                             Margin="4,0,4,0"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Left"
-                                            Command="{x:Bind RefreshGameRoleInfoCommand}"
+                                            Command="{x:Bind UpdateGameRolesCookieCommand}"
                                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
                                             <FontIcon FontSize="16" Glyph="&#xE72C;" />
-                                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.HoyolabToolboxPage_RefreshInfo}" />
+                                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.Common_Refresh}" />
                                         </StackPanel>
                                     </Button>
 
@@ -164,25 +150,12 @@
                                             Margin="4,0,4,0"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Left"
+                                            Command="{x:Bind LoginCommand}"
                                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                         <StackPanel Orientation="Horizontal" Spacing="12">
                                             <FontIcon FontSize="16" Glyph="&#xE710;" />
                                             <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.HoyolabToolboxPage_LogIn}" />
                                         </StackPanel>
-                                        <Button.Flyout>
-                                            <MenuFlyout x:Name="Flyout_LoginMenu_2" Placement="RightEdgeAlignedTop">
-                                                <MenuFlyoutItem Command="{x:Bind WebLoginCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_WebLogin}">
-                                                    <MenuFlyoutItem.Icon>
-                                                        <FontIcon Glyph="&#xE774;" />
-                                                    </MenuFlyoutItem.Icon>
-                                                </MenuFlyoutItem>
-                                                <MenuFlyoutItem Command="{x:Bind InputCookieCommand}" Text="{x:Bind lang:Lang.HoyolabToolboxPage_InputCookie}">
-                                                    <MenuFlyoutItem.Icon>
-                                                        <FontIcon Glyph="&#xE70F;" />
-                                                    </MenuFlyoutItem.Icon>
-                                                </MenuFlyoutItem>
-                                            </MenuFlyout>
-                                        </Button.Flyout>
                                     </Button>
 
 
@@ -220,14 +193,6 @@
                                                             Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                                                         <Button.Flyout>
                                                             <MenuFlyout Placement="RightEdgeAlignedTop">
-                                                                <MenuFlyoutItem Name="MenuFlyoutItem_CopyCookie"
-                                                                                Click="MenuFlyoutItem_CopyCookie_Click"
-                                                                                Tag="{x:Bind}"
-                                                                                Text="{x:Bind lang:Lang.HoyolabToolboxPage_CopyCookie}">
-                                                                    <MenuFlyoutItem.Icon>
-                                                                        <FontIcon Glyph="&#xE8C8;" />
-                                                                    </MenuFlyoutItem.Icon>
-                                                                </MenuFlyoutItem>
                                                                 <MenuFlyoutItem Name="MenuFlyoutItem_DeleteGameRole"
                                                                                 Click="MenuFlyoutItem_DeleteGameRole_Click"
                                                                                 Tag="{x:Bind}"
@@ -508,7 +473,8 @@
                 <NavigationViewItem x:Name="NavigationViewItem_UpdateDeviceInfo"
                                     Margin="-2,0,0,-4"
                                     Content="{x:Bind lang:Lang.HoyolabToolboxPage_UpdateDeviceFingerprint}"
-                                    Tapped="NavigationViewItem_UpdateDeviceInfo_Tapped">
+                                    Tapped="NavigationViewItem_UpdateDeviceInfo_Tapped"
+                                    Visibility="Collapsed">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE928;" />
                     </NavigationViewItem.Icon>

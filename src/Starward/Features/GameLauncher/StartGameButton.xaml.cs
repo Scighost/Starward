@@ -1,9 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Starward.RPC.GameInstall;
+using Starward.Features.GameInstall;
+using Starward.GameInstall;
 using System;
 using System.Windows.Input;
 
@@ -33,10 +34,10 @@ public sealed partial class StartGameButton : UserControl
     public ICommand SettingCommand { get; set => SetProperty(ref field, value); }
 
 
-    public string? RunningGameTime { get; set { field = value; OnPropertyChanged(nameof(StartGameButtonText)); } }
+    public string? RunningGameTime { get; set { field = value; OnPropertyChanged(nameof(StartGameButtonText)); OnPropertyChanged(nameof(GameActionAccessibilityText)); } }
 
 
-    public string? RunningGameInfo { get; set => SetProperty(ref field, value); }
+    public string? RunningGameProcessInfo { get; set => SetProperty(ref field, value); }
 
 
 
@@ -61,15 +62,43 @@ public sealed partial class StartGameButton : UserControl
     public string StartGameButtonText => GameState switch
     {
         GameState.StartGame => Lang.LauncherPage_StartGame,
-        GameState.GameIsRunning => RunningGameTime ?? "",
+        GameState.GameIsRunning => RunningGameTime ?? Lang.LauncherPage_GameIsRunning,
         GameState.InstallGame => Lang.LauncherPage_InstallGame,
         GameState.UpdateGame => Lang.LauncherPage_UpdateGame,
-        GameState.UpdatePlugin => "Update Plugins",
+        GameState.UpdatePlugin => Lang.StartGameButton_UpdatePlugin,
         GameState.Installing => "",
         GameState.ResumeDownload => Lang.StartGameButton_ResumeDownload,
-        GameState.ComingSoon => "Coming Soon",
+        GameState.ComingSoon => Lang.StartGameButton_ComingSoon,
+        GameState.Reservation => Lang.GameReservationView_PreRegister,
+        GameState.HotUpdate => Lang.StartGameButton_HotUpdate,
         _ => "",
     };
+
+
+    public string GameActionAccessibilityText
+    {
+        get
+        {
+            if (!GameStateIsInstalling)
+            {
+                return StartGameButtonText;
+            }
+            string text = InstallStateText;
+            if (!string.IsNullOrWhiteSpace(ProgressPercentText))
+            {
+                text = $"{text} {ProgressPercentText}";
+            }
+            if (!string.IsNullOrWhiteSpace(InstallSecondaryText))
+            {
+                text = $"{text} {InstallSecondaryText}";
+            }
+            if (!string.IsNullOrWhiteSpace(InstallActionText))
+            {
+                text = $"{text} {InstallActionText}";
+            }
+            return text;
+        }
+    }
 
 
     public Brush ActionButtonForeground => (Button_GameAction.IsEnabled, IsAccentColorBackgroundVisible, ActionButtonPointerOver) switch
@@ -101,6 +130,7 @@ public sealed partial class StartGameButton : UserControl
         OnPropertyChanged(nameof(IsAccentColorBackgroundVisible));
         OnPropertyChanged(nameof(IsGameActionCommandRunning));
         OnPropertyChanged(nameof(StartGameButtonText));
+        OnPropertyChanged(nameof(GameActionAccessibilityText));
         UpdateButtonForeground();
     }
 
@@ -165,66 +195,58 @@ public sealed partial class StartGameButton : UserControl
 
 
 
-    public GameInstallState InstallState { get; set { if (SetProperty(ref field, value)) UpdateActionButtonStateWhenInstalling(); } }
+    public RunnerState InstallState { get; set { if (SetProperty(ref field, value)) UpdateActionButtonStateWhenInstalling(); } }
+
+    public RunnerStep InstallStep { get; set { if (SetProperty(ref field, value)) UpdateActionButtonStateWhenInstalling(); } }
+
+    public GameInstallOperation InstallOperation { get; set => SetProperty(ref field, value); }
 
 
-    public bool InstallStateIsPending => InstallState is GameInstallState.Waiting;
+    public bool InstallProgressIsIndeterminate { get; set => SetProperty(ref field, value); }
 
-    public bool InstallStateIsDownloading => InstallState is GameInstallState.Downloading;
+    public double InstallInfoOpacity { get; set => SetProperty(ref field, value); }
 
-    public double Button_GameAction_DownloadingRemainTime_Opacity => !ActionButtonPointerOver && InstallState is GameInstallState.Downloading ? 1 : 0;
+    public double InstallActionTextOpacity { get; set => SetProperty(ref field, value); }
 
-    public double TextBlock_GameAction_InstallState_Opacity => !ActionButtonPointerOver && InstallState is not GameInstallState.Downloading ? 1 : 0;
+    public string InstallPhaseText { get; set => SetProperty(ref field, value); } = "";
 
-    public double TextBlock_GameAction_PointerOver_Opacity => ActionButtonPointerOver ? 1 : 0;
+    public string InstallOperationText { get; set => SetProperty(ref field, value); } = "";
 
-    public string TextBlock_GameAction_InstallState_Text => (ActionButtonPointerOver, InstallState) switch
-    {
-        (false, GameInstallState.Waiting) => Lang.StartGameButton_Waiting,
-        (false, GameInstallState.Decompressing) => Lang.DownloadGamePage_Decompressing,
-        (false, GameInstallState.Merging) => Lang.DownloadGamePage_Merging,
-        (false, GameInstallState.Verifying) => Lang.DownloadGamePage_Verifying,
-        (false, GameInstallState.Paused) => Lang.DownloadGamePage_Paused,
-        (false, GameInstallState.Error) => Lang.Common_Error,
-        (false, GameInstallState.Queueing) => Lang.StartGameButton_InQueue,
-        _ => ""
-    };
+    public string InstallStepPhaseText { get; set => SetProperty(ref field, value); } = "";
 
-    public string TextBlock_GameAction_PointerOver_Text => (ActionButtonPointerOver, InstallState) switch
-    {
-        (true, GameInstallState.Waiting or GameInstallState.Downloading) => Lang.DownloadGamePage_Pause,
-        (true, GameInstallState.Paused or GameInstallState.Error or GameInstallState.Queueing) => Lang.Common_Continue,
-        (true, GameInstallState.Decompressing or GameInstallState.Merging or GameInstallState.Verifying) => Lang.Common_Cancel,
-        _ => ""
+    public string? InstallSecondaryText { get; set => SetProperty(ref field, value); }
 
-    };
+    public string InstallActionText { get; set => SetProperty(ref field, value); } = "";
 
-    public string InstallStateText => InstallState switch
-    {
-        GameInstallState.Waiting => Lang.StartGameButton_Waiting,
-        GameInstallState.Downloading => Lang.DownloadGamePage_Downloading,
-        GameInstallState.Decompressing => Lang.DownloadGamePage_Decompressing,
-        GameInstallState.Merging => Lang.DownloadGamePage_Merging,
-        GameInstallState.Verifying => Lang.DownloadGamePage_Verifying,
-        GameInstallState.Paused => Lang.DownloadGamePage_Paused,
-        GameInstallState.Finish => Lang.DownloadGamePage_Finished,
-        GameInstallState.Error => Lang.DownloadGamePage_SomethingError,
-        GameInstallState.Queueing => Lang.StartGameButton_InQueue,
-        _ => "State Error"
-    };
+    public double InstallPhaseFontSize { get; set => SetProperty(ref field, value); } = 12;
+
+    public TextAlignment InstallPhaseTextAlignment { get; set => SetProperty(ref field, value); } = TextAlignment.Left;
+
+    public string InstallStateText { get; set => SetProperty(ref field, value); } = "";
+
+    public string InstallBytesLabel { get; set => SetProperty(ref field, value); } = "";
 
 
     public void UpdateActionButtonStateWhenInstalling()
     {
+        bool showInfo = !ActionButtonPointerOver && InstallState is not RunnerState.Finish;
+        InstallInfoOpacity = showInfo ? 1 : 0;
+        InstallActionTextOpacity = !showInfo && InstallState is not RunnerState.Finish ? 1 : 0;
+        bool isLargeCentered = InstallState is RunnerState.Paused or RunnerState.Error
+            || (InstallState is RunnerState.Running && (InstallStep is RunnerStep.Pending or RunnerStep.None));
+        InstallPhaseFontSize = isLargeCentered ? 14 : 12;
+        InstallPhaseTextAlignment = isLargeCentered ? TextAlignment.Center : TextAlignment.Left;
         OnPropertyChanged(nameof(InstallState));
-        OnPropertyChanged(nameof(InstallStateIsPending));
-        OnPropertyChanged(nameof(InstallStateIsDownloading));
-        OnPropertyChanged(nameof(Button_GameAction_DownloadingRemainTime_Opacity));
-        OnPropertyChanged(nameof(TextBlock_GameAction_InstallState_Opacity));
-        OnPropertyChanged(nameof(TextBlock_GameAction_PointerOver_Opacity));
-        OnPropertyChanged(nameof(TextBlock_GameAction_InstallState_Text));
-        OnPropertyChanged(nameof(TextBlock_GameAction_PointerOver_Text));
+        OnPropertyChanged(nameof(InstallPhaseText));
+        OnPropertyChanged(nameof(InstallOperationText));
+        OnPropertyChanged(nameof(InstallStepPhaseText));
+        OnPropertyChanged(nameof(InstallSecondaryText));
+        OnPropertyChanged(nameof(InstallActionText));
         OnPropertyChanged(nameof(InstallStateText));
+        OnPropertyChanged(nameof(InstallBytesLabel));
+        OnPropertyChanged(nameof(InstallInfoOpacity));
+        OnPropertyChanged(nameof(InstallActionTextOpacity));
+        OnPropertyChanged(nameof(GameActionAccessibilityText));
     }
 
 
@@ -232,7 +254,9 @@ public sealed partial class StartGameButton : UserControl
 
     public int ProgressRingValue { get; set => SetProperty(ref field, value); }
 
-    public string ProgressPercentText { get; set => SetProperty(ref field, value); }
+    public string ProgressRingText { get; set => SetProperty(ref field, value); } = "";
+
+    public string? ProgressPercentText { get; set => SetProperty(ref field, value); }
 
     public string? DownloadBytesText { get; set => SetProperty(ref field, value); }
 
@@ -240,116 +264,117 @@ public sealed partial class StartGameButton : UserControl
 
     public string? InstallBytesText { get; set => SetProperty(ref field, value); }
 
-    public string? InstallSpeedText { get; set => SetProperty(ref field, value); }
-
-    public string? VerifySpeedText { get; set => SetProperty(ref field, value); }
-
     public string? RemainTimeText { get; set => SetProperty(ref field, value); }
 
     public string? ErrorMessage { get; set => SetProperty(ref field, value); }
 
+    public string? HardLinkBytesText { get; set => SetProperty(ref field, value); }
 
 
-    public void UpdateGameInstallTaskState(GameInstallContext task)
+
+    public void UpdateGameInstallTaskState(GameInstallProgress task)
     {
+        InstallOperation = task.Operation;
         InstallState = task.State;
-        DownloadBytesText = ToBytesText(task.Progress_DownloadFinishBytes, task.Progress_DownloadTotalBytes);
-        InstallBytesText = ToBytesText(task.Progress_WriteFinishBytes, task.Progress_WriteTotalBytes);
-        ErrorMessage = task.ErrorMessage;
-        if (InstallState is GameInstallState.Downloading)
+        InstallStep = task.Step;
+
+        InstallPhaseText = GameInstallProgressDisplay.GetPhaseText(task.State, task.Step);
+        InstallStateText = GameInstallProgressDisplay.GetOperationPhaseText(task);
+        InstallActionText = GameInstallProgressDisplay.GetActionText(task.State);
+
+        string operationText = GameInstallProgressDisplay.GetOperationText(task.Operation);
+        InstallOperationText = string.IsNullOrWhiteSpace(operationText) ? InstallPhaseText : operationText;
+
+        string? stepText = GameInstallProgressDisplay.GetStepText(task);
+        InstallStepPhaseText = string.IsNullOrWhiteSpace(stepText) ? InstallPhaseText : $"{stepText} · {InstallPhaseText}";
+
+        bool hasPercent = GameInstallProgressDisplay.TryGetPercent(task, out double percent);
+        InstallProgressIsIndeterminate = task.State is RunnerState.Running && !hasPercent;
+        int ringValue = hasPercent ? (int)Math.Floor(percent) : 0;
+        if (hasPercent && ringValue == 0 && percent > 0)
         {
-            long total = task.Progress_DownloadTotalBytes;
-            long finish = task.Progress_DownloadFinishBytes;
-            double progress = (double)finish / total;
-            DownloadSpeedText = ToSpeedText(task.NetworkDownloadSpeed);
-            InstallSpeedText = ToSpeedText(task.StorageWriteSpeed);
-            VerifySpeedText = ToSpeedText(task.StorageReadSpeed);
-            RemainTimeText = ToRemainTimeText(task.RemainTimeSeconds);
-            if (task.Operation is GameInstallOperation.Update && task.DownloadMode is GameInstallDownloadMode.Chunk)
+            ringValue = 1;
+        }
+        ProgressRingValue = ringValue;
+        ProgressRingText = hasPercent ? ringValue.ToString() : "";
+        ProgressPercentText = hasPercent ? GameInstallProgressDisplay.ToPercentText(percent) : null;
+
+        DownloadBytesText = null;
+        DownloadSpeedText = null;
+        InstallBytesText = null;
+        InstallBytesLabel = "";
+        RemainTimeText = null;
+        ErrorMessage = null;
+        HardLinkBytesText = null;
+
+        if (task.State is RunnerState.Running or RunnerState.Paused or RunnerState.Error)
+        {
+            if (task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkBytes))
             {
-                progress = (double)task.Progress_WriteFinishBytes / task.Progress_WriteTotalBytes;
-                ProgressRingValue = (int)(progress * 100);
-                ProgressPercentText = $"{progress:P1}";
+                DownloadBytesText = GameInstallProgressDisplay.ToBytesText(task.NetworkFinishedBytes, task.NetworkTotalBytes);
+            }
+            if (task.State is RunnerState.Running
+                && task.Step is RunnerStep.Downloading or RunnerStep.Patching
+                && task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkSpeed))
+            {
+                DownloadSpeedText = GameInstallProgressDisplay.ToSpeedText(task.NetworkDownloadSpeed);
+            }
+            if (task.ProgressDisplay.HasFlag(ProgressDisplay.StorageBytes))
+            {
+                InstallBytesText = GameInstallProgressDisplay.ToBytesText(task.StorageFinishedBytes, task.StorageTotalBytes);
+                InstallBytesLabel = task.Step is RunnerStep.Verifying ? Lang.StartGameButton_Verify : Lang.StartGameButton_Install;
             }
             else
             {
-                ProgressRingValue = (int)(progress * 100);
-                ProgressPercentText = $"{progress:P1}";
+                InstallBytesLabel = "";
+            }
+            if (task.HardLinkBytes > 0)
+            {
+                HardLinkBytesText = GameInstallProgressDisplay.FormatBytes(task.HardLinkBytes);
+            }
+            if (task.State is RunnerState.Running
+                && task.Step is RunnerStep.Downloading
+                && task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkSpeed))
+            {
+                RemainTimeText = GameInstallProgressDisplay.ToRemainTimeText(task.RemainTimeSeconds);
             }
         }
-        else if (InstallState is GameInstallState.Decompressing or GameInstallState.Merging)
+
+        if (task.State is RunnerState.Error)
         {
-            DownloadSpeedText = null;
-            InstallSpeedText = null;
-            VerifySpeedText = null;
-            RemainTimeText = "--:--:--";
-            ProgressRingValue = (int)(task.Progress_Percent * 100);
-            ProgressPercentText = $"{task.Progress_Percent:P1}";
+            ErrorMessage = string.IsNullOrWhiteSpace(task.ErrorMessage) ? Lang.DownloadGamePage_UnknownError : task.ErrorMessage;
         }
-        else if (InstallState is GameInstallState.Finish)
+
+        string? secondaryText = null;
+        if (task.State is RunnerState.Running or RunnerState.Error)
         {
-            DownloadSpeedText = null;
-            InstallBytesText = null;
-            DownloadSpeedText = null;
-            InstallSpeedText = null;
-            VerifySpeedText = null;
-            RemainTimeText = null;
-            ErrorMessage = null;
-            ProgressRingValue = 100;
-            ProgressPercentText = "100%";
+            // 第二行只显示剩余时间、网络字节或存储字节；暂停时不显示第二行。
+            if (task.State is RunnerState.Running
+                && task.Step is RunnerStep.Downloading
+                && task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkSpeed)
+                && task.RemainTimeSeconds > 0)
+            {
+                secondaryText = GameInstallProgressDisplay.ToRemainTimeText(task.RemainTimeSeconds);
+            }
+            else if (task.ProgressDisplay.HasFlag(ProgressDisplay.StorageBytes)
+                     && GameInstallProgressDisplay.ToBytesText(task.StorageFinishedBytes, task.StorageTotalBytes, 1) is { } storageText)
+            {
+                secondaryText = storageText;
+            }
+            else if (task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkBytes)
+                     && GameInstallProgressDisplay.ToBytesText(task.NetworkFinishedBytes, task.NetworkTotalBytes, 1) is { } networkText)
+            {
+                secondaryText = networkText;
+            }
+        }
+
+        InstallSecondaryText = secondaryText;
+        OnPropertyChanged(nameof(GameActionAccessibilityText));
+
+        if (task.State is RunnerState.Finish)
+        {
             Popup_GameInfoOrDownloadProgress.IsOpen = false;
         }
-        else
-        {
-            DownloadSpeedText = null;
-            InstallSpeedText = null;
-            VerifySpeedText = null;
-            RemainTimeText = "--:--:--";
-        }
-    }
-
-
-    private static string? ToBytesText(long finish, long total)
-    {
-        const double MB = 1 << 20;
-        const double GB = 1 << 30;
-        if (total == 0)
-        {
-            return null;
-        }
-        if (total >= GB)
-        {
-            return $"{finish / GB:F2}/{total / GB:F2} GB";
-        }
-        else
-        {
-            return $"{finish / MB:F2}/{total / MB:F2} MB";
-        }
-    }
-
-
-    private static string ToSpeedText(long bytes)
-    {
-        const double KB = 1 << 10;
-        const double MB = 1 << 20;
-        if (bytes >= MB)
-        {
-            return $"{bytes / MB:F2} MB/s";
-        }
-        else
-        {
-            return $"{bytes / KB:F2} KB/s";
-        }
-    }
-
-
-    private static string? ToRemainTimeText(long seconds)
-    {
-        if (seconds == 0)
-        {
-            return "--:--:--";
-        }
-        return TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
     }
 
 

@@ -9,7 +9,7 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:scggi="using:Starward.Core.GameRecord.Genshin.ImaginariumTheater"
              xmlns:scv="using:Starward.Converters"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sfg="using:Starward.Features.Gacha"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">

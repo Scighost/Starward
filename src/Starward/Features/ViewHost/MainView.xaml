@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="Starward.Features.ViewHost.MainView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,8 +6,11 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.ViewHost"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sc="using:Starward.Controls"
              xmlns:sfb="using:Starward.Features.Background"
              xmlns:sfg="using:Starward.Features.GameSelector"
+             xmlns:sfp="using:Starward.Features.Passport"
+             xmlns:sh="using:Starward.Helpers"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -43,7 +46,20 @@
             </NavigationView.Resources>
 
             <NavigationView.PaneCustomContent>
-                <Border Height="52" />
+                <Button Width="40"
+                        Height="40"
+                        Margin="8,6,8,4"
+                        Padding="0"
+                        sh:PointerCursor.CursorShape="Hand"
+                        BorderThickness="0"
+                        Command="{x:Bind ShowLauncherConfigViewCommand}"
+                        CornerRadius="8">
+                    <FontIcon HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              FontSize="20"
+                              Glyph="&#xE74C;"
+                              IsTextScaleFactorEnabled="False" />
+                </Button>
             </NavigationView.PaneCustomContent>
 
             <NavigationView.MenuItems>
@@ -59,19 +75,6 @@
                     <NavigationViewItem.Content>
                         <Border Height="40">
                             <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.MainPage_Launcer}" />
-                        </Border>
-                    </NavigationViewItem.Content>
-                </NavigationViewItem>
-                <!--  游戏设置  -->
-                <NavigationViewItem Name="NavigationViewItem_GameSetting"
-                                    Tag="GameSettingPage"
-                                    ToolTipService.ToolTip="{x:Bind lang:Lang.LauncherPage_GameSetting}">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7FC;" />
-                    </NavigationViewItem.Icon>
-                    <NavigationViewItem.Content>
-                        <Border Height="40">
-                            <TextBlock VerticalAlignment="Center" Text="{x:Bind lang:Lang.LauncherPage_GameSetting}" />
                         </Border>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
@@ -138,13 +141,242 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
+            <!--  通行证  -->
+            <NavigationView.PaneFooter>
+                <Border Width="56"
+                        Height="48"
+                        Background="Transparent">
+                    <Button Width="48"
+                            Height="40"
+                            Padding="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                            Visibility="{x:Bind CurrentLauncherConfig.CanLogin, FallbackValue=Collapsed, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid>
+                            <FontIcon FontSize="16"
+                                      Glyph="&#xE77B;"
+                                      Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
+                            <!--  头像  -->
+                            <sc:CachedImage Width="32"
+                                            Height="32"
+                                            CornerRadius="16"
+                                            Source="{x:Bind CurrentPassportUser.AvatarUrl}"
+                                            Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                            <!--  警告红点  -->
+                            <Image Width="20"
+                                   Margin="0,-6,-10,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Source="ms-appx:///Assets/Image/alert.png"
+                                   Visibility="{x:Bind CurrentPassportUser.ShowAlert, FallbackValue=Collapsed}" />
+                        </Grid>
+                        <Button.Flyout>
+                            <Flyout Placement="RightEdgeAlignedBottom">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Padding" Value="0" />
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <Grid Height="220">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="ColumnDefinition_HypLoginColumn0" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Margin="0,20,0,0" VerticalAlignment="Center">
+                                        <!--  头像  -->
+                                        <Grid>
+                                            <sc:CachedImage Width="64"
+                                                            Height="64"
+                                                            CornerRadius="32"
+                                                            Source="{x:Bind CurrentPassportUser.AvatarUrl, FallbackValue=ms-appx:///Assets/Image/icon_hoyoplay.png}" />
+                                            <sc:CachedImage Width="80"
+                                                            Height="80"
+                                                            Source="{x:Bind CurrentPassportUser.Pendant, FallbackValue={x:Null}}" />
+                                        </Grid>
+                                        <!--  nickname & id  -->
+                                        <TextBlock Margin="0,8,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Text="{x:Bind CurrentPassportUser.Nickname}"
+                                                   Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                                        <TextBlock Margin="0,4,0,0"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12"
+                                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                   IsTextScaleFactorEnabled="False"
+                                                   Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                            <Run Text="ID" />
+                                            <Run Text="{x:Bind CurrentPassportUser.Aid}" />
+                                        </TextBlock>
+                                        <!--  重新登录  -->
+                                        <Button Margin="0,4,0,0"
+                                                Padding="0"
+                                                HorizontalAlignment="Center"
+                                                Command="{x:Bind HypLoginCommand}"
+                                                Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                                Visibility="{x:Bind CurrentPassportUser.ShowAlert, FallbackValue=Collapsed}">
+                                            <TextBlock FontSize="12"
+                                                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                                                       IsTextScaleFactorEnabled="False"
+                                                       Text="{x:Bind lang:Lang.MainView_LogInAgain}" />
+                                        </Button>
+                                        <!--  登录  -->
+                                        <Button Margin="0,16,0,0"
+                                                HorizontalAlignment="Center"
+                                                BorderThickness="0"
+                                                Command="{x:Bind HypLoginCommand}"
+                                                Content="{x:Bind lang:Lang.HoyolabToolboxPage_LogIn}"
+                                                IsTextScaleFactorEnabled="False"
+                                                Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
+                                    </StackPanel>
+
+                                    <!--  添加账号  -->
+                                    <StackPanel Margin="0,10,10,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Orientation="Horizontal"
+                                                Spacing="8">
+                                        <Button Width="28"
+                                                Height="28"
+                                                Padding="0"
+                                                BorderThickness="0"
+                                                Command="{x:Bind HypLoginCommand}"
+                                                ToolTipService.ToolTip="{x:Bind lang:Lang.HoyolabToolboxPage_LogIn}"
+                                                Visibility="{x:Bind CurrentPassportUser, Converter={StaticResource ObjectToVisibilityConverter}}">
+                                            <FontIcon FontSize="16"
+                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                      Glyph="&#xE710;"
+                                                      IsTextScaleFactorEnabled="False" />
+                                        </Button>
+                                        <!--  登出  -->
+                                        <Button x:Name="Button_HypLogout"
+                                                Width="28"
+                                                Height="28"
+                                                Padding="0"
+                                                BorderThickness="0"
+                                                Command="{x:Bind HypLogoutCommand}"
+                                                ToolTipService.ToolTip="{x:Bind lang:Lang.Common_LogOut}"
+                                                Visibility="Collapsed">
+                                            <FontIcon FontSize="16"
+                                                      Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                      Glyph="&#xE7E8;"
+                                                      IsTextScaleFactorEnabled="False" />
+                                        </Button>
+                                    </StackPanel>
+
+                                    <!--  账号列表  -->
+                                    <ListView x:Name="ListView_HypAccunt"
+                                              Grid.Column="1"
+                                              Width="220"
+                                              Padding="0,8,8,8"
+                                              ItemsSource="{x:Bind PassportUsers}"
+                                              SelectedItem="{x:Bind CurrentPassportUser, Mode=TwoWay}"
+                                              Visibility="Collapsed">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate x:DataType="sfp:PassportUserInfoModel">
+                                                <Grid Padding="0,4,0,4" ColumnSpacing="8">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <!--  头像  -->
+                                                    <sc:CachedImage Width="28"
+                                                                    Height="28"
+                                                                    CornerRadius="14"
+                                                                    Source="{x:Bind AvatarUrl, FallbackValue=ms-appx:///Assets/Image/icon_hoyoplay.png}" />
+                                                    <!--  警告红点  -->
+                                                    <Image Width="16"
+                                                           Margin="0,-2,-6,0"
+                                                           HorizontalAlignment="Right"
+                                                           VerticalAlignment="Top"
+                                                           Source="ms-appx:///Assets/Image/alert.png"
+                                                           Visibility="{x:Bind ShowAlert}" />
+                                                    <!--  nickname & id  -->
+                                                    <StackPanel Grid.Column="1">
+                                                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                                                   IsTextScaleFactorEnabled="False"
+                                                                   Text="{x:Bind Nickname}"
+                                                                   TextTrimming="CharacterEllipsis" />
+                                                        <TextBlock FontSize="12"
+                                                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                                   IsTextScaleFactorEnabled="False">
+                                                            <Run Text="ID" />
+                                                            <Run Text="{x:Bind Aid}" />
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                    <!--  登出  -->
+                                                    <Button x:Name="Button_HypLogout"
+                                                            Grid.Column="2"
+                                                            Width="24"
+                                                            Height="24"
+                                                            Padding="0"
+                                                            Click="Button_HypLogout_Click"
+                                                            Style="{ThemeResource DateTimePickerFlyoutButtonStyle}"
+                                                            ToolTipService.ToolTip="{x:Bind lang:Lang.Common_LogOut}">
+                                                        <FontIcon FontSize="16"
+                                                                  Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                                  Glyph="&#xE7E8;"
+                                                                  IsTextScaleFactorEnabled="False" />
+                                                    </Button>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                    <!--  授权登录  -->
+                                    <Border Grid.Row="1"
+                                            Grid.ColumnSpan="2"
+                                            Margin="8"
+                                            Padding="12,0,12,0"
+                                            Background="{ThemeResource ControlFillColorDefaultBrush}"
+                                            CornerRadius="8">
+                                        <ToggleSwitch IsOn="{x:Bind AuthLoginGameByPassportAccount, Mode=TwoWay}"
+                                                      IsTextScaleFactorEnabled="False"
+                                                      OffContent="{x:Bind lang:Lang.MainView_UseTheCurrentAccountToLogIntoTheGame}"
+                                                      OnContent="{x:Bind lang:Lang.MainView_UseTheCurrentAccountToLogIntoTheGame}" />
+                                    </Border>
+
+                                </Grid>
+                            </Flyout>
+                        </Button.Flyout>
+                    </Button>
+                </Border>
+            </NavigationView.PaneFooter>
+
             <Frame Name="MainView_Frame" Margin="0,48,0,0" />
 
         </NavigationView>
 
 
 
-        <sfg:GameSelector x:Name="GameSelector" CurrentGameChanged="GameSelector_CurrentGameChanged" />
+
+        <sfg:LauncherConfigView x:Name="LauncherConfigView"
+                                CurrentGameId="{x:Bind CurrentGameId}"
+                                Opacity="0"
+                                Visibility="Collapsed">
+            <sfg:LauncherConfigView.OpacityTransition>
+                <ScalarTransition />
+            </sfg:LauncherConfigView.OpacityTransition>
+        </sfg:LauncherConfigView>
+
+
+
+        <sfg:GameSwitcher x:Name="GameSwitcher"
+                          Height="60"
+                          Margin="62,0,24,0"
+                          HorizontalAlignment="Left"
+                          VerticalAlignment="Top"
+                          CurrentGameChanged="GameSwitcher_CurrentGameChanged"
+                          SizeChanged="GameSwitcher_SizeChanged" />
 
 
     </Grid>

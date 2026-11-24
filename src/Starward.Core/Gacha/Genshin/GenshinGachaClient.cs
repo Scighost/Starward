@@ -66,7 +66,7 @@ public class GenshinGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, endId, lang, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -74,7 +74,7 @@ public class GenshinGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<GenshinGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -83,7 +83,7 @@ public class GenshinGachaClient : GachaLogClient
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default)
     {
         string prefix = GetGachaUrlPrefix(gachaUrl);
-        return await GetGachaLogByQueryAsync<GenshinGachaItem>(prefix, query, cancellationToken);
+        return await GetGachaLogByQueryAsync<GenshinGachaItem>(prefix, query, cancellationToken).ConfigureAwait(false);
     }
 
 

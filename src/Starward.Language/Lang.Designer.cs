@@ -620,6 +620,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Log out 的本地化字符串。
+        /// </summary>
+        public static string Common_LogOut {
+            get {
+                return ResourceManager.GetString("Common_LogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Network Error 的本地化字符串。
         /// </summary>
         public static string Common_NetworkError {
@@ -1908,6 +1917,60 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Add Games 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_AddGames {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_AddGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Find Installed Games 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_FindInstalledGames {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_FindInstalledGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No game files were found. 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_NoGameFilesWereFound {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_NoGameFilesWereFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Quick Search 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_QuickSearch {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_QuickSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Scan All Drives 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_ScanAllDrives {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_ScanAllDrives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Select the Games to Add 的本地化字符串。
+        /// </summary>
+        public static string FindGamesDialog_SelectTheGamesToAdd {
+            get {
+                return ResourceManager.GetString("FindGamesDialog_SelectTheGamesToAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Cycles used: 的本地化字符串。
         /// </summary>
         public static string ForgottenHallPage_CyclesUsed {
@@ -2619,6 +2682,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Hot update check failed 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherPage_HotUpdateCheckFailed {
+            get {
+                return ResourceManager.GetString("GameLauncherPage_HotUpdateCheckFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Launch with DX12 的本地化字符串。
         /// </summary>
         public static string GameLauncherPage_LaunchWithDX12 {
@@ -2745,11 +2817,56 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Delete some cutscene resource to save storage space. Once enabled, the launcher will take over the game&apos;s hot updates. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CutsceneResourceManageDesc {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CutsceneResourceManageDesc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cutscene Resource Management 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CutsceneResourceManagement {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CutsceneResourceManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cutscene resource manifest is unavailable. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Deleted Resource 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_DeletedResource {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_DeletedResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Drag and drop image / video files. 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_DragAndDropImageOrVideoFiles {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_DragAndDropImageOrVideoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game or install task is running. 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_GameOrInstallTaskIsRunning {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_GameOrInstallTaskIsRunning", resourceCulture);
             }
         }
         
@@ -2772,11 +2889,47 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Local Resource 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_LocalResource {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_LocalResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Manage Resource 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_ManageResource {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_ManageResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Relocate Game 的本地化字符串。
         /// </summary>
         public static string GameLauncherSettingDialog_RelocateGame {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_RelocateGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Render Mode 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_RenderMode {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_RenderMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Resource Management 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_ResourceManagement {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_ResourceManagement", resourceCulture);
             }
         }
         
@@ -2813,6 +2966,15 @@ namespace Starward.Language {
         public static string GameLauncherSettingDialog_StartupArguments {
             get {
                 return ResourceManager.GetString("GameLauncherSettingDialog_StartupArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Startup Setting 的本地化字符串。
+        /// </summary>
+        public static string GameLauncherSettingDialog_StartupSetting {
+            get {
+                return ResourceManager.GetString("GameLauncherSettingDialog_StartupSetting", resourceCulture);
             }
         }
         
@@ -3058,6 +3220,15 @@ namespace Starward.Language {
         public static string GameRecordPage_AnomalyArbitration {
             get {
                 return ResourceManager.GetString("GameRecordPage_AnomalyArbitration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pre-register 的本地化字符串。
+        /// </summary>
+        public static string GameReservationView_PreRegister {
+            get {
+                return ResourceManager.GetString("GameReservationView_PreRegister", resourceCulture);
             }
         }
         
@@ -3947,6 +4118,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Unofficial APP. Please be mindful of your account security. 的本地化字符串。
+        /// </summary>
+        public static string HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity {
+            get {
+                return ResourceManager.GetString("HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Convert failed 的本地化字符串。
         /// </summary>
         public static string ImageBatchConvertWindow_ConvertFailed {
@@ -4568,11 +4748,56 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Current account doesn&apos;t have beta testing access 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Desktop Shortcut 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_DesktopShortcut {
             get {
                 return ResourceManager.GetString("InstallGameDialog_DesktopShortcut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Download Resources 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_DownloadResources {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_DownloadResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Failed to acquire download resources 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_FailedToAcquireDownloadResources {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_FailedToAcquireDownloadResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game resources do not exist 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_GameResourcesDoNotExist {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_GameResourcesDoNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Game Version 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_GameVersion {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_GameVersion", resourceCulture);
             }
         }
         
@@ -4622,11 +4847,29 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Loading download resources 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_LoadingDownloadResources {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_LoadingDownloadResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Locate Game 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_LocateGame {
             get {
                 return ResourceManager.GetString("InstallGameDialog_LocateGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Login expired. Please log in again. 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_LoginExpiredPleaseLogInAgain {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_LoginExpiredPleaseLogInAgain", resourceCulture);
             }
         }
         
@@ -4668,6 +4911,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Space Required 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_SpaceRequired {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_SpaceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Space Required to Unzip 的本地化字符串。
         /// </summary>
         public static string InstallGameDialog_SpaceRequiredToUnzip {
@@ -4700,6 +4952,15 @@ namespace Starward.Language {
         public static string InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath {
             get {
                 return ResourceManager.GetString("InstallGameDialog_ThePathYouSelectMustBeOnTheSameDriveAsTheLinkPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Voiceover Resources 的本地化字符串。
+        /// </summary>
+        public static string InstallGameDialog_VoiceoverResources {
+            get {
+                return ResourceManager.GetString("InstallGameDialog_VoiceoverResources", resourceCulture);
             }
         }
         
@@ -4844,6 +5105,114 @@ namespace Starward.Language {
         public static string Language_Korean {
             get {
                 return ResourceManager.GetString("Language_Korean", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Add Custom Channel 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_AddCustomChannel {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_AddCustomChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Auth Login 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_AuthLogin {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_AuthLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Beta Server 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_BetaServer {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_BetaServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ID, Name and Region cannot be empty. 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Launcher Channel Setting 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_LauncherChannelSetting {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_LauncherChannelSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 No games found for this launcher. 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_NoGamesFoundForThisLauncher {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_NoGamesFoundForThisLauncher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Actual storage space used: 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_ActualStorageSpaceUsed {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_ActualStorageSpaceUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Find installed games or add channel servers. 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_FindInstalledGamesOrAddChannelServers {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_FindInstalledGamesOrAddChannelServers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Installed Games 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_InstalledGames {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_InstalledGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Pre-Register 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_PreRegister {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_PreRegister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Share storage space with other games through hard links: 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 View Details 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigView_ViewDetails {
+            get {
+                return ResourceManager.GetString("LauncherConfigView_ViewDetails", resourceCulture);
             }
         }
         
@@ -5362,6 +5731,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Log in again 的本地化字符串。
+        /// </summary>
+        public static string MainView_LogInAgain {
+            get {
+                return ResourceManager.GetString("MainView_LogInAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Login failed 的本地化字符串。
+        /// </summary>
+        public static string MainView_LoginFailed {
+            get {
+                return ResourceManager.GetString("MainView_LoginFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Use the current account to log into the game 的本地化字符串。
+        /// </summary>
+        public static string MainView_UseTheCurrentAccountToLogIntoTheGame {
+            get {
+                return ResourceManager.GetString("MainView_UseTheCurrentAccountToLogIntoTheGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 The program does not have permission to access the following folder. Please restart as administrator or move the folder. 的本地化字符串。
         /// </summary>
         public static string NoPermissionWindow_NoPermissionToFolderRestartOrClose {
@@ -5412,6 +5808,15 @@ namespace Starward.Language {
         public static string PlayTimeStatsDialog_AverageDailyPlaytime {
             get {
                 return ResourceManager.GetString("PlayTimeStatsDialog_AverageDailyPlaytime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Day Starts at 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_DayStartsAt {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_DayStartsAt", resourceCulture);
             }
         }
         
@@ -5484,6 +5889,15 @@ namespace Starward.Language {
         public static string PlayTimeStatsDialog_PlaytimeStatistics {
             get {
                 return ResourceManager.GetString("PlayTimeStatsDialog_PlaytimeStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Set the offset relative to the local time zone to align the server time. 的本地化字符串。
+        /// </summary>
+        public static string PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime {
+            get {
+                return ResourceManager.GetString("PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime", resourceCulture);
             }
         }
         
@@ -7225,6 +7639,33 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Cleaning 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_Cleaning {
+            get {
+                return ResourceManager.GetString("StartGameButton_Cleaning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Coming Soon 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_ComingSoon {
+            get {
+                return ResourceManager.GetString("StartGameButton_ComingSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hot Update 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_HotUpdate {
+            get {
+                return ResourceManager.GetString("StartGameButton_HotUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 In Queue 的本地化字符串。
         /// </summary>
         public static string StartGameButton_InQueue {
@@ -7248,6 +7689,24 @@ namespace Starward.Language {
         public static string StartGameButton_ResumeDownload {
             get {
                 return ResourceManager.GetString("StartGameButton_ResumeDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Step {0}/{1} 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_StepProgress {
+            get {
+                return ResourceManager.GetString("StartGameButton_StepProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update Plugin 的本地化字符串。
+        /// </summary>
+        public static string StartGameButton_UpdatePlugin {
+            get {
+                return ResourceManager.GetString("StartGameButton_UpdatePlugin", resourceCulture);
             }
         }
         

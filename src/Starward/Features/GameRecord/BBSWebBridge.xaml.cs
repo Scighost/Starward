@@ -1,11 +1,13 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Starward.Core;
+using Starward.Core.DeviceFp;
 using Starward.Core.GameRecord;
+using Starward.Core.Passport;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -72,10 +74,7 @@ public sealed partial class BBSWebBridge : UserControl
     public GameBiz CurrentGameBiz { get; set; }
 
 
-
-    private GameRecordClient _gameRecordClient;
-
-
+    private AndroidDeviceInfo _androidDeviceInfo;
 
     private Dictionary<string, string> cookieDic = new();
 
@@ -88,14 +87,6 @@ public sealed partial class BBSWebBridge : UserControl
         {
             if (initialized)
             {
-                if (CurrentGameBiz.IsGlobalServer())
-                {
-                    _gameRecordClient = AppConfig.GetService<HoyolabClient>();
-                }
-                else
-                {
-                    _gameRecordClient = AppConfig.GetService<HyperionClient>();
-                }
                 _ = LoadPageAsync(true);
             }
         }
@@ -120,17 +111,9 @@ public sealed partial class BBSWebBridge : UserControl
             {
                 return;
             }
-            if (CurrentGameBiz.IsGlobalServer())
-            {
-                _gameRecordClient = AppConfig.GetService<HoyolabClient>();
-            }
-            else
-            {
-                _gameRecordClient = AppConfig.GetService<HyperionClient>();
-            }
             await webview2.EnsureCoreWebView2Async();
             var coreWebView2 = webview2.CoreWebView2;
-            coreWebView2.Settings.UserAgent = _gameRecordClient.UAContent;
+            coreWebView2.Settings.UserAgent = CurrentGameBiz.IsChinaServer() ? GameRecordClientBase.HyperionUAContent : GameRecordClientBase.HoyolabUAContent;
 
             coreWebView2.NavigationStarting -= Corewebview2_NavigationStarting;
             coreWebView2.NavigationStarting += Corewebview2_NavigationStarting;
@@ -157,6 +140,8 @@ public sealed partial class BBSWebBridge : UserControl
         try
         {
             await InitializeWebViewAsync();
+
+            _androidDeviceInfo = await AppConfig.GetService<GameRecordRoleService>().GetDeviceInfoAsync(CurrentGameBiz.IsChinaServer() ? ServerRegion.miHoYo : ServerRegion.HoYoverse);
 
             var coreWebView2 = webview2.CoreWebView2;
             if (coreWebView2.Source is "about:blank" || force)
@@ -212,15 +197,10 @@ public sealed partial class BBSWebBridge : UserControl
         }
         foreach (var item in cookies)
         {
-            var kv = item.Split('=');
-            if (kv.Length == 2)
+            int index = item.Trim().IndexOf('=');
+            if (index > 0 && index < item.Length - 1)
             {
-                var key = kv[0].Trim();
-                var value = kv[1].Trim();
-                if (!string.IsNullOrWhiteSpace(key) && !string.IsNullOrWhiteSpace(value))
-                {
-                    cookieDic[key] = value;
-                }
+                cookieDic[item.Trim().Substring(0, index)] = item.Trim().Substring(index + 1);
             }
         }
     }
@@ -263,6 +243,7 @@ public sealed partial class BBSWebBridge : UserControl
             Debug.WriteLine(message);
             JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
             JsResult? result = await HandleJsMessageAsync(param);
+            Debug.WriteLine(JsonSerializer.Serialize(result));
             await CallbackAsync(param.Callback, result);
         }
         catch (Exception ex)
@@ -569,9 +550,10 @@ public sealed partial class BBSWebBridge : UserControl
 
     private JsResult? GetCookieInfo(JsParam param)
     {
+        var dict = cookieDic.ToDictionary(x => x.Key, x => (object)x.Value);
         return new()
         {
-            Data = cookieDic.ToDictionary(x => x.Key, x => (object)x.Value),
+            Data = dict,
         };
     }
 
@@ -582,10 +564,15 @@ public sealed partial class BBSWebBridge : UserControl
         {
             Data = new()
             {
-                ["x-rpc-client_type"] = "5",
-                ["x-rpc-app_version"] = _gameRecordClient.AppVersion,
-                ["x-rpc-device_fp"] = _gameRecordClient.DeviceFp,
-                ["x-rpc-device_id"] = _gameRecordClient.DeviceId,
+                ["x-rpc-client_type"] = "2",
+                ["x-rpc-app_version"] = CurrentGameBiz.IsChinaServer() ? GameRecordClientBase.HyperionAppVersion : GameRecordClientBase.HoyolabAppVersion,
+                ["x-rpc-sys_version"] = "17",
+                ["x-rpc-channel"] = CurrentGameBiz.IsChinaServer() ? "miyousheluodi" : "google",
+                ["x-rpc-device_id"] = _androidDeviceInfo?.BbsDeviceId ?? "",
+                ["x-rpc-device_fp"] = _androidDeviceInfo?.DeviceFp ?? "",
+                ["x-rpc-device_name"] = _androidDeviceInfo?.ExtFields.DeviceName ?? "",
+                ["x-rpc-device_model"] = _androidDeviceInfo?.ExtFields.Model ?? "",
+                ["Referer"] = CurrentGameBiz.IsChinaServer() ? "https://app.mihoyo.com" : "https://app.hoyolab.com",
             },
         };
     }
@@ -603,58 +590,27 @@ public sealed partial class BBSWebBridge : UserControl
 
     private JsResult? GetDynamicSecrectV1(JsParam param)
     {
-        string ApiSalt;
-        if (CurrentGameBiz.IsGlobalServer())
-        {
-            ApiSalt = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
-        }
-        else
-        {
-            ApiSalt = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
-        }
-
-        var t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        string r = GetRandomString(t);
-        var bytes = MD5.HashData(Encoding.UTF8.GetBytes($"salt={ApiSalt}&t={t}&r={r}"));
-        var check = Convert.ToHexString(bytes).ToLower();
         return new JsResult
         {
             Data = new()
             {
-                ["DS"] = $"{t},{r},{check}",
+                ["DS"] = DynamicSecret.CreateWebDS1(CurrentGameBiz.IsChinaServer() ? ServerRegion.miHoYo : ServerRegion.HoYoverse),
             }
         };
     }
 
 
-    private static string GetRandomString(int timestamp)
-    {
-        var sb = new StringBuilder(6);
-        var random = new Random(timestamp);
-        for (int i = 0; i < 6; i++)
-        {
-            int v8 = random.Next(0, 32768) % 26;
-            int v9 = 87;
-            if (v8 < 10)
-            {
-                v9 = 48;
-            }
-            _ = sb.Append((char)(v8 + v9));
-        }
-        return sb.ToString();
-    }
-
 
     private JsResult? GetDynamicSecrectV2(JsParam param)
     {
         string ApiSalt2;
-        if (CurrentGameBiz.IsGlobalServer())
+        if (CurrentGameBiz.IsChinaServer())
         {
-            ApiSalt2 = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt";
+            ApiSalt2 = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
         }
         else
         {
-            ApiSalt2 = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+            ApiSalt2 = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt";
         }
 
         int t = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();

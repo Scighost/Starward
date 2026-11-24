@@ -1,10 +1,9 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using SharpSevenZip;
 using Starward.Features.Database;
-using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -76,7 +75,7 @@ public sealed partial class FileManageSetting : PageBase
                 AppConfig.SaveConfiguration();
                 AppInstance.GetCurrent().UnregisterKey();
                 Process.Start(AppConfig.StarwardExecutePath);
-                App.Current.Exit();
+                App.Current.Exit(true);
             }
         }
         catch (Exception ex)
@@ -133,7 +132,7 @@ public sealed partial class FileManageSetting : PageBase
                 AppConfig.DeleteAllSettings();
                 AppInstance.GetCurrent().UnregisterKey();
                 Process.Start(AppConfig.StarwardExecutePath);
-                App.Current.Exit();
+                App.Current.Exit(true);
             }
         }
         catch (Exception ex)
@@ -142,17 +141,6 @@ public sealed partial class FileManageSetting : PageBase
         }
 
     }
-
-
-
-    private void TextBlock_IsTextTrimmedChanged(TextBlock sender, IsTextTrimmedChangedEventArgs args)
-    {
-        if (sender.FontSize > 12)
-        {
-            sender.FontSize -= 1;
-        }
-    }
-
 
 
     #endregion

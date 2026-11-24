@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -242,7 +242,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Bitte starten Sie als Administrator</value>
   </data>
   <data name="DownloadGamePage_Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Starten</value>
   </data>
   <data name="DownloadGamePage_Preparing" xml:space="preserve">
     <value>Vorbereitung</value>
@@ -320,7 +320,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Sync von Miyoushe (Experimentell)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync All from Miyoushe (Experimental)</value>
+    <value>Alle von Miyoushe synchronisieren (Experimentell)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>URL eingeben</value>
@@ -850,7 +850,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Spielrolle löschen</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
-    <value>Spiral Abyss</value>
+    <value>Gewundener Abgrund</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
     <value>Tagebuch des Reisenden</value>
@@ -1041,7 +1041,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Wähle einen Server</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>System Tray Icon</value>
+    <value>System-Tray-Symbol</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
     <value>Launcher beim Schließen beenden</value>
@@ -1182,7 +1182,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>URL-Protokoll registrieren</value>
   </data>
   <data name="SettingPage_TestURLProtocol" xml:space="preserve">
-    <value>Test URL Protocol</value>
+    <value>URL-Protokoll testen</value>
   </data>
   <data name="LauncherPage_OpenInBrowser" xml:space="preserve">
     <value>Im Browser öffnen</value>
@@ -1550,7 +1550,7 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
     <value>Alle Daten abrufen</value>
   </data>
   <data name="HoyolabToolboxPage_ImaginariumTheater" xml:space="preserve">
-    <value>Imaginarium Theater</value>
+    <value>Imaginariumstheater</value>
   </data>
   <data name="ImaginariumTheaterPage_EasyMode" xml:space="preserve">
     <value>Einfacher Modus</value>
@@ -1785,6 +1785,12 @@ Wenn Sie das Programm während der Dekomprimierung schließen, wird die Spieldat
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>Überprüfen</value>
+  </data>
+  <data name="StartGameButton_Cleaning" xml:space="preserve">
+    <value>Wird bereinigt</value>
+  </data>
+  <data name="StartGameButton_StepProgress" xml:space="preserve">
+    <value>Schritt {0}/{1}</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>RPC-Dienst wird nicht ausgeführt</value>
@@ -2792,5 +2798,152 @@ Sie sind herzlich eingeladen, die exportierten Daten an das folgende Repository 
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Die Statistiken basieren auf der Laufzeit des Spiels, nicht auf der tatsächlichen Spielzeit, und dienen nur als Orientierung.</value>
+  </data>
+  <data name="LauncherConfigView_ViewDetails" xml:space="preserve">
+    <value>Details anzeigen</value>
+  </data>
+  <data name="LauncherConfigView_PreRegister" xml:space="preserve">
+    <value>Vorregistrieren</value>
+  </data>
+  <data name="GameReservationView_PreRegister" xml:space="preserve">
+    <value>Jetzt vorregistrieren</value>
+  </data>
+  <data name="LauncherConfigView_InstalledGames" xml:space="preserve">
+    <value>Installierte Spiele</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_LauncherChannelSetting" xml:space="preserve">
+    <value>Launcher-Kanal-Einstellung</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AddCustomChannel" xml:space="preserve">
+    <value>Benutzerdefinierten Kanal hinzufügen</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AuthLogin" xml:space="preserve">
+    <value>Autorisierte Anmeldung</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_BetaServer" xml:space="preserve">
+    <value>Beta-Server</value>
+  </data>
+  <data name="FindGamesDialog_FindInstalledGames" xml:space="preserve">
+    <value>Installierte Spiele finden</value>
+  </data>
+  <data name="FindGamesDialog_ScanAllDrives" xml:space="preserve">
+    <value>Alle Laufwerke durchsuchen</value>
+  </data>
+  <data name="FindGamesDialog_NoGameFilesWereFound" xml:space="preserve">
+    <value>Es wurden keine Spieldateien gefunden.</value>
+  </data>
+  <data name="FindGamesDialog_SelectTheGamesToAdd" xml:space="preserve">
+    <value>Spiele zum Hinzufügen auswählen</value>
+  </data>
+  <data name="FindGamesDialog_AddGames" xml:space="preserve">
+    <value>Spiele hinzufügen</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
+    <value>ID, Name und Region dürfen nicht leer sein.</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_NoGamesFoundForThisLauncher" xml:space="preserve">
+    <value>Für diesen Launcher wurden keine Spiele gefunden.</value>
+  </data>
+  <data name="MainView_LogInAgain" xml:space="preserve">
+    <value>Erneut einloggen</value>
+  </data>
+  <data name="MainView_UseTheCurrentAccountToLogIntoTheGame" xml:space="preserve">
+    <value>Mit dem aktuellen Konto im Spiel anmelden</value>
+  </data>
+  <data name="MainView_LoginFailed" xml:space="preserve">
+    <value>Anmeldung fehlgeschlagen</value>
+  </data>
+  <data name="InstallGameDialog_LoadingDownloadResources" xml:space="preserve">
+    <value>Daten werden heruntergeladen</value>
+  </data>
+  <data name="InstallGameDialog_VoiceoverResources" xml:space="preserve">
+    <value>Audiodaten</value>
+  </data>
+  <data name="InstallGameDialog_DownloadResources" xml:space="preserve">
+    <value>Daten herunterladen</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequired" xml:space="preserve">
+    <value>Benötigter Speicherplatz</value>
+  </data>
+  <data name="InstallGameDialog_FailedToAcquireDownloadResources" xml:space="preserve">
+    <value>Herunterladen der Daten fehlgeschlagen</value>
+  </data>
+  <data name="InstallGameDialog_GameResourcesDoNotExist" xml:space="preserve">
+    <value>Keine Spieldaten vorhanden</value>
+  </data>
+  <data name="InstallGameDialog_LoginExpiredPleaseLogInAgain" xml:space="preserve">
+    <value>Du wurdest abgemeldet. Bitte melde dich erneut an.</value>
+  </data>
+  <data name="InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess" xml:space="preserve">
+    <value>Das aktuelle Konto hat keine Berechtigung zur Teilnahme am Beta-Test.</value>
+  </data>
+  <data name="InstallGameDialog_GameVersion" xml:space="preserve">
+    <value>Spielversion</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupSetting" xml:space="preserve">
+    <value>Starteinstellung</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RenderMode" xml:space="preserve">
+    <value>Render-Modus</value>
+  </data>
+  <data name="StartGameButton_UpdatePlugin" xml:space="preserve">
+    <value>Plugin aktualisieren</value>
+  </data>
+  <data name="Common_LogOut" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="PlayTimeStatsDialog_DayStartsAt" xml:space="preserve">
+    <value>Tagesbeginn</value>
+  </data>
+  <data name="PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime" xml:space="preserve">
+    <value>Legen Sie den Versatz relativ zur lokalen Zeitzone fest, um die Serverzeit abzugleichen.</value>
+  </data>
+  <data name="LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks" xml:space="preserve">
+    <value>Speicherplatz durch Hardlinks mit anderen Spielen teilen:</value>
+  </data>
+  <data name="LauncherConfigView_ActualStorageSpaceUsed" xml:space="preserve">
+    <value>Tatsächlich belegter Speicherplatz:</value>
+  </data>
+  <data name="LauncherConfigView_FindInstalledGamesOrAddChannelServers" xml:space="preserve">
+    <value>Installierte Spiele finden oder Kanalserver hinzufügen</value>
+  </data>
+  <data name="FindGamesDialog_QuickSearch" xml:space="preserve">
+    <value>Schnellsuche</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ResourceManagement" xml:space="preserve">
+    <value>Ressourcenverwaltung</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManagement" xml:space="preserve">
+    <value>Zwischensequenz-Ressourcenverwaltung</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ManageResource" xml:space="preserve">
+    <value>Ressourcen verwalten</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GameOrInstallTaskIsRunning" xml:space="preserve">
+    <value>Spiel oder Installation wird ausgeführt.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DeletedResource" xml:space="preserve">
+    <value>Gelöschte Ressourcen</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManageDesc" xml:space="preserve">
+    <value>Lösche einige Zwischensequenz-Ressourcen, um Speicherplatz zu sparen. Nach der Aktivierung übernimmt der Launcher die Hot-Updates des Spiels.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable" xml:space="preserve">
+    <value>Das Manifest der Zwischensequenz-Ressourcen ist nicht verfügbar.</value>
+  </data>
+  <data name="StartGameButton_HotUpdate" xml:space="preserve">
+    <value>Hot-Update</value>
+  </data>
+  <data name="StartGameButton_ComingSoon" xml:space="preserve">
+    <value>Demnächst</value>
+  </data>
+  <data name="GameLauncherPage_HotUpdateCheckFailed" xml:space="preserve">
+    <value>Hot-Update-Prüfung fehlgeschlagen</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LocalResource" xml:space="preserve">
+    <value>Lokale Ressourcen</value>
+  </data>
+  <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
+    <value>Inoffizielle App. Bitte achte auf die Sicherheit deines Kontos.</value>
   </data>
 </root>

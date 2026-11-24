@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.GameRecord.ZZZ.ShiyuDefensePage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,7 +10,7 @@
              xmlns:sc="using:Starward.Controls"
              xmlns:scgz="using:Starward.Core.GameRecord.ZZZ"
              xmlns:scgzs="using:Starward.Core.GameRecord.ZZZ.ShiyuDefense"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sfgr="using:Starward.Features.GameRecord"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
@@ -901,24 +901,23 @@
                                 <TextBlock FontSize="28"
                                            FontWeight="Bold"
                                            Text="{x:Bind CurrentShiyuDefenseV2.Brief.Score}" />
-                                <Grid Margin="0,0,0,6"
-                                      VerticalAlignment="Bottom">
+                                <Grid Margin="0,0,0,6" VerticalAlignment="Bottom">
                                     <Image Height="20"
-                                           Stretch="Uniform"
-                                           Source="{x:Bind local:ShiyuDefensePage.RankBackground(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
+                                           Source="{x:Bind local:ShiyuDefensePage.RankBackground(CurrentShiyuDefenseV2.Brief.RankPercent)}"
+                                           Stretch="Uniform" />
                                     <TextBlock Margin="8,0,0,1"
                                                HorizontalAlignment="Left"
                                                VerticalAlignment="Center"
                                                FontSize="14"
-                                               Foreground="Black"
                                                FontWeight="Bold"
+                                               Foreground="Black"
                                                Text="{x:Bind local:ShiyuDefensePage.RankPercentText(CurrentShiyuDefenseV2.Brief.RankPercent)}" />
                                 </Grid>
                             </StackPanel>
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                        Text="{x:Bind CurrentShiyuDefenseV2.Brief.ChallengeTime.ToString('yyyy-MM-dd HH:mm:ss', x:Null)}"
-                                       Visibility="{x:Bind local:ShiyuDefensePage.ChallengeTimeVisibility(CurrentShiyuDefenseV2.Brief.ChallengeTime)}"/>
+                                       Visibility="{x:Bind local:ShiyuDefensePage.ChallengeTimeVisibility(CurrentShiyuDefenseV2.Brief.ChallengeTime)}" />
                         </StackPanel>
 
                         <Image Height="44"
@@ -1214,7 +1213,7 @@
                             <!--  通关时刻  -->
                             <TextBlock FontSize="12"
                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                       Text="{x:Bind GetFourthLayerChallengeTime(CurrentShiyuDefenseV2)}"/>
+                                       Text="{x:Bind GetFourthLayerChallengeTime(CurrentShiyuDefenseV2)}" />
                         </StackPanel>
                         <!--  评分图  -->
                         <Image Height="32"
@@ -1251,13 +1250,13 @@
                                     </Grid.RowDefinitions>
 
                                     <!--  通关时长  -->
-                                    <TextBlock Margin="2,0,0,0" 
+                                    <TextBlock Margin="2,0,0,0"
                                                FontSize="12"
                                                Visibility="{x:Bind BattleTime, Converter={StaticResource Int32NotZeroToVisibilityConverter}}">
                                         <Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.ShiyuDefensePage_ClearTime}" />
                                         <Run Text="{x:Bind local:ShiyuDefensePage.PerformancesTime(BattleTime)}" />
                                     </TextBlock>
-                                    
+
                                     <StackPanel Grid.Row="1"
                                                 HorizontalAlignment="Left"
                                                 Orientation="Horizontal"

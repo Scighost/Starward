@@ -8,7 +8,7 @@
              xmlns:local="using:Starward.Features.GameRecord.StarRail"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sfg="using:Starward.Features.Gacha"
              xmlns:su="using:Starward.Core.GameRecord.StarRail.SimulatedUniverse"
              x:DefaultBindMode="OneWay"

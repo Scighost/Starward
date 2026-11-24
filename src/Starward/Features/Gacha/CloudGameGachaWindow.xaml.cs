@@ -1,7 +1,6 @@
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Starward.Core;
-using Starward.Frameworks;
 using System;
 using System.Text.Json.Nodes;
 using System.Web;
@@ -9,7 +8,7 @@ using System.Web;
 
 namespace Starward.Features.Gacha;
 
-public sealed partial class CloudGameGachaWindow : WindowEx
+public sealed partial class CloudGameGachaWindow : WindowBase
 {
 
 

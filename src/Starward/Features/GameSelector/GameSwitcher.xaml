@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<UserControl x:Class="Starward.Features.GameSelector.GameSwitcher"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:Starward.Features.GameSelector"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="using:Starward"
+             xmlns:sc="using:Starward.Controls"
+             xmlns:sh="using:Starward.Helpers"
+             x:DefaultBindMode="OneWay"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Features/GameSelector/NoAnimationImageExStyle.xaml" />
+    </UserControl.Resources>
+
+    <!--  横排待选游戏图标  -->
+    <Grid x:Name="Grid_GameIconsArea">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--  游戏图标  -->
+        <ListView Grid.Column="1"
+                  AllowDrop="True"
+                  CanReorderItems="{x:Bind s:AppConfig.IsAdmin, Converter={StaticResource BoolReversedConverter}}"
+                  ItemsSource="{x:Bind PinnedGameIcons}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  ScrollViewer.HorizontalScrollMode="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  SelectionMode="None">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="5,6,5,6" />
+                    <Setter Property="MinWidth" Value="0" />
+                    <Setter Property="MinHeight" Value="0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:PinnedGameIcon">
+                    <Grid x:Name="Grid_GameIcon"
+                          Width="40"
+                          Height="40"
+                          sh:PointerCursor.CursorShape="Hand"
+                          CornerRadius="8"
+                          IsTapEnabled="True"
+                          PointerEntered="Grid_GameIcon_PointerEntered"
+                          PointerExited="Grid_GameIcon_PointerExited"
+                          Shadow="{ThemeResource ThemeShadow}"
+                          Tag="{x:Bind GameId}"
+                          Tapped="Grid_GameIcon_Tapped"
+                          Translation="0,0,8">
+                        <sc:CachedImage Width="40"
+                                        Height="40"
+                                        Source="{x:Bind GameIcon}"
+                                        Style="{ThemeResource NoAnimationImageExStyle}" />
+                        <sc:CachedImage Width="20"
+                                        Height="20"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Source="{x:Bind LauncherIcon}" />
+                        <Border Background="#60000000" Opacity="{x:Bind MaskOpacity}">
+                            <Border.OpacityTransition>
+                                <ScalarTransition />
+                            </Border.OpacityTransition>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+
+</UserControl>

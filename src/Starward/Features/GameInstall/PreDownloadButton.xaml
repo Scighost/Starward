@@ -121,7 +121,7 @@
                            FontSize="22"
                            FontWeight="Bold"
                            Text="{x:Bind ButtonIcon}" />
-                <!--  按键文本：预下载 / 等待中 / 已暂停 / 已完成 / 百分比进度  -->
+                <!--  按键文本：预下载 / 排队中 / 各阶段名称 / 下载百分比 / 已暂停 / 错误 / 已完成  -->
                 <TextBlock Grid.Column="1"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"

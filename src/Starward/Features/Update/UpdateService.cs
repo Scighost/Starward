@@ -1,14 +1,13 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NuGet.Versioning;
 using Polly;
 using Polly.Retry;
-using Snap.HPatch;
-using Starward.RPC.GameInstall;
 using Starward.Setup.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -436,7 +435,7 @@ internal class UpdateService
             {
                 using var zstdFs = File.OpenRead(downloadPath);
                 using var fs = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
-                using var decompressionStream = new ZstdSharp.DecompressionStream(zstdFs);
+                using var decompressionStream = new ZstandardStream(zstdFs, CompressionMode.Decompress);
                 await decompressionStream.CopyToAsync(fs, cancellationToken);
             }
         }
@@ -454,7 +453,7 @@ internal class UpdateService
                     using var oldFs = File.Open(oldPath2, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
                     using var newFs = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite | FileShare.Delete);
                     using var patchFs = new FileSliceStream(patchPath, releaseFile.Patch.Offset, releaseFile.Patch.Length == 0 ? releaseFile.Patch.PatchSize : releaseFile.Patch.Length);
-                    HPatch.PatchZstandard(oldFs, patchFs, newFs);
+                    await HPatch.HPatch.PatchAsync(oldFs, patchFs, newFs, cancellationToken: cancellationToken);
                 }
             }
         }
@@ -472,7 +471,7 @@ internal class UpdateService
             string url = _releaseManifest.UrlPrefix + releaseFile.Id + _releaseManifest.UrlSuffix;
             using var hs = await _httpClient.GetStreamAsync(url, cancellationToken);
             fs.SetLength(0);
-            using var zstdStream = new ZstdSharp.DecompressionStream(hs);
+            using var zstdStream = new ZstandardStream(hs, CompressionMode.Decompress);
             await zstdStream.CopyToAsync(fs, cancellationToken);
             fs.Position = 0;
         }

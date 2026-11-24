@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.Gacha.GenshinBeyondGachaPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
              xmlns:local="using:Starward.Features.Gacha"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 
@@ -293,7 +293,10 @@
 
                         <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
 
-                        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_GachaItemList1000.SelectedIndex, Mode=TwoWay}">
+                        <Pivot x:Name="Pivot_GachaItemList1000"
+                               Grid.Row="8"
+                               SelectedIndex="0"
+                               SelectionChanged="GachaItemList1000_SelectionChanged">
                             <Pivot.Resources>
                                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                                 <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
@@ -379,7 +382,8 @@
                                        Grid.Row="8"
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top"
-                                       SelectedIndex="0">
+                                       SelectedIndex="0"
+                                       SelectionChanged="GachaItemList1000_SelectionChanged">
                             <cwc:SegmentedItem>
                                 <TextBlock Foreground="{ThemeResource Rarity4ForegroundBrush}" Text="4★" />
                             </cwc:SegmentedItem>
@@ -492,7 +496,10 @@
 
                         <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
 
-                        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_GachaItemList2000.SelectedIndex, Mode=TwoWay}">
+                        <Pivot x:Name="Pivot_GachaItemList2000"
+                               Grid.Row="8"
+                               SelectedIndex="0"
+                               SelectionChanged="GachaItemList2000_SelectionChanged">
                             <Pivot.Resources>
                                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                                 <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
@@ -578,7 +585,8 @@
                                        Grid.Row="8"
                                        HorizontalAlignment="Stretch"
                                        VerticalAlignment="Top"
-                                       SelectedIndex="0">
+                                       SelectedIndex="0"
+                                       SelectionChanged="GachaItemList2000_SelectionChanged">
                             <cwc:SegmentedItem>
                                 <TextBlock Foreground="{ThemeResource Rarity5ForegroundBrush}" Text="5★" />
                             </cwc:SegmentedItem>
