@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -187,7 +187,7 @@
     <value>쓰기 권한이 없습니다.</value>
   </data>
   <data name="SelectDirectoryPage_OK" xml:space="preserve">
-    <value>OK</value>
+    <value>확인</value>
   </data>
   <data name="SelectDirectoryPage_ChooseAnother" xml:space="preserve">
     <value>수동선택하기</value>
@@ -233,7 +233,7 @@
     <value>확인</value>
   </data>
   <data name="DownloadGamePage_ParameterError" xml:space="preserve">
-    <value>Parameter Error</value>
+    <value>매개변수 오류</value>
   </data>
   <data name="DownloadGamePage_NoPermission" xml:space="preserve">
     <value>권한부족</value>
@@ -320,7 +320,7 @@
     <value>미유시에서 동기화 (실험)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync All from Miyoushe (Experimental)</value>
+    <value>미유시에서 모두 동기화 (실험적)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>URL 입력</value>
@@ -543,7 +543,7 @@
     <value>업데이트</value>
   </data>
   <data name="LauncherPage_PlayTime" xml:space="preserve">
-    <value>Play Time</value>
+    <value>플레이 시간</value>
   </data>
   <data name="Common_Refresh" xml:space="preserve">
     <value>새로고침</value>
@@ -752,7 +752,7 @@
     <value>변경하시겠습니까? (미리 수동으로 파일을 이동한 수 변경헤주세요.)</value>
   </data>
   <data name="Common_Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>예</value>
   </data>
   <data name="SettingPage_AfterDeletingTheSoftwareWillBeRestartedAutomatically" xml:space="preserve">
     <value>제거완료 후 프로그램이 자동으로 다시시작 됩니다.</value>
@@ -1788,6 +1788,12 @@
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>검증</value>
   </data>
+  <data name="StartGameButton_Cleaning" xml:space="preserve">
+    <value>정리 중</value>
+  </data>
+  <data name="StartGameButton_StepProgress" xml:space="preserve">
+    <value>{0}/{1} 단계</value>
+  </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>RPC 서비스가 실행중이 아님</value>
   </data>
@@ -1876,7 +1882,7 @@
     <value>젠레스 존 제로 뽑기기록 페이지에서 아이템 이미지 표시.</value>
   </data>
   <data name="ZZZGachaInfoWindow_Miyoushe" xml:space="preserve">
-    <value>Miyoushe</value>
+    <value>미유시</value>
   </data>
   <data name="ZZZGachaInfoWindow_FetchDataForAllLanguages" xml:space="preserve">
     <value>모든 언어 받기</value>
@@ -2794,5 +2800,152 @@
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>통계는 실제 플레이 시간이 아닌 게임 실행 시간을 기준으로 하며, 참고용으로만 제공됩니다.</value>
+  </data>
+  <data name="LauncherConfigView_ViewDetails" xml:space="preserve">
+    <value>상세 보기</value>
+  </data>
+  <data name="LauncherConfigView_PreRegister" xml:space="preserve">
+    <value>사전 등록</value>
+  </data>
+  <data name="GameReservationView_PreRegister" xml:space="preserve">
+    <value>지금 사전 등록</value>
+  </data>
+  <data name="LauncherConfigView_InstalledGames" xml:space="preserve">
+    <value>설치된 게임</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_LauncherChannelSetting" xml:space="preserve">
+    <value>런처 채널 설정</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AddCustomChannel" xml:space="preserve">
+    <value>사용자 지정 채널 추가</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AuthLogin" xml:space="preserve">
+    <value>인증 로그인</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_BetaServer" xml:space="preserve">
+    <value>베타 서버</value>
+  </data>
+  <data name="FindGamesDialog_FindInstalledGames" xml:space="preserve">
+    <value>설치된 게임 찾기</value>
+  </data>
+  <data name="FindGamesDialog_ScanAllDrives" xml:space="preserve">
+    <value>모든 드라이브 검색</value>
+  </data>
+  <data name="FindGamesDialog_NoGameFilesWereFound" xml:space="preserve">
+    <value>게임 파일을 찾지 못했습니다.</value>
+  </data>
+  <data name="FindGamesDialog_SelectTheGamesToAdd" xml:space="preserve">
+    <value>추가할 게임 선택</value>
+  </data>
+  <data name="FindGamesDialog_AddGames" xml:space="preserve">
+    <value>게임 추가</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
+    <value>ID, Name, Region은(는) 비워 둘 수 없습니다.</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_NoGamesFoundForThisLauncher" xml:space="preserve">
+    <value>이 런처에서 사용할 수 있는 게임이 없습니다.</value>
+  </data>
+  <data name="MainView_LogInAgain" xml:space="preserve">
+    <value>다시 로그인</value>
+  </data>
+  <data name="MainView_UseTheCurrentAccountToLogIntoTheGame" xml:space="preserve">
+    <value>현재 계정으로 게임에 로그인</value>
+  </data>
+  <data name="MainView_LoginFailed" xml:space="preserve">
+    <value>로그인 실패</value>
+  </data>
+  <data name="InstallGameDialog_LoadingDownloadResources" xml:space="preserve">
+    <value>다운로드할 리소스 불러오는 중</value>
+  </data>
+  <data name="InstallGameDialog_VoiceoverResources" xml:space="preserve">
+    <value>음성 리소스</value>
+  </data>
+  <data name="InstallGameDialog_DownloadResources" xml:space="preserve">
+    <value>다운로드할 리소스</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequired" xml:space="preserve">
+    <value>필요한 공간</value>
+  </data>
+  <data name="InstallGameDialog_FailedToAcquireDownloadResources" xml:space="preserve">
+    <value>다운로드할 리소스 불러오기 실패</value>
+  </data>
+  <data name="InstallGameDialog_GameResourcesDoNotExist" xml:space="preserve">
+    <value>게임 리소스가 존재하지 않습니다</value>
+  </data>
+  <data name="InstallGameDialog_LoginExpiredPleaseLogInAgain" xml:space="preserve">
+    <value>로그인 만료, 다시 로그인해 주세요</value>
+  </data>
+  <data name="InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess" xml:space="preserve">
+    <value>해당 계정은 베타 테스트 자격이 없습니다</value>
+  </data>
+  <data name="InstallGameDialog_GameVersion" xml:space="preserve">
+    <value>게임 버전</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupSetting" xml:space="preserve">
+    <value>시작 설정</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RenderMode" xml:space="preserve">
+    <value>렌더링 모드</value>
+  </data>
+  <data name="StartGameButton_UpdatePlugin" xml:space="preserve">
+    <value>플러그인 업데이트</value>
+  </data>
+  <data name="Common_LogOut" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="PlayTimeStatsDialog_DayStartsAt" xml:space="preserve">
+    <value>하루 시작 시간</value>
+  </data>
+  <data name="PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime" xml:space="preserve">
+    <value>로컬 시간대를 기준으로 오프셋을 설정하여 서버 시간에 맞춥니다.</value>
+  </data>
+  <data name="LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks" xml:space="preserve">
+    <value>하드 링크를 통해 다른 게임과 저장 공간 공유:</value>
+  </data>
+  <data name="LauncherConfigView_ActualStorageSpaceUsed" xml:space="preserve">
+    <value>실제 사용 중인 저장 공간:</value>
+  </data>
+  <data name="LauncherConfigView_FindInstalledGamesOrAddChannelServers" xml:space="preserve">
+    <value>설치된 게임을 찾거나 채널 서버를 추가하세요</value>
+  </data>
+  <data name="FindGamesDialog_QuickSearch" xml:space="preserve">
+    <value>빠른 검색</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ResourceManagement" xml:space="preserve">
+    <value>리소스 관리</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManagement" xml:space="preserve">
+    <value>컷신 리소스 관리</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ManageResource" xml:space="preserve">
+    <value>리소스 관리</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GameOrInstallTaskIsRunning" xml:space="preserve">
+    <value>게임 또는 설치 작업이 실행 중입니다.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DeletedResource" xml:space="preserve">
+    <value>삭제된 리소스</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManageDesc" xml:space="preserve">
+    <value>저장 공간을 절약하기 위해 일부 컷신 리소스를 삭제합니다. 활성화하면 런처가 게임의 핫 업데이트를 처리합니다.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable" xml:space="preserve">
+    <value>컷신 리소스 매니페스트를 사용할 수 없습니다.</value>
+  </data>
+  <data name="StartGameButton_HotUpdate" xml:space="preserve">
+    <value>핫 업데이트</value>
+  </data>
+  <data name="StartGameButton_ComingSoon" xml:space="preserve">
+    <value>출시 예정</value>
+  </data>
+  <data name="GameLauncherPage_HotUpdateCheckFailed" xml:space="preserve">
+    <value>핫 업데이트 확인 실패</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LocalResource" xml:space="preserve">
+    <value>로컬 리소스</value>
+  </data>
+  <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
+    <value>비공식 앱입니다. 계정 보안에 주의하세요.</value>
   </data>
 </root>
