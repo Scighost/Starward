@@ -51,14 +51,6 @@ internal sealed class HypergryphGameInstallService
             && File.Exists(Path.Combine(context.HardLinkPath!, "game_files"));
         bool useGameFiles = isEndfield && (context.Operation is GameInstallOperation.Repair
             || (context.Operation is GameInstallOperation.Install && hasDonor));
-        if (!useGameFiles && context.Operation is not GameInstallOperation.Predownload)
-        {
-            foreach (string file in Directory.EnumerateFiles(context.InstallPath, "*", SearchOption.AllDirectories))
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                File.SetAttributes(file, FileAttributes.Normal);
-            }
-        }
         HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(context.GameId.GameBiz);
         HypergryphInstallMetadata? metadata = await HypergryphInstallMetadata.ReadAsync(context.InstallPath, cancellationToken);
         if (metadata is not null && !metadata.IsFor(context.GameId.GameBiz))
@@ -96,6 +88,29 @@ internal sealed class HypergryphGameInstallService
             return;
         }
 
+        if (hasDonor && context.Operation is GameInstallOperation.Update)
+        {
+            string downloadDirectory = HypergryphInstallMetadata.GetDownloadsDirectory(context.InstallPath);
+            IReadOnlyList<HypergryphPackagePart> parts = latest.Patch is { DownloadParts.Count: > 0 } patch
+                ? patch.DownloadParts : latest.Package.Packs;
+            long downloadLimit = parts.Count == 0 ? long.MaxValue : parts.Sum(part =>
+                GetRemainingDownloadBytes(Path.Combine(downloadDirectory, part.GetFileName()), part.PackageSize));
+            if (downloadLimit > 0 && await ExecuteGameFilesAsync(context, latest, context.HardLinkPath, cancellationToken, downloadLimit))
+            {
+                return;
+            }
+            ResetProgress(context);
+        }
+
+        if (context.Operation is not GameInstallOperation.Predownload)
+        {
+            foreach (string file in Directory.EnumerateFiles(context.InstallPath, "*", SearchOption.AllDirectories))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+        }
+
         switch (context.Operation)
         {
             case GameInstallOperation.Predownload:
@@ -130,109 +145,179 @@ internal sealed class HypergryphGameInstallService
         }
     }
 
-    private async Task ExecuteGameFilesAsync(
+    private async Task<bool> ExecuteGameFilesAsync(
         GameInstallContext context,
         HypergryphLatestGame latest,
         string? donorPath,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        long? downloadLimit = null)
     {
         ResetProgress(context);
         context.DownloadMode = GameInstallDownloadMode.SingleFile;
         context.State = GameInstallState.Verifying;
-        byte[] encrypted = await _launcherClient.GetGameFilesAsync(latest.Package, cancellationToken);
-        IReadOnlyList<HypergryphVerifyFile> files = ReadGameFiles(encrypted);
+        byte[] encrypted;
+        IReadOnlyList<HypergryphVerifyFile> files;
+        string manifestPath = GetGameFilePath(context.InstallPath, "game_files");
+        string[] obsolete = [];
+        try
+        {
+            encrypted = await _launcherClient.GetGameFilesAsync(latest.Package, cancellationToken);
+            files = ReadGameFiles(encrypted);
+            if (downloadLimit.HasValue && File.Exists(manifestPath))
+            {
+                byte[] previous = await File.ReadAllBytesAsync(manifestPath, cancellationToken);
+                var currentPaths = files.Select(file => file.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                obsolete = ReadGameFiles(previous).Where(file => !currentPaths.Contains(file.Path))
+                    .Select(file => GetGameFilePath(context.InstallPath, file.Path)).ToArray();
+            }
+        }
+        catch (Exception ex) when (downloadLimit.HasValue && !cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogWarning(ex, "Could not read Endfield game file manifests. Using the official update package.");
+            return false;
+        }
 
         string stagingPath = GetGameFilePath(context.InstallPath, ".starward/downloads/game-files");
         var targets = files.Select(file => GetGameFilePath(context.InstallPath, file.Path)).ToArray();
+        var links = new List<(string Staged, string Target)>();
         var pending = new List<(HypergryphVerifyFile File, string Target, string Staged)>();
         context.Progress_ReadTotalBytes = files.Sum(file => file.Size);
-        int linkedCount = 0;
         long linkedBytes = 0;
-        for (int i = 0; i < files.Count; i++)
+        long remainingBytes = 0;
+        try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            HypergryphVerifyFile file = files[i];
-            string target = targets[i];
-            string staged = Path.Combine(stagingPath, $"{i}-{file.MD5}");
-            if (!await MatchesAsync(context, target, file.Size, file.MD5, cancellationToken))
+            for (int i = 0; i < files.Count; i++)
             {
-                if (donorPath is not null && await TryLinkGameFileAsync(context, donorPath, file, target, stagingPath, cancellationToken))
+                cancellationToken.ThrowIfCancellationRequested();
+                HypergryphVerifyFile file = files[i];
+                string target = targets[i];
+                if (!await MatchesAsync(context, target, file.Size, file.MD5, cancellationToken))
                 {
-                    linkedCount++;
-                    linkedBytes += file.Size;
+                    string? link = donorPath is null ? null
+                        : await TryStageGameFileLinkAsync(context, donorPath, file, stagingPath, cancellationToken);
+                    if (link is not null)
+                    {
+                        links.Add((link, target));
+                        linkedBytes += file.Size;
+                    }
+                    else
+                    {
+                        string staged = Path.Combine(stagingPath, $"{i}-{file.MD5}");
+                        pending.Add((file, target, staged));
+                        if (downloadLimit is long limit)
+                        {
+                            remainingBytes += GetRemainingDownloadBytes(staged, file.Size);
+                            if (remainingBytes >= limit)
+                            {
+                                _logger.LogInformation("Using the Endfield update package with {Bytes} estimated download bytes remaining.", limit);
+                                return false;
+                            }
+                        }
+                    }
                 }
-                else
+                context.Progress_ReadFinishBytes += file.Size;
+                context.Progress_Percent = (double)(i + 1) / files.Count;
+            }
+
+            if (pending.Count > 0)
+            {
+                context.Progress_DownloadTotalBytes = pending.Sum(item => item.File.Size);
+                context.State = GameInstallState.Downloading;
+                await Parallel.ForEachAsync(
+                    pending,
+                    new ParallelOptions { CancellationToken = cancellationToken, MaxDegreeOfParallelism = DownloadConcurrency },
+                    async (item, token) =>
+                    {
+                        string relativeUrl = string.Join('/', item.File.Path.Split('/').Select(Uri.EscapeDataString));
+                        string url = $"{latest.Package.FilePath.TrimEnd('/')}/{relativeUrl}";
+                        await DownloadWithRetryAsync(context, item.Staged, url, item.File.Size, item.File.MD5, token);
+                    });
+            }
+
+            byte[]? verifyFiles = null;
+            if (downloadLimit.HasValue && latest.Patch is { IsV2: true } v2Patch
+                && !string.IsNullOrWhiteSpace(v2Patch.V2VerifyFilesUrl))
+            {
+                verifyFiles = await _launcherClient.GetV2VerifyFilesAsync(v2Patch, cancellationToken);
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+            context.State = GameInstallState.Verifying;
+            foreach (var (staged, target) in links.Concat(pending.Select(item => (item.Staged, item.Target))))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+                File.Move(staged, target, true);
+            }
+            foreach (string path in obsolete)
+            {
+                if (File.Exists(path))
                 {
-                    pending.Add((file, target, staged));
+                    File.Delete(path);
                 }
             }
-            context.Progress_ReadFinishBytes += file.Size;
-            context.Progress_Percent = (double)(i + 1) / files.Count;
-        }
 
-        _logger.LogInformation("Hard linked {Count} Endfield files ({Bytes} bytes).", linkedCount, linkedBytes);
-        if (pending.Count > 0)
+            // Once files are published, finish updating their metadata even if the user pauses.
+            if (verifyFiles is not null)
+            {
+                await ReplaceManifestAsync(GetGameFilePath(context.InstallPath, "verify_files"), verifyFiles, CancellationToken.None);
+            }
+            await ReplaceManifestAsync(manifestPath, encrypted, CancellationToken.None);
+            await WriteInstalledMetadataAsync(context, latest, CancellationToken.None);
+            _logger.LogInformation("Hard linked {Count} Endfield files ({Bytes} bytes).", links.Count, linkedBytes);
+            return true;
+        }
+        finally
         {
-            context.Progress_DownloadTotalBytes = pending.Sum(item => item.File.Size);
-            context.State = GameInstallState.Downloading;
-            await Parallel.ForEachAsync(
-                pending,
-                new ParallelOptions { CancellationToken = cancellationToken, MaxDegreeOfParallelism = DownloadConcurrency },
-                async (item, token) =>
-                {
-                    string relativeUrl = string.Join('/', item.File.Path.Split('/').Select(Uri.EscapeDataString));
-                    string url = $"{latest.Package.FilePath.TrimEnd('/')}/{relativeUrl}";
-                    await DownloadWithRetryAsync(context, item.Staged, url, item.File.Size, item.File.MD5, token);
-                    token.ThrowIfCancellationRequested();
-                    Directory.CreateDirectory(Path.GetDirectoryName(item.Target)!);
-                    File.Move(item.Staged, item.Target, true);
-                });
+            foreach (var link in links)
+            {
+                File.Delete(link.Staged);
+            }
         }
-
-        cancellationToken.ThrowIfCancellationRequested();
-        context.State = GameInstallState.Verifying;
-        await ReplaceManifestAsync(GetGameFilePath(context.InstallPath, "game_files"), encrypted, cancellationToken);
-        await WriteInstalledMetadataAsync(context, latest, cancellationToken);
     }
 
-    private async Task<bool> TryLinkGameFileAsync(
+    private static long GetRemainingDownloadBytes(string path, long size)
+    {
+        FileInfo complete = new(path);
+        if (complete.Exists && complete.Length == size)
+        {
+            return 0;
+        }
+        FileInfo partial = new(path + "_tmp");
+        return partial.Exists && partial.Length <= size ? size - partial.Length : size;
+    }
+
+    private async Task<string?> TryStageGameFileLinkAsync(
         GameInstallContext context,
         string donorPath,
         HypergryphVerifyFile file,
-        string target,
         string stagingPath,
         CancellationToken cancellationToken)
     {
         string temporaryPath = Path.Combine(stagingPath, Guid.NewGuid().ToString("N") + ".link");
+        bool verified = false;
         try
         {
             string source = GetGameFilePath(donorPath, file.Path);
             if (!File.Exists(source) || new FileInfo(source).Length != file.Size)
             {
-                return false;
+                return null;
             }
             Directory.CreateDirectory(stagingPath);
             if (!Kernel32.CreateHardLink(temporaryPath, source))
             {
-                return false;
+                return null;
             }
-            if (!await MatchesAsync(context, temporaryPath, file.Size, file.MD5, cancellationToken))
-            {
-                return false;
-            }
-            cancellationToken.ThrowIfCancellationRequested();
-            Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-            File.Move(temporaryPath, target, true);
-            return true;
+            verified = await MatchesAsync(context, temporaryPath, file.Size, file.MD5, cancellationToken);
+            return verified ? temporaryPath : null;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             _logger.LogDebug(ex, "Could not hard link Endfield file {Path}.", file.Path);
-            return false;
+            return null;
         }
         finally
         {
-            if (File.Exists(temporaryPath))
+            if (!verified && File.Exists(temporaryPath))
             {
                 File.Delete(temporaryPath);
             }
