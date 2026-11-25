@@ -39,19 +39,45 @@ public abstract class GameRecordClientBase
 
     public const string HoyolabAppVersion = "4.23.0";
 
-    public const string HoyolabSdkVersion = "2.44.0";
+    public const string HoyolabSdkVersion = "2.3.0";
 
     public const string HoyolabUAContent = $"Mozilla/5.0 (Linux; Android 17) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Mobile Safari/537.36 miHoYoBBSOversea/{HoyolabAppVersion}";
 
 
     public abstract string AppVersion { get; }
 
-    public abstract string UAContent { get; }
+    public abstract string DefaultUAContent { get; }
 
     public abstract ServerRegion ServerRegion { get; }
 
+    public string UAContent { get => field ?? DefaultUAContent; set; }
 
-    public AndroidDeviceInfo? DeviceInfo { get; set; }
+
+    public AndroidDeviceInfo? DeviceInfo
+    {
+        get; set
+        {
+            if (ReferenceEquals(field, value))
+            {
+                return;
+            }
+            field = value;
+            if (value?.ExtFields is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(value.ExtFields.DeviceInfo))
+                {
+                    var splits = value.ExtFields.DeviceInfo.Split('/');
+                    if (splits.Length > 3)
+                    {
+                        string build = splits[3];
+                        UAContent = DefaultUAContent.Replace("Android 17", $"Android {value.ExtFields.OsVersion}; {value.ExtFields.Model} Build/{build}");
+                        return;
+                    }
+                }
+            }
+            UAContent = null!;
+        }
+    }
 
 
     public string Language

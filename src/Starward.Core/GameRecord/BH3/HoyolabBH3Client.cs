@@ -8,7 +8,7 @@ public class HoyolabBH3Client : GameRecordClientBase, IGameRecordClient, IGameRe
 
     public override string AppVersion => HoyolabAppVersion;
 
-    public override string UAContent => HoyolabUAContent;
+    public override string DefaultUAContent => HoyolabUAContent;
 
     public override ServerRegion ServerRegion => ServerRegion.HoYoverse;
 

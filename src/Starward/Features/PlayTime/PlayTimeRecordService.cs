@@ -203,7 +203,7 @@ internal class PlayTimeRecordService
                 }
                 foreach (var process in processes)
                 {
-                    var instance = App.FindInstanceForKey($"playtime_{process.Id}");
+                    var instance = App.FindInstanceForKey($"Starward.PlayTime.{process.Id}");
                     if (instance != null)
                     {
                         // 已经有进程在记录该游戏
@@ -253,7 +253,7 @@ internal class PlayTimeRecordService
                 _logger.LogWarning("Game process ({biz}, {gamePid}) is not the expected process ({name})", biz, pid, process.ProcessName);
                 return;
             }
-            var instance = App.FindInstanceForKey($"playtime_{pid}");
+            var instance = App.FindInstanceForKey($"Starward.PlayTime.{pid}");
             if (instance != null)
             {
                 _logger.LogWarning("Game process ({biz}, {gamePid}) has been recorded by process ({playtimePid})", biz, pid, instance.ProcessId);

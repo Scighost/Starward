@@ -235,7 +235,7 @@ public class PassportClient
 
 
     /// <summary>
-    /// 更换 token
+    /// 国服更换 token
     /// </summary>
     /// <param name="userInfo"></param>
     /// <param name="destToken"></param>
@@ -245,15 +245,13 @@ public class PassportClient
     /// <exception cref="NotSupportedException"></exception>
     public async Task<ExchangeTokenResponse> ExchangeTokenAsync(PassportUserInfo userInfo, TokenType destToken, AndroidDeviceInfo? androidDevice, CancellationToken cancellation = default)
     {
-        string url = userInfo.Region switch
+        if (!userInfo.IsChinaServer)
         {
-            ServerRegion.HoYoverse => $"https://passport-api-sg.hoyoverse.com/account/ma-cn-session/app/exchange",
-            ServerRegion.miHoYo => $"https://passport-api.mihoyo.com/account/ma-cn-session/app/exchange",
-            _ => throw new NotSupportedException($"Server region '{userInfo.Region}' is not supported.")
-        };
+            throw new NotSupportedException($"Server region '{userInfo.Region}' is not supported.");
+        }
         var request = ExchangeTokenRequest.FromStoken(userInfo.Stoken, userInfo.Mid);
         request.DestTokenType = destToken;
-        var message = new HttpRequestMessage(HttpMethod.Post, url)
+        var message = new HttpRequestMessage(HttpMethod.Post, "https://passport-api.mihoyo.com/account/ma-cn-session/app/exchange")
         {
             Content = JsonContent.Create(request, PassportJsonContext.Default.ExchangeTokenRequest)
         };
@@ -264,22 +262,80 @@ public class PassportClient
         }
         else
         {
-            message.Headers.Add("x-rpc-app_id", userInfo.IsGlobalServer ? "ddxf6vlr1reo" : "ddxf5qt290cg");
+            message.Headers.Add("x-rpc-app_id", "ddxf5qt290cg");
             message.Headers.Add("x-rpc-client_type", "2");
             message.Headers.Add("x-rpc-device_id", androidDevice.ExtFields.AndroidId);
             message.Headers.Add("x-rpc-device_fp", androidDevice.DeviceFp);
             message.Headers.Add("x-rpc-device_name", androidDevice.ExtFields.DeviceName.Replace(' ', '+'));
             message.Headers.Add("x-rpc-device_model", androidDevice.ExtFields.Model);
             message.Headers.Add("x-rpc-sys_version", androidDevice.ExtFields.OsVersion);
-            message.Headers.Add("x-rpc-game_biz", userInfo.IsGlobalServer ? "bbs_oversea" : "bbs_cn");
-            message.Headers.Add("x-rpc-app_version", userInfo.IsGlobalServer ? GameRecordClientBase.HoyolabAppVersion : GameRecordClientBase.HyperionAppVersion);
-            message.Headers.Add("x-rpc-sdk_version", userInfo.IsGlobalServer ? GameRecordClientBase.HoyolabSdkVersion : GameRecordClientBase.HyperionSdkVersion);
+            message.Headers.Add("x-rpc-game_biz", "bbs_cn");
+            message.Headers.Add("x-rpc-app_version", GameRecordClientBase.HyperionAppVersion);
+            message.Headers.Add("x-rpc-sdk_version", GameRecordClientBase.HyperionSdkVersion);
             message.Headers.Add("x-rpc-lifecycle_id", DynamicSecret.LifeCycleId);
-            message.Headers.Add("x-rpc-account_version", userInfo.IsGlobalServer ? GameRecordClientBase.HoyolabSdkVersion : GameRecordClientBase.HyperionSdkVersion);
+            message.Headers.Add("x-rpc-account_version", GameRecordClientBase.HyperionSdkVersion);
         }
         return await SendAsync<ExchangeTokenResponse>(message, cancellation);
     }
 
+
+    /// <summary>
+    /// 国际服更换 token
+    /// </summary>
+    /// <param name="userInfo"></param>
+    /// <param name="destTokenTypes"></param>
+    /// <param name="androidDevice"></param>
+    /// <param name="cancellation"></param>
+    /// <returns></returns>
+    /// <exception cref="NotSupportedException"></exception>
+    public async Task<GetBySTokenResponse> GetBySTokenAsync(PassportUserInfo userInfo, IReadOnlyCollection<TokenType> destTokenTypes, AndroidDeviceInfo? androidDevice, CancellationToken cancellation = default)
+    {
+        if (!userInfo.IsGlobalServer)
+        {
+            throw new NotSupportedException($"Server region '{userInfo.Region}' is not supported.");
+        }
+        var request = new GetBySTokenRequest { DestTokenTypes = [.. destTokenTypes] };
+        var message = new HttpRequestMessage(HttpMethod.Post, "https://sg-public-api.hoyoverse.com/account/ma-passport/token/getBySToken")
+        {
+            Content = JsonContent.Create(request, PassportJsonContext.Default.GetBySTokenRequest)
+        };
+        message.Headers.Add("DS", DynamicSecret.CreatePassportDS(userInfo.Region, request));
+        message.Headers.Add("Cookie", $"stoken={userInfo.Stoken};mid={userInfo.Mid};stuid={userInfo.Aid}");
+        if (androidDevice is null)
+        {
+            AddPassportHeaders(message, userInfo);
+        }
+        else
+        {
+            message.Headers.Add("x-rpc-app_id", "ddxf6vlr1reo");
+            message.Headers.Add("x-rpc-client_type", "2");
+            message.Headers.Add("x-rpc-game_biz", "bbs_oversea");
+            message.Headers.Add("x-rpc-sdk_version", GameRecordClientBase.HoyolabSdkVersion);
+            message.Headers.Add("x-rpc-app_version", GameRecordClientBase.HoyolabAppVersion);
+            message.Headers.Add("x-rpc-language", Language);
+            message.Headers.Add("x-rpc-package_name", "com.mihoyo.hoyolab");
+            message.Headers.Add("x-rpc-age_gate", "true");
+            message.Headers.Add("x-rpc-age_gate_eu", "true");
+            message.Headers.Add("x-rpc-age_gate_br", "true");
+            if (androidDevice?.ExtFields is { } extFields)
+            {
+                message.Headers.Add("x-rpc-device_id", extFields.AndroidId);
+                message.Headers.Add("x-rpc-device_fp", androidDevice.DeviceFp);
+                message.Headers.Add("x-rpc-device_name", extFields.DeviceName.Replace(' ', '+'));
+                message.Headers.Add("x-rpc-device_model", extFields.Model);
+                message.Headers.Add("x-rpc-device_os", extFields.OsVersion);
+            }
+            else
+            {
+                message.Headers.Add("x-rpc-device_id", DeviceId);
+                message.Headers.Add("x-rpc-device_fp", DeviceFp);
+                message.Headers.Add("x-rpc-device_name", Environment.MachineName);
+                message.Headers.Add("x-rpc-device_model", "x86_64");
+                message.Headers.Add("x-rpc-device_os", Environment.OSVersion.Version.Build > 22000 ? "Windows 11 Version 2009" : "Windows 10 Version 1909");
+            }
+        }
+        return await SendAsync<GetBySTokenResponse>(message, cancellation);
+    }
 
 
     /// <summary>

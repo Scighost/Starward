@@ -12,7 +12,7 @@ public class HyperionGenshinClient : GameRecordClientBase, IGameRecordClient, IG
 
     public override string AppVersion => HyperionAppVersion;
 
-    public override string UAContent => HyperionUAContent;
+    public override string DefaultUAContent => HyperionUAContent;
 
     public override ServerRegion ServerRegion => ServerRegion.miHoYo;
 
