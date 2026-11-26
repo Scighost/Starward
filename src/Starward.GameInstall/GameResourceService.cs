@@ -13,6 +13,16 @@ namespace Starward.GameInstall;
 public class GameResourceService
 {
 
+    /// <summary>
+    /// 预下载阶段不下载的资源分类。
+    /// </summary>
+    /// <remarks>
+    /// <c>asb</c> 是崩坏3的过场动画（wmv，常驻 28 GiB 以上），走游戏内按需下载；
+    /// 官方启动器也不会把它登记进预下载的 depot（bh3 只登记 10161/game）。
+    /// 若计入，9.1.0 → 9.2.0 会多算 3.5 GiB 的新增 wmv。
+    /// </remarks>
+    private static readonly string[] PredownloadExcludedMatchingFields = ["asb"];
+
     private readonly ILogger<GameResourceService> _logger;
 
     private readonly GameConfigService _gameConfigService;
@@ -185,46 +195,129 @@ public class GameResourceService
 
 
     /// <summary>
-    /// 计算预下载需要下载的资源大小
+    /// 预下载需要下载的分片（按文件做局部差分）
     /// </summary>
-    public async Task<long> GetPredownloadResourceSizeAsync(GameId gameId, GameBranch branch, string installPath, string scenarios, AudioLanguage audioLanguage, string? localVersion, CancellationToken cancellation = default)
+    /// <remarks>
+    /// 不能退化成「新旧分片 id 的全局差集」：全局差集会把「本文件确实缺、但恰好被别的旧文件用过」的分片跳过，
+    /// 结果偏小（崩坏3 9.1.0 → 9.2.0 少 46 MiB）；反过来，若直接把 asb 一起算进来又会多算 3.5 GiB。
+    /// </remarks>
+    internal async Task<List<SophonChunkItem>> GetPredownloadChunkItemsAsync(GameId gameId, GameBranch branch, string installPath, string scenarios, AudioLanguage audioLanguage, string? localVersion, CancellationToken cancellation = default)
+    {
+        if (branch.PreDownload is null)
+        {
+            return [];
+        }
+        List<SophonChunkItem> oldChunkItems = await GetSophonChunkItemsAsync(gameId, branch.Main, installPath, scenarios, audioLanguage, localVersion, cancellation, forPredownload: true).ConfigureAwait(false);
+        List<SophonChunkItem> newChunkItems = await GetSophonChunkItemsAsync(gameId, branch.PreDownload, installPath, scenarios, audioLanguage, null, cancellation, forPredownload: true).ConfigureAwait(false);
+        return DiffChunkItemsByFile(oldChunkItems, newChunkItems);
+    }
+
+
+
+    /// <summary>
+    /// 计算预下载的下载量与所需空间
+    /// </summary>
+    /// <remarks>
+    /// 所需空间 = 预下载完成后的成品占用（解压后） + 下载的压缩分片，两者会在应用阶段短暂共存。
+    /// 与官方启动器弹窗口径一致（崩坏3 9.1.0 → 9.2.0：365.83 MB 下载 / 1.80 GB 所需）。
+    /// </remarks>
+    public async Task<PredownloadResourceSize> GetPredownloadResourceSizeAsync(GameId gameId, GameBranch branch, string installPath, string scenarios, AudioLanguage audioLanguage, string? localVersion, CancellationToken cancellation = default)
     {
         if (branch.PreDownload is null)
         {
             return default;
         }
-        List<SophonChunkItem> oldChunkItems = await GetSophonChunkItemsAsync(gameId, branch.Main, installPath, scenarios, audioLanguage, localVersion, cancellation).ConfigureAwait(false);
-        List<SophonChunkItem> newChunkItems = await GetSophonChunkItemsAsync(gameId, branch.PreDownload, installPath, scenarios, audioLanguage, null, cancellation).ConfigureAwait(false);
-        HashSet<string> oldChunkIdSet = new();
-        foreach (SophonChunkItem chunkItem in oldChunkItems)
-        {
-            foreach (SophonChunk? chunk in chunkItem.ChunkFile.Chunks)
-            {
-                oldChunkIdSet.Add(chunk.Id);
-            }
-        }
-        List<SophonChunkItem> chunkItems = new();
-        foreach (SophonChunkItem chunkItem in newChunkItems)
-        {
-            foreach (SophonChunk? chunk in chunkItem.ChunkFile.Chunks)
-            {
-                if (!oldChunkIdSet.Contains(chunk.Id))
-                {
-                    chunkItems.Add(new SophonChunkItem(chunkItem.ManifestUrl, chunkItem.ChunkFile, chunk));
-                }
-            }
-        }
-        List<SophonChunkItem> items = chunkItems.DistinctBy(x => x.Chunk!.Id).ToList();
-        return items.Sum(x => x.Chunk!.CompressedSize);
+        List<SophonChunkItem> items = await GetPredownloadChunkItemsAsync(gameId, branch, installPath, scenarios, audioLanguage, localVersion, cancellation).ConfigureAwait(false);
+        long downloadSize = items.Sum(x => x.Chunk!.CompressedSize);
+
+        HashSet<string> excludedIds = GetPredownloadExcludedCategoryIds(branch.PreDownload);
+        List<GameSophonChunkManifest> manifests = await GetGameSophonChunkManifestsAsync(gameId, branch.PreDownload, installPath, scenarios, audioLanguage, cancellation).ConfigureAwait(false);
+        long uncompressedSize = manifests.Where(x => !excludedIds.Contains(x.CategoryId)).Sum(x => x.Stats.UncompressedSize);
+        return new PredownloadResourceSize(downloadSize, uncompressedSize + downloadSize);
     }
 
 
 
-    internal async Task<List<SophonChunkItem>> GetSophonChunkItemsAsync(GameId gameId, GameBranchPackage branchPackage, string installPath, string scenarios, AudioLanguage audio, string? version = null, CancellationToken cancellation = default)
+    /// <summary>
+    /// 预下载阶段需要跳过的资源分类 id
+    /// </summary>
+    private static HashSet<string> GetPredownloadExcludedCategoryIds(GameBranchPackage branchPackage)
+    {
+        return branchPackage.Categories
+                            .Where(x => PredownloadExcludedMatchingFields.Contains(x.MatchingField, StringComparer.OrdinalIgnoreCase))
+                            .Select(x => x.CategoryId)
+                            .ToHashSet();
+    }
+
+
+
+    /// <summary>
+    /// 按文件做局部差分
+    ///
+    /// 新增文件整包下载；内容变更的文件只补「旧版本该文件里没有」的分片；未变更文件跳过。
+    /// 最后按分片 id 去重 —— 同一分片被多个文件引用时只下载一次。
+    /// </summary>
+    /// <param name="oldChunkItems">旧版本的文件级条目（<see cref="SophonChunkItem.Chunk"/> 为 null，分片在 <see cref="SophonChunkFile.Chunks"/> 里）</param>
+    /// <param name="newChunkItems">新版本的文件级条目</param>
+    internal static List<SophonChunkItem> DiffChunkItemsByFile(List<SophonChunkItem> oldChunkItems, List<SophonChunkItem> newChunkItems)
+    {
+        Dictionary<string, SophonChunkFile> oldFiles = new(StringComparer.OrdinalIgnoreCase);
+        foreach (SophonChunkItem item in oldChunkItems)
+        {
+            oldFiles.TryAdd(item.ChunkFile.File, item.ChunkFile);
+        }
+
+        Dictionary<string, HashSet<string>> oldChunkIds = new(StringComparer.OrdinalIgnoreCase);
+        List<SophonChunkItem> chunkItems = new();
+        foreach (SophonChunkItem item in newChunkItems)
+        {
+            SophonChunkFile chunkFile = item.ChunkFile;
+            if (!oldFiles.TryGetValue(chunkFile.File, out SophonChunkFile? oldFile))
+            {
+                foreach (SophonChunk? chunk in chunkFile.Chunks)
+                {
+                    if (chunk is not null)
+                    {
+                        chunkItems.Add(new SophonChunkItem(item.ManifestUrl, chunkFile, chunk));
+                    }
+                }
+                continue;
+            }
+            if (string.Equals(oldFile.Md5, chunkFile.Md5, StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+            if (!oldChunkIds.TryGetValue(chunkFile.File, out HashSet<string>? ids))
+            {
+                ids = oldFile.Chunks.Where(x => x is not null).Select(x => x.Id).ToHashSet(StringComparer.OrdinalIgnoreCase);
+                oldChunkIds[chunkFile.File] = ids;
+            }
+            foreach (SophonChunk? chunk in chunkFile.Chunks)
+            {
+                if (chunk is not null && !ids.Contains(chunk.Id))
+                {
+                    chunkItems.Add(new SophonChunkItem(item.ManifestUrl, chunkFile, chunk));
+                }
+            }
+        }
+        return chunkItems.DistinctBy(x => x.Chunk!.Id).ToList();
+    }
+
+
+
+    internal async Task<List<SophonChunkItem>> GetSophonChunkItemsAsync(GameId gameId, GameBranchPackage branchPackage, string installPath, string scenarios, AudioLanguage audio, string? version = null, CancellationToken cancellation = default, bool forPredownload = false)
     {
         List<GameSophonChunkManifest> chunkManifests = string.IsNullOrWhiteSpace(version)
             ? await GetGameSophonChunkManifestsAsync(gameId, branchPackage, installPath, scenarios, audio, cancellation).ConfigureAwait(false)
             : await GetGameSophonChunkManifestsAsync(gameId, branchPackage, installPath, scenarios, audio, version, cancellation).ConfigureAwait(false);
+        if (forPredownload)
+        {
+            HashSet<string> excludedIds = GetPredownloadExcludedCategoryIds(branchPackage);
+            if (excludedIds.Count > 0)
+            {
+                chunkManifests = chunkManifests.Where(x => !excludedIds.Contains(x.CategoryId)).ToList();
+            }
+        }
         HashSet<string> blackListSet = await _gameConfigService.GetIgnoreFileNamesAsync(gameId, installPath, cancellation).ConfigureAwait(false);
         List<SophonChunkItem> chunkItems = new();
         await _polly.ForEachAsync(chunkManifests, cancellation, async (item, token) =>

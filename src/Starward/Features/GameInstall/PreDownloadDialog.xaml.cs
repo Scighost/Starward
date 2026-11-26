@@ -184,15 +184,15 @@ public sealed partial class PreDownloadDialog : ContentDialogBase
             }
             else
             {
-                long size = await _gameResourceService.GetPredownloadResourceSizeAsync(CurrentGameId, branch, InstallPath, _categoryScenario, _audioLanguage, _localVersion, cancellation);
-                downloadResourceSize = size;
-                spaceRequiredSize = size;
+                PredownloadResourceSize size = await _gameResourceService.GetPredownloadResourceSizeAsync(CurrentGameId, branch, InstallPath, _categoryScenario, _audioLanguage, _localVersion, cancellation);
+                downloadResourceSize = size.DownloadSize;
+                spaceRequiredSize = size.SpaceRequiredSize;
             }
             PredownloadVersion = $"{_localVersion}  →  {branch.PreDownload.Tag}";
         }
 
-        DownloadResourceSizeText = SizeTextFormat.ToGB(downloadResourceSize);
-        SpaceRequiredSizeText = SizeTextFormat.ToGB(spaceRequiredSize);
+        DownloadResourceSizeText = SizeTextFormat.ToBestFit(downloadResourceSize);
+        SpaceRequiredSizeText = SizeTextFormat.ToBestFit(spaceRequiredSize);
         SpaceAvailableSizeText = SizeTextFormat.ToGB(DriveHelper.GetDriveAvailableSpace(InstallPath));
         return true;
     }

@@ -49,28 +49,7 @@ internal class ChunkPredownloadStep : ChunkStepBase
         }
         else
         {
-            List<SophonChunkItem> oldChunkItems = await _gameResourceService.GetSophonChunkItemsAsync(_context.GameId, _branch.Main, _context.InstallPath, _context.CategoryScenario, _context.AudioLanguage, localVersion, cancellation).ConfigureAwait(false);
-            List<SophonChunkItem> newChunkItems = await _gameResourceService.GetSophonChunkItemsAsync(_context.GameId, _branch.PreDownload, _context.InstallPath, _context.CategoryScenario, _context.AudioLanguage, null, cancellation).ConfigureAwait(false);
-            HashSet<string> oldChunkIdSet = new();
-            foreach (SophonChunkItem chunkItem in oldChunkItems)
-            {
-                foreach (SophonChunk? chunk in chunkItem.ChunkFile.Chunks)
-                {
-                    oldChunkIdSet.Add(chunk.Id);
-                }
-            }
-            List<SophonChunkItem> chunkItems = new();
-            foreach (SophonChunkItem chunkItem in newChunkItems)
-            {
-                foreach (SophonChunk? chunk in chunkItem.ChunkFile.Chunks)
-                {
-                    if (!oldChunkIdSet.Contains(chunk.Id))
-                    {
-                        chunkItems.Add(new SophonChunkItem(chunkItem.ManifestUrl, chunkItem.ChunkFile, chunk));
-                    }
-                }
-            }
-            _chunkItems = chunkItems.DistinctBy(x => x.Chunk!.Id).ToList();
+            _chunkItems = await _gameResourceService.GetPredownloadChunkItemsAsync(_context.GameId, _branch, _context.InstallPath, _context.CategoryScenario, _context.AudioLanguage, localVersion, cancellation).ConfigureAwait(false);
             _logger.LogInformation("Pre-download uses chunk, chunk count: {count}.", _chunkItems.Count);
         }
 
@@ -110,6 +89,16 @@ internal class ChunkPredownloadStep : ChunkStepBase
 
     protected override async Task PostAsync(CancellationToken cancellation = default)
     {
+        int count = (_chunkItems?.Count ?? 0) + (_patchItems?.Count ?? 0);
+        if (count == 0)
+        {
+            // 一片都没算出来就不要写「预下载已完成」标记。
+            // 否则 GameLauncherService.CheckPreDownloadFinishedAsync 会判定已完成，
+            // 启动页的预下载按钮直接变灰显示「已完成」（PreDownloadButton.IsButtonEnabled = !IsPredownloadFinished），
+            // 用户再也点不动、无法重试。
+            _logger.LogWarning("No pre-download resource planned, skip writing predownload info.");
+            return;
+        }
         string localVersion = _context.ConfigIni.GameVersion?.ToString() ?? "";
         string? newVersion = _branch.PreDownload?.Tag;
         _context.ConfigIni.Settings["predownload"] = $"{localVersion},{newVersion},{_context.AudioLanguage}";

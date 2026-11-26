@@ -23,5 +23,18 @@ internal static class SizeTextFormat
     }
 
 
+    /// <summary>
+    /// 小于 1 GB 用 MB 显示，否则用 GB。
+    /// </summary>
+    /// <remarks>
+    /// 预下载补丁常常只有几百 MB，统一按 GB 显示会变成 "0.36 GB"，不如 "365.83 MB" 直观，
+    /// 也不便与官方启动器的显示值直接比对。
+    /// </remarks>
+    public static string ToBestFit(long value)
+    {
+        return value < GB ? ToMB(value) : ToGB(value);
+    }
+
+
 
 }
