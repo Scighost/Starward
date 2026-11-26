@@ -2945,4 +2945,13 @@ Puede enviar los datos exportados al siguiente repositorio:</value>
   <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
     <value>Aplicación no oficial. Ten cuidado con la seguridad de tu cuenta.</value>
   </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>Templarse y viajar lejos</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>Progreso del período</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>Progreso semanal</value>
+  </data>
 </root>
