@@ -30,18 +30,21 @@ public abstract class GameRecordClientBase
     protected const string x_rpc_channel = "x-rpc-channel";
 
 
-    public const string HyperionAppVersion = "2.118.1";
+    public const string HyperionAppVersion = "2.119.2";
 
     public const string HyperionSdkVersion = "2.44.0";
 
     public const string HyperionUAContent = $"Mozilla/5.0 (Linux; Android 17) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Mobile Safari/537.36 miHoYoBBS/{HyperionAppVersion}";
 
 
-    public const string HoyolabAppVersion = "4.23.0";
+    public const string HoyolabAppVersion = "4.24.0";
 
-    public const string HoyolabSdkVersion = "2.3.0";
+    public const string HoyolabSdkVersion = "2.56.0";
 
     public const string HoyolabUAContent = $"Mozilla/5.0 (Linux; Android 17) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Mobile Safari/537.36 miHoYoBBSOversea/{HoyolabAppVersion}";
+
+
+    public const long AppReleaseTimestamp = 1795579200;
 
 
     public abstract string AppVersion { get; }

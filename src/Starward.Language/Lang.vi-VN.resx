@@ -2945,4 +2945,13 @@ Bạn có chấp nhận rủi ro và tiếp tục?</value>
   <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
     <value>Ứng dụng không chính thức. Vui lòng chú ý đến bảo mật tài khoản của bạn.</value>
   </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>Rèn Luyện Bản Thân và Hành Trình Xa Xôi</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>Tiến độ kỳ này</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>Tiến độ tuần này</value>
+  </data>
 </root>

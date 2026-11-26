@@ -890,6 +890,15 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 Period Progress 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_PeriodProgress {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_PeriodProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Polychromes Claimed 的本地化字符串。
         /// </summary>
         public static string DailyNoteButton_PolychromesClaimed {
@@ -1012,6 +1021,24 @@ namespace Starward.Language {
         public static string DailyNoteButton_StarRail_SimulatedUniversePoints {
             get {
                 return ResourceManager.GetString("DailyNoteButton_StarRail_SimulatedUniversePoints", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 To Temper Thyself and Journey Far 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_ToTemperThyselfAndJourneyFar {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_ToTemperThyselfAndJourneyFar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Week Progress 的本地化字符串。
+        /// </summary>
+        public static string DailyNoteButton_WeekProgress {
+            get {
+                return ResourceManager.GetString("DailyNoteButton_WeekProgress", resourceCulture);
             }
         }
         

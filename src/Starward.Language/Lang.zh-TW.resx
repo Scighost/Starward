@@ -2948,4 +2948,13 @@
   <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
     <value>非官方應用程式，請注意帳號安全。</value>
   </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>礪行修遠</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>本期進度</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>本週進度</value>
+  </data>
 </root>

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Starward.Core;
 using Starward.Core.DeviceFp;
+using Starward.Core.GameRecord;
 using System;
 using System.Text.Json;
 using System.Threading;
@@ -98,7 +99,15 @@ internal abstract class GameRecordServiceBase
             string? json = AppConfig.AndroidDeviceInfo;
             if (!string.IsNullOrWhiteSpace(json))
             {
-                deviceInfo = JsonSerializer.Deserialize<AndroidDeviceInfo>(json, DeviceFpJsonContext.Default.AndroidDeviceInfo);
+                deviceInfo = JsonSerializer.Deserialize(json, DeviceFpJsonContext.Default.AndroidDeviceInfo);
+                if (deviceInfo?.ExtFields is not null)
+                {
+                    if (deviceInfo.ExtFields.AppUpdateTimeDiff < GameRecordClientBase.AppReleaseTimestamp)
+                    {
+                        long now = Math.Max(DateTimeOffset.Now.ToUnixTimeSeconds(), GameRecordClientBase.AppReleaseTimestamp);
+                        deviceInfo.ExtFields.AppUpdateTimeDiff = Random.Shared.NextInt64(GameRecordClientBase.AppReleaseTimestamp, now);
+                    }
+                }
             }
         }
         catch { }

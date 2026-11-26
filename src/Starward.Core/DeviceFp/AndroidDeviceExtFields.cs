@@ -119,13 +119,13 @@ public class AndroidDeviceExtFields
     // ---- 每次采集都可变的运行时状态 ----
 
     [JsonPropertyName("packageName")]
-    public string PackageName { get; set; } = "com.mihoyo.hyperion";
+    public string PackageName { get; set; }
 
     [JsonPropertyName("packageVersion")]
-    public string PackageVersion { get; set; } = "2.44.0";
+    public string PackageVersion { get; set; }
 
     [JsonPropertyName("networkType")]
-    public string NetworkType { get; set; } = "WiFi";
+    public string NetworkType { get; set; }
 
     [JsonPropertyName("romRemain")]
     public string RomRemain { get; set; }

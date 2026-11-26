@@ -814,7 +814,7 @@ public sealed partial class GameLauncherSettingDialog : ContentDialogBase
                 AppConfig.EnableGenshinHDR = value;
             }
         }
-    }
+    } = AppConfig.EnableGenshinHDR;
 
     public bool HDRNotSupported { get; set => SetProperty(ref field, value); }
 

@@ -5,6 +5,7 @@ using Starward.Core.GameRecord.StarRail.ForgottenHall;
 using Starward.Core.GameRecord.StarRail.PureFiction;
 using Starward.Core.GameRecord.StarRail.SimulatedUniverse;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
+using static Starward.Core.Passport.DynamicSecret;
 
 namespace Starward.Core.GameRecord.StarRail;
 
@@ -73,6 +74,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         var data = await CommonSendAsync<GameRecordIndex>(request, cancellationToken).ConfigureAwait(false);
         return data.HeadIcon;
     }
@@ -94,6 +96,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         var data = await CommonSendAsync<ForgottenHallInfo>(request, cancellationToken).ConfigureAwait(false);
         data.Uid = role.Uid;
         return data;
@@ -116,6 +119,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         var data = await CommonSendAsync<PureFictionInfo>(request, cancellationToken).ConfigureAwait(false);
         data.Uid = role.Uid;
         if (data.Metas?.Count > 0)
@@ -153,6 +157,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         var data = await CommonSendAsync<ApocalypticShadowInfo>(request, cancellationToken).ConfigureAwait(false);
         data.Uid = role.Uid;
         if (data.Metas?.Count > 0)
@@ -196,6 +201,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         return await CommonSendAsync<SimulatedUniverseInfo>(request, cancellationToken).ConfigureAwait(false);
     }
 
@@ -214,6 +220,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         return await CommonSendAsync<TrailblazeCalendarSummary>(request, cancellationToken).ConfigureAwait(false);
     }
 
@@ -235,6 +242,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(Cookie, role.Cookie);
         request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(X_Request_With, com_mihoyo_hoyolab);
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         var data = await CommonSendAsync<TrailblazeCalendarDetail>(request, cancellationToken).ConfigureAwait(false);
         foreach (var item in data.List)
         {
@@ -288,6 +296,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         return await CommonSendAsync<StarRailDailyNote>(request, cancellationToken).ConfigureAwait(false);
     }
 
@@ -307,6 +316,7 @@ public class HoyolabStarRailClient : GameRecordClientBase, IGameRecordClient, IG
         request.Headers.Add(Referer, "https://act.hoyolab.com/");
         request.Headers.Add(x_rpc_app_version, AppVersion);
         request.Headers.Add(x_rpc_client_type, "5");
+        request.Headers.Add(DS, CreateWebDS2(ServerRegion, url));
         return await CommonSendAsync<ChallengePeakData>(request, cancellationToken).ConfigureAwait(false);
     }
 

@@ -10,16 +10,16 @@ public static class DynamicSecret
     public static string LifeCycleId { get; } = Guid.NewGuid().ToString();
 
 
-    private const string AppSalt1_CN = "7a047e46eadd8693f09513e55bdf6bd8";
+    private const string AppSalt1_CN = "24cf11fb14a84f0683e7cadf7c788ba2";
     private const string AppSalt2_CN = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
-    private const string WebSalt1_CN = "28decef2209c4b7c8775e0800ea26d8b";
+    private const string WebSalt1_CN = "8fb73233f73e200aa1f818b5705d4442";
     private const string WebSalt2_CN = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
     private const string PassportSalt_CN = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS";
 
     private const string AppSalt1_OS = "599uqkwc0dlqu3h6epzjzfhgyyrd44ae";
-    private const string AppSalt2_OS = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
+    private const string AppSalt2_OS = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w";
     private const string WebSalt1_OS = "rk4xg2hakoi26nljpr099fv9fck1ah10";
-    private const string WebSalt2_OS = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+    private const string WebSalt2_OS = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt";
     private const string PassportSalt_OS = "IZPgfb0dRPtBeLuFkdDznSZ6f4wWt6y2";
 
 
@@ -31,7 +31,6 @@ public static class DynamicSecret
 
     private static int GetDS2RandomNumber()
     {
-        // The native generator produces 100000..200000 inclusive.
         return Random.Shared.Next(10_0000, 20_0000 + 1);
     }
 

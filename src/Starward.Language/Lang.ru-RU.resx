@@ -2952,4 +2952,13 @@
   <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
     <value>Неофициальное приложение. Пожалуйста, позаботьтесь о безопасности своего аккаунта.</value>
   </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>Закали себя и отправляйся в дальний путь</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>Прогресс периода</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>Прогресс недели</value>
+  </data>
 </root>

@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Starward.Core.GameRecord;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Security.Cryptography;
 
 namespace Starward.Core.DeviceFp;
@@ -499,10 +501,17 @@ internal static class DeviceCatalog
         ext.Oaid = Guid.NewGuid().ToString();
         ext.Vaid = RandomNumberGenerator.GetHexString(32, true);
         ext.Aaid = string.Empty;
-        ext.Vendor = "China Mobile";
+        if (CultureInfo.InstalledUICulture.Name is "zh-CN")
+        {
+            ext.Vendor = "中国移动";
+        }
+        else
+        {
+            ext.Vendor = "unknown";
+        }
 
-        long now = Math.Max(DateTimeOffset.Now.ToUnixTimeMilliseconds(), 1794984925);
-        ext.AppInstallTimeDiff = Random.Shared.NextInt64(1794479229, now);
+        long now = Math.Max(DateTimeOffset.Now.ToUnixTimeMilliseconds(), GameRecordClientBase.AppReleaseTimestamp);
+        ext.AppInstallTimeDiff = Random.Shared.NextInt64(GameRecordClientBase.AppReleaseTimestamp, now);
         ext.AppUpdateTimeDiff = ext.AppInstallTimeDiff;
 
         return ext;

@@ -314,6 +314,20 @@ public sealed partial class MainView : UserControl
         {
             CurrentGameId = message.GameId;
             UpdateNavigationView();
+            var launcher = _hoYoPlayService.GetLauncherConfig(message.GameId);
+            if (launcher is not null)
+            {
+                var newConfig = LauncherConfigModel.FromId(launcher.Id);
+                if (CurrentLauncherConfig != newConfig)
+                {
+                    CurrentLauncherConfig = newConfig;
+                    InitializePassportUser();
+                }
+            }
+            else
+            {
+                CurrentLauncherConfig = null;
+            }
         }
         NavigateTo(message.Page, message.GameId);
         HideLauncherConfigView();
@@ -325,6 +339,19 @@ public sealed partial class MainView : UserControl
     {
         await Task.Delay(300);
         CurrentGameId = GameSwitcher.CurrentGameIcon?.GameId;
+        if (GameSwitcher.CurrentGameIcon is not null)
+        {
+            var newConfig = LauncherConfigModel.FromId(GameSwitcher.CurrentGameIcon.LauncherId);
+            if (CurrentLauncherConfig != newConfig)
+            {
+                CurrentLauncherConfig = newConfig;
+                InitializePassportUser();
+            }
+        }
+        else
+        {
+            CurrentLauncherConfig = null;
+        }
         UpdateNavigationView();
     }
 

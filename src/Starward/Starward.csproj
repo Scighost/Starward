@@ -52,7 +52,7 @@
 		<PackageReference Include="Scighost.WinUI" Version="0.1.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="11.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Starward.Assets" Version="0.6.7" />
+		<PackageReference Include="Starward.Assets" Version="0.6.8" />
 		<PackageReference Include="Starward.Codec" Version="0.5.2" />
 		<PackageReference Include="Starward.GameInput" Version="0.3.1" />
 		<PackageReference Include="Starward.HPatch" Version="0.1.0" />
