@@ -14,6 +14,12 @@ public static class HypergryphGameMetadata
     {
         GameId gameId = GameId.FromGameBiz(gameBiz)!;
         HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
+        string? regionLogo = gameBiz.Value switch
+        {
+            GameBiz.endfield_cn => HypergryphGameConstants.HypergryphLogo,
+            GameBiz.endfield_global => HypergryphGameConstants.GryphlineLogo,
+            _ => null,
+        };
         return new GameInfo
         {
             Id = gameId.Id,
@@ -27,7 +33,8 @@ public static class HypergryphGameMetadata
                 Title = gameId.GameBiz.ToGameName(),
                 Subtitle = "",
                 Icon = new GameImage { Url = profile.Icon },
-                Logo = new GameImage { Url = profile.Icon },
+                Logo = new GameImage { Url = regionLogo ?? profile.Icon },
+                TopLeftLogo = regionLogo is null ? null : new GameImage { Url = regionLogo },
                 Thumbnail = new GameImage { Url = profile.Background },
                 Background = new GameImage { Url = profile.Background },
             },

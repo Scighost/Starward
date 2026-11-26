@@ -228,9 +228,9 @@ public partial class LauncherConfigModel : ObservableObject
 
     public static LauncherConfigModel HoYoverse => new("VYTpXlbWo8", 1, 0, ServerRegion.HoYoverse, "HoYoverse", "ms-appx:///Assets/Image/icon_hoyolab.png", "ms-appx:///Assets/Image/gameicon_hoyolab.png", true, false);
 
-    public static LauncherConfigModel Hypergryph => new(HypergryphGameConstants.LauncherAppCode, 1, 1, ServerRegion.miHoYo, "Hypergryph", HypergryphGameConstants.ArknightsIcon, HypergryphGameConstants.ArknightsIcon, false, false);
+    public static LauncherConfigModel Hypergryph => new(HypergryphGameConstants.LauncherAppCode, 1, 1, ServerRegion.miHoYo, "Hypergryph", HypergryphGameConstants.HypergryphLogo, HypergryphGameConstants.HypergryphLogo, false, false);
 
-    public static LauncherConfigModel Gryphline => new(HypergryphGameConstants.GlobalLauncherAppCode, 1, 1, ServerRegion.HoYoverse, "GRYPHLINE", HypergryphGameConstants.EndfieldIcon, HypergryphGameConstants.EndfieldIcon, false, false);
+    public static LauncherConfigModel Gryphline => new(HypergryphGameConstants.GlobalLauncherAppCode, 1, 1, ServerRegion.HoYoverse, "GRYPHLINE", HypergryphGameConstants.GryphlineLogo, HypergryphGameConstants.GryphlineLogo, false, false);
 
     public static LauncherConfigModel BiliGI => new("umfgRO5gh5", 14, 0, ServerRegion.miHoYo, "bilibili - 原神", "ms-appx:///Assets/Image/icon_bilibili.png", "ms-appx:///Assets/Image/gameicon_bilibili.png", false, false);
 

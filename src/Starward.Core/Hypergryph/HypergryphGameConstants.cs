@@ -51,6 +51,10 @@ public static class HypergryphGameConstants
 
     public const string GlobalEndfieldInstallationDirectory = "Arknights Endfield";
 
+    public const string HypergryphLogo = "ms-appx:///Assets/Image/icon_hypergryph.png";
+
+    public const string GryphlineLogo = "ms-appx:///Assets/Image/icon_gryphline.png";
+
     public const string EndfieldBackground = "ms-appx:///Assets/Image/background_endfield.jpg";
 
     public const string EndfieldIcon = "ms-appx:///Assets/Image/icon_endfield.png";

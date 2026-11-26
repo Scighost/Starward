@@ -211,6 +211,11 @@ public class HoYoPlayService
     /// </summary>
     public async Task<List<GameInfo>> GetGameInfosAsync(LauncherConfig launcherConfig, CancellationToken cancellation = default)
     {
+        // The built-in Hypergryph catalog uses assets shipped with this version.
+        if (launcherConfig.Id is HypergryphGameConstants.LauncherAppCode or HypergryphGameConstants.GlobalLauncherAppCode)
+        {
+            return await CreateClient(launcherConfig).GetGameInfoAsync(cancellation).ConfigureAwait(false);
+        }
         IHoYoPlayClient? client = _clients.Values.FirstOrDefault(x => x.LauncherConfig.Id == launcherConfig.Id);
         if (client is null || client.LauncherConfig != launcherConfig)
         {
