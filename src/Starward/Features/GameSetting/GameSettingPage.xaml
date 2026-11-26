@@ -5,7 +5,7 @@
              xmlns:lang="using:Starward.Language"
              xmlns:local="using:Starward.Features.GameSetting"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              x:DefaultBindMode="OneWay"
              mc:Ignorable="d">
 

@@ -1,5 +1,7 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Linq;
 
 
@@ -119,5 +121,20 @@ public sealed partial class GachaStatsCard : UserControl
     {
         TextBlock_GachaTypeText.FontSize = 16;
     }
+
+
+    private void GachaItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Pivot pivot)
+        {
+            Segmented_GachaItemList.SelectedIndex = Math.Clamp(pivot.SelectedIndex, 0, Segmented_GachaItemList.Items.Count);
+        }
+        if (sender is Segmented segmented)
+        {
+            Pivot_GachaItemList.SelectedIndex = Math.Clamp(segmented.SelectedIndex, 0, Pivot_GachaItemList.Items.Count);
+        }
+    }
+
+
 
 }

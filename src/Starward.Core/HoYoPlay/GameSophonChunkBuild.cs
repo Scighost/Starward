@@ -134,7 +134,8 @@ public class GameSophonManifestUrl
     public string Password { get; set; }
 
     /// <summary>
-    /// 压缩
+    /// 压缩，0 不压缩，1 zstd，2 zlib
+    /// todo zlib 适配
     /// </summary>
     [JsonPropertyName("compression")]
     public int Compression { get; set; }

@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -10,6 +10,10 @@ using Starward.Core.GameRecord.Genshin.DailyNote;
 using Starward.Core.GameRecord.StarRail.DailyNote;
 using Starward.Core.GameRecord.ZZZ.DailyNote;
 using Starward.Core.HoYoPlay;
+using Starward.Features.GameRecord.BH3;
+using Starward.Features.GameRecord.Genshin;
+using Starward.Features.GameRecord.StarRail;
+using Starward.Features.GameRecord.ZZZ;
 using System;
 using System.Threading.Tasks;
 
@@ -23,7 +27,15 @@ public sealed partial class DailyNoteButton : UserControl
     private readonly ILogger<DailyNoteButton> _logger = AppConfig.GetLogger<DailyNoteButton>();
 
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordBH3Service _gameRecordBH3Service = AppConfig.GetService<GameRecordBH3Service>();
+
+    private readonly GameRecordGenshinService _gameRecordGenshinService = AppConfig.GetService<GameRecordGenshinService>();
+
+    private readonly GameRecordStarRailService _gameRecordStarRailService = AppConfig.GetService<GameRecordStarRailService>();
+
+    private readonly GameRecordZZZService _gameRecordZZZService = AppConfig.GetService<GameRecordZZZService>();
+
+    private readonly GameRecordRoleService _gameRecordRoleService = AppConfig.GetService<GameRecordRoleService>();
 
 
     public DailyNoteButton()
@@ -112,32 +124,27 @@ public sealed partial class DailyNoteButton : UserControl
                 forceUpdate = true;
             }
             GameBiz gameBiz = CurrentGameId.GameBiz;
-            if (gameBiz.Server is "bilibili")
-            {
-                gameBiz = $"{gameBiz.Game}_cn";
-            }
-            _gameRecordService.IsHoyolab = gameBiz.Server is "global";
-            GameRecordRole = _gameRecordService.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
+            GameRecordRole = GameRecordRoleService.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
             if (GameRecordRole is not null)
             {
+                GameRecordRole role = GameRecordRole;
                 this.Visibility = Visibility.Visible;
                 ErrorMessage = null;
-                await _gameRecordService.UpdateDeviceFpAsync();
                 if (IsBH3Enabled)
                 {
-                    BH3DailyNote = await _gameRecordService.GetBH3DailyNoteAsync(GameRecordRole, forceUpdate.Value);
+                    BH3DailyNote = await GetDailyNoteWithRetryAsync(role, () => _gameRecordBH3Service.GetBH3DailyNoteAsync(role, forceUpdate.Value));
                 }
                 if (IsGenshinEnabled)
                 {
-                    GenshinDailyNote = await _gameRecordService.GetGenshinDailyNoteAsync(GameRecordRole, forceUpdate.Value);
+                    GenshinDailyNote = await GetDailyNoteWithRetryAsync(role, () => _gameRecordGenshinService.GetGenshinDailyNoteAsync(role, forceUpdate.Value));
                 }
                 if (IsStarRailEnabled)
                 {
-                    StarRailDailyNote = await _gameRecordService.GetStarRailDailyNoteAsync(GameRecordRole, forceUpdate.Value);
+                    StarRailDailyNote = await GetDailyNoteWithRetryAsync(role, () => _gameRecordStarRailService.GetStarRailDailyNoteAsync(role, forceUpdate.Value));
                 }
                 if (IsZZZEnabled)
                 {
-                    ZZZDailyNote = await _gameRecordService.GetZZZDailyNoteAsync(GameRecordRole, forceUpdate.Value);
+                    ZZZDailyNote = await GetDailyNoteWithRetryAsync(role, () => _gameRecordZZZService.GetZZZDailyNoteAsync(role, forceUpdate.Value));
                 }
             }
         }
@@ -151,6 +158,29 @@ public sealed partial class DailyNoteButton : UserControl
         }
     }
 
+
+
+
+
+    /// <summary>
+    /// 获取每日便笺，登录失效时通过关联的通行证账号刷新 Cookie 后重试
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="role"></param>
+    /// <param name="getDailyNote"></param>
+    /// <returns></returns>
+    private async Task<T> GetDailyNoteWithRetryAsync<T>(GameRecordRole role, Func<Task<T>> getDailyNote)
+    {
+        try
+        {
+            return await getDailyNote();
+        }
+        catch (miHoYoApiException ex) when (ex.ReturnCode is -100 or 10001)
+        {
+            await _gameRecordRoleService.UpdateGameRoleAsync(role);
+            return await getDailyNote();
+        }
+    }
 
 
 

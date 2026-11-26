@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,8 +8,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.Hypergryph;
 using Starward.Features.GameLauncher;
-using Starward.Features.HoYoPlay;
-using Starward.Frameworks;
+using Starward.GameInstall;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -149,7 +148,7 @@ public sealed partial class ScreenshotPage : PageBase
                 }
             }
 
-            string? externalFolder = AppConfig.GetExternalScreenshotFolder(CurrentGameBiz);
+            string? externalFolder = AppConfig.GetExternalScreenshotFolder(CurrentGameId);
             if (!string.IsNullOrWhiteSpace(externalFolder))
             {
                 foreach (var item in externalFolder.Split(';'))
@@ -179,8 +178,7 @@ public sealed partial class ScreenshotPage : PageBase
                     {
                         continue;
                     }
-                    // todo 优化加载速度
-                    if (ScreenshotHelper.IsSupportedExtension(file) /*&& !File.GetAttributes(file).HasFlag((System.IO.FileAttributes)0x440000)*/)
+                    if (ScreenshotHelper.IsSupportedExtension(file))
                     {
                         var item = new ScreenshotItem(file);
                         screenshots.Add(item);
@@ -371,7 +369,7 @@ public sealed partial class ScreenshotPage : PageBase
             if (dialog.FolderChanged)
             {
                 string folder = string.Join(';', dialog.Folders.Where(x => x.CanRemove).Select(x => x.Folder));
-                AppConfig.SetExternalScreenshotFolder(CurrentGameBiz, folder);
+                AppConfig.SetExternalScreenshotFolder(CurrentGameId, folder);
                 Initialize();
                 UpdateSelectCountText();
             }

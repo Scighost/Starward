@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Starward.Core;
 using System;
 using System.Text;
@@ -269,7 +269,7 @@ internal static class GameSettingService
             if (string.IsNullOrWhiteSpace(value))
             {
                 value = $$"""
-                    {"FPS":{{fps}},"EnableVSync":false,"RenderScale":1.0,"ResolutionQuality":3,"ShadowQuality":3,"LightQuality":3,"CharacterQuality":3,"EnvDetailQuality":3,"ReflectionQuality":3,"SFXQuality":3,"BloomQuality":3,"AAMode":1,"EnableMetalFXSU":false,"EnableHalfResTransparent":false,"EnableSelfShadow":1,"DlssQuality":0}
+                    {"FPS":{{fps}}}
                     """;
             }
             value += "\0";

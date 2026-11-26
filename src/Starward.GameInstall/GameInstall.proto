@@ -1,0 +1,94 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "Starward.GameInstall";
+
+import "google/protobuf/wrappers.proto";
+
+package Starward.GameInstall;
+
+service GameInstaller {
+  rpc CreateContext (GameInstallRequestDTO) returns (GameInstallProgressDTO);
+  rpc GetProgress (EmptyMessage) returns (stream GameInstallProgressList);
+  rpc StartOrContinueTask (GameInstallRequestDTO) returns (GameInstallProgressDTO);
+  rpc PauseTask (GameInstallRequestDTO) returns (GameInstallProgressDTO);
+  rpc StopTask (GameInstallRequestDTO) returns (GameInstallProgressDTO);
+  rpc GetRateLimiter (EmptyMessage) returns (RateLimiterMessage);
+  rpc SetRateLimiter (RateLimiterMessage) returns (RateLimiterMessage);
+  rpc UninstallGame (UninstallGameRequestDTO) returns (UninstallGameResponse);
+}
+
+message EmptyMessage {}
+
+message GameIdDTO {
+  int32  region      = 1;
+  string launcher_id = 2;
+  int32  channel     = 3;
+  int32  sub_channel = 4;
+  bool   is_beta     = 5;
+  string game_biz    = 6;
+  string game_id     = 7;
+}
+
+message PassportUserInfoDTO {
+  int64  aid    = 1;
+  string mid    = 2;
+  string stoken = 3;
+}
+
+message GameInstallRequestDTO {
+  GameIdDTO                   game_id             = 1;
+  string                      install_path        = 2;
+  int32                       operation           = 3;
+  int32                       audio_language      = 4;
+  google.protobuf.StringValue category_scenario   = 5;
+  PassportUserInfoDTO         passport            = 6;
+  repeated string             cutscene_block_list = 7;
+  google.protobuf.StringValue hard_link_path      = 8;
+}
+
+message GameInstallProgressDTO {
+  GameIdDTO                   game_id           = 1;
+  string                      install_path      = 2;
+  int32                       operation         = 3;
+  int32                       audio_language    = 4;
+  google.protobuf.StringValue category_scenario = 5;
+
+  int64                       timestamp     = 6;
+  int32                       current_step  = 7;
+  int32                       total_step    = 8;
+  int32                       step          = 9;
+  int32                       state         = 10;
+  google.protobuf.StringValue error_message = 11;
+
+  int32  progress_display       = 12;
+  double percent_progress       = 13;
+  int64  network_total_bytes    = 14;
+  int64  network_finished_bytes = 15;
+  int64  storage_total_bytes    = 16;
+  int64  storage_finished_bytes = 17;
+  int64  hard_link_bytes        = 18;
+
+  int64 network_download_speed = 19;
+  int64 remain_time_seconds    = 20;
+}
+
+message GameInstallProgressList {
+  repeated GameInstallProgressDTO list = 1;
+}
+
+message RateLimiterMessage {
+  bool  enable           = 1;
+  int32 bytes_per_second = 2;
+}
+
+message UninstallGameRequestDTO {
+  GameIdDTO                   game_id                = 1;
+  string                      install_path           = 2;
+  google.protobuf.StringValue screenshot_path        = 3;
+  google.protobuf.StringValue screenshot_backup_path = 4;
+}
+
+message UninstallGameResponse {
+  bool                        success       = 1;
+  google.protobuf.StringValue error_message = 2;
+}

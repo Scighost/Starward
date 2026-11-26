@@ -1,15 +1,6 @@
-﻿using System;
+﻿using Starward.Core.HoYoPlay;
+using System;
 
 namespace Starward.Features.ViewHost;
 
-internal class MainViewNavigateMessage
-{
-
-    public Type Page { get; set; }
-
-    public MainViewNavigateMessage(Type page)
-    {
-        Page = page;
-    }
-
-}
+internal record class MainViewNavigateMessage(Type Page, GameId? GameId = null);

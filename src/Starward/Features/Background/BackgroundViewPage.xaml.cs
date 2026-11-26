@@ -1,8 +1,7 @@
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Concurrent;
@@ -84,7 +83,7 @@ public sealed partial class BackgroundViewPage : PageBase
             if (Directory.Exists(folder))
             {
                 string[] files = Directory.GetFiles(folder);
-                var result = files.Select(x => new BackgroundFileItem(x));
+                var result = files.Where(x => !x.EndsWith(".tmp")).Select(x => new BackgroundFileItem(x));
                 if (RadioMenuFlyoutItem_Filter_Image.IsChecked)
                 {
                     result = result.Where(x => !x.IsVideo);

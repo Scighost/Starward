@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.ZZZ.ShiyuDefense;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ public sealed partial class ShiyuDefensePage : PageBase
 
     private readonly ILogger<ShiyuDefensePage> _logger = AppConfig.GetLogger<ShiyuDefensePage>();
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordZZZService _gameRecordService = AppConfig.GetService<GameRecordZZZService>();
 
 
 
@@ -117,7 +116,7 @@ public sealed partial class ShiyuDefensePage : PageBase
         catch (miHoYoApiException ex)
         {
             _logger.LogError(ex, "Refresh shiyu defense data ({gameBiz}, {uid}).", gameRole?.GameBiz, gameRole?.Uid);
-            GameRecordPage.HandleMiHoYoApiException(ex);
+            InAppToast.MainWindow?.Warning(Lang.Common_AccountError, ex.Message);
         }
         catch (HttpRequestException ex)
         {

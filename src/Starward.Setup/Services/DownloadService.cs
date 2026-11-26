@@ -56,7 +56,7 @@ public class DownloadService
 
     public async Task<ReleaseInfoDetail> GetReleaseInfoAsync(bool preview = false, CancellationToken cancellation = default)
     {
-        return await RetryHelper.ExecuteAsync(async (token) => await _releaseClient.GetLatestReleaseInfoDetailAsync(preview, "setup", RuntimeInformation.OSArchitecture, InstallType.Setup, token), cancellation);
+        return await RetryHelper.ExecuteAsync(async (token) => await _releaseClient.GetLatestReleaseInfoDetailAsync(preview, "setup", RuntimeInformation.OSArchitecture, InstallType.Setup, token).ConfigureAwait(false), cancellation).ConfigureAwait(false);
     }
 
 
@@ -64,7 +64,7 @@ public class DownloadService
     {
         return await RetryHelper.ExecuteAsync(async (token) =>
         {
-            var info = await _releaseClient.GetReleaseInfoAsync(version, token);
+            var info = await _releaseClient.GetReleaseInfoAsync(version, token).ConfigureAwait(false);
             if (info.TryGetReleaseInfoDetail(RuntimeInformation.OSArchitecture, InstallType.Setup, out var detail))
             {
                 return detail;
@@ -73,14 +73,14 @@ public class DownloadService
             {
                 throw new PlatformNotSupportedException("No suitable release found for this platform.");
             }
-        }, cancellation);
+        }, cancellation).ConfigureAwait(false);
     }
 
 
 
     public async Task<ReleaseManifest> GetReleaseManifestAsync(string url, CancellationToken cancellation = default)
     {
-        return await RetryHelper.ExecuteAsync(async (token) => await _releaseClient.GetReleaseManifestAsync(url, token), cancellation);
+        return await RetryHelper.ExecuteAsync(async (token) => await _releaseClient.GetReleaseManifestAsync(url, token).ConfigureAwait(false), cancellation).ConfigureAwait(false);
     }
 
 

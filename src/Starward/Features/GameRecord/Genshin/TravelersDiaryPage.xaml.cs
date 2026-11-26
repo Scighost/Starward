@@ -8,7 +8,6 @@ using Starward.Controls;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.Genshin.TravelersDiary;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ public sealed partial class TravelersDiaryPage : PageBase
     private readonly ILogger<TravelersDiaryPage> _logger = AppConfig.GetLogger<TravelersDiaryPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordGenshinService _gameRecordService = AppConfig.GetService<GameRecordGenshinService>();
 
 
 

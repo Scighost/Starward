@@ -9,7 +9,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:report="using:Starward.Core.GameRecord.ZZZ.InterKnotReport"
              xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
+             xmlns:sf="using:Starward.Features"
              xmlns:sfg="using:Starward.Features.GameRecord"
              xmlns:sp="using:Starward.Pages"
              x:DefaultBindMode="OneWay"

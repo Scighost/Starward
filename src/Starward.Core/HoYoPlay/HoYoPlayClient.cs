@@ -1,11 +1,11 @@
+﻿using Starward.Core.Passport;
 using System.Net;
-using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Starward.Core.HoYoPlay;
 
-public class HoYoPlayClient
+public class HoYoPlayClient : IHoYoPlayClient
 {
 
     private readonly HttpClient _httpClient;
@@ -13,6 +13,8 @@ public class HoYoPlayClient
     public required LauncherConfig LauncherConfig { get; set; }
 
     public string Language { get; set => field = LanguageUtil.FilterLanguage(value); } = "en-us";
+
+    public PassportUserInfo? PassportUserInfo { get; set; }
 
 
     public HoYoPlayClient(HttpClient? httpClient = null)
@@ -24,9 +26,9 @@ public class HoYoPlayClient
 
     private async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync(url, cancellationToken);
+        var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -41,9 +43,9 @@ public class HoYoPlayClient
 
     private async Task<T> CommonGetAsync<T>(string url, string node, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync(url, cancellationToken);
+        var response = await _httpClient.GetAsync(url, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<JsonNode>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<JsonNode>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<JsonNode>), HoYoPlayJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<JsonNode>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -64,9 +66,9 @@ public class HoYoPlayClient
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, CancellationToken cancellationToken = default)
     {
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<T>), HoYoPlayJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -82,9 +84,9 @@ public class HoYoPlayClient
     private async Task<T> CommonSendAsync<T>(HttpRequestMessage request, string node, CancellationToken cancellationToken = default)
     {
         request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<JsonNode>), HoYoPlayJsonContext.Default, cancellationToken) as miHoYoApiWrapper<JsonNode>;
+        var responseData = await response.Content.ReadFromJsonAsync(typeof(miHoYoApiWrapper<JsonNode>), HoYoPlayJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<JsonNode>;
         if (responseData is null)
         {
             throw new miHoYoApiException(-1, "Can not parse the response body.");
@@ -105,11 +107,11 @@ public class HoYoPlayClient
 
     private string BuildHypUrl(string api, IEnumerable<GameId>? gameIds = null, bool channel = false)
     {
-        string url = LauncherConfig.Host switch
+        string url = LauncherConfig.Region switch
         {
-            "mihoyo" => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/{api}?launcher_id={LauncherConfig.Id}&language={Language}",
-            "hoyoverse" => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/{api}?launcher_id={LauncherConfig.Id}&language={Language}",
-            _ => throw new ArgumentOutOfRangeException(nameof(LauncherConfig.Host), "Unknown host."),
+            ServerRegion.miHoYo => $"https://hyp-api.mihoyo.com/hyp/hyp-connect/api/{api}?launcher_id={LauncherConfig.Id}&language={Language}",
+            ServerRegion.HoYoverse => $"https://sg-hyp-api.hoyoverse.com/hyp/hyp-connect/api/{api}?launcher_id={LauncherConfig.Id}&language={Language}",
+            _ => throw new NotSupportedException($"Server region '{LauncherConfig.Region}' is not supported."),
         };
         if (gameIds is not null)
         {
@@ -126,13 +128,13 @@ public class HoYoPlayClient
     }
 
 
-    private static string BuildSophonUrl(string api, string host)
+    private string BuildSophonUrl(string api)
     {
-        return host switch
+        return LauncherConfig.Region switch
         {
-            "mihoyo" => $"https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/{api}?",
-            "hoyoverse" => $"https://sg-downloader-api.hoyoverse.com/downloader/sophon_chunk/api/{api}?",
-            _ => throw new ArgumentOutOfRangeException(nameof(host), host, "Unknown host."),
+            ServerRegion.miHoYo => $"https://downloader-api.mihoyo.com/downloader/sophon_chunk/api/{api}?",
+            ServerRegion.HoYoverse => $"https://sg-downloader-api.hoyoverse.com/downloader/sophon_chunk/api/{api}?",
+            _ => throw new NotSupportedException($"Server region '{LauncherConfig.Region}' is not supported."),
         };
     }
 
@@ -141,212 +143,190 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏信息（包括游戏 ID、名称、图标、背景图等）
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameInfo>> GetGameInfoAsync(CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGames");
-        return await CommonGetAsync<List<GameInfo>>(url, "games", cancellationToken);
+        return await CommonGetAsync<List<GameInfo>>(url, "games", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 版本背景图和版本亮点
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameBackgroundInfo>> GetGameBackgroundAsync(CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getAllGameBasicInfo");
-        return await CommonGetAsync<List<GameBackgroundInfo>>(url, "game_info_list", cancellationToken);
+        return await CommonGetAsync<List<GameBackgroundInfo>>(url, "game_info_list", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 轮播图、资讯、媒体标签
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameId"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<GameContent> GetGameContentAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameContent") + $"&game_id={gameId.Id}";
-        return await CommonGetAsync<GameContent>(url, "content", cancellationToken);
+        return await CommonGetAsync<GameContent>(url, "content", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 游戏安装包
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GamePackage>> GetGamePackageAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGamePackages", gameIds);
-        return await CommonGetAsync<List<GamePackage>>(url, "game_packages", cancellationToken);
+        return await CommonGetAsync<List<GamePackage>>(url, "game_packages", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 渠道服 SDK
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameChannelSDK>> GetGameChannelSDKAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameChannelSDKs", gameIds, true);
-        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken);
+        return await CommonGetAsync<List<GameChannelSDK>>(url, "game_channel_sdks", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 需要删除的文件
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     public async Task<List<GameDeprecatedFileConfig>> GetGameDeprecatedFileConfigAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameDeprecatedFileConfigs", gameIds, true);
-        return await CommonGetAsync<List<GameDeprecatedFileConfig>>(url, "deprecated_file_configs", cancellationToken);
+        return await CommonGetAsync<List<GameDeprecatedFileConfig>>(url, "deprecated_file_configs", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 游戏配置
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameConfig>> GetGameConfigAsync(IEnumerable<GameId>? gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameConfig>> GetGameConfigAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameConfigs", gameIds);
-        return await CommonGetAsync<List<GameConfig>>(url, "launch_configs", cancellationToken);
+        return await CommonGetAsync<List<GameConfig>>(url, "launch_configs", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 获取游戏扫描信息，不同版本exe的md5
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameScanInfo>> GetGameScanInfosAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameScanInfo", gameIds);
-        return await CommonGetAsync<List<GameScanInfo>>(url, "game_scan_info", cancellationToken);
+        return await CommonGetAsync<List<GameScanInfo>>(url, "game_scan_info", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// Chunk 下载模式的正式和预下载分支
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameBranch>> GetGameBranchAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GameBranch>> GetGameBranchAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGameBranches", gameIds);
-        return await CommonGetAsync<List<GameBranch>>(url, "game_branches", cancellationToken);
+        return await CommonGetAsync<List<GameBranch>>(url, "game_branches", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// Chunk 下载模式文件清单
     /// </summary>
-    /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
     /// <param name="version"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameSophonChunkBuild> GetGameSophonChunkBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, string? version = null, CancellationToken cancellationToken = default)
+    public async Task<GameSophonChunkBuild> GetGameSophonChunkBuildAsync(GameBranchPackage gameBranchPackage, string? version = null, CancellationToken cancellationToken = default)
     {
-        string host = gameBranch.GameId.GameBiz.IsChinaServer() ? "mihoyo" : "hoyoverse";
-        string url = BuildSophonUrl("getBuild", host) + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
+        string url = BuildSophonUrl("getBuild") + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         if (version is not null)
         {
             url += $"&tag={version}";
         }
-        return await CommonGetAsync<GameSophonChunkBuild>(url, cancellationToken);
+        return await CommonGetAsync<GameSophonChunkBuild>(url, cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// Chunk 下载模式的增量更新补丁文件清单
     /// </summary>
-    /// <param name="gameBranch"></param>
     /// <param name="gameBranchPackage"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-    public async Task<GameSophonPatchBuild> GetGameSophonPatchBuildAsync(GameBranch gameBranch, GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
+    public async Task<GameSophonPatchBuild> GetGameSophonPatchBuildAsync(GameBranchPackage gameBranchPackage, CancellationToken cancellationToken = default)
     {
-        string host = gameBranch.GameId.GameBiz.IsChinaServer() ? "mihoyo" : "hoyoverse";
-        string url = BuildSophonUrl("getPatchBuild", host) + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
+        string url = BuildSophonUrl("getPatchBuild") + $"branch={gameBranchPackage.Branch}&package_id={gameBranchPackage.PackageId}&password={gameBranchPackage.Password}";
         var request = new HttpRequestMessage(HttpMethod.Post, url);
-        return await CommonSendAsync<GameSophonPatchBuild>(request, cancellationToken);
+        return await CommonSendAsync<GameSophonPatchBuild>(request, cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// WPF Package
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<WPFPackageInfo>> GetWPFPackagesAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getWPFPackages", gameIds);
-        return await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken);
+        return await CommonGetAsync<List<WPFPackageInfo>>(url, "wpf_packages", cancellationToken).ConfigureAwait(false);
     }
 
 
     /// <summary>
     /// 获取 DirectX 配置
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
-    /// <param name="gameIds"></param>
     /// <param name="gpuInfos"></param>
+    /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GameDXConfig>> GetDXConfigsAsync(IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default)
+    public async Task<List<GameDXConfig>> GetDXConfigsAsync(IEnumerable<GPUInfo> gpuInfos, IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
+        Version os = Environment.OSVersion.Version;
         string url = BuildHypUrl("getDXConfigs");
         var request = new HttpRequestMessage(HttpMethod.Post, url)
         {
             Content = JsonContent.Create(new GetDXConfigsRequest
             {
                 LauncherId = LauncherConfig.Id,
-                GameIds = gameIds.Select(x => x.Id).ToList(),
+                GameIds = gameIds?.Select(x => x.Id).ToList(),
                 Language = LanguageUtil.FilterLanguage(Language),
                 GPUInfo = gpuInfos.ToList(),
+                OSMajorVersion = os.Major.ToString(),
+                OSMinorVersion = os.Minor.ToString(),
+                OSBuildNumber = os.Build.ToString(),
             }, HoYoPlayJsonContext.Default.GetDXConfigsRequest)
         };
-        GetDXConfigsResponse response = await CommonSendAsync<GetDXConfigsResponse>(request, cancellationToken);
+        GetDXConfigsResponse response = await CommonSendAsync<GetDXConfigsResponse>(request, cancellationToken).ConfigureAwait(false);
         return response.DXConfigs;
     }
 
@@ -354,15 +334,13 @@ public class HoYoPlayClient
     /// <summary>
     /// 游戏插件
     /// </summary>
-    /// <param name="launcherId"></param>
-    /// <param name="language"></param>
     /// <param name="gameIds"></param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    public async Task<List<GamePluginRelease>> GetGamePluginsAsync(IEnumerable<GameId> gameIds, CancellationToken cancellationToken = default)
+    public async Task<List<GamePluginRelease>> GetGamePluginsAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         string url = BuildHypUrl("getGamePlugins", gameIds);
-        return await CommonGetAsync<List<GamePluginRelease>>(url, "plugin_releases", cancellationToken);
+        return await CommonGetAsync<List<GamePluginRelease>>(url, "plugin_releases", cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -374,63 +352,9 @@ public class HoYoPlayClient
     /// <returns></returns>
     public async Task<GameReservationContent> GetGameReservationContentAsync(GameId gameId, CancellationToken cancellation = default)
     {
-        string url = BuildHypUrl("getGameReservationContent") + $"game_id={gameId.Id}";
-        return await CommonGetAsync<GameReservationContent>(url, cancellation);
+        string url = BuildHypUrl("getGameReservationContent") + $"&game_id={gameId.Id}";
+        return await CommonGetAsync<GameReservationContent>(url, cancellation).ConfigureAwait(false);
     }
-
-
-    private HoYoPlayClient CreateConfiguredClient(string launcherId, string language)
-    {
-        return new HoYoPlayClient(_httpClient)
-        {
-            LauncherConfig = global::Starward.Core.HoYoPlay.LauncherConfig.FromLauncherId(launcherId),
-            Language = language,
-        };
-    }
-    // Compatibility overloads for the launcher/install services that still pass
-    // launcher and language explicitly. LauncherConfig and Language are now
-    // owned by this client instance.
-    public Task<List<GameInfo>> GetGameInfoAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameInfoAsync(cancellationToken);
-
-    public Task<List<GameBackgroundInfo>> GetGameBackgroundAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameBackgroundAsync(cancellationToken);
-
-    public Task<GameContent> GetGameContentAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameContentAsync(gameId, cancellationToken);
-
-    public Task<List<GamePackage>> GetGamePackageAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGamePackageAsync(null, cancellationToken);
-
-    public async Task<GamePackage?> GetGamePackageAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetGamePackageAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public Task<List<GameConfig>> GetGameConfigAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameConfigAsync(null, cancellationToken);
-
-    public async Task<GameConfig?> GetGameConfigAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetGameConfigAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public Task<List<GameBranch>> GetGameBranchAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameBranchAsync([], cancellationToken);
-
-    public async Task<GameBranch?> GetGameBranchAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetGameBranchAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public Task<List<GameChannelSDK>> GetGameChannelSDKAsync(string launcherId, string language, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetGameChannelSDKAsync(null, cancellationToken);
-
-    public async Task<GameChannelSDK?> GetGameChannelSDKAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetGameChannelSDKAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public async Task<GameDeprecatedFileConfig?> GetGameDeprecatedFileConfigAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetGameDeprecatedFileConfigAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public async Task<WPFPackageInfo?> GetWPFPackageAsync(string launcherId, string language, GameId gameId, CancellationToken cancellationToken = default) =>
-        (await CreateConfiguredClient(launcherId, language).GetWPFPackagesAsync([gameId], cancellationToken)).FirstOrDefault(x => x.GameId == gameId);
-
-    public Task<List<GameDXConfig>> GetDXConfigsAsync(string launcherId, string language, IEnumerable<GameId> gameIds, IEnumerable<GPUInfo> gpuInfos, CancellationToken cancellationToken = default) =>
-        CreateConfiguredClient(launcherId, language).GetDXConfigsAsync(gameIds, gpuInfos, cancellationToken);
 
 
 }

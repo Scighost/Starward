@@ -1,10 +1,9 @@
 #:property BuiltInComInteropSupport = true
-#:package Microsoft.Extensions.Configuration.Binder@10.0.8
-#:package Microsoft.Extensions.Configuration.CommandLine@10.0.8
-#:package Polly@8.6.6
-#:package SharpSevenZip@2.0.47
-#:package System.IO.Hashing@10.0.8
-#:package ZstdSharp.Port@0.8.8
+#:package Microsoft.Extensions.Configuration.Binder@11.0.0
+#:package Microsoft.Extensions.Configuration.CommandLine@11.0.0
+#:package Polly@8.9.1
+#:package SharpSevenZip@2.0.130
+#:package System.IO.Hashing@11.0.0
 #:project src/Starward.Setup.Core/Starward.Setup.Core.csproj
 
 using Microsoft.Extensions.Configuration;
@@ -439,8 +438,15 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
             xxhash = Convert.ToHexStringLower(XxHash3.Hash(bytes));
             id = $"{xxhash}_{sha256}";
             idPath = Path.Join("publish/release/file/", id);
-            using var zstd = new ZstdSharp.Compressor(17);
-            byte[] zstdBytes = zstd.Wrap(await File.ReadAllBytesAsync(file)).ToArray();
+            byte[] zstdBytes;
+            using (var ms = new MemoryStream())
+            {
+                using (var zstd = new ZstandardStream(ms, new ZstandardCompressionOptions { Quality = 17 }, leaveOpen: true))
+                {
+                    await zstd.WriteAsync(bytes);
+                }
+                zstdBytes = ms.ToArray();
+            }
             try
             {
                 await File.WriteAllBytesAsync(idPath, zstdBytes);
@@ -985,7 +991,7 @@ public class BuildClient
             using HttpResponseMessage response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token);
             response.EnsureSuccessStatusCode();
             using var hs = await response.Content.ReadAsStreamAsync(token);
-            using var zstd = new ZstdSharp.DecompressionStream(hs);
+            using var zstd = new ZstandardStream(hs, System.IO.Compression.CompressionMode.Decompress);
             await zstd.CopyToAsync(fs, token);
             fs.SetLength(fs.Position);
             fs.Position = 0;

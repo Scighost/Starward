@@ -43,8 +43,8 @@ public class InstallService : DownloadService
         }
         else if (ReleaseInfo is null || ReleaseManifest is null)
         {
-            ReleaseInfo = await GetReleaseInfoAsync(false, cancellation);
-            ReleaseManifest = await GetReleaseManifestAsync(ReleaseInfo.ManifestUrl, cancellation);
+            ReleaseInfo = await GetReleaseInfoAsync(false, cancellation).ConfigureAwait(false);
+            ReleaseManifest = await GetReleaseManifestAsync(ReleaseInfo.ManifestUrl, cancellation).ConfigureAwait(false);
             TotalSize = ReleaseManifest.Size + new FileInfo(Environment.ProcessPath!).Length;
             AppVersion = ReleaseManifest.Version;
         }
@@ -58,7 +58,7 @@ public class InstallService : DownloadService
         try
         {
             RecreateHttpClient();
-            await PrepareManifestAsync(cancellation);
+            await PrepareManifestAsync(cancellation).ConfigureAwait(false);
 
             TotalBytes = ReleaseManifest.Size;
             DownloadBytes = 0;
@@ -72,7 +72,7 @@ public class InstallService : DownloadService
 
             await Parallel.ForEachAsync(ReleaseManifest.Files, cancellation, async (releaseFile, token) =>
             {
-                await RetryHelper.ExecuteAsync(async (ct) => await DownloadManifestFileAsync(installFolder, releaseFile, ct).ConfigureAwait(false), token);
+                await RetryHelper.ExecuteAsync(async (ct) => await DownloadManifestFileAsync(installFolder, releaseFile, ct).ConfigureAwait(false), token).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
             CopySetupFile(installFolder);
@@ -138,7 +138,7 @@ public class InstallService : DownloadService
         }
 
         using var archive = SevenZipArchive.OpenArchive(stream, new ReaderOptions { Progress = progress });
-        await Task.Run(() => archive.WriteToDirectory(installFolder), cancellation);
+        await Task.Run(() => archive.WriteToDirectory(installFolder), cancellation).ConfigureAwait(false);
 
         RegistryHelper.WriteUninstallInfo(installFolder, AppVersion, TotalSize);
         RegistryHelper.WriteUrlProtocol(installFolder);

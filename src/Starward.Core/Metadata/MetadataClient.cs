@@ -1,7 +1,6 @@
-using Starward.Core.Metadata.Github;
+﻿using Starward.Core.Metadata.Github;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 
@@ -52,7 +51,7 @@ public class MetadataClient
 
     private async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default) where T : class
     {
-        var res = await _httpClient.GetFromJsonAsync(url, typeof(T), MetadataJsonContext.Default, cancellationToken) as T;
+        var res = await _httpClient.GetFromJsonAsync(url, typeof(T), MetadataJsonContext.Default, cancellationToken).ConfigureAwait(false) as T;
         if (res == null)
         {
             throw new NullReferenceException("");
@@ -88,7 +87,7 @@ public class MetadataClient
             _ => throw new PlatformNotSupportedException($"{architecture} is not supported."),
         };
         var url = GetUrl(name);
-        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken);
+        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -107,7 +106,7 @@ public class MetadataClient
             _ => throw new PlatformNotSupportedException($"{architecture} is not supported."),
         };
         var url = GetUrl(name);
-        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken);
+        return await CommonGetAsync<ReleaseVersion>(url, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -120,7 +119,7 @@ public class MetadataClient
     public async Task<GithubRelease?> GetGithubLatestReleaseAsync(CancellationToken cancellationToken = default)
     {
         const string url = "https://api.github.com/repos/Scighost/Starward/releases?page=1&per_page=1";
-        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken);
+        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken).ConfigureAwait(false);
         return list?.FirstOrDefault();
     }
 
@@ -129,7 +128,7 @@ public class MetadataClient
     public async Task<List<GithubRelease>> GetGithubReleaseAsync(int page, int perPage, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases?page={page}&per_page={perPage}";
-        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken);
+        var list = await CommonGetAsync<List<GithubRelease>>(url, cancellationToken).ConfigureAwait(false);
         return list ?? new List<GithubRelease>();
     }
 
@@ -138,7 +137,7 @@ public class MetadataClient
     public async Task<GithubRelease?> GetGithubReleaseAsync(string tag, CancellationToken cancellationToken = default)
     {
         string url = $"https://api.github.com/repos/Scighost/Starward/releases/tags/{tag}";
-        return await CommonGetAsync<GithubRelease>(url, cancellationToken);
+        return await CommonGetAsync<GithubRelease>(url, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -152,9 +151,9 @@ public class MetadataClient
             Context = "Scighost/Starward",
         };
         var content = new StringContent(JsonSerializer.Serialize(request, typeof(GithubMarkdownRequest), MetadataJsonContext.Default), new MediaTypeHeaderValue("application/json"));
-        var response = await _httpClient.PostAsync(url, content, cancellationToken);
+        var response = await _httpClient.PostAsync(url, content, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync(cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
 

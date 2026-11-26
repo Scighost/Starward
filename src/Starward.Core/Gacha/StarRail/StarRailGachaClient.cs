@@ -75,11 +75,11 @@ public class StarRailGachaClient : GachaLogClient
         {
             if (gachaType.Value is StarRailGachaType.CharacterCollaborationWarp or StarRailGachaType.LightConeCollaborationWarp)
             {
-                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix.Replace("/getGachaLog", "/getLdGachaLog"), gachaType, endId, progress, cancellationToken));
+                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix.Replace("/getGachaLog", "/getLdGachaLog"), gachaType, endId, progress, cancellationToken).ConfigureAwait(false));
             }
             else
             {
-                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix, gachaType, endId, progress, cancellationToken));
+                result.AddRange(await GetGachaLogByTypeAsync<StarRailGachaItem>(prefix, gachaType, endId, progress, cancellationToken).ConfigureAwait(false));
             }
         }
         return result;
@@ -89,7 +89,7 @@ public class StarRailGachaClient : GachaLogClient
 
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, IGachaType gachaType, long endId = 0, string? lang = null, IProgress<(IGachaType GachaType, int Page)>? progress = null, CancellationToken cancellationToken = default)
     {
-        return await GetGachaLogAsync<StarRailGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken);
+        return await GetGachaLogAsync<StarRailGachaItem>(gachaUrl, gachaType, endId, lang, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -97,7 +97,7 @@ public class StarRailGachaClient : GachaLogClient
     public override async Task<IEnumerable<GachaLogItem>> GetGachaLogAsync(string gachaUrl, GachaLogQuery query, CancellationToken cancellationToken = default)
     {
         var prefix = GetGachaUrlPrefix(gachaUrl);
-        return await GetGachaLogByQueryAsync<StarRailGachaItem>(prefix, query, cancellationToken);
+        return await GetGachaLogByQueryAsync<StarRailGachaItem>(prefix, query, cancellationToken).ConfigureAwait(false);
     }
 
 

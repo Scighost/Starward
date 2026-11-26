@@ -6,7 +6,7 @@ on:
       tag:
         description: Pre-release tag
         required: true
-        default: v0.18.0-endfield-pre.1
+        default: v0.19.2-endfield-pre.1
 
 permissions:
   contents: write
@@ -21,6 +21,7 @@ jobs:
     env:
       Configuration: Release
       Platform: ${{ matrix.platform }}
+      ReleaseTag: ${{ inputs.tag }}
 
     steps:
     - name: Checkout
@@ -39,9 +40,10 @@ jobs:
       run: |
         New-Item -Path "build/Starward/" -Type Directory
         msbuild src/Starward.Launcher "-property:Configuration=$env:Configuration;Platform=$env:Platform;OutDir=$(Resolve-Path "build/Starward/")"
-        dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-${{ inputs.tag }}" -p:Platform=$env:Platform -p:Version="0.0.1-${{ inputs.tag }}" -p:DefineConstants=DONOT_CHECK_UPDATE
-        Set-Content "build/Starward/version.ini" -Value "version=${{ inputs.tag }}"
-        Compress-Archive -Path "build/Starward/*" -DestinationPath "Starward_${{ matrix.platform }}_${{ inputs.tag }}.zip"
+        $version = $env:ReleaseTag -replace "^v", ""
+        dotnet publish src/Starward -c $env:Configuration -r "win-$env:Platform" -o "build/Starward/app-$env:ReleaseTag" -p:Platform=$env:Platform -p:Version="$version" -p:DefineConstants=DONOT_CHECK_UPDATE
+        Set-Content "build/Starward/version.ini" -Value "version=$env:ReleaseTag"
+        Compress-Archive -Path "build/Starward/*" -DestinationPath "Starward_${env:Platform}_${env:ReleaseTag}.zip"
 
     - name: Upload package
       uses: actions/upload-artifact@v7

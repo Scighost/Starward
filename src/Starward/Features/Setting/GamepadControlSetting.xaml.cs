@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Features.GamepadControl;
-using Starward.Frameworks;
 
 
 namespace Starward.Features.Setting;

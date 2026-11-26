@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -320,7 +320,7 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
     <value>Sincronizza da Miyoushe (Sperimentale)</value>
   </data>
   <data name="GachaLogPage_SyncFromMiyousheAll" xml:space="preserve">
-    <value>Sync All from Miyoushe (Experimental)</value>
+    <value>Sincronizza tutto da Miyoushe (Sperimentale)</value>
   </data>
   <data name="GachaLogPage_InputURL" xml:space="preserve">
     <value>Ingresso URL</value>
@@ -731,7 +731,7 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
     <value>Pagina iniziale</value>
   </data>
   <data name="SettingPage_ReportIssue" xml:space="preserve">
-    <value>Report Issue</value>
+    <value>Segnala problema</value>
   </data>
   <data name="SettingPage_ReleaseHistroy" xml:space="preserve">
     <value>Cronologia Rilasci</value>
@@ -847,54 +847,54 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
     <value>Copia Cookie</value>
   </data>
   <data name="HoyolabToolboxPage_DeleteGameRole" xml:space="preserve">
-    <value>Delete Game Role</value>
+    <value>Elimina ruolo di gioco</value>
   </data>
   <data name="HoyolabToolboxPage_SpiralAbyss" xml:space="preserve">
-    <value>Spiral Abyss</value>
+    <value>Abisso a spirale</value>
   </data>
   <data name="HoyolabToolboxPage_TravelersDiary" xml:space="preserve">
-    <value>Traveler's Diary</value>
+    <value>Diario del Viaggiatore</value>
   </data>
   <data name="HoyolabToolboxPage_SimulatedUniverse" xml:space="preserve">
-    <value>Simulated Universe</value>
+    <value>Universo Simulato</value>
   </data>
   <data name="HoyolabToolboxPage_ForgottenHall" xml:space="preserve">
-    <value>Forgotten Hall</value>
+    <value>Sala dell'Oblio</value>
   </data>
   <data name="HoyolabToolboxPage_TrailblazeMonthlyCalendar" xml:space="preserve">
-    <value>Trailblaze Monthly Calendar</value>
+    <value>Calendario mensile del Trailblaze</value>
   </data>
   <data name="LoginPage_ClickThisButtonAfterLoggingIn" xml:space="preserve">
-    <value>Click this button after logging in.</value>
+    <value>Fai clic su questo pulsante dopo aver effettuato l'accesso.</value>
   </data>
   <data name="LoginPage_AlreadyAddedGameRoles" xml:space="preserve">
-    <value>Already added {0} game roles:
+    <value>Hai già aggiunto {0} ruoli di gioco:
 {1}</value>
   </data>
   <data name="Common_Summary" xml:space="preserve">
-    <value>Summary</value>
+    <value>Riepilogo</value>
   </data>
   <data name="SpiralAbyssPage_Picked" xml:space="preserve">
-    <value>Picked</value>
+    <value>Schierato</value>
     <comment>avatar battle count stats</comment>
   </data>
   <data name="SpiralAbyssPage_CombatStats" xml:space="preserve">
-    <value>Combat Stats</value>
+    <value>Statistiche di combattimento</value>
   </data>
   <data name="SpiralAbyssPage_MostDefeats" xml:space="preserve">
     <value>Più Sconfitte</value>
   </data>
   <data name="SpiralAbyssPage_StrongestSingleStrike" xml:space="preserve">
-    <value>Strongest Single Strike</value>
+    <value>Colpo singolo più potente</value>
   </data>
   <data name="SpiralAbyssPage_MostDamageTaken" xml:space="preserve">
-    <value>Most Damage Taken</value>
+    <value>Maggior danno subito</value>
   </data>
   <data name="SpiralAbyssPage_ElementalSkillsUnleashed" xml:space="preserve">
-    <value>Elemental Skills Unleashed</value>
+    <value>Abilità elementali usate</value>
   </data>
   <data name="SpiralAbyssPage_ElementalBrustsUnleashed" xml:space="preserve">
-    <value>Elemental Brusts Unleashed</value>
+    <value>Tripudi elementali usati</value>
   </data>
   <data name="TravelersDiaryPage_GetDetails" xml:space="preserve">
     <value>Dettagli</value>
@@ -910,104 +910,104 @@ la chiusura del programma durante la decompressione causerà la corruzione dei f
     <value>Acquisito questo mese</value>
   </data>
   <data name="TravelersDiaryPage_AcquiredThisDay" xml:space="preserve">
-    <value>Acquired this day</value>
+    <value>Ottenuto oggi</value>
   </data>
   <data name="TravelersDiaryPage_PrimogemsObtained" xml:space="preserve">
-    <value>Primogems obtained</value>
+    <value>Primogems ottenuti</value>
   </data>
   <data name="SpiralAbyssPage_DeepestDescent" xml:space="preserve">
-    <value>Deepest Descent</value>
+    <value>Discesa più profonda</value>
   </data>
   <data name="SpiralAbyssPage_BattlesFought" xml:space="preserve">
-    <value>Battles Fought</value>
+    <value>Battaglie combattute</value>
   </data>
   <data name="SpiralAbyssPage_Times" xml:space="preserve">
-    <value>times</value>
+    <value>volte</value>
     <comment>battle count 12 times</comment>
   </data>
   <data name="Common_Accept" xml:space="preserve">
-    <value>Accept</value>
+    <value>Accetta</value>
   </data>
   <data name="Common_Reject" xml:space="preserve">
-    <value>Reject</value>
+    <value>Rifiuta</value>
   </data>
   <data name="HoyolabToolboxPage_WarningAgain" xml:space="preserve">
-    <value>Warning Again</value>
+    <value>Avvisa di nuovo</value>
   </data>
   <data name="Common_Disclaimer" xml:space="preserve">
-    <value>Disclaimer</value>
+    <value>Dichiarazione di non responsabilità</value>
   </data>
   <data name="HoyolabToolboxPage_DisclaimerContent" xml:space="preserve">
-    <value>The features of this page requires you to log in to your Hyperion/HoYoLAB account, and Starward will save your login credentials (Cookie) and impersonate you to send requests to miHoYo's server. This method is risky and we are not responsible if your account is abnormal or banned as a result.
+    <value>Le funzioni di questa pagina richiedono di accedere al tuo account Hyperion/HoYoLAB. Starward salverà le tue credenziali di accesso (Cookie) e invierà richieste ai server di miHoYo fingendo di essere te. Questo metodo è rischioso e non ci assumiamo alcuna responsabilità se il tuo account dovesse risultare anomalo o venire bannato.
 
-Do you accept the risk and continue to use it?</value>
+Accetti il rischio e desideri continuare a usarlo?</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJadeSources" xml:space="preserve">
-    <value>Stellar Jade Sources</value>
+    <value>Fonti di Giada Stellare</value>
   </data>
   <data name="ForgottenHallPage_Period" xml:space="preserve">
-    <value>Period</value>
+    <value>Periodo</value>
   </data>
   <data name="ForgottenHallPage_CyclesUsed" xml:space="preserve">
-    <value>Cycles used:</value>
+    <value>Cicli utilizzati:</value>
   </data>
   <data name="ForgottenHallPage_TeamSetup" xml:space="preserve">
-    <value>Team Setup</value>
+    <value>Formazione della squadra</value>
     <comment>example: forgotten hall team setup 1</comment>
   </data>
   <data name="Common_AccountError" xml:space="preserve">
-    <value>Account Error</value>
+    <value>Errore account</value>
   </data>
   <data name="Common_NetworkError" xml:space="preserve">
-    <value>Network Error</value>
+    <value>Errore di rete</value>
   </data>
   <data name="HoyolabToolboxPage_VerifyAccount" xml:space="preserve">
-    <value>Verify Account</value>
+    <value>Verifica account</value>
   </data>
   <data name="DownloadGameService_RepairMode" xml:space="preserve">
-    <value>Repair Mode</value>
+    <value>Modalità riparazione</value>
   </data>
   <data name="DownloadGameDialog_ItTakesAdditionalDiskSpaceWhenUnzip" xml:space="preserve">
-    <value>It takes additional storage space when unzip.</value>
+    <value>Richiede spazio di archiviazione aggiuntivo durante l'estrazione.</value>
   </data>
   <data name="SimulatedUniversePage_AbilityTreeBuffsActivated" xml:space="preserve">
-    <value>Ability Tree Buffs Activated</value>
+    <value>Buff dell'Albero delle abilità attivati</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedCurios" xml:space="preserve">
-    <value>Unlocked Curios</value>
+    <value>Curiosità sbloccate</value>
   </data>
   <data name="SimulatedUniversePage_UnlockedBlessings" xml:space="preserve">
-    <value>Unlocked Blessings</value>
+    <value>Benedizioni sbloccate</value>
   </data>
   <data name="SimulatedUniversePage_NumberOfClears" xml:space="preserve">
-    <value>Number of Clears</value>
+    <value>Numero di completamenti</value>
   </data>
   <data name="SimulatedUniversePage_HighestScore" xml:space="preserve">
-    <value>Highest Score</value>
+    <value>Punteggio più alto</value>
   </data>
   <data name="SimulatedUniversePage_ChallengedOn" xml:space="preserve">
-    <value>Challenged On</value>
+    <value>Sfidato il</value>
   </data>
   <data name="SimulatedUniversePage_CharactersUsed" xml:space="preserve">
-    <value>Characters Used</value>
+    <value>Personaggi usati</value>
   </data>
   <data name="SimulatedUniversePage_CachedCharacters" xml:space="preserve">
-    <value>Cached Characters</value>
+    <value>Personaggi memorizzati</value>
   </data>
   <data name="SimulatedUniversePage_CuriosObtained" xml:space="preserve">
-    <value>Curios Obtained</value>
+    <value>Curiosità ottenute</value>
   </data>
   <data name="SimulatedUniversePage_BlessingsObtained" xml:space="preserve">
-    <value>Blessings Obtained</value>
+    <value>Benedizioni ottenute</value>
   </data>
   <data name="HoyolabToolboxPage_DailyData" xml:space="preserve">
-    <value>Daily Data</value>
+    <value>Dati giornalieri</value>
   </data>
   <data name="TrailblazeCalendarPage_StellarJade" xml:space="preserve">
-    <value>Stellar Jade</value>
+    <value>Giada Stellare</value>
   </data>
   <data name="TrailblazeCalendarPage_PassAndSpecialPass" xml:space="preserve">
-    <value>Pass &amp; Special Pass</value>
+    <value>Pass e Pass speciale</value>
   </data>
   <data name="TravelersDiaryPage_Primogems" xml:space="preserve">
     <value>Primogems</value>
@@ -1016,55 +1016,55 @@ Do you accept the risk and continue to use it?</value>
     <value>Mora</value>
   </data>
   <data name="SpiralAbyssPage_FloorX" xml:space="preserve">
-    <value>Floor {X}</value>
+    <value>Piano {X}</value>
     <comment>Spiral Abyss Floor {X}</comment>
   </data>
   <data name="SpiralAbyssPage_ChamberX" xml:space="preserve">
-    <value>Chamber {X}</value>
+    <value>Camera {X}</value>
     <comment>Spiral Abyss Chamber {X}</comment>
   </data>
   <data name="ScreenshotPage_ScreenshotFolderDoesNotExist" xml:space="preserve">
-    <value>Screenshot folder does not exist</value>
+    <value>La cartella degli screenshot non esiste</value>
   </data>
   <data name="GachaLogPage_0GachaItemsHaveBeenChangedToLanguage1" xml:space="preserve">
-    <value>The language of {0} gacha records has been changed to ({1}).</value>
+    <value>La lingua di {0} record gacha è stata cambiata in ({1}).</value>
     <comment>The language of 123 gacha records has been changed to (en-us).</comment>
   </data>
   <data name="SettingPage_PrivacyPolicy" xml:space="preserve">
-    <value>Privacy Policy</value>
+    <value>Informativa sulla privacy</value>
   </data>
   <data name="MainPage_Tips" xml:space="preserve">
-    <value>Tips</value>
+    <value>Suggerimenti</value>
   </data>
   <data name="SettingPage_CDNTips" xml:space="preserve">
-    <value>Users in some areas may encounter network anomalies. You could solve this problem by switching CDNs.</value>
+    <value>Gli utenti di alcune aree potrebbero riscontrare anomalie di rete. Puoi risolvere il problema cambiando CDN.</value>
   </data>
   <data name="SelectGamePage_SelectGameServer" xml:space="preserve">
-    <value>Select Server</value>
+    <value>Seleziona server</value>
   </data>
   <data name="SettingPage_EnableSystemTrayIcon" xml:space="preserve">
-    <value>System Tray Icon</value>
+    <value>Icona nell'area di notifica</value>
   </data>
   <data name="SettingPage_ExitLauncherWhenClosingWindow" xml:space="preserve">
-    <value>Exit Launcher When Closing Window</value>
+    <value>Esci dal launcher alla chiusura della finestra</value>
   </data>
   <data name="Common_Exit" xml:space="preserve">
-    <value>Exit</value>
+    <value>Esci</value>
   </data>
   <data name="SettingPage_SystemTray" xml:space="preserve">
-    <value>System Tray</value>
+    <value>Area di notifica</value>
   </data>
   <data name="InstallGameSystemTrayPage_Installer" xml:space="preserve">
-    <value>Installer</value>
+    <value>Programma di installazione</value>
   </data>
   <data name="DownloadGamePage_CloseSoftwareContentSystemTray" xml:space="preserve">
-    <value>You could choose to exit or hide window and minimize to system tray.</value>
+    <value>Puoi scegliere di uscire oppure nascondere la finestra e ridurla nell'area di notifica.</value>
   </data>
   <data name="Common_Hide" xml:space="preserve">
-    <value>Hide</value>
+    <value>Nascondi</value>
   </data>
   <data name="ScreenshotPage_BackupScreenshots" xml:space="preserve">
-    <value>Backup Screenshots</value>
+    <value>Backup degli screenshot</value>
   </data>
   <data name="ScreenshotPage_OpenBackupFolder" xml:space="preserve">
     <value>Apri Cartella Backup</value>
@@ -1076,7 +1076,7 @@ Do you accept the risk and continue to use it?</value>
     <value>Ultimo backup</value>
   </data>
   <data name="SettingPage_BackupDatabase" xml:space="preserve">
-    <value>Backup Database</value>
+    <value>Backup del database</value>
   </data>
   <data name="ScreenshotPage_BackedUpNewScreenshots" xml:space="preserve">
     <value>Ottenuti {0} nuovi screenshots.</value>
@@ -1085,7 +1085,7 @@ Do you accept the risk and continue to use it?</value>
     <value>Avvisi Di Gioco</value>
   </data>
   <data name="DownloadGamePage_Merging" xml:space="preserve">
-    <value>Merging</value>
+    <value>Unione in corso</value>
   </data>
   <data name="LauncherPage_Required" xml:space="preserve">
     <value>Richiesto</value>
@@ -1293,7 +1293,7 @@ Do you accept the risk and continue to use it?</value>
     <value>Dopo L'Avvio Del Gioco</value>
   </data>
   <data name="ForgottenHallPage_QuickCleared" xml:space="preserve">
-    <value>Quick Cleared</value>
+    <value>Completamento rapido</value>
   </data>
   <data name="HoyolabToolboxPage_PureFiction" xml:space="preserve">
     <value>Pura Finzione</value>
@@ -1375,7 +1375,7 @@ Do you accept the risk and continue to use it?</value>
     <value>Cambia Client</value>
   </data>
   <data name="FileSettingPage_GameResource" xml:space="preserve">
-    <value>Game Resource</value>
+    <value>Risorse di gioco</value>
   </data>
   <data name="SwitchClientPage_SelectTargetGameServer" xml:space="preserve">
     <value>Seleziona il server di gioco</value>
@@ -1787,6 +1787,12 @@ Do you accept the risk and continue to use it?</value>
   </data>
   <data name="StartGameButton_Verify" xml:space="preserve">
     <value>Verifica</value>
+  </data>
+  <data name="StartGameButton_Cleaning" xml:space="preserve">
+    <value>Pulizia in corso</value>
+  </data>
+  <data name="StartGameButton_StepProgress" xml:space="preserve">
+    <value>Passaggio {0}/{1}</value>
   </data>
   <data name="SettingPage_RPCServiceIsNotRunning" xml:space="preserve">
     <value>Il servizio RPC non è in esecuzione</value>
@@ -2260,7 +2266,7 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
     <value>Luminanza mappata SDR</value>
   </data>
   <data name="ImageViewWindow2_Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Automatico</value>
   </data>
   <data name="ImageViewWindow2_ExportImage" xml:space="preserve">
     <value>Esporta immagine</value>
@@ -2496,7 +2502,7 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
     <value>Tasto Enter della tastiera</value>
   </data>
   <data name="HoyolabToolboxPage_StygianOnslaught" xml:space="preserve">
-    <value>Stygian Onslaught</value>
+    <value>Assalto Stigio</value>
   </data>
   <data name="StygianOnslaughtPage_SinglePlayer" xml:space="preserve">
     <value>Singolo</value>
@@ -2794,5 +2800,161 @@ Sei invitato a inviare i dati esportati al seguente repository:</value>
   </data>
   <data name="PlayTimeStatsDialog_StatsTip" xml:space="preserve">
     <value>Le statistiche si basano sul tempo di esecuzione del gioco, non sul tempo di gioco effettivo, e servono solo come riferimento.</value>
+  </data>
+  <data name="LauncherConfigView_ViewDetails" xml:space="preserve">
+    <value>Visualizza dettagli</value>
+  </data>
+  <data name="LauncherConfigView_PreRegister" xml:space="preserve">
+    <value>Pre-registrati</value>
+  </data>
+  <data name="GameReservationView_PreRegister" xml:space="preserve">
+    <value>Pre-registrati ora</value>
+  </data>
+  <data name="LauncherConfigView_InstalledGames" xml:space="preserve">
+    <value>Giochi installati</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_LauncherChannelSetting" xml:space="preserve">
+    <value>Impostazioni canale del launcher</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AddCustomChannel" xml:space="preserve">
+    <value>Aggiungi canale personalizzato</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_AuthLogin" xml:space="preserve">
+    <value>Accesso con autorizzazione</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_BetaServer" xml:space="preserve">
+    <value>Server beta</value>
+  </data>
+  <data name="FindGamesDialog_FindInstalledGames" xml:space="preserve">
+    <value>Trova giochi installati</value>
+  </data>
+  <data name="FindGamesDialog_ScanAllDrives" xml:space="preserve">
+    <value>Scansiona tutte le unità</value>
+  </data>
+  <data name="FindGamesDialog_NoGameFilesWereFound" xml:space="preserve">
+    <value>Nessun file di gioco trovato.</value>
+  </data>
+  <data name="FindGamesDialog_SelectTheGamesToAdd" xml:space="preserve">
+    <value>Seleziona i giochi da aggiungere</value>
+  </data>
+  <data name="FindGamesDialog_AddGames" xml:space="preserve">
+    <value>Aggiungi giochi</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
+    <value>ID, Name e Region non possono essere vuoti.</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_NoGamesFoundForThisLauncher" xml:space="preserve">
+    <value>Nessun gioco trovato per questo launcher.</value>
+  </data>
+  <data name="MainView_LogInAgain" xml:space="preserve">
+    <value>Accedi di nuovo</value>
+  </data>
+  <data name="MainView_UseTheCurrentAccountToLogIntoTheGame" xml:space="preserve">
+    <value>Usa l'account attuale per accedere al gioco</value>
+  </data>
+  <data name="MainView_LoginFailed" xml:space="preserve">
+    <value>Accesso non riuscito</value>
+  </data>
+  <data name="InstallGameDialog_LoadingDownloadResources" xml:space="preserve">
+    <value>Ottenimento delle risorse di download in corso</value>
+  </data>
+  <data name="InstallGameDialog_VoiceoverResources" xml:space="preserve">
+    <value>Risorse vocali</value>
+  </data>
+  <data name="InstallGameDialog_DownloadResources" xml:space="preserve">
+    <value>Scarica risorse</value>
+  </data>
+  <data name="InstallGameDialog_SpaceRequired" xml:space="preserve">
+    <value>Spazio necessario</value>
+  </data>
+  <data name="InstallGameDialog_FailedToAcquireDownloadResources" xml:space="preserve">
+    <value>Impossibile ottenere le risorse di download</value>
+  </data>
+  <data name="InstallGameDialog_GameResourcesDoNotExist" xml:space="preserve">
+    <value>Non esistono risorse di gioco</value>
+  </data>
+  <data name="InstallGameDialog_LoginExpiredPleaseLogInAgain" xml:space="preserve">
+    <value>Sessione scaduta. Accedi di nuovo.</value>
+  </data>
+  <data name="InstallGameDialog_CurrentAccountDoesnTHaveBetaTestingAccess" xml:space="preserve">
+    <value>Questo account non ha accesso alla versione beta</value>
+  </data>
+  <data name="InstallGameDialog_GameVersion" xml:space="preserve">
+    <value>Versione del gioco</value>
+  </data>
+  <data name="GameLauncherSettingDialog_StartupSetting" xml:space="preserve">
+    <value>Impostazioni di avvio</value>
+  </data>
+  <data name="GameLauncherSettingDialog_RenderMode" xml:space="preserve">
+    <value>Modalità di rendering</value>
+  </data>
+  <data name="StartGameButton_UpdatePlugin" xml:space="preserve">
+    <value>Aggiorna plugin</value>
+  </data>
+  <data name="Common_LogOut" xml:space="preserve">
+    <value>Esci</value>
+  </data>
+  <data name="PlayTimeStatsDialog_DayStartsAt" xml:space="preserve">
+    <value>Inizio giornata</value>
+  </data>
+  <data name="PlayTimeStatsDialog_SetTheOffsetRelativeToTheLocalTimeZoneToAlignTheServerTime" xml:space="preserve">
+    <value>Imposta lo scostamento rispetto al fuso orario locale per allineare l'ora del server.</value>
+  </data>
+  <data name="LauncherConfigView_ShareStorageSpaceWithOtherGamesThroughHardLinks" xml:space="preserve">
+    <value>Condividi lo spazio di archiviazione con altri giochi tramite collegamenti fisici:</value>
+  </data>
+  <data name="LauncherConfigView_ActualStorageSpaceUsed" xml:space="preserve">
+    <value>Spazio di archiviazione effettivamente utilizzato:</value>
+  </data>
+  <data name="LauncherConfigView_FindInstalledGamesOrAddChannelServers" xml:space="preserve">
+    <value>Trova i giochi installati o aggiungi server di canale</value>
+  </data>
+  <data name="FindGamesDialog_QuickSearch" xml:space="preserve">
+    <value>Ricerca rapida</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ResourceManagement" xml:space="preserve">
+    <value>Gestione risorse</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManagement" xml:space="preserve">
+    <value>Gestione risorse dei filmati</value>
+  </data>
+  <data name="GameLauncherSettingDialog_ManageResource" xml:space="preserve">
+    <value>Gestisci risorse</value>
+  </data>
+  <data name="GameLauncherSettingDialog_GameOrInstallTaskIsRunning" xml:space="preserve">
+    <value>Il gioco o l'attività di installazione è in esecuzione.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_DeletedResource" xml:space="preserve">
+    <value>Risorse eliminate</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManageDesc" xml:space="preserve">
+    <value>Elimina alcune risorse dei filmati per risparmiare spazio di archiviazione. Una volta attivato, il launcher gestirà gli aggiornamenti a caldo del gioco.</value>
+  </data>
+  <data name="GameLauncherSettingDialog_CutsceneResourceManifestIsUnavailable" xml:space="preserve">
+    <value>Il manifest delle risorse dei filmati non è disponibile.</value>
+  </data>
+  <data name="StartGameButton_HotUpdate" xml:space="preserve">
+    <value>Aggiornamento a caldo</value>
+  </data>
+  <data name="StartGameButton_ComingSoon" xml:space="preserve">
+    <value>Prossimamente</value>
+  </data>
+  <data name="GameLauncherPage_HotUpdateCheckFailed" xml:space="preserve">
+    <value>Controllo dell'aggiornamento a caldo non riuscito</value>
+  </data>
+  <data name="GameLauncherSettingDialog_LocalResource" xml:space="preserve">
+    <value>Risorse locali</value>
+  </data>
+  <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
+    <value>App non ufficiale. Presta attenzione alla sicurezza del tuo account.</value>
+  </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>Temprati e Viaggia Lontano</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>Progresso del periodo</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>Progresso settimanale</value>
   </data>
 </root>

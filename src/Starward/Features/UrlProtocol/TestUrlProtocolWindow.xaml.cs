@@ -1,8 +1,7 @@
-using Microsoft.UI.Composition.SystemBackdrops;
+﻿using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Starward.Frameworks;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Linq;
 
 namespace Starward.Features.UrlProtocol;
 
-public sealed partial class TestUrlProtocolWindow : WindowEx
+public sealed partial class TestUrlProtocolWindow : WindowBase
 {
 
     public TestUrlProtocolWindow()

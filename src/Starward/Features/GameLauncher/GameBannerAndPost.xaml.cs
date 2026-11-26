@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
@@ -7,8 +7,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Starward.Core.HoYoPlay;
-using Starward.Features.HoYoPlay;
 using Starward.Features.ViewHost;
+using Starward.GameInstall;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;

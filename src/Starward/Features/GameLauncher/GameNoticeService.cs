@@ -17,17 +17,13 @@ internal class GameNoticeService
     private readonly ILogger<GameNoticeService> _logger;
 
 
-    private readonly GameRecordService _gameRecordService;
-
-
     private readonly GameNoticeClient _gameNoticeClient;
 
 
 
-    public GameNoticeService(ILogger<GameNoticeService> logger, GameRecordService gameRecordService, GameNoticeClient gameNoticeClient)
+    public GameNoticeService(ILogger<GameNoticeService> logger, GameNoticeClient gameNoticeClient)
     {
         _logger = logger;
-        _gameRecordService = gameRecordService;
         _gameNoticeClient = gameNoticeClient;
     }
 
@@ -58,7 +54,7 @@ internal class GameNoticeService
 
     private long GetLastUid(GameBiz gameBiz)
     {
-        var role = _gameRecordService.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
+        var role = GameRecordRoleService.GetLastSelectGameRecordRoleOrTheFirstOne(gameBiz);
         if (role is not null)
         {
             return role.Uid;

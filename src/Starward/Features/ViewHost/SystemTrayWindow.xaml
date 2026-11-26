@@ -1,17 +1,17 @@
-<sf:WindowEx x:Class="Starward.Features.ViewHost.SystemTrayWindow"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:hn="using:H.NotifyIcon"
-             xmlns:lang="using:Starward.Language"
-             xmlns:local="using:Starward.Features.ViewHost"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:sc="using:Starward.Controls"
-             xmlns:sf="using:Starward.Frameworks"
-             Title="StarwardTrayMenu"
-             x:DefaultBindMode="OneWay"
-             Closed="WindowEx_Closed"
-             mc:Ignorable="d">
+﻿<sf:WindowBase x:Class="Starward.Features.ViewHost.SystemTrayWindow"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:hn="using:H.NotifyIcon"
+               xmlns:lang="using:Starward.Language"
+               xmlns:local="using:Starward.Features.ViewHost"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:sc="using:Starward.Controls"
+               xmlns:sf="using:Starward.Features"
+               Title="StarwardTrayMenu"
+               x:DefaultBindMode="OneWay"
+               Closed="WindowEx_Closed"
+               mc:Ignorable="d">
 
     <Grid Name="RootGrid">
         <hn:TaskbarIcon x:Name="trayIcon"
@@ -50,4 +50,4 @@
         </StackPanel>
     </Grid>
 
-</sf:WindowEx>
+</sf:WindowBase>

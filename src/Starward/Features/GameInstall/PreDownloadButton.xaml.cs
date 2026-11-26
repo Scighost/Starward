@@ -1,8 +1,7 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Starward.RPC.GameInstall;
-using System;
+using Starward.GameInstall;
 using System.Windows.Input;
 
 
@@ -25,13 +24,15 @@ public sealed partial class PreDownloadButton : UserControl
 
     public ICommand PredownloadCommand { get; set => SetProperty(ref field, value); }
 
-    public GameInstallState State { get; set { if (SetProperty(ref field, value)) { UpdateButtonState(); } } }
+    public RunnerState State { get; set { if (SetProperty(ref field, value)) { UpdateButtonState(); } } }
+
+    public RunnerStep Step { get; set { if (SetProperty(ref field, value)) { UpdateButtonState(); } } }
 
     public bool IsPredownloadFinished { get; set { if (SetProperty(ref field, value)) { UpdateButtonState(); } } }
 
     public bool PointerOver { get; set => SetProperty(ref field, value); }
 
-    public string ProgressPercentText { get; set => SetProperty(ref field, value); }
+    public string? ProgressPercentText { get; set => SetProperty(ref field, value); }
 
     public string? DownloadBytesText { get; set => SetProperty(ref field, value); }
 
@@ -42,19 +43,24 @@ public sealed partial class PreDownloadButton : UserControl
     public string? ErrorMessage { get; set => SetProperty(ref field, value); }
 
 
-    public bool IsButtonEnabled => !(IsPredownloadFinished || State is GameInstallState.Finish);
+    public bool IsButtonEnabled => !(IsPredownloadFinished || State is RunnerState.Finish);
 
 
     public string ButtonIcon => GetButtonIcon();
 
     public string GetButtonIcon()
     {
-        if (PointerOver && State is GameInstallState.Paused or GameInstallState.Error or GameInstallState.Queueing)
+        if (IsPredownloadFinished || State is RunnerState.Finish)
+        {
+            // Download Icon
+            return "\uEBD3";
+        }
+        if (PointerOver && State is RunnerState.Paused or RunnerState.Error or RunnerState.Queue)
         {
             // Play Icon
             return "\uF5B0";
         }
-        else if (PointerOver && State is GameInstallState.Downloading)
+        else if (PointerOver && State is RunnerState.Running)
         {
             // Pause Icon
             return "\uE62E";
@@ -71,76 +77,54 @@ public sealed partial class PreDownloadButton : UserControl
 
     public string GetButtonText()
     {
-        if (!IsPredownloadFinished && State is GameInstallState.Stop)
+        if (IsPredownloadFinished || State is RunnerState.Finish)
+        {
+            // 完成标志优先于任务状态，避免完成瞬间仍显示运行/清理状态。
+            return Lang.DownloadGamePage_Finished;
+        }
+        if (State is RunnerState.Stop)
         {
             // 预下载
             return Lang.LauncherPage_PreInstall;
         }
-        else if (State is GameInstallState.Waiting or GameInstallState.Queueing)
+        if (State is RunnerState.Queue)
         {
-            // 等待中
-            return Lang.StartGameButton_Waiting;
+            // 排队中
+            return Lang.StartGameButton_InQueue;
         }
-        else if (State is GameInstallState.Downloading)
+        if (State is RunnerState.Running)
         {
-            // 下载中
-            return ProgressPercentText;
+            if (Step is RunnerStep.Cleaning)
+            {
+                // 预下载的清理阶段已无进度，按键固定显示 100%。
+                return "100%";
+            }
+            if (Step is RunnerStep.Downloading)
+            {
+                // 下载阶段按键只显示百分比，完整阶段信息显示在浮层。
+                return ProgressPercentText ?? "";
+            }
+            string phase = GameInstallProgressDisplay.GetPhaseText(State, Step);
+            return string.IsNullOrEmpty(ProgressPercentText) ? phase : $"{phase} {ProgressPercentText}";
         }
-        else if (State is GameInstallState.Paused)
+        if (State is RunnerState.Paused)
         {
             // 已暂停
             return Lang.DownloadGamePage_Paused;
         }
-        else if (IsPredownloadFinished || State is GameInstallState.Finish)
-        {
-            // 已完成
-            return Lang.DownloadGamePage_Finished;
-        }
-        else if (State is GameInstallState.Error)
+        if (State is RunnerState.Error)
         {
             // 出错了
             return Lang.Common_Error;
         }
-        else
-        {
-            return "State Error";
-        }
+        return "";
     }
 
 
-    public string InstallStateText => GetInstallStateText();
-
-    public string GetInstallStateText()
+    public string InstallStateText
     {
-        if (State is GameInstallState.Waiting or GameInstallState.Queueing)
-        {
-            // 等待中
-            return Lang.StartGameButton_Waiting;
-        }
-        else if (State is GameInstallState.Downloading)
-        {
-            // 下载中
-            return Lang.DownloadGamePage_Downloading;
-        }
-        else if (State is GameInstallState.Paused)
-        {
-            // 已暂停
-            return Lang.DownloadGamePage_Paused;
-        }
-        else if (IsPredownloadFinished || State is GameInstallState.Finish)
-        {
-            // 已完成
-            return Lang.PreDownloadButton_PreInstallFinished;
-        }
-        else if (State is GameInstallState.Error)
-        {
-            // 出错了
-            return Lang.DownloadGamePage_SomethingError;
-        }
-        else
-        {
-            return "State Error";
-        }
+        get => IsPredownloadFinished || State is RunnerState.Finish ? Lang.PreDownloadButton_PreInstallFinished : field;
+        set => SetProperty(ref field, value);
     }
 
 
@@ -149,7 +133,7 @@ public sealed partial class PreDownloadButton : UserControl
     {
         PointerOver = true;
         UpdateButtonState();
-        if (IsPredownloadFinished || State is not GameInstallState.Stop)
+        if (IsPredownloadFinished || State is not RunnerState.Stop)
         {
             Popup_DownloadProgress.IsOpen = true;
         }
@@ -176,73 +160,42 @@ public sealed partial class PreDownloadButton : UserControl
 
 
 
-    public void UpdateGameInstallTaskState(GameInstallContext task)
+    public void UpdateGameInstallTaskState(GameInstallProgress task)
     {
         State = task.State;
-        long total = task.Progress_DownloadTotalBytes;
-        long finish = task.Progress_DownloadFinishBytes;
-        ProgressPercentText = $"{(double)finish / total:P1}";
-        DownloadBytesText = ToBytesText(finish, total);
-        if (State is GameInstallState.Paused or GameInstallState.Queueing or GameInstallState.Error)
+        Step = task.Step;
+        InstallStateText = GameInstallProgressDisplay.GetOperationPhaseText(task);
+
+        bool hasPercent = GameInstallProgressDisplay.TryGetPercent(task, out double percent);
+        ProgressPercentText = hasPercent ? GameInstallProgressDisplay.ToPercentText(percent) : null;
+
+        DownloadBytesText = null;
+        DownloadSpeedText = null;
+        RemainTimeText = null;
+        ErrorMessage = null;
+
+        if (task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkBytes))
         {
-            DownloadSpeedText = "- KB/s";
-            RemainTimeText = "--:--:--";
+            DownloadBytesText = GameInstallProgressDisplay.ToBytesText(task.NetworkFinishedBytes, task.NetworkTotalBytes);
         }
-        else if (State is not GameInstallState.Finish)
+        if (task.State is RunnerState.Running
+            && task.Step is RunnerStep.Downloading or RunnerStep.Patching
+            && task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkSpeed))
         {
-            DownloadSpeedText = ToSpeedText(task.NetworkDownloadSpeed);
-            RemainTimeText = ToRemainTimeText(task.RemainTimeSeconds);
-            ErrorMessage = task.ErrorMessage;
+            DownloadSpeedText = GameInstallProgressDisplay.ToSpeedText(task.NetworkDownloadSpeed);
         }
-        else
+        if (task.State is RunnerState.Running
+            && task.Step is RunnerStep.Downloading
+            && task.ProgressDisplay.HasFlag(ProgressDisplay.NetworkSpeed))
         {
-            DownloadSpeedText = null;
-            RemainTimeText = null;
-            ErrorMessage = null;
+            RemainTimeText = GameInstallProgressDisplay.ToRemainTimeText(task.RemainTimeSeconds);
         }
+        if (task.State is RunnerState.Error)
+        {
+            ErrorMessage = string.IsNullOrWhiteSpace(task.ErrorMessage) ? Lang.DownloadGamePage_UnknownError : task.ErrorMessage;
+        }
+
         UpdateButtonState();
-    }
-
-
-
-
-    private static string ToBytesText(long finish, long total)
-    {
-        const double MB = 1 << 20;
-        const double GB = 1 << 30;
-        if (total >= GB)
-        {
-            return $"{finish / GB:F2}/{total / GB:F2} GB";
-        }
-        else
-        {
-            return $"{finish / MB:F2}/{total / MB:F2} MB";
-        }
-    }
-
-
-    private static string ToSpeedText(long bytes)
-    {
-        const double KB = 1 << 10;
-        const double MB = 1 << 20;
-        if (bytes >= MB)
-        {
-            return $"{bytes / MB:F2} MB/s";
-        }
-        else
-        {
-            return $"{bytes / KB:F2} KB/s";
-        }
-    }
-
-
-    private static string? ToRemainTimeText(long seconds)
-    {
-        if (seconds == 0)
-        {
-            return "--:--:--";
-        }
-        return TimeSpan.FromSeconds(seconds).ToString(@"hh\:mm\:ss");
     }
 
 

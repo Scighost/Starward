@@ -1,8 +1,7 @@
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Starward.Core.Gacha.Genshin;
 using Starward.Core.Gacha.StarRail;
 using Starward.Core.Gacha.ZZZ;
-using System.Net.Http.Json;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -89,7 +88,7 @@ public abstract class GachaLogClient
         foreach (var gachaType in QueryGachaTypes)
         {
             var param = new GachaLogQuery(gachaType, 1, 1, 0);
-            var list = await GetGachaLogByQueryAsync<GachaLogItem>(prefix, param);
+            var list = await GetGachaLogByQueryAsync<GachaLogItem>(prefix, param).ConfigureAwait(false);
             if (list.Count != 0)
             {
                 return list.First().Uid;
@@ -202,7 +201,7 @@ public abstract class GachaLogClient
 
     protected async Task<T> CommonGetAsync<T>(string url, CancellationToken cancellationToken = default)
     {
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<T>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<T>;
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<T>), GachaLogJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<T>;
         if (wrapper is null)
         {
             throw new miHoYoApiException(-1, "Response body is null");
@@ -230,7 +229,7 @@ public abstract class GachaLogClient
         var result = new List<T>();
         foreach (var gachaType in QueryGachaTypes)
         {
-            result.AddRange(await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken));
+            result.AddRange(await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken).ConfigureAwait(false));
         }
         return result;
     }
@@ -242,7 +241,7 @@ public abstract class GachaLogClient
     {
         endId = Math.Clamp(endId, 0, long.MaxValue);
         var prefix = GetGachaUrlPrefix(gachaUrl, lang);
-        return await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken);
+        return await GetGachaLogByTypeAsync<T>(prefix, gachaType, endId, progress, cancellationToken).ConfigureAwait(false);
     }
 
 
@@ -250,9 +249,9 @@ public abstract class GachaLogClient
 
     protected virtual async Task<List<T>> GetGachaLogByQueryAsync<T>(string gachaUrlPrefix, GachaLogQuery param, CancellationToken cancellationToken = default) where T : GachaLogItem
     {
-        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken);
+        await Task.Delay(Random.Shared.Next(200, 300), cancellationToken).ConfigureAwait(false);
         var url = $"{gachaUrlPrefix}&{param}";
-        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken) as miHoYoApiWrapper<GachaLogResult<T>>;
+        var wrapper = await _httpClient.GetFromJsonAsync(url, typeof(miHoYoApiWrapper<GachaLogResult<T>>), GachaLogJsonContext.Default, cancellationToken).ConfigureAwait(false) as miHoYoApiWrapper<GachaLogResult<T>>;
         if (wrapper is null)
         {
             return new List<T>();
@@ -277,7 +276,7 @@ public abstract class GachaLogClient
         while (true)
         {
             progress?.Report((gachaType, param.Page));
-            var list = await GetGachaLogByQueryAsync<T>(prefix, param, cancellationToken);
+            var list = await GetGachaLogByQueryAsync<T>(prefix, param, cancellationToken).ConfigureAwait(false);
             result.AddRange(list);
             if (list.Count == 20 && list.Last().Id > endId)
             {
@@ -343,12 +342,12 @@ public abstract class GachaLogClient
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/platsimulator/config?gids=2&game=hk4e";
-            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken).ConfigureAwait(false);
         }
         else
         {
             string url = $"https://sg-public-api.hoyolab.com/event/simulatoros/config?lang={lang}";
-            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken);
+            wiki = await CommonGetAsync<GenshinGachaWiki>(url, cancellationToken).ConfigureAwait(false);
         }
         wiki.Language = lang;
         return wiki;
@@ -362,7 +361,7 @@ public abstract class GachaLogClient
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
             const string url = "https://api-takumi.mihoyo.com/event/rpgsimulator/config?game=hkrpg";
-            wiki = await CommonGetAsync<StarRailGachaWiki>(url, cancellationToken);
+            wiki = await CommonGetAsync<StarRailGachaWiki>(url, cancellationToken).ConfigureAwait(false);
         }
         else
         {
@@ -370,7 +369,7 @@ public abstract class GachaLogClient
             for (int i = 1; i <= 10; i++)
             {
                 string url = $"https://sg-public-api.hoyolab.com/event/rpgcalc/avatar/list?game=hkrpg&lang={lang}&tab_from=TabAll&page={i}&size=100";
-                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken);
+                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken).ConfigureAwait(false);
                 wiki.Avatar.AddRange(wrapper.List);
                 if (wrapper.List.Count != 100)
                 {
@@ -380,7 +379,7 @@ public abstract class GachaLogClient
             for (int i = 1; i <= 10; i++)
             {
                 string url = $"https://sg-public-api.hoyolab.com/event/rpgcalc/equipment/list?game=hkrpg&lang={lang}&tab_from=TabAll&page={i}&size=100";
-                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken);
+                var wrapper = await CommonGetAsync<StarRailGachaInfoWrapper>(url, cancellationToken).ConfigureAwait(false);
                 wiki.Equipment.AddRange(wrapper.List);
                 if (wrapper.List.Count != 100)
                 {
@@ -399,13 +398,13 @@ public abstract class GachaLogClient
         ZZZGachaWiki wiki;
         if (gameBiz.IsChinaServer() && lang is "zh-cn")
         {
-            const string url = $"https://starward-static.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_cn.zh-cn.json";
-            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
+            const string url = $"https://starward-static.scighost.com/game-assets/zzz/gacha/ZZZGachaInfo.nap_cn.zh-cn.json";
+            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken).ConfigureAwait(false);
         }
         else
         {
-            string url = $"https://starward-static.scighost.com/metadata/v1/zzz/ZZZGachaInfo.nap_global.{lang}.json";
-            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken);
+            string url = $"https://starward-static.scighost.com/game-assets/zzz/gacha/ZZZGachaInfo.nap_global.{lang}.json";
+            wiki = await CommonGetAsync<ZZZGachaWiki>(url, cancellationToken).ConfigureAwait(false);
         }
         if (string.IsNullOrWhiteSpace(wiki.Language))
         {

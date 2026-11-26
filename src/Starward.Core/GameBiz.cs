@@ -1,6 +1,4 @@
-using System.Collections.ObjectModel;
-
-namespace Starward.Core;
+﻿namespace Starward.Core;
 
 public record struct GameBiz
 {
@@ -37,9 +35,6 @@ public record struct GameBiz
     public const string hk4e_global = "hk4e_global";
     public const string hk4e_bilibili = "hk4e_bilibili";
 
-    //public const string clgm_cn = "clgm_cn";
-    //public const string clgm_global = "clgm_global";
-
 
     public const string hkrpg = "hkrpg";
     public const string hkrpg_cn = "hkrpg_cn";
@@ -66,31 +61,9 @@ public record struct GameBiz
 
 
 
-    public static ReadOnlyCollection<GameBiz> AllGameBizs { get; private set; } = new List<GameBiz>
-    {
-        bh3_cn,
-        bh3_global,
-        //bh3_os,
-        //bh3_jp,
-        //bh3_kr,
-        //bh3_usa,
-        //bh3_asia,
-        //bh3_eur,
-        hk4e_cn,
-        hk4e_global,
-        hk4e_bilibili,
-        //clgm_cn,
-        //clgm_global,
-        hkrpg_cn,
-        hkrpg_global,
-        hkrpg_bilibili,
-        nap_cn,
-        nap_global,
-        nap_bilibili,
-        arknights_cn,
-        endfield_cn,
-        endfield_global,
-    }.AsReadOnly();
+    public const string hyg = "hyg";
+    public const string hyg_cn = "hyg_cn";
+    public const string hyg_global = "hyg_global";
 
 
 

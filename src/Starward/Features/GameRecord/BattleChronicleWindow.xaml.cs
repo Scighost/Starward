@@ -1,15 +1,14 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Starward.Core.GameRecord;
-using Starward.Frameworks;
 using Windows.Graphics;
 
 
 namespace Starward.Features.GameRecord;
 
 [INotifyPropertyChanged]
-public sealed partial class BattleChronicleWindow : WindowEx
+public sealed partial class BattleChronicleWindow : WindowBase
 {
 
 

@@ -1,4 +1,4 @@
-using Dapper;
+﻿using Dapper;
 using Microsoft.Data.Sqlite;
 using SharpSevenZip;
 using System;
@@ -7,7 +7,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Hashing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace Starward.Features.Database;
@@ -41,6 +43,7 @@ internal static class DatabaseService
     {
         var con = new SqliteConnection(_connectionString);
         con.Open();
+        con.Execute("PRAGMA busy_timeout = 5000;");
         return con;
     }
 
@@ -51,7 +54,13 @@ internal static class DatabaseService
         if (Directory.Exists(folder))
         {
             _databasePath = Path.GetFullPath(Path.Combine(folder, "StarwardDatabase.db"));
-            _connectionString = $"DataSource={_databasePath};";
+            _connectionString = new SqliteConnectionStringBuilder
+            {
+                DataSource = _databasePath,
+                Mode = SqliteOpenMode.ReadWriteCreate,
+                Pooling = true,
+                DefaultTimeout = 10,
+            }.ToString();
             InitializeDatabase();
         }
     }
@@ -68,14 +77,11 @@ internal static class DatabaseService
             {
                 con.Execute("PRAGMA JOURNAL_MODE = WAL;");
             }
-            foreach (var sql in DatabaseSqls.Skip(version))
+            // Versions 20–24 of the fork used independent schema migrations.
+            if (version is >= 20 and <= 24
+                && con.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE name = 'EndfieldGachaAccount'") != 0
+                && con.ExecuteScalar<int>("SELECT COUNT(*) FROM pragma_table_info('Setting') WHERE name = 'GameId'") == 0)
             {
-                con.Execute(sql);
-            }
-            if (version < 24)
-            {
-                // The upstream merge added schema changes to v20/v21 after existing
-                // Hypergryph databases had already reached v23. Repair both layouts.
                 using var transaction = con.BeginTransaction();
                 foreach (string column in new[] { "HasHard", "HardTotalScore", "HardTotalStar" })
                 {
@@ -84,8 +90,13 @@ internal static class DatabaseService
                         con.Execute($"ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN {column} INTEGER DEFAULT 0 NOT NULL;", transaction: transaction);
                     }
                 }
-                con.Execute(Sql_v24, transaction: transaction);
+                con.Execute(RepairPlayTime, transaction: transaction);
                 transaction.Commit();
+                version = 21;
+            }
+            foreach (var sql in DatabaseSqls.Skip(version))
+            {
+                con.Execute(sql);
             }
         }
     }
@@ -111,19 +122,19 @@ internal static class DatabaseService
             return;
 #endif
 #pragma warning disable CS0162 // 检测到无法访问的代码
-            string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Starward\DatabaseBackup");
+            string folder = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Starward\DatabaseBackup");
 #pragma warning restore CS0162 // 检测到无法访问的代码
             Directory.CreateDirectory(folder);
-            string file = Path.Combine(folder, $"StarwardDatabase_AutoBackup_{DateTime.Now:yyyyMMdd_HHmmss}.db");
+            string hash = Convert.ToHexStringLower(XxHash3.Hash(MemoryMarshal.AsBytes(AppConfig.UserDataFolder.AsSpan())));
+            string file = Path.Combine(folder, $"StarwardDatabase_AutoBackup_{hash}_{DateTime.Now:yyyyMMdd_HHmmss}.db");
             string archive = Path.ChangeExtension(file, ".7z");
-            string archive_tmp = archive + "_tmp";
-            string[] files = Directory.GetFiles(folder, "StarwardDatabase_AutoBackup_*.7z");
+            string archive_tmp = archive + ".tmp";
+            string[] files = Directory.GetFiles(folder, $"StarwardDatabase_AutoBackup_{hash}_*.7z");
             if (files.Length == 0)
             {
                 BackupDatabase(file);
                 new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
                 File.Move(archive_tmp, archive, true);
-                File.Delete(file);
             }
             else
             {
@@ -133,9 +144,18 @@ internal static class DatabaseService
                     BackupDatabase(file);
                     new SharpSevenZipCompressor().CompressFiles(archive_tmp, file);
                     File.Move(archive_tmp, archive, true);
-                    File.Delete(file);
                     File.Delete(last);
                 }
+            }
+            files = Directory.GetFiles(folder, $"StarwardDatabase_AutoBackup_{hash}_*.db");
+            foreach (string item in files)
+            {
+                File.Delete(item);
+            }
+            files = Directory.GetFiles(folder, $"StarwardDatabase_AutoBackup_{hash}_*.tmp");
+            foreach (string item in files)
+            {
+                File.Delete(item);
             }
         }
         catch (Exception ex)
@@ -275,7 +295,9 @@ internal static class DatabaseService
         Sql_v20,
         Sql_v21,
         Sql_v22,
-        Sql_v23
+        Sql_v23,
+        Sql_v24,
+        Sql_v25,
     ];
 
 
@@ -1046,6 +1068,203 @@ internal static class DatabaseService
     private const string Sql_v20 = """
         BEGIN TRANSACTION;
 
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HasHard INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalScore INTEGER DEFAULT 0 NOT NULL;
+        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
+
+        PRAGMA USER_VERSION = 20;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v21 = """
+        BEGIN TRANSACTION;
+
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
+
+        PRAGMA USER_VERSION = 21;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v22 = """
+        BEGIN TRANSACTION;
+
+        DROP TABLE IF EXISTS Setting_dg_tmp;
+        CREATE TABLE Setting_dg_tmp
+        (
+            Key    TEXT NOT NULL,
+            GameId TEXT NOT NULL DEFAULT '',
+            Value  TEXT NULL,
+            PRIMARY KEY (Key, GameId)
+        );
+
+        CREATE TEMP TABLE GameBizSplit_tmp
+        (
+            Suffix TEXT NOT NULL PRIMARY KEY,
+            GameId TEXT NOT NULL
+        );
+        INSERT INTO GameBizSplit_tmp (Suffix, GameId) VALUES
+            ('_endfield_cn', 'endfield_cn-6LL0KJuqHBVz33WK'),
+            ('_endfield_global', 'endfield_global-YDUTE5gscDZ229CW'),
+            ('_arknights_cn', 'arknights_cn-GzD1CpaWgmSq1wew'),
+            ('_hk4e_cn',       'hk4e_cn-1Z8W5NHUQb'),
+            ('_hk4e_global',   'hk4e_global-gopR6Cufr3'),
+            ('_hk4e_bilibili', 'hk4e_bilibili-T2S0Gz4Dr2'),
+            ('_hkrpg_cn',      'hkrpg_cn-64kMb5iAWu'),
+            ('_hkrpg_global',  'hkrpg_global-4ziysqXOQ8'),
+            ('_hkrpg_bilibili','hkrpg_bilibili-EdtUqXfCHh'),
+            ('_nap_cn',        'nap_cn-x6znKlJ0xK'),
+            ('_nap_global',    'nap_global-U5hbdsT9W7'),
+            ('_nap_bilibili',  'nap_bilibili-HXAFlmYa17'),
+            ('_bh3_cn',        'bh3_cn-osvnlOc0S8'),
+            ('_bh3_global',    'bh3_global-5TIVvvcwtM'),
+            ('_bh3_jp',        'bh3_global-g0mMIvshDb'),
+            ('_bh3_kr',        'bh3_global-uxB4MC7nzC'),
+            ('_bh3_os',        'bh3_global-bxPTXSET5t'),
+            ('_bh3_asia',      'bh3_global-wkE5P5WsIf'),
+            ('_bh3_overseas',  'bh3_global-bxPTXSET5t'),
+            ('_bh3_tw',        'bh3_global-wkE5P5WsIf'),
+            ('_hyg_cn',        'hyg_cn-ERYDdvf0w8'),
+            ('_hyg_global',    'hyg_global-viiywh5G2H'),
+            ('_abc_cn',        'abc_cn-m8TGERqknS'),
+            ('_abc_global',    'abc_global-yneO4yGc4x'),
+            ('_hk4e',          'hk4e'),
+            ('_hkrpg',         'hkrpg'),
+            ('_nap',           'nap'),
+            ('_bh3',           'bh3');
+
+        CREATE TEMP TABLE KeyRename_tmp
+        (
+            Old TEXT NOT NULL PRIMARY KEY,
+            New TEXT NOT NULL
+        );
+        INSERT INTO KeyRename_tmp (Old, New) VALUES
+            ('bg',                           'Bg'),
+            ('custom_bg',                    'CustomBg'),
+            ('enable_third_party_tool',      'EnableThirdPartyTool'),
+            ('third_party_tool_path',        'ThirdPartyToolPath'),
+            ('start_argument',               'StartArgument'),
+            ('external_screenshot_folder',   'ExternalScreenshotFolder'),
+            ('install_path', 'InstallPath'),
+            ('install_path_removable', 'InstallPathRemovable'),
+            ('use_popup_window', 'UsePopupWindow'),
+            ('enable_dx11', 'EnableDX11'),
+            ('enable_dx12',                  'EnableDX12'),
+            ('last_gacha_uid',               'LastGachaUid'),
+            ('display_gacha_banners',        'DisplayGachaBanners');
+
+        INSERT OR REPLACE INTO Setting_dg_tmp (Key, GameId, Value)
+        SELECT CASE
+            WHEN sp.Suffix IS NULL THEN s.Key ELSE substr(s.Key, 1, length(s.Key) - length(sp.Suffix)) END,
+            IFNULL(sp.GameId, ''),
+            s.Value
+        FROM Setting AS s
+        LEFT JOIN GameBizSplit_tmp AS sp
+               ON substr(s.Key, -length(sp.Suffix)) = sp.Suffix
+              AND substr(s.Key, 1, length(s.Key) - length(sp.Suffix)) IN (SELECT Old FROM KeyRename_tmp)
+        WHERE sp.Suffix IS NOT NULL
+           OR s.Key IN (SELECT Old FROM KeyRename_tmp);
+
+        UPDATE Setting_dg_tmp
+        SET Key = (SELECT New FROM KeyRename_tmp WHERE Old = Key)
+        WHERE Key IN (SELECT Old FROM KeyRename_tmp);
+
+        INSERT OR REPLACE INTO Setting_dg_tmp (Key, GameId, Value)
+        SELECT Key, '', Value
+        FROM Setting
+        WHERE Key GLOB '[A-Z]*';
+
+        DROP TABLE GameBizSplit_tmp;
+        DROP TABLE KeyRename_tmp;
+        DROP TABLE IF EXISTS Setting;
+        ALTER TABLE Setting_dg_tmp RENAME TO Setting;
+
+        PRAGMA USER_VERSION = 22;
+        COMMIT TRANSACTION;
+        """;
+    private const string Sql_v23 = """
+        BEGIN TRANSACTION;
+
+        CREATE TABLE IF NOT EXISTS CacheEntry
+        (
+            Key        TEXT    NOT NULL PRIMARY KEY,
+            Value      BLOB    NULL,
+            ExpireTime INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_CacheEntry_ExpireTime ON CacheEntry (ExpireTime);
+
+        CREATE TABLE IF NOT EXISTS GameEntry
+        (
+            GameId      TEXT    NOT NULL PRIMARY KEY,
+            GameBiz     TEXT    NOT NULL,
+            LauncherId  TEXT    NOT NULL,
+            InstallPath TEXT    NULL,
+            Removable   INTEGER NOT NULL,
+            IsPinned    INTEGER NOT NULL,
+            PinnedOrder INTEGER NOT NULL
+        );
+        CREATE INDEX IF NOT EXISTS IX_GameEntry_LauncherId ON GameEntry (LauncherId);
+        CREATE INDEX IF NOT EXISTS IX_GameEntry_IsPinned ON GameEntry (IsPinned);
+
+        CREATE TABLE IF NOT EXISTS PassportUserInfo
+        (
+            Region     INTEGER NOT NULL,
+            Aid        INTEGER NOT NULL,
+            Mid        TEXT    NOT NULL,
+            Stoken     BLOB    NOT NULL,
+            SecretType INTEGER NOT NULL,
+            Nickname   TEXT    NULL,
+            AvatarUrl  TEXT    NULL,
+            Pendant    TEXT    NULL,
+            PRIMARY KEY (Region, Aid)
+        );
+
+        PRAGMA USER_VERSION = 23;
+        COMMIT TRANSACTION;
+        """;
+    private const string Sql_v24 = """
+        BEGIN TRANSACTION;
+
+        DELETE FROM GameRecordUser WHERE TRUE;
+        DELETE FROM GameRecordRole WHERE TRUE;
+        ALTER TABLE GameRecordRole ADD COLUMN Aid INTEGER NOT NULL DEFAULT 0;
+
+        PRAGMA USER_VERSION = 24;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string RepairPlayTime = """
+        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
+
+        CREATE TABLE IF NOT EXISTS PlayTimeStats
+        (
+            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            GameBiz      TEXT    NOT NULL,
+            Pid          INTEGER NOT NULL,
+            StartTime    INTEGER NOT NULL,
+            EndTime      INTEGER NOT NULL,
+            Interruption INTEGER NOT NULL DEFAULT 0,
+            Type         INTEGER NOT NULL DEFAULT 0
+        );
+        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
+
+        PRAGMA USER_VERSION = 21;
+        """;
+
+    private const string Sql_v25 = """
+        BEGIN TRANSACTION;
+
         CREATE TABLE IF NOT EXISTS EndfieldGachaAccount
         (
             AccountKey   TEXT PRIMARY KEY,
@@ -1078,44 +1297,12 @@ internal static class DatabaseService
         CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Pool ON EndfieldGachaItem (PoolType, PoolId);
         CREATE INDEX IF NOT EXISTS IX_EndfieldGachaItem_Rarity ON EndfieldGachaItem (Rarity);
 
-        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HasHard INTEGER DEFAULT 0 NOT NULL;
-        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalScore INTEGER DEFAULT 0 NOT NULL;
-        ALTER TABLE ZZZDeadlyAssaultInfo ADD COLUMN HardTotalStar INTEGER DEFAULT 0 NOT NULL;
-
-        PRAGMA USER_VERSION = 20;
-        COMMIT TRANSACTION;
-        """;
-
-    private const string Sql_v21 = """
-        BEGIN TRANSACTION;
-
         CREATE TABLE IF NOT EXISTS EndfieldGachaAuth
         (
             AccountKey TEXT PRIMARY KEY,
             LoginToken BLOB NOT NULL,
             UpdateTime TEXT NOT NULL
         );
-
-        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
-
-        CREATE TABLE IF NOT EXISTS PlayTimeStats
-        (
-            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            GameBiz      TEXT    NOT NULL,
-            Pid          INTEGER NOT NULL,
-            StartTime    INTEGER NOT NULL,
-            EndTime      INTEGER NOT NULL,
-            Interruption INTEGER NOT NULL DEFAULT 0,
-            Type         INTEGER NOT NULL DEFAULT 0
-        );
-        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
-
-        PRAGMA USER_VERSION = 21;
-        COMMIT TRANSACTION;
-        """;
-
-    private const string Sql_v22 = """
-        BEGIN TRANSACTION;
 
         CREATE TABLE IF NOT EXISTS EndfieldGachaInfo
         (
@@ -1125,13 +1312,6 @@ internal static class DatabaseService
             Icon       TEXT NOT NULL,
             PRIMARY KEY (RecordType, ItemId)
         );
-
-        PRAGMA USER_VERSION = 22;
-        COMMIT TRANSACTION;
-        """;
-
-    private const string Sql_v23 = """
-        BEGIN TRANSACTION;
 
         CREATE TABLE IF NOT EXISTS EndfieldAccountRecord
         (
@@ -1161,26 +1341,24 @@ internal static class DatabaseService
             UpdateTime TEXT NOT NULL
         );
 
-        PRAGMA USER_VERSION = 23;
+        INSERT OR IGNORE INTO GameEntry(GameId, GameBiz, LauncherId, InstallPath, Removable, IsPinned, PinnedOrder)
+        SELECT substr(s.GameId, instr(s.GameId, '-') + 1),
+               substr(s.GameId, 1, instr(s.GameId, '-') - 1),
+               CASE
+                   WHEN s.GameId LIKE 'endfield_global-%' THEN 'TiaytKBUIEdoEwRT'
+                   WHEN s.GameId LIKE 'endfield_cn-%' OR s.GameId LIKE 'arknights_cn-%' THEN 'abYeZZ16BPluCFyT'
+                   WHEN s.GameId LIKE 'hk4e_bilibili-%' THEN 'umfgRO5gh5'
+                   WHEN s.GameId LIKE 'hkrpg_bilibili-%' THEN '6P5gHMNyK3'
+                   WHEN s.GameId LIKE 'nap_bilibili-%' THEN 'xV0f4r1GT0'
+                   WHEN s.GameId LIKE '%_cn-%' THEN 'jGHBHlcOq1'
+                   ELSE 'VYTpXlbWo8'
+               END,
+               s.Value, lower(coalesce(r.Value,'')) IN ('true','1'), 1, 0
+        FROM Setting s LEFT JOIN Setting r ON r.GameId = s.GameId AND r.Key = 'InstallPathRemovable'
+        WHERE s.Key = 'InstallPath' AND instr(s.GameId, '-') > 0 AND length(trim(s.Value)) > 0;
+
+        PRAGMA USER_VERSION = 25;
         COMMIT TRANSACTION;
-        """;
-
-    private const string Sql_v24 = """
-        UPDATE PlayTimeItem SET GameBiz = REPLACE(GameBiz, '_bilibili', '_cn') WHERE GameBiz LIKE '%_bilibili';
-
-        CREATE TABLE IF NOT EXISTS PlayTimeStats
-        (
-            Id           INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            GameBiz      TEXT    NOT NULL,
-            Pid          INTEGER NOT NULL,
-            StartTime    INTEGER NOT NULL,
-            EndTime      INTEGER NOT NULL,
-            Interruption INTEGER NOT NULL DEFAULT 0,
-            Type         INTEGER NOT NULL DEFAULT 0
-        );
-        CREATE UNIQUE INDEX IF NOT EXISTS IX_PlayTimeStats_GameBiz_StartTime_Pid ON PlayTimeStats (GameBiz, StartTime, Pid);
-
-        PRAGMA USER_VERSION = 24;
         """;
 
     #endregion

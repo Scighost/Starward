@@ -1,19 +1,15 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Windows.AppLifecycle;
 using Starward.Features.Background;
-using Starward.Features.Database;
 using Starward.Features.GameLauncher;
 using Starward.Features.Overlay;
 using Starward.Features.Screenshot;
-using Starward.Frameworks;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Vanara.PInvoke;
 using Windows.Graphics;
 
@@ -21,7 +17,7 @@ using Windows.Graphics;
 namespace Starward.Features.ViewHost;
 
 [INotifyPropertyChanged]
-public sealed partial class MainWindow : WindowEx
+public sealed partial class MainWindow : WindowBase
 {
 
 
@@ -129,11 +125,6 @@ public sealed partial class MainWindow : WindowEx
             }
             if (option is MainWindowCloseOption.Exit)
             {
-                Close();
-                AppInstance.GetCurrent().UnregisterKey();
-                Task backupTask = Task.Run(DatabaseService.AutoBackupToAppDataLocal);
-                Task timeTask = Task.Delay(30000);
-                await Task.WhenAny(backupTask, timeTask);
                 App.Current.Exit();
             }
         }

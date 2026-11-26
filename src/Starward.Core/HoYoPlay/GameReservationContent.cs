@@ -22,6 +22,9 @@ public class GameReservationContent
     [JsonPropertyName("tags")]
     public List<GameReservationTag> Tags { get; set; }
 
+    [JsonPropertyName("media")]
+    public List<GameReservationMedia> Medias { get; set; }
+
     //[JsonPropertyName("news")]
     //public List<object> News { get; set; }
 

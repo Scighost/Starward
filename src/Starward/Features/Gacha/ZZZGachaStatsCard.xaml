@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <UserControl x:Class="Starward.Features.Gacha.ZZZGachaStatsCard"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -152,7 +152,10 @@
 
         <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
 
-        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_GachaItemList.SelectedIndex, Mode=TwoWay}">
+        <Pivot x:Name="Pivot_GachaItemList"
+               Grid.Row="8"
+               SelectedIndex="0"
+               SelectionChanged="GachaItemList_SelectionChanged">
             <Pivot.Resources>
                 <Thickness x:Key="PivotItemMargin">0,0,0,0</Thickness>
                 <Thickness x:Key="PivotHeaderItemMargin">12,0,12,0</Thickness>
@@ -279,7 +282,8 @@
                        Grid.Row="8"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Top"
-                       SelectedIndex="0">
+                       SelectedIndex="0"
+                       SelectionChanged="GachaItemList_SelectionChanged">
             <cwc:SegmentedItem>
                 <TextBlock Foreground="{ThemeResource Rarity5ForegroundBrush}" Text="S" />
             </cwc:SegmentedItem>

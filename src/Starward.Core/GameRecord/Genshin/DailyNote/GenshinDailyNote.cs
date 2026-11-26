@@ -1,4 +1,4 @@
-using Starward.Core.JsonConverter;
+﻿using Starward.Core.JsonConverter;
 using System.Text.Json.Serialization;
 
 namespace Starward.Core.GameRecord.Genshin.DailyNote;
@@ -26,6 +26,24 @@ public class GenshinDailyNote
     [JsonPropertyName("resin_recovery_time")]
     [JsonConverter(typeof(TimeSpanSecondStringJsonConverter))]
     public TimeSpan ResinRecoveryTime { get; set; }
+
+
+    [JsonIgnore]
+    public bool ResinFull => CurrentResin >= MaxResin;
+
+
+    private DateTime _currentTime = DateTime.Now;
+
+    [JsonIgnore]
+    public DateTime ResinFullTime => _currentTime + ResinRecoveryTime;
+
+    [JsonIgnore]
+    public string? ResinFullTimeAddDay => ((ResinFullTime.DayOfWeek - _currentTime.DayOfWeek + 7) % 7) switch
+    {
+        1 => "+1",
+        2 => "+2",
+        _ => null,
+    };
 
 
 
@@ -131,6 +149,13 @@ public class GenshinDailyNote
     /// </summary>
     [JsonPropertyName("archon_quest_progress")]
     public ArchonQuestProgress ArchonQuestProgress { get; set; }
+
+
+    /// <summary>
+    /// 砺行修远
+    /// </summary>
+    [JsonPropertyName("week_active_progress")]
+    public WeekActiveProgress WeekActiveProgress { get; set; }
 
 }
 

@@ -3,7 +3,6 @@ using Microsoft.UI.Xaml;
 using Starward.Features.Gacha.UIGF;
 using Starward.Features.Gacha.ZZZGachaToolbox;
 using Starward.Features.Screenshot;
-using Starward.Frameworks;
 using System.Collections.Generic;
 
 

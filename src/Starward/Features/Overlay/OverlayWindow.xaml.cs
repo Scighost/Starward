@@ -1,7 +1,6 @@
-using Microsoft.UI.Windowing;
+﻿using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Diagnostics;
@@ -12,7 +11,7 @@ using Vanara.PInvoke;
 
 namespace Starward.Features.Overlay;
 
-public sealed partial class OverlayWindow : WindowEx
+public sealed partial class OverlayWindow : WindowBase
 {
 
 

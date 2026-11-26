@@ -8,7 +8,6 @@ using Starward.Controls;
 using Starward.Core;
 using Starward.Core.GameRecord;
 using Starward.Core.GameRecord.StarRail.TrailblazeCalendar;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -27,7 +26,7 @@ public sealed partial class TrailblazeCalendarPage : PageBase
     private readonly ILogger<TrailblazeCalendarPage> _logger = AppConfig.GetLogger<TrailblazeCalendarPage>();
 
 
-    private readonly GameRecordService _gameRecordService = AppConfig.GetService<GameRecordService>();
+    private readonly GameRecordStarRailService _gameRecordService = AppConfig.GetService<GameRecordStarRailService>();
 
 
     public TrailblazeCalendarPage()

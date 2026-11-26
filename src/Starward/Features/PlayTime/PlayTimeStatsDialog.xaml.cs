@@ -48,6 +48,13 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
     {
         try
         {
+            int dayStartHour = AppConfig.PlayTimeDayStartHour;
+            if (dayStartHour > 23 || dayStartHour < -23)
+            {
+                dayStartHour = 0;
+            }
+            ComboBox_DayStartsAt.SelectedIndex = dayStartHour + 23;
+            ComboBox_DayStartsAt.SelectionChanged += ComboBox_DayStartsAt_SelectionChanged;
             _playTimeStatsService.ConvertItemToStats();
             LoadPlayTimeStats();
         }
@@ -59,11 +66,20 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
     }
 
 
+    private void ComboBox_DayStartsAt_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        AppConfig.PlayTimeDayStartHour = ComboBox_DayStartsAt.SelectedIndex - 23;
+        LoadPlayTimeStats();
+    }
+
+
     private void PlayTimeStatsDialog_Unloaded(object sender, RoutedEventArgs e)
     {
         this.Loaded -= PlayTimeStatsDialog_Loaded;
         this.Unloaded -= PlayTimeStatsDialog_Unloaded;
         StatCards?.Clear();
+        ComboBox_DayStartsAt.SelectionChanged -= ComboBox_DayStartsAt_SelectionChanged;
+        ComboBox_DayStartsAt.Items.Clear();
         PlayTimeBarChart.Items = null;
         PlayTimeHeatmap.Days = null;
         _playTimeLoaded = false;
@@ -193,8 +209,17 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
                     lastSpan = span;
                 }
 
-                DateTimeOffset startTime = DateTimeOffset.FromUnixTimeMilliseconds(session.StartTime).ToLocalTime();
-                DateTimeOffset endTime = DateTimeOffset.FromUnixTimeMilliseconds(session.EndTime).ToLocalTime();
+                int dayStartHour = AppConfig.PlayTimeDayStartHour;
+                if (dayStartHour > 23 || dayStartHour < -23)
+                {
+                    dayStartHour = 0;
+                }
+                DateTime startTime = DateTimeOffset.FromUnixTimeMilliseconds(session.StartTime)
+                                                   .ToLocalTime().DateTime
+                                                   .AddHours(dayStartHour);
+                DateTime endTime = DateTimeOffset.FromUnixTimeMilliseconds(session.EndTime)
+                                                 .ToLocalTime().DateTime
+                                                 .AddHours(dayStartHour);
 
                 // 计算每日时长，把数据添加到 timePerDay 字典中
                 for (DateTime day = startTime.Date; day <= endTime.Date; day = day.AddDays(1))
@@ -203,14 +228,7 @@ public sealed partial class PlayTimeStatsDialog : ContentDialog
                     DateTimeOffset dayEnd = day == endTime.Date ? endTime : day.AddDays(1).AddTicks(-1);
                     var duration = (long)(dayEnd - dayStart).TotalMilliseconds;
                     var dateOnly = DateOnly.FromDateTime(day);
-                    if (timePerDay.ContainsKey(dateOnly))
-                    {
-                        timePerDay[dateOnly] += duration;
-                    }
-                    else
-                    {
-                        timePerDay[dateOnly] = duration;
-                    }
+                    timePerDay[dateOnly] = timePerDay.GetValueOrDefault(dateOnly) + duration;
                 }
             }
 

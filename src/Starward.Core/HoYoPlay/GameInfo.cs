@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -8,13 +8,11 @@ namespace Starward.Core.HoYoPlay;
 /// </summary>
 public class GameInfo : GameId
 {
-
     /// <summary>
     /// 名称、图标、背景、缩略图等
     /// </summary>
     [JsonPropertyName("display")]
     public GameInfoDisplay Display { get; set; }
-
 
     /// <summary>
     /// 预约链接
@@ -33,22 +31,16 @@ public class GameInfo : GameId
     /// </summary>
     [JsonPropertyName("game_server_configs")]
     public List<GameServerConfig> GameServerConfigs { get; set; }
-
 }
 
 
 public class GameInfoDisplay
 {
-
-
     [JsonPropertyName("language")]
     public string Language { get; set; }
 
-
-
     [JsonPropertyName("name")]
     public string Name { get; set; }
-
 
     /// <summary>
     /// 图标
@@ -56,16 +48,11 @@ public class GameInfoDisplay
     [JsonPropertyName("icon")]
     public GameImage Icon { get; set; }
 
-
-
     [JsonPropertyName("title")]
     public string Title { get; set; }
 
-
-
     [JsonPropertyName("subtitle")]
     public string Subtitle { get; set; }
-
 
     /// <summary>
     /// 大背景图
@@ -73,13 +60,11 @@ public class GameInfoDisplay
     [JsonPropertyName("background")]
     public GameImage Background { get; set; }
 
-
     /// <summary>
     /// 游戏Logo
     /// </summary>
     [JsonPropertyName("logo")]
     public GameImage Logo { get; set; }
-
 
     /// <summary>
     /// 小缩略背景图
@@ -87,13 +72,11 @@ public class GameInfoDisplay
     [JsonPropertyName("thumbnail")]
     public GameImage Thumbnail { get; set; }
 
-
     /// <summary>
     /// 快捷方式图标
     /// </summary>
     [JsonPropertyName("shortcut")]
     public GameImage Shortcut { get; set; }
-
 
     /// <summary>
     /// WPF 图标
@@ -101,13 +84,11 @@ public class GameInfoDisplay
     [JsonPropertyName("wpf_icon")]
     public GameImage WpfIcon { get; set; }
 
-
     /// <summary>
     /// 左上角 Logo
     /// </summary>
     [JsonPropertyName("top_left_logo")]
     public GameImage? TopLeftLogo { get; set; }
-
 
     /// <summary>
     /// 游戏介绍
@@ -115,6 +96,11 @@ public class GameInfoDisplay
     [JsonPropertyName("introduction")]
     public string Introduction { get; set; }
 
+    /// <summary>
+    /// 韩国分级图标；仅国际服 language=ko-kr 时非 null
+    /// </summary>
+    [JsonPropertyName("korea_rating")]
+    public GameImage? KoreaRating { get; set; }
 }
 
 
@@ -125,8 +111,31 @@ public class GameInfoReservation
 {
     [JsonPropertyName("link")]
     public string Link { get; set; }
-}
 
+    [JsonPropertyName("login_state_in_link")]
+    public bool LoginStateInLink { get; set; }
+
+    /// <summary>
+    /// RESERVATION_MODE_NATIVE
+    /// </summary>
+    [JsonPropertyName("mode")]
+    public string Mode { get; set; }
+
+    [JsonPropertyName("auto_download_enabled")]
+    public bool AutoDownloadEnabled { get; set; }
+
+    [JsonPropertyName("auto_download_default_checked")]
+    public bool AutoDownloadDefaultChecked { get; set; }
+
+    [JsonPropertyName("recommendation_enabled")]
+    public bool RecommendationEnabled { get; set; }
+
+    /// <summary>
+    /// <see cref="GameReservationIcon.Id"/>
+    /// </summary>
+    [JsonPropertyName("recommended_icon_ids")]
+    public List<string> RecommendedIconIds { get; set; }
+}
 
 
 public abstract class GameInfoDisplayStatus
@@ -139,10 +148,8 @@ public abstract class GameInfoDisplayStatus
 }
 
 
-
 public class GameServerConfig
 {
-
     /// <summary>
     /// 游戏本地化名称
     /// </summary>
@@ -187,5 +194,4 @@ public class GameServerConfig
     /// </summary>
     [JsonPropertyName("display_status")]
     public string DisplayStatus { get; set; }
-
 }

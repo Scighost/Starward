@@ -21,7 +21,7 @@ internal partial class GameLauncherService
     internal static string? GetEndfieldHardLinkSource(GameBiz gameBiz, string installPath)
     {
         GameBiz otherRegion = gameBiz == GameBiz.endfield_cn ? GameBiz.endfield_global : GameBiz.endfield_cn;
-        string? path = GetGameInstallPath(otherRegion);
+        string? path = GetGameInstallPath(Starward.Core.HoYoPlay.GameId.FromGameBiz(otherRegion)!);
         return path is not null
             && string.Equals(Path.GetPathRoot(path), Path.GetPathRoot(installPath), StringComparison.OrdinalIgnoreCase)
             && DriveHelper.GetDriveFormat(path) is "NTFS"

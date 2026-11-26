@@ -48,3 +48,15 @@ public class ThresholdSimulationAbstractInfo
     public ThresholdSimulationBrief Brief { get; set; }
 
 }
+
+
+/// <summary>
+/// The period detail endpoint wraps the battle detail in <c>void_front_battle_detail</c>.
+/// </summary>
+public class ThresholdSimulationPeriodDetail
+{
+
+    [JsonPropertyName("void_front_battle_detail")]
+    public ThresholdSimulationDetailInfo Detail { get; set; }
+
+}

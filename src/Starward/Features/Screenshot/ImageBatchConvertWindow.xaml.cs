@@ -1,4 +1,4 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.Graphics.Canvas;
 using Microsoft.UI.Xaml;
@@ -10,7 +10,6 @@ using Starward.Codec.JpegXL.CMS;
 using Starward.Codec.JpegXL.CodeStream;
 using Starward.Codec.JpegXL.Encode;
 using Starward.Features.Codec;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -30,7 +29,7 @@ using Windows.System;
 namespace Starward.Features.Screenshot;
 
 [INotifyPropertyChanged]
-public sealed partial class ImageBatchConvertWindow : WindowEx
+public sealed partial class ImageBatchConvertWindow : WindowBase
 {
 
     private readonly ILogger<ImageBatchConvertWindow> _logger = AppConfig.GetLogger<ImageBatchConvertWindow>();

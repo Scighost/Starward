@@ -10,7 +10,7 @@
         xmlns:mgcux="using:Microsoft.Graphics.Canvas.UI.Xaml"
         xmlns:mxi="using:Microsoft.Xaml.Interactivity"
         xmlns:sc="using:Starward.Controls"
-        xmlns:sf="using:Starward.Frameworks"
+        xmlns:sf="using:Starward.Features"
         Title="{x:Bind CurrentFileName}"
         x:DefaultBindMode="OneWay"
         mc:Ignorable="d">

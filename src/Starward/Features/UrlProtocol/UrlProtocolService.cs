@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
@@ -39,6 +39,26 @@ internal class UrlProtocolService
     }
 
 
+    public static void RegisterHypLoginProtocol()
+    {
+        UnregisterHypLoginProtocol();
+        string exe = AppConfig.StarwardExecutePath;
+        string command = $"""
+            "{exe}" "%1"
+            """;
+        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Classes\starward-hyp-login", "", "URL:Starward Protocol");
+        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Classes\starward-hyp-login", "URL Protocol", "");
+        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Classes\starward-hyp-login\DefaultIcon", "", "Starward.exe,1");
+        Registry.SetValue(@"HKEY_CURRENT_USER\Software\Classes\starward-hyp-login\Shell\Open\Command", "", command);
+    }
+
+
+
+    public static void UnregisterHypLoginProtocol()
+    {
+        Registry.CurrentUser.DeleteSubKeyTree(@"Software\Classes\starward-hyp-login", false);
+    }
+
 
     public static void UnregisterProtocol()
     {
@@ -54,15 +74,6 @@ internal class UrlProtocolService
         {
             if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
             {
-                if (uri.Host is "test")
-                {
-                    return false;
-                }
-                if (string.IsNullOrWhiteSpace(AppConfig.UserDataFolder))
-                {
-                    log.LogWarning("UserDataFolder is null");
-                    return false;
-                }
                 if (uri.Host is "startgame")
                 {
                     if (GameBiz.TryParse(uri.AbsolutePath.Trim('/'), out GameBiz biz) && GameId.FromGameBiz(biz) is GameId gameId)
@@ -107,9 +118,6 @@ internal class UrlProtocolService
         }
         return false;
     }
-
-
-
 
 
 }

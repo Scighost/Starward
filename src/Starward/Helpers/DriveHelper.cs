@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Vanara.PInvoke;
 
 namespace Starward.Helpers;
 
-internal abstract class DriveHelper
+internal static class DriveHelper
 {
 
 
@@ -52,6 +52,45 @@ internal abstract class DriveHelper
         return false;
     }
 
+
+    public static unsafe bool? IsDeviceSeekPenalty(string path)
+    {
+        try
+        {
+            DriveInfo drive = new DriveInfo(path);
+            string fileName = $@"\\.\{drive.Name.Trim('\\')}";
+            using Kernel32.SafeHFILE hDevice = Kernel32.CreateFile(fileName, 0, FileShare.ReadWrite | FileShare.Delete, null, FileMode.Open, 0, HFILE.NULL);
+            if (hDevice.IsInvalid)
+            {
+                return null;
+            }
+            STORAGE_PROPERTY_QUERY query = new()
+            {
+                PropertyId = Kernel32.STORAGE_PROPERTY_ID.StorageDeviceSeekPenaltyProperty,
+                QueryType = Kernel32.STORAGE_QUERY_TYPE.PropertyStandardQuery,
+            };
+            Span<byte> buffer = stackalloc byte[512];
+            fixed (byte* pBuffer = buffer)
+            {
+                bool result = Kernel32.DeviceIoControl(hDevice,
+                                                       Kernel32.IOControlCode.IOCTL_STORAGE_QUERY_PROPERTY,
+                                                       (nint)(&query),
+                                                       (uint)sizeof(STORAGE_PROPERTY_QUERY),
+                                                       (nint)pBuffer,
+                                                       (uint)buffer.Length,
+                                                       out uint bytesReturned,
+                                                       IntPtr.Zero);
+                if (!result || bytesReturned < sizeof(Kernel32.DEVICE_SEEK_PENALTY_DESCRIPTOR))
+                {
+                    return null;
+                }
+                Kernel32.DEVICE_SEEK_PENALTY_DESCRIPTOR* desc = (Kernel32.DEVICE_SEEK_PENALTY_DESCRIPTOR*)pBuffer;
+                return desc->IncursSeekPenalty;
+            }
+        }
+        catch { }
+        return null;
+    }
 
 
     private static string? GetPathRoot(string path)

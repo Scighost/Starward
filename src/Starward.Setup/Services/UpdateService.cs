@@ -1,6 +1,5 @@
 ﻿using SharpCompress.Compressors.ZStandard;
 using Starward.Setup.Core;
-using Starward.Setup.Snap.HPatch;
 using System.Net;
 
 namespace Starward.Setup.Services;
@@ -147,16 +146,24 @@ public class UpdateService : DownloadService
             {
                 if (await CheckFileHashAsync(path, item.Patch.OldFileHash, item.Patch.OldFileSize, cancellation).ConfigureAwait(false))
                 {
-                    using var fs_diff = new FileSliceStream(idPath, item.Patch.Offset, item.Patch.Length);
                     string temp = path + ".tmp";
-                    using var fs_source = File.OpenRead(Path.Combine(installFolder, item.Patch.OldPath));
-                    using var fs_target = File.Create(temp);
-                    bool success = HPatch.PatchZstandard(fs_source, fs_diff, fs_target);
+                    bool success = false;
+                    try
+                    {
+                        using var fs_diff = new FileSliceStream(idPath, item.Patch.Offset, item.Patch.Length);
+                        using var fs_source = File.OpenRead(Path.Combine(installFolder, item.Patch.OldPath));
+                        using var fs_target = File.Create(temp);
+                        await HPatch.HPatch.PatchAsync(fs_source, fs_diff, fs_target, cancellationToken: token);
+                        success = true;
+                    }
+                    catch { }
                     if (success)
                     {
-                        fs_source.Dispose();
-                        fs_target.Dispose();
                         File.Move(temp, path, true);
+                    }
+                    else if (File.Exists(temp))
+                    {
+                        File.Delete(temp);
                     }
                 }
             }

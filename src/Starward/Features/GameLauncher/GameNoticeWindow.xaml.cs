@@ -1,11 +1,10 @@
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
 using Starward.Core;
-using Starward.Frameworks;
 using Starward.Helpers;
 using System;
 using System.Globalization;
@@ -19,7 +18,7 @@ using Windows.System;
 
 namespace Starward.Features.GameLauncher;
 
-public sealed partial class GameNoticeWindow : WindowEx
+public sealed partial class GameNoticeWindow : WindowBase
 {
 
 

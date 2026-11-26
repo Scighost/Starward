@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Starward.Core.HoYoPlay;
 
@@ -105,7 +105,8 @@ public class GameConfig
     public string ResCategoryDir { get; set; }
 
     /// <summary>
-    /// 此文件记录的本地资源目录
+    /// 此文件记录的本地无需下载的资源
+    /// {"fileName": "ZenlessZoneZero_Data/StreamingAssets/Video/HD/Procedure/CutScene_Chapter0_00.usm", "category": "10100"}
     /// </summary>
     [JsonPropertyName("game_res_cut_dir")]
     public string GameResCutDir { get; set; }

@@ -17,43 +17,21 @@ public record LauncherConfig
     public int SubChannel { get; set; }
 
 
-    [JsonPropertyName("host")]
-    public string Host { get; set; }
+    [JsonPropertyName("region")]
+    public ServerRegion Region { get; set; }
 
 
-    public LauncherConfig(string id, int channel, int subChannel, string host)
+    [JsonPropertyName("is_beta")]
+    public bool IsBeta { get; set; }
+
+
+    public LauncherConfig(string id, int channel, int subChannel, ServerRegion region, bool isBeta = false)
     {
         Id = id;
         Channel = channel;
         SubChannel = subChannel;
-        Host = host;
+        Region = region;
+        IsBeta = isBeta;
     }
-
-
-
-    public static LauncherConfig ChinaOfficial { get; } = new("jGHBHlcOq1", 1, 1, "mihoyo");
-
-    public static LauncherConfig GlobalOfficial { get; } = new("VYTpXlbWo8", 1, 0, "hoyoverse");
-
-    public static LauncherConfig BilibiliGenshin { get; } = new("umfgRO5gh5", 14, 0, "mihoyo");
-
-    public static LauncherConfig BilibiliStarRail { get; } = new("6P5gHMNyK3", 14, 0, "mihoyo");
-
-    public static LauncherConfig BilibiliZZZ { get; } = new("xV0f4r1GT0", 14, 0, "mihoyo");
-
-
-    public static LauncherConfig FromLauncherId(string launcherId)
-    {
-        return launcherId switch
-        {
-            LauncherId.ChinaOfficial => ChinaOfficial,
-            LauncherId.GlobalOfficial => GlobalOfficial,
-            LauncherId.BilibiliGenshin => BilibiliGenshin,
-            LauncherId.BilibiliStarRail => BilibiliStarRail,
-            LauncherId.BilibiliZZZ => BilibiliZZZ,
-            _ => throw new ArgumentOutOfRangeException(nameof(launcherId), launcherId, "Unknown launcher ID."),
-        };
-    }
-
 
 }

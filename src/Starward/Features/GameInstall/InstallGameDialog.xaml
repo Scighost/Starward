@@ -1,34 +1,24 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentDialog x:Class="Starward.Features.GameInstall.InstallGameDialog"
-               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
-               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-               xmlns:lang="using:Starward.Language"
-               xmlns:local="using:Starward.Features.GameInstall"
-               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:sh="using:Starward.Helpers"
-               x:DefaultBindMode="OneWay"
-               Background="{ThemeResource CustomAcrylicBrush}"
-               BorderThickness="0"
-               CornerRadius="8"
-               Style="{ThemeResource DefaultContentDialogStyle}"
-               mc:Ignorable="d">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<sf:ContentDialogBase x:Class="Starward.Features.GameInstall.InstallGameDialog"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:lang="using:Starward.Language"
+                      xmlns:local="using:Starward.Features.GameInstall"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:sf="using:Starward.Features"
+                      xmlns:sh="using:Starward.Helpers"
+                      x:DefaultBindMode="OneWay"
+                      mc:Ignorable="d">
 
-    <ContentDialog.Resources>
-        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
-        <Thickness x:Key="ContentDialogPadding">0</Thickness>
-        <StaticResource x:Key="ContentDialogSmokeFill" ResourceKey="ControlFillColorTransparentBrush" />
-        <StaticResource x:Key="ContentDialogTopOverlay" ResourceKey="ControlFillColorTransparentBrush" />
-    </ContentDialog.Resources>
 
-    <Grid Width="560" Padding="24">
+    <Grid Width="600" Padding="24">
 
 
         <StackPanel>
 
-
-            <!--  Title  -->
+            <!--  选择安装路径  -->
             <TextBlock FontSize="18"
                        FontWeight="Bold"
                        IsTextScaleFactorEnabled="False"
@@ -36,18 +26,35 @@
 
 
 
-            <!--  Path  -->
+            <!--  安装路径  -->
             <Grid Height="36"
                   Margin="0,16,0,0"
-                  Background="{ThemeResource DateTimePickerFlyoutButtonBackgroundPointerOver}"
-                  CornerRadius="8">
+                  Background="{ThemeResource ControlFillColorDefaultBrush}"
+                  CornerRadius="8"
+                  Visibility="{x:Bind GameResourceLoaded}">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <!--  驱动器类型  -->
+                <Border Margin="8,0,0,0"
+                        Padding="6,4,6,4"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource ControlFillColorDefaultBrush}"
+                        CornerRadius="4"
+                        Visibility="{x:Bind DriveTypeText, Converter={StaticResource ObjectToVisibilityConverter}}">
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind DriveTypeText}" />
+                </Border>
+                <!--  路径  -->
                 <TextBlock x:Name="TextBlock_InstallationPath"
-                           Margin="12,4,12,4"
+                           Grid.Column="1"
+                           Margin="8,4,12,4"
                            VerticalAlignment="Center"
                            FontSize="14"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -57,14 +64,15 @@
                            Text="{x:Bind InstallationPath}"
                            TextTrimming="CharacterEllipsis"
                            TextWrapping="Wrap" />
-                <!--  Change Path  -->
-                <Button Grid.Column="1"
+                <!--  更改  -->
+                <Button Grid.Column="2"
                         Padding="12,0,12,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Stretch"
                         BorderThickness="0"
                         Command="{x:Bind ChangeInstallationPathCommand}"
                         CornerRadius="8"
+                        IsEnabled="{x:Bind GameResourceLoaded}"
                         Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
                     <TextBlock FontSize="14"
                                Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
@@ -73,38 +81,134 @@
                 </Button>
             </Grid>
 
+            <!--  获取资源中  -->
+            <StackPanel x:Name="StackPanel_GettingResource"
+                        Margin="2,12,0,0"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <ProgressRing Width="16"
+                              Height="16"
+                              IsIndeterminate="True" />
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           Text="{x:Bind lang:Lang.InstallGameDialog_LoadingDownloadResources}" />
+            </StackPanel>
+
+            <!--  资源大小  -->
+            <Grid Margin="0,12,0,0"
+                  Padding="16,12,16,12"
+                  Background="{ThemeResource ControlFillColorDefaultBrush}"
+                  CornerRadius="8"
+                  Visibility="{x:Bind GameResourceLoaded}">
+                <StackPanel Spacing="8">
+                    <!--  游戏版本  -->
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8EC;" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.InstallGameDialog_GameVersion}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{x:Bind LatestGameVersion}" />
+                    </StackPanel>
+                    <!--  游戏资源  -->
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8B7;" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind lang:Lang.FileSettingPage_GameResource}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                   Text="{x:Bind FullGameResourceSizeText}"
+                                   Visibility="{x:Bind ScenarioPackageInfo, Converter={StaticResource ObjectToVisibilityReversedConverter}}" />
+                    </StackPanel>
+                    <!--  资源选择  -->
+                    <GridView x:Name="GridView_CategoryScenario"
+                              Margin="0,4,0,-12"
+                              ItemContainerTransitions="{x:Null}"
+                              SelectedIndex="0"
+                              SelectionChanged="GridView_CategoryScenario_SelectionChanged"
+                              Visibility="{x:Bind ScenarioPackageInfo, Converter={StaticResource ObjectToVisibilityConverter}}">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <cwc:EqualPanel Spacing="12" />
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <!--  完整资源  -->
+                        <GridViewItem HorizontalContentAlignment="Stretch">
+                            <StackPanel Padding="16,8,16,8"
+                                        BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Spacing="4">
+                                <TextBlock Text="{x:Bind ScenarioPackageInfo.FullPackageName}" TextWrapping="Wrap" />
+                                <TextBlock FontSize="12" Text="{x:Bind FullGameResourceSizeText}" />
+                            </StackPanel>
+                        </GridViewItem>
+                        <!--  基础资源  -->
+                        <GridViewItem HorizontalContentAlignment="Stretch">
+                            <StackPanel Padding="16,8,16,8"
+                                        BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="8"
+                                        Spacing="4">
+                                <TextBlock Text="{x:Bind ScenarioPackageInfo.BasePackageName}" TextWrapping="Wrap" />
+                                <TextBlock FontSize="12" Text="{x:Bind BaseGameResourceSizeText}" />
+                            </StackPanel>
+                        </GridViewItem>
+                    </GridView>
+                    <!--  资源说明  -->
+                    <TextBlock x:Name="TextBlock_ScenarioDesc"
+                               Margin="2,0,2,8"
+                               FontSize="12"
+                               Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                               Text="{x:Bind ScenarioPackageInfo.FullPackageDescription}"
+                               TextWrapping="Wrap"
+                               Visibility="{x:Bind ScenarioPackageInfo, Converter={StaticResource ObjectToVisibilityConverter}}" />
+                    <!--  语音资源  -->
+                    <StackPanel x:Name="StackPanel_AudioResourceSize"
+                                Orientation="Horizontal"
+                                Spacing="12"
+                                Visibility="Collapsed">
+                        <FontIcon FontSize="16"
+                                  Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                  Glyph="&#xE8B7;" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                            <Run Text="{x:Bind lang:Lang.InstallGameDialog_VoiceoverResources}" />
+                            <Run Text="(" /><Run Text="{x:Bind DefaultAudioLanguageName}" /><Run Text=")" />
+                        </TextBlock>
+                        <TextBlock x:Name="TextBlock_AudioResourceSize"
+                                   Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                   Text="{x:Bind FullAudioResourceSizeText}" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
 
 
-            <!--  Select Language  -->
-            <cwc:Segmented x:Name="Segmented_SelectLanguage"
-                           Margin="0,8,0,0"
-                           HorizontalAlignment="Stretch"
-                           SelectionChanged="Segmented_SelectLanguage_SelectionChanged"
-                           SelectionMode="Multiple"
-                           Visibility="Collapsed">
-                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Chinese}" Tag="zh-cn" />
-                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_English}" Tag="en-us" />
-                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Japanese}" Tag="ja-jp" />
-                <cwc:SegmentedItem Content="{x:Bind lang:Lang.Language_Korean}" Tag="ko-kr" />
-            </cwc:Segmented>
-
-
-
-            <!--  Free Space  -->
+            <!--  占用空间  -->
             <StackPanel x:Name="StackPanel_FreeSpace"
-                        Margin="1,8,0,0"
+                        Margin="2,12,0,0"
                         Orientation="Horizontal"
                         Spacing="8"
-                        Visibility="{x:Bind ErrorMessage, Converter={StaticResource ObjectToVisibilityReversedConverter}}">
+                        Visibility="{x:Bind GameResourceLoaded}">
+                <!--  下载资源  -->
                 <TextBlock FontSize="12"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextScaleFactorEnabled="False"
                            Text="">
-                    <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequiredToUnzip}" />
+                    <Run Text="{x:Bind lang:Lang.InstallGameDialog_DownloadResources}" />
                     <Run Text="" />
-                    <Run Text="{x:Bind UnzipSpaceText}" />
+                    <Run x:Name="Run_DownloadResource" Text="{x:Bind FullGameResourceSizeText}" />
                 </TextBlock>
                 <AppBarSeparator Padding="2" />
+                <!--  所需空间  -->
+                <TextBlock FontSize="12"
+                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="">
+                    <Run Text="{x:Bind lang:Lang.InstallGameDialog_SpaceRequired}" />
+                    <Run Text="" />
+                    <Run x:Name="Run_SpaceRequired" Text="{x:Bind FullUncompressedResourceSizeText}" />
+                </TextBlock>
+                <AppBarSeparator Padding="2" />
+                <!--  可用空间  -->
                 <TextBlock x:Name="TextBlock_AvailableSpace"
                            FontSize="12"
                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -115,22 +219,24 @@
                 </TextBlock>
             </StackPanel>
 
-            <!--  不要选择驱动器的根目录  -->
-            <TextBlock Margin="1,8,1,0"
-                       FontSize="12"
-                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
-                       IsTextScaleFactorEnabled="False"
-                       Text="{x:Bind ErrorMessage}"
-                       TextWrapping="Wrap"
-                       Visibility="{x:Bind ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
-
 
             <!--  Auto Create Subfolder  -->
-            <CheckBox Margin="0,8,0,0" IsChecked="{x:Bind AutomaticallyCreateSubfolderForInstall, Mode=TwoWay}">
+            <CheckBox Margin="2,12,0,0"
+                      IsChecked="{x:Bind AutomaticallyCreateSubfolderForInstall, Mode=TwoWay}"
+                      Visibility="{x:Bind GameResourceLoaded}">
                 <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                            IsTextScaleFactorEnabled="False"
                            Text="{x:Bind lang:Lang.InstallGameDialog_AutomaticallyCreateASubfolder}" />
             </CheckBox>
+
+
+            <!--  错误信息  -->
+            <TextBlock Margin="2,12,2,0"
+                       FontSize="12"
+                       Foreground="{ThemeResource SystemFillColorCautionBrush}"
+                       Text="{x:Bind ErrorMessage}"
+                       TextWrapping="Wrap"
+                       Visibility="{x:Bind ErrorMessage, Converter={StaticResource ObjectToVisibilityConverter}}" />
 
 
             <!--  Start Install  -->
@@ -142,46 +248,13 @@
                     FontSize="14"
                     IsEnabled="False"
                     IsTextScaleFactorEnabled="False"
-                    Style="{ThemeResource AccentButtonStyle}" />
+                    Style="{ThemeResource AccentButtonStyle}"
+                    Visibility="{x:Bind GameResourceLoaded}" />
 
 
 
         </StackPanel>
 
-
-
-        <!--  Support Hard Links  -->
-        <StackPanel x:Name="StackPanel_HardLink"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Orientation="Horizontal"
-                    Spacing="4"
-                    Visibility="Collapsed">
-            <TextBlock Margin="0,0,0,2"
-                       VerticalAlignment="Center"
-                       FontSize="12"
-                       Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                       IsTextScaleFactorEnabled="False"
-                       Text="{x:Bind lang:Lang.InstallGameDialog_SupportHardLinks}" />
-            <Button Padding="4"
-                    sh:PointerCursor.CursorShape="Hand"
-                    Style="{ThemeResource DateTimePickerFlyoutButtonStyle}">
-                <FontIcon FontSize="12"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          Glyph="&#xE9CE;"
-                          IsTextScaleFactorEnabled="False" />
-                <Button.Flyout>
-                    <Flyout>
-                        <TextBlock MaxWidth="380"
-                                   FontSize="12"
-                                   Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                   IsTextScaleFactorEnabled="False"
-                                   Text="{x:Bind lang:Lang.InstallGameDialog_HardLinkDesc}"
-                                   TextWrapping="Wrap" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </StackPanel>
 
 
         <!--  Close Button  -->
@@ -206,4 +279,4 @@
 
 
 
-</ContentDialog>
+</sf:ContentDialogBase>
