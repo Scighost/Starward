@@ -10,6 +10,22 @@ public sealed partial class EndfieldGachaStatsCard : UserControl
         InitializeComponent();
     }
 
+    private void Rarity_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is Pivot pivot && Segmented_Rarity is { } tabs
+            && pivot.SelectedIndex >= 0 && pivot.SelectedIndex < tabs.Items.Count
+            && tabs.SelectedIndex != pivot.SelectedIndex)
+        {
+            tabs.SelectedIndex = pivot.SelectedIndex;
+        }
+        else if (sender == Segmented_Rarity && Pivot_Rarity is { } pages
+            && Segmented_Rarity.SelectedIndex >= 0 && Segmented_Rarity.SelectedIndex < pages.Items.Count
+            && pages.SelectedIndex != Segmented_Rarity.SelectedIndex)
+        {
+            pages.SelectedIndex = Segmented_Rarity.SelectedIndex;
+        }
+    }
+
     public EndfieldGachaPoolStats PoolStats
     {
         get => (EndfieldGachaPoolStats)GetValue(PoolStatsProperty);

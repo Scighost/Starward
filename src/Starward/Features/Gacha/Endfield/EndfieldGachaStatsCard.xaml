@@ -98,7 +98,10 @@
 
         <MenuFlyoutSeparator Grid.Row="7" Visibility="Collapsed" />
 
-        <Pivot Grid.Row="8" SelectedIndex="{x:Bind Segmented_Rarity.SelectedIndex, Mode=TwoWay}">
+        <Pivot x:Name="Pivot_Rarity"
+               Grid.Row="8"
+               SelectedIndex="0"
+               SelectionChanged="Rarity_SelectionChanged">
             <Pivot.Resources>
                 <Thickness x:Key="PivotItemMargin">0</Thickness>
                 <Thickness x:Key="PivotHeaderItemMargin">12,0</Thickness>
@@ -209,7 +212,8 @@
                        Grid.Row="8"
                        HorizontalAlignment="Stretch"
                        VerticalAlignment="Top"
-                       SelectedIndex="0">
+                       SelectedIndex="0"
+                       SelectionChanged="Rarity_SelectionChanged">
             <cwc:SegmentedItem>
                 <TextBlock Foreground="{StaticResource Rarity6ForegroundBrush}" Text="6★" />
             </cwc:SegmentedItem>
