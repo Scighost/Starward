@@ -2942,4 +2942,13 @@
   <data name="HypLoginWindow_UnofficialAPPPleaseBeMindfulOfYourAccountSecurity" xml:space="preserve">
     <value>แอพที่ไม่เป็นทางการ โปรดระวังความปลอดภัยของบัญชีของคุณ</value>
   </data>
+  <data name="DailyNoteButton_ToTemperThyselfAndJourneyFar" xml:space="preserve">
+    <value>ฝึกฝนตนเองและเดินทางไกล</value>
+  </data>
+  <data name="DailyNoteButton_PeriodProgress" xml:space="preserve">
+    <value>ความคืบหน้ารอบนี้</value>
+  </data>
+  <data name="DailyNoteButton_WeekProgress" xml:space="preserve">
+    <value>ความคืบหน้าสัปดาห์นี้</value>
+  </data>
 </root>
