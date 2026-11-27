@@ -257,6 +257,23 @@ internal static class GameSettingService
 
 
 
+    public static bool? GetGenshinEnableHDR(GameBiz biz)
+    {
+        if (biz.Game is GameBiz.hk4e)
+        {
+            try
+            {
+                string key = biz.GetGameRegistryKey();
+                return Registry.GetValue(key, WINDOWS_HDR_ON_h3132281285, null) as int? is int v and not 0;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        return null;
+    }
+
 
 
     public static (int MaxLuminance, int SceneLuminance, int UILuminance) GetGenshinHDRLuminance(GameBiz biz)
