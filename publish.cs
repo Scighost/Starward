@@ -288,6 +288,7 @@ async Task BuildReleaseToolsAsync(string version, Architecture arch)
     string toolsPath = Path.GetFullPath($"publish/pub_res/{platform}");
     Directory.CreateDirectory(toolsPath);
     Directory.CreateDirectory("publish/release/package/");
+    Directory.CreateDirectory("src/Starward.Setup/Assets/");
     File.Delete("src/Starward.Setup/Assets/Starward.7z");
 
     await Process.Start("dotnet",
@@ -309,7 +310,6 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
     if (doPackage)
     {
         Directory.CreateDirectory("publish/release/package/");
-        Directory.CreateDirectory("src/Starward.Setup/Assets/");
         var compressor = new SharpSevenZipCompressor { CompressionLevel = SharpSevenZip.CompressionLevel.Ultra };
         if (type is InstallType.Setup)
         {
