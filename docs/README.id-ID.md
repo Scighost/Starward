@@ -23,7 +23,7 @@ Pertama, perangkatmu harus memenuhi persyaratan berikut:
 
 >[WebP Imaging Extension](https://apps.microsoft.com/detail/9pg2dk419drg) biasanya sudah tersedia di sistemmu. Jika aplikasi tidak menampilkan gambar latar belakang dengan benar, pastikan ekstensi tersebut sudah terpasang.
 
-Selanjutnya, unduh paket sesuai arsitektur CPU-mu dari [GitHub Release](https://github.com/Scighost/Starward/releases). Ekstrak paket tersebut, lalu jalankan `Starward.exe` dan ikuti petunjuknya.
+Selanjutnya, unduh paket sesuai arsitektur CPU-mu dari [GitHub Release](https://github.com/NagiYume/Starward/releases). Ekstrak paket tersebut, lalu jalankan `Starward.exe` dan ikuti petunjuknya.
 
 
 ## Lokalisasi
@@ -57,7 +57,7 @@ Untuk mengompilasi proyek di perangkat lokal, kamu perlu memasang Visual Studio 
 
 ## Donasi
 
-Pengembangan tidaklah mudah. Jika menurutmu Starward bermanfaat, kamu dapat berdonasi di https://donate.scighost.com.
+Pengembangan tidaklah mudah. Jika menurutmu Starward bermanfaat, kamu dapat berdonasi di https://www.akedata.wiki/?plugin=about.
 
 
 ## Ucapan Terima Kasih

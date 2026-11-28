@@ -20,7 +20,24 @@ public partial class LauncherConfigModel : ObservableObject
 
     public int SubChannel { get; set => SetProperty(ref field, value); }
 
-    public ServerRegion Region { get; set => SetProperty(ref field, value); }
+    public ServerRegion Region
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                OnPropertyChanged(nameof(IsHoYoLauncher));
+                OnPropertyChanged(nameof(IdLabel));
+            }
+        }
+    }
+
+    [JsonIgnore]
+    public bool IsHoYoLauncher => Region != ServerRegion.Hypergryph;
+
+    [JsonIgnore]
+    public string IdLabel => IsHoYoLauncher ? "ID" : "AppCode";
 
     public string Name { get; set => SetProperty(ref field, value); }
 
@@ -104,7 +121,7 @@ public partial class LauncherConfigModel : ObservableObject
 
     public static List<LauncherConfigModel> GetAll()
     {
-        _all = [.. GetDefault(), BiliGI, BiliHSR, BiliZZZ, .. LoadExtra()];
+        _all = [.. GetDefault(), BiliGI, BiliHSR, BiliZZZ, BiliEndfield, .. LoadExtra()];
         return _all;
     }
 
@@ -161,12 +178,10 @@ public partial class LauncherConfigModel : ObservableObject
         string? enabled = AppConfig.EnabledLauncherIds;
         if (!string.IsNullOrWhiteSpace(enabled))
         {
+            var enabledIds = enabled.Split(',').ToHashSet();
             foreach (var item in all)
             {
-                if (enabled.Contains(item.Id))
-                {
-                    item.IsSelected = true;
-                }
+                item.IsSelected = enabledIds.Contains(item.Id);
             }
         }
         if (all.Count(x => x.IsSelected) is 0)
@@ -195,11 +210,11 @@ public partial class LauncherConfigModel : ObservableObject
                     foreach (var item in list)
                     {
                         item.Editable = true;
-                        if (!string.IsNullOrWhiteSpace(item.Icon))
+                        if (!string.IsNullOrWhiteSpace(item.Icon) && !item.Icon.StartsWith("ms-appx:///"))
                         {
                             item.Icon = Path.Join(AppConfig.UserDataFolder, "image", Path.GetFileName(item.Icon));
                         }
-                        if (!string.IsNullOrWhiteSpace(item.SmallIcon))
+                        if (!string.IsNullOrWhiteSpace(item.SmallIcon) && !item.SmallIcon.StartsWith("ms-appx:///"))
                         {
                             item.SmallIcon = Path.Join(AppConfig.UserDataFolder, "image", Path.GetFileName(item.SmallIcon));
                         }
@@ -237,6 +252,10 @@ public partial class LauncherConfigModel : ObservableObject
     public static LauncherConfigModel BiliHSR => new("6P5gHMNyK3", 14, 0, ServerRegion.miHoYo, "bilibili - 星穹铁道", "ms-appx:///Assets/Image/icon_bilibili.png", "ms-appx:///Assets/Image/gameicon_bilibili.png", false, false);
 
     public static LauncherConfigModel BiliZZZ => new("xV0f4r1GT0", 14, 0, ServerRegion.miHoYo, "bilibili - 绝区零", "ms-appx:///Assets/Image/icon_bilibili.png", "ms-appx:///Assets/Image/gameicon_bilibili.png", false, false);
+
+    public static LauncherConfigModel BiliEndfield => new(HypergryphGameConstants.BilibiliEndfieldId, 2, 2, ServerRegion.Hypergryph,
+        $"bilibili - {new GameBiz(GameBiz.endfield_bilibili).ToGameName()}",
+        "ms-appx:///Assets/Image/icon_bilibili.png", HypergryphGameConstants.BilibiliLogo, false, false);
 
 
 

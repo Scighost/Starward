@@ -534,7 +534,7 @@ public sealed partial class EndfieldGachaPage : PageBase
     {
         if (!IsSyncing)
         {
-            await LoginAccountInternalAsync();
+            await LoginAccountInternalAsync(syncAccountRecords: IsAccountRecordView);
         }
     }
 

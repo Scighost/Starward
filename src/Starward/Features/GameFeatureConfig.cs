@@ -63,6 +63,7 @@ internal partial class GameFeatureConfig
             HypergryphGameConstants.ArknightsAppCode => arknights_cn,
             HypergryphGameConstants.EndfieldAppCode => endfield_cn,
             HypergryphGameConstants.GlobalEndfieldAppCode => endfield_global,
+            _ when HypergryphGameConstants.IsEndfield(gameId.GameBiz) => endfield_global,
             _ => Default,
         };
         return config;

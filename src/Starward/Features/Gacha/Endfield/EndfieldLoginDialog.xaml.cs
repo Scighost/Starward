@@ -99,7 +99,12 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         _initialized = true;
         try
         {
-            await WebView_Login.EnsureCoreWebView2Async();
+            CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync();
+            if (_closed) return;
+            CoreWebView2ControllerOptions options = environment.CreateCoreWebView2ControllerOptions();
+            options.ProfileName = "StarwardEndfieldLogin";
+            options.IsInPrivateModeEnabled = true;
+            await WebView_Login.EnsureCoreWebView2Async(environment, options);
             if (_closed) return;
             CoreWebView2 core = WebView_Login.CoreWebView2;
             core.Settings.UserAgent = BrowserUserAgent;
@@ -110,8 +115,12 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             core.WebMessageReceived += Core_WebMessageReceived;
             core.ProcessFailed += Core_ProcessFailed;
             await core.AddScriptToExecuteOnDocumentCreatedAsync(LoginCaptureScript);
-            core.Navigate(LoginUrl);
+            if (!_closed)
+            {
+                core.Navigate(LoginUrl);
+            }
         }
+        catch (Exception) when (_closed) { }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Initialize Endfield login WebView2 failed.");
@@ -215,15 +224,14 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         _closed = true;
         _lifetime.Cancel();
         _lifetime.Dispose();
-        if (WebView_Login.CoreWebView2 is not CoreWebView2 core)
+        if (WebView_Login.CoreWebView2 is CoreWebView2 core)
         {
-            return;
+            core.NavigationStarting -= Core_NavigationStarting;
+            core.NavigationCompleted -= Core_NavigationCompleted;
+            core.NewWindowRequested -= Core_NewWindowRequested;
+            core.WebMessageReceived -= Core_WebMessageReceived;
+            core.ProcessFailed -= Core_ProcessFailed;
         }
-        core.NavigationStarting -= Core_NavigationStarting;
-        core.NavigationCompleted -= Core_NavigationCompleted;
-        core.NewWindowRequested -= Core_NewWindowRequested;
-        core.WebMessageReceived -= Core_WebMessageReceived;
-        core.ProcessFailed -= Core_ProcessFailed;
         WebView_Login.Close();
     }
 }

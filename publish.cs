@@ -169,6 +169,8 @@ if (string.IsNullOrWhiteSpace(version))
     return 0;
 }
 
+string releaseUrl = $"{ReleaseClient.RepositoryUrl}/releases/download/v{version}";
+
 bool doCompile = false;
 bool doPackage = false;
 bool doManifest = false;
@@ -228,14 +230,8 @@ if (doCompile)
 
 var _client = new BuildClient();
 
-BuildResource? buildResource = null;
-if (doPackage || doManifest)
-{
-    buildResource = await _client.PrepareBuildResourceAsync();
-}
-
 string hdiffz = string.Empty;
-if (doManifest)
+if (enableDiff)
 {
     hdiffz = await _client.GetHdiffzAsync();
 }
@@ -254,8 +250,17 @@ foreach (var arch in targetArchitectures)
 {
     if (Directory.Exists($"publish/{arch.ToLower()}"))
     {
-        await CreatePackageAsync(version, arch, InstallType.Setup, release_info, enableDiff, doPackage, doManifest);
-        await CreatePackageAsync(version, arch, InstallType.Portable, release_info, enableDiff, doPackage, doManifest);
+        if (doPackage)
+        {
+            await BuildReleaseToolsAsync(version, arch);
+        }
+        List<ReleaseManifest> manifests = [];
+        await CreatePackageAsync(version, arch, InstallType.Setup, manifests);
+        await CreatePackageAsync(version, arch, InstallType.Portable, manifests);
+        if (doManifest)
+        {
+            await WriteBundledManifestsAsync(arch, manifests);
+        }
     }
 }
 
@@ -276,7 +281,24 @@ return 0;
 
 
 
-async Task CreatePackageAsync(string version, Architecture arch, InstallType type, ReleaseInfo release_info, bool enableDiff, bool doPackage, bool doManifest)
+async Task BuildReleaseToolsAsync(string version, Architecture arch)
+{
+    string platform = arch.ToLower();
+    string toolsPath = Path.GetFullPath($"publish/pub_res/{platform}");
+    Directory.CreateDirectory(toolsPath);
+    Directory.CreateDirectory("publish/release/package/");
+    File.Delete("src/Starward.Setup/Assets/Starward.7z");
+
+    await Process.Start("dotnet",
+        $"publish src/Starward.Setup -c Release -o \"{toolsPath}\" -r win-{platform} -p:Version={version}").EnsureExitSuccessAsync();
+    File.Copy(Path.Join(toolsPath, "Starward.Setup.exe"), $"publish/release/package/Starward_Updater_{version}_{platform}.exe", true);
+    await Process.Start("msbuild", $"""
+        src/Starward.Launcher "-property:Configuration=Release;Platform={platform};OutDir={toolsPath}"
+        """).EnsureExitSuccessAsync();
+}
+
+
+async Task CreatePackageAsync(string version, Architecture arch, InstallType type, List<ReleaseManifest> architectureManifests)
 {
     Console.WriteLine($"Creating package for ({version}, {arch}, {type})...");
 
@@ -291,25 +313,25 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
         if (type is InstallType.Setup)
         {
             Console.WriteLine("Compressing setup package...");
-            File.Copy($"publish/pub_res/Starward.Setup_{arch.ToLower()}.exe", Path.Join(rootPath, "Starward.Setup.exe"), true);
-            compressor.CompressDirectory(rootPath, "src/Starward.Setup/Assets/Starward.7z");
-            Console.WriteLine("Creating setup executable...");
-            var p = Process.Start("dotnet", $"""
-                publish src/Starward.Setup -o publish/{arch.ToLower()}-setup/ -r win-{arch.ToLower()} -p:Version={version}
-                """);
-            await p.WaitForExitAsync();
-            if (p.ExitCode != 0)
+            const string embeddedArchive = "src/Starward.Setup/Assets/Starward.7z";
+            try
             {
-                throw new Exception($"Publish setup exited with code {p.ExitCode}");
+                compressor.CompressDirectory(rootPath, embeddedArchive);
+                Console.WriteLine("Creating setup executable...");
+                await Process.Start("dotnet", $"""
+                    publish src/Starward.Setup -c Release -o publish/{arch.ToLower()}-setup/ -r win-{arch.ToLower()} -p:Version={version}
+                    """).EnsureExitSuccessAsync();
+                File.Move($"publish/{arch.ToLower()}-setup/Starward.Setup.exe", $"publish/release/package/Starward_Setup_{version}_{arch.ToLower()}.exe", true);
             }
-            File.Move($"publish/{arch.ToLower()}-setup/Starward.Setup.exe", $"publish/release/package/Starward_Setup_{version}_{arch.ToLower()}.exe", true);
-            File.Delete("src/Starward.Setup/Assets/Starward.7z");
-            File.Delete(Path.Join(rootPath, "Starward.Setup.exe"));
+            finally
+            {
+                File.Delete(embeddedArchive);
+            }
         }
         else
         {
             Console.WriteLine("Compressing portable package...");
-            File.Copy($"publish/pub_res/Starward_{arch.ToLower()}.exe", Path.Join(rootPath, "Starward.exe"), true);
+            File.Copy($"publish/pub_res/{arch.ToLower()}/Starward.exe", Path.Join(rootPath, "Starward.exe"), true);
             compressor.CompressDirectory(Path.GetDirectoryName(rootPath.TrimEnd('/', '\\'))!, $"publish/release/package/Starward_Portable_{version}_{arch.ToLower()}.7z");
         }
         Console.WriteLine("Compression completed.");
@@ -322,7 +344,7 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
     }
 
     // manifest
-    List<ReleaseManifest?> manifests = new();
+    List<ReleaseManifest> manifests = [];
     Directory.CreateDirectory("publish/release/file/");
     Directory.CreateDirectory("publish/release/manifest/");
 
@@ -333,35 +355,19 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
         var release = await _client.GetReleaseInfoDetailAsync(arch, type, CancellationToken.None);
         if (release is not null)
         {
-            bool skipPre = false;
-            int count = 0;
-            manifests.Add(await CreateManifestAsync(arch, type, rootPath, version, release.Version));
-            if (!release.Version.Contains("-"))
+            var previousVersions = new[] { release.Version }.Concat(release.Diffs?.Keys.AsEnumerable() ?? [])
+                .Distinct(StringComparer.OrdinalIgnoreCase).Where(previous => !string.Equals(previous, version, StringComparison.OrdinalIgnoreCase));
+            foreach (string previous in previousVersions.Take(5))
             {
-                skipPre = true;
-            }
-            foreach (var item in release.Diffs)
-            {
-                if (!skipPre && item.Value.DiffVersion.Contains("-"))
-                {
-                    manifests.Add(await CreateManifestAsync(arch, type, rootPath, version, item.Value.DiffVersion));
-                    count++;
-                }
-                if (!item.Value.DiffVersion.Contains("-"))
-                {
-                    manifests.Add(await CreateManifestAsync(arch, type, rootPath, version, item.Value.DiffVersion));
-                    skipPre = true;
-                    count++;
-                }
-                if (count >= 5)
-                {
-                    break;
-                }
+                manifests.Add(await CreateManifestAsync(arch, type, rootPath, version, previous));
             }
         }
     }
+    architectureManifests.AddRange(manifests);
 
     string packageFileName = type is InstallType.Setup ? $"Starward_Setup_{version}_{arch.ToLower()}.exe" : $"Starward_Portable_{version}_{arch.ToLower()}.7z";
+    string updaterName = $"Starward_Updater_{version}_{arch.ToLower()}.exe";
+    string updaterPath = $"publish/release/package/{updaterName}";
 
     release_info.Releases.Add($"{arch}-{type}".ToLower(), new ReleaseInfoDetail
     {
@@ -369,24 +375,30 @@ async Task CreatePackageAsync(string version, Architecture arch, InstallType typ
         Architecture = arch,
         InstallType = type,
         BuildTime = DateTimeOffset.UtcNow,
-        ManifestUrl = $"{UrlPrefix}/manifest/manifest_{version.ToLower()}_{arch.ToLower()}_{type.ToLower()}.json",
-        PackageUrl = $"{UrlPrefix}/package/{packageFileName}",
+        ManifestUrl = $"{releaseUrl}/{GetManifestName(manifests[0])}",
+        PackageUrl = $"{releaseUrl}/{packageFileName}",
         PackageSize = new FileInfo($"publish/release/package/{packageFileName}").Length,
         PackageHash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes($"publish/release/package/{packageFileName}"))),
-        Diffs = manifests.Where(x => x?.DiffVersion != null && x.Architecture == arch && x.InstallType == type)
+        Diffs = manifests.Where(x => x.DiffVersion is not null)
                          .Select(x => new ReleaseInfoDiff
                          {
                              DiffVersion = x!.DiffVersion!,
                              DiffSize = x.DiffSize,
-                             ManifestUrl = $"{UrlPrefix}/manifest/manifest_{version}_{arch.ToLower()}_{type.ToLower()}_diff_{x.DiffVersion}.json",
+                             ManifestUrl = $"{releaseUrl}/{GetManifestName(x)}",
                          })
                          .ToDictionary(x => x.DiffVersion),
-        Setup = type is InstallType.Setup ? (arch is Architecture.X64 ? buildResource!.SetupX64 : buildResource!.SetupArm64) : null,
+        Setup = type is InstallType.Setup ? new ReleaseSetup
+        {
+            FileName = "Starward.Setup.exe",
+            Url = $"{releaseUrl}/{updaterName}",
+            Size = new FileInfo(updaterPath).Length,
+            Hash = Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(updaterPath))),
+        } : null,
     });
 }
 
 
-async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType type, string rootPath, string version, string? diffVersion = null)
+async Task<ReleaseManifest> CreateManifestAsync(Architecture arch, InstallType type, string rootPath, string version, string? diffVersion = null)
 {
     Console.WriteLine($"Creating manifest for ({version}, {arch}, {type}, {diffVersion})...");
     ReleaseManifest manifest = new()
@@ -394,22 +406,15 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
         Architecture = arch,
         InstallType = type,
         Version = version,
-        UrlPrefix = $"{UrlPrefix}/file/",
+        UrlPrefix = $"{releaseUrl}/",
         Files = [],
     };
     ReleaseManifest? oldManifest = null;
     if (!string.IsNullOrWhiteSpace(diffVersion))
     {
         Console.WriteLine($"Getting diff manifest for version {diffVersion}...");
-        oldManifest = await _client.GetManifestAsync(diffVersion, arch, type, CancellationToken.None);
-        if (oldManifest is null)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"Warning: No manifest found for diff version {diffVersion}, skipping diff.");
-            Console.ResetColor();
-            Console.WriteLine("--------------------");
-            return null;
-        }
+        oldManifest = await _client.GetManifestAsync(diffVersion, arch, type, CancellationToken.None)
+            ?? throw new InvalidDataException($"No manifest found for {diffVersion} ({arch}, {type}).");
     }
 
     string[] files = Directory.GetFiles(rootPath, "*", SearchOption.AllDirectories);
@@ -475,7 +480,7 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
         item.CompressedHash = compressedHash;
 
         // diff
-        if (oldManifest is not null)
+        if (oldManifest is not null && (type is InstallType.Setup || !string.IsNullOrEmpty(Path.GetDirectoryName(item.Path))))
         {
             if (oldManifest.Files.FirstOrDefault(x => x.Size == item.Size && string.Equals(x.Hash, item.Hash, StringComparison.OrdinalIgnoreCase)) is ReleaseFile oldItem)
             {
@@ -489,10 +494,11 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
             else if (MatchDiffFile(item.Path, oldManifest.Files) is ReleaseFile oldItem2)
             {
                 string oldFilePath = Path.Join("publish/temp/", oldItem2.Id);
-                await _client.DownloadZstdFileAndCheckHashAsync(oldManifest.UrlPrefix + oldItem2.Id, oldFilePath, oldItem2.Hash);
+                await _client.DownloadZstdFileAndCheckHashAsync(oldManifest, oldItem2, oldFilePath);
                 string diffPath = Path.Combine("publish/temp/", $"diff_{item.Id}_{oldItem2.Id}");
                 if (!File.Exists(diffPath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(diffPath)!);
                     var p = Process.Start(new ProcessStartInfo
                     {
                         FileName = hdiffz,
@@ -511,7 +517,7 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
                         }
                     }
                 }
-                if (File.Exists(diffPath))
+                if (File.Exists(diffPath) && new FileInfo(diffPath).Length < item.CompressedSize)
                 {
                     long diffSize = new FileInfo(diffPath).Length;
                     item.Patch = new ReleaseFilePatch
@@ -576,16 +582,56 @@ async Task<ReleaseManifest?> CreateManifestAsync(Architecture arch, InstallType 
         manifest.DiffSize = manifest.Files.Where(x => x.Patch == null).Sum(x => x.CompressedSize) + packages.Sum(p => p.Size);
     }
 
-    byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(manifest, JsonContext.Default.ReleaseManifest);
-    string manifestName = $"manifest_{version}_{arch}_{type}{(oldManifest is null ? "" : $"_diff_{oldManifest.Version}")}.json";
-    await File.WriteAllBytesAsync(Path.Join("publish/release/manifest/", manifestName.ToLower()), jsonBytes);
-
     Console.ForegroundColor = ConsoleColor.Green;
     Console.WriteLine($"Compressed {manifest.FileCount} files. Total size: {manifest.Size / 1024.0:N2} KB -> {manifest.CompressedSize / 1024.0:N2} KB");
     Console.ResetColor();
     Console.WriteLine("--------------------");
 
     return manifest;
+}
+
+
+static string GetManifestName(ReleaseManifest manifest)
+{
+    string diff = manifest.DiffVersion is null ? "" : $"_diff_{manifest.DiffVersion}";
+    return $"manifest_{manifest.Version}_{manifest.Architecture}_{manifest.InstallType}{diff}.json".ToLowerInvariant();
+}
+
+
+async Task WriteBundledManifestsAsync(Architecture arch, List<ReleaseManifest> manifests)
+{
+    string name = $"update-files_{arch.ToLower()}.bin";
+    const string assets = "publish/release/assets";
+    const string compressedFiles = "publish/release/file";
+    Directory.CreateDirectory(assets);
+    var offsets = new Dictionary<string, long>(StringComparer.Ordinal);
+    await using (var bundle = File.Create(Path.Join(assets, name)))
+    {
+        foreach (var file in manifests.Where(manifest => manifest.DiffVersion is null)
+                     .SelectMany(manifest => manifest.Files).DistinctBy(file => file.Id).OrderBy(file => file.Id, StringComparer.Ordinal))
+        {
+            offsets.Add(file.Id, bundle.Position);
+            await using var compressed = File.OpenRead(Path.Join(compressedFiles, file.Id));
+            await compressed.CopyToAsync(bundle);
+        }
+    }
+
+    foreach (var manifest in manifests)
+    {
+        manifest.FileBundleUrl = $"{releaseUrl}/{name}";
+        foreach (var file in manifest.Files)
+        {
+            file.BundleOffset = offsets[file.Id];
+        }
+        byte[] jsonBytes = JsonSerializer.SerializeToUtf8Bytes(manifest, JsonContext.Default.ReleaseManifest);
+        await File.WriteAllBytesAsync(Path.Join("publish/release/manifest", GetManifestName(manifest)), jsonBytes);
+    }
+
+    foreach (string patchId in manifests.SelectMany(manifest => manifest.Files)
+                 .Select(file => file.Patch?.Id).OfType<string>().Distinct(StringComparer.Ordinal))
+    {
+        File.Copy(Path.Join(compressedFiles, patchId), Path.Join(assets, patchId), true);
+    }
 }
 
 
@@ -976,29 +1022,28 @@ public class BuildClient
     }
 
 
-    public async Task DownloadZstdFileAndCheckHashAsync(string url, string path, string hash, CancellationToken cancellation = default)
+    public async Task DownloadZstdFileAndCheckHashAsync(ReleaseManifest manifest, ReleaseFile file, string path, CancellationToken cancellation = default)
     {
         await _polly.ExecuteAsync(async token =>
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path)!);
             using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
             string fileHash = Convert.ToHexStringLower(await SHA256.HashDataAsync(fs, cancellation));
-            if (string.Equals(fileHash, hash, StringComparison.OrdinalIgnoreCase))
+            if (fs.Length == file.Size && string.Equals(fileHash, file.Hash, StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
             fs.Position = 0;
-            using HttpResponseMessage response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, token);
-            response.EnsureSuccessStatusCode();
+            using HttpResponseMessage response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, manifest, file, token);
             using var hs = await response.Content.ReadAsStreamAsync(token);
             using var zstd = new ZstandardStream(hs, System.IO.Compression.CompressionMode.Decompress);
             await zstd.CopyToAsync(fs, token);
             fs.SetLength(fs.Position);
             fs.Position = 0;
             fileHash = Convert.ToHexStringLower(await SHA256.HashDataAsync(fs, cancellation));
-            if (!string.Equals(fileHash, hash, StringComparison.OrdinalIgnoreCase))
+            if (fs.Length != file.Size || !string.Equals(fileHash, file.Hash, StringComparison.OrdinalIgnoreCase))
             {
-                throw new Exception($"Hash mismatch for downloaded file. Expected: {hash}, Actual: {fileHash}");
+                throw new Exception($"Hash mismatch for downloaded file. Expected: {file.Hash}, Actual: {fileHash}");
             }
         }, cancellation);
     }
@@ -1049,15 +1094,12 @@ public class BuildClient
     {
         return await _polly.ExecuteAsync(async token =>
         {
-            var info = await _releaseClient.GetLatestReleaseInfoAsync(true, "publish", token);
-            if (info.TryGetReleaseInfoDetail(arch, type, out ReleaseInfoDetail? detail))
+            try
             {
-                return detail;
+                var info = await _releaseClient.GetLatestReleaseInfoAsync(true, "publish", token);
+                return info.TryGetReleaseInfoDetail(arch, type, out ReleaseInfoDetail? detail) ? detail : null;
             }
-            else
-            {
-                return null;
-            }
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound) { return null; }
         }, cancellation);
     }
 

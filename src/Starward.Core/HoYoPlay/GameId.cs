@@ -52,6 +52,7 @@ public class GameId : IEquatable<GameId>
             GameBiz.arknights_cn => new GameId { Id = Hypergryph.HypergryphGameConstants.ArknightsAppCode, GameBiz = GameBiz.arknights_cn },
             GameBiz.endfield_cn => new GameId { Id = Hypergryph.HypergryphGameConstants.EndfieldAppCode, GameBiz = GameBiz.endfield_cn },
             GameBiz.endfield_global => new GameId { Id = Hypergryph.HypergryphGameConstants.GlobalEndfieldAppCode, GameBiz = GameBiz.endfield_global },
+            GameBiz.endfield_bilibili => new GameId(Hypergryph.HypergryphGameConstants.BilibiliEndfieldId, GameBiz.endfield_bilibili),
             _ => null,
         };
     }

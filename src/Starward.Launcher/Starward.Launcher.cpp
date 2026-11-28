@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <filesystem>
 #include <string>
@@ -87,10 +87,10 @@ int wmain(int argc, wchar_t* argv[])
 	else
 	{
 		SetProcessDPIAware();
-		int ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/Scighost/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
+		int ok = MessageBox(NULL, L"Starward files not found.\r\nWould you like to download it now?\r\nhttps://github.com/NagiYume/Starward", L"Starward", MB_ICONWARNING | MB_OKCANCEL);
 		if (ok == IDOK)
 		{
-			ShellExecute(NULL, NULL, L"https://github.com/Scighost/Starward", NULL, NULL, SW_SHOWNORMAL);
+			ShellExecute(NULL, NULL, L"https://github.com/NagiYume/Starward", NULL, NULL, SW_SHOWNORMAL);
 		}
 	}
 }

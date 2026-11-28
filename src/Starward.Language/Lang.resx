@@ -2843,6 +2843,12 @@ You are welcome to submit the exported data to the following repository:</value>
   <data name="FindGamesDialog_AddGames" xml:space="preserve">
     <value>Add Games</value>
   </data>
+  <data name="LauncherConfigSettingDialog_ChannelAlreadyExists" xml:space="preserve">
+    <value>This launcher channel already exists.</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_EndfieldChannelInvalid" xml:space="preserve">
+    <value>Enter a custom Endfield AppCode and its channel numbers. Official and Bilibili are listed separately.</value>
+  </data>
   <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
     <value>ID, Name and Region cannot be empty.</value>
   </data>

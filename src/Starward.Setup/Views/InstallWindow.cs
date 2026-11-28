@@ -1,4 +1,4 @@
-﻿using Aprillz.MewUI;
+using Aprillz.MewUI;
 using Aprillz.MewUI.Controls;
 using SharpCompress.Common;
 using Starward.Setup.Locale;
@@ -486,7 +486,7 @@ public class InstallWindow : WindowBase
     {
         Process.Start(new ProcessStartInfo
         {
-            FileName = "https://github.com/Scighost/Starward/blob/main/docs/Privacy.md",
+            FileName = "https://github.com/NagiYume/Starward/blob/main/docs/Privacy.md",
             UseShellExecute = true,
         });
     }

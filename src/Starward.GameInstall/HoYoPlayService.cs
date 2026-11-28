@@ -50,16 +50,19 @@ public class HoYoPlayService
     private IHoYoPlayClient CreateClient(LauncherConfig config)
     {
         HttpClient http = _serviceProvider.GetRequiredService<HttpClient>();
-        IHoYoPlayClient client = config.Id switch
+        IHoYoPlayClient client = IsHypergryphLauncher(config) ? new HypergryphGameClient(http, _cache, _tags) : config switch
         {
-            HypergryphGameConstants.LauncherAppCode or HypergryphGameConstants.GlobalLauncherAppCode => new HypergryphGameClient(http),
-            _ when config.IsBeta => new HoYoPlayBetaClient(http) { LauncherConfig = config, PassportUserInfo = PassportUserInfo },
+            { IsBeta: true } => new HoYoPlayBetaClient(http) { LauncherConfig = config, PassportUserInfo = PassportUserInfo },
             _ => new HoYoPlayClient(http) { LauncherConfig = config },
         };
         client.LauncherConfig = config;
         client.Language = CultureInfo.CurrentUICulture.Name;
         return client;
     }
+
+    private static bool IsHypergryphLauncher(LauncherConfig config) =>
+        config.Region == ServerRegion.Hypergryph
+        || config.Id is HypergryphGameConstants.LauncherAppCode or HypergryphGameConstants.GlobalLauncherAppCode;
 
     public void RestoreClients()
     {
@@ -130,7 +133,12 @@ public class HoYoPlayService
     {
         if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
         {
-            var profile = HypergryphGameConstants.GetGameProfile(gameId.GameBiz);
+            var profile = HypergryphGameConstants.GetGameProfile(gameId);
+            if (gameId.GameBiz.Value is GameBiz.endfield_bilibili or GameBiz.endfield_channel)
+            {
+                return new LauncherConfig(gameId.Id, int.Parse(profile.Channel, CultureInfo.InvariantCulture),
+                    int.Parse(profile.SubChannel, CultureInfo.InvariantCulture), ServerRegion.Hypergryph);
+            }
             var region = gameId.GameBiz.IsChinaServer() ? ServerRegion.miHoYo : ServerRegion.HoYoverse;
             return new LauncherConfig(profile.LauncherAppCode, 1, 1, region, false);
         }
@@ -211,8 +219,7 @@ public class HoYoPlayService
     /// </summary>
     public async Task<List<GameInfo>> GetGameInfosAsync(LauncherConfig launcherConfig, CancellationToken cancellation = default)
     {
-        // The built-in Hypergryph catalog uses assets shipped with this version.
-        if (launcherConfig.Id is HypergryphGameConstants.LauncherAppCode or HypergryphGameConstants.GlobalLauncherAppCode)
+        if (IsHypergryphLauncher(launcherConfig))
         {
             return await CreateClient(launcherConfig).GetGameInfoAsync(cancellation).ConfigureAwait(false);
         }
@@ -253,7 +260,7 @@ public class HoYoPlayService
     {
         if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
         {
-            return HypergryphGameMetadata.CreateGameInfo(gameId.GameBiz);
+            return await ((HypergryphGameClient)GetClient(gameId)).GetGameInfoAsync(gameId, cancellation).ConfigureAwait(false);
         }
         if (gameId.GameBiz == GameBiz.bh3_global)
         {
@@ -272,7 +279,7 @@ public class HoYoPlayService
     {
         if (HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz))
         {
-            return HypergryphGameMetadata.CreateGameInfo(gameId.GameBiz);
+            return ((HypergryphGameClient)GetClient(gameId)).GetCachedGameInfo(gameId);
         }
         try
         {

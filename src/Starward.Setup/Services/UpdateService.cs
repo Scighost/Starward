@@ -84,7 +84,7 @@ public class UpdateService : DownloadService
 
         info ??= await GetReleaseInfoAsync(preview, cancellation).ConfigureAwait(false);
 
-        if (!string.IsNullOrWhiteSpace(oldVersion) && info.Diffs.TryGetValue(oldVersion, out var diff))
+        if (!string.IsNullOrWhiteSpace(oldVersion) && info.Diffs?.TryGetValue(oldVersion, out var diff) == true)
         {
             return await GetReleaseManifestAsync(diff.ManifestUrl, cancellation).ConfigureAwait(false);
         }
@@ -107,7 +107,7 @@ public class UpdateService : DownloadService
         List<(string Id, long Size, string Hash, string? Suffix)> list = new();
         foreach (var item in ReleaseManifest.Files)
         {
-            if (item.Patch is null)
+            if (item.Patch is null && item.BundleOffset is null)
             {
                 list.Add((item.Id, item.CompressedSize, item.CompressedHash, item.UrlSuffix));
             }
@@ -180,7 +180,6 @@ public class UpdateService : DownloadService
         await Parallel.ForEachAsync(ReleaseManifest.Files, cancellation, async (item, token) =>
         {
             string path = Path.Combine(installFolder, item.Path);
-            string url = ReleaseManifest.UrlPrefix + item.Id + (item.UrlSuffix ?? ReleaseManifest.UrlSuffix);
             await RetryHelper.ExecuteAsync(async retryToken =>
             {
                 if (await CheckFileHashAsync(path, item.Hash, item.Size, retryToken).ConfigureAwait(false))
@@ -193,7 +192,7 @@ public class UpdateService : DownloadService
                     {
                         File.Delete(path);
                     }
-                    await DownloadZstdFileAsync(url, path, item.Size, retryToken).ConfigureAwait(false);
+                    await DownloadZstdFileAsync(ReleaseManifest, item, path, retryToken).ConfigureAwait(false);
                     if (!await CheckFileHashAsync(path, item.Hash, item.Size, retryToken).ConfigureAwait(false))
                     {
                         File.Delete(path);

@@ -191,16 +191,14 @@ public class DownloadService
 
 
 
-    protected async Task DownloadZstdFileAsync(string url, string path, long size, CancellationToken cancellation = default)
+    protected async Task DownloadZstdFileAsync(ReleaseManifest manifest, ReleaseFile file, string path, CancellationToken cancellation = default)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-        if (fs.Length < size)
+        if (fs.Length < file.Size)
         {
             fs.Position = 0;
-            var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
-            var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellation).ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
+            using var response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, manifest, file, cancellation).ConfigureAwait(false);
             using var hs = await response.Content.ReadAsStreamAsync(cancellation).ConfigureAwait(false);
             using DecompressionStream ds = new(hs, 8192);
             byte[] buffer = ArrayPool<byte>.Shared.Rent(8192);

@@ -82,7 +82,8 @@ public sealed partial class GameLauncherPage : PageBase
     private void InitializeGameFeature()
     {
         GameFeatureConfig feature = GameFeatureConfig.FromGameId(CurrentGameId);
-        EnableDX11 = HypergryphGameConstants.IsEndfield(CurrentGameBiz) && AppConfig.GetEnableDX11(CurrentGameBiz);
+        EnableDX11 = CurrentGameId is GameId gameId && HypergryphGameConstants.IsEndfield(gameId.GameBiz)
+            && AppConfig.GetEnableDX11(gameId);
         if (feature.SupportCloudGame)
         {
             Button_CloudGame.Visibility = Visibility.Visible;
@@ -258,7 +259,10 @@ public sealed partial class GameLauncherPage : PageBase
         {
             if (SetProperty(ref field, value))
             {
-                AppConfig.SetEnableDX11(CurrentGameBiz, value);
+                if (CurrentGameId is GameId gameId)
+                {
+                    AppConfig.SetEnableDX11(gameId, value);
+                }
                 if (value && EnableDX12)
                 {
                     EnableDX12 = false;

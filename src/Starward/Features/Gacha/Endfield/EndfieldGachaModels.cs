@@ -8,7 +8,7 @@ public sealed class EndfieldGachaAccount
 {
     public string AccountKey { get; set; } = "";
 
-    public string Uid { get; set; } = "";
+    public string AccountUid { get; set; } = "";
 
     public string RoleId { get; set; } = "";
 
@@ -20,7 +20,7 @@ public sealed class EndfieldGachaAccount
 
     public DateTimeOffset LastSyncTime { get; set; }
 
-    public string DisplayName => string.IsNullOrWhiteSpace(RoleName) ? Uid : $"{RoleName}  {Uid}";
+    public string DisplayName => string.IsNullOrWhiteSpace(RoleName) ? RoleId : $"{RoleName}  {RoleId}";
 
     public override string ToString() => DisplayName;
 }

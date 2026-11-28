@@ -23,7 +23,7 @@ Starward — это сторонний лаунчер с открытым исх
 - Установлено [WebView2 Runtime](https://developer.microsoft.com/microsoft-edge/webview2) 
 - Для улучшения работы, пожалуйста, включите ** Эффекты прозрачности ** и ** Эффекты анимаций ** в системных настройках
 
-Загрузите пакет для вашей архитектуры процессора с сайта [GitHub Release](https://github.com/Scighost/Starward/releases). Извлеките его, затем запустите `Starward.exe` и следуйте инструкциям.
+Загрузите пакет для вашей архитектуры процессора с сайта [GitHub Release](https://github.com/NagiYume/Starward/releases). Извлеките его, затем запустите `Starward.exe` и следуйте инструкциям.
 
 
 ## Локализация
@@ -51,7 +51,7 @@ Starward использует [Crowdin](https://crowdin.com/project/starward) д
 
 ## Пожертвование
 
-Разработка - дело нелегкое. Если вы считаете Starward полезным, вы можете пожертвовать мне на https://donate.scighost.com.
+Разработка - дело нелегкое. Если вы считаете Starward полезным, вы можете пожертвовать мне на https://www.akedata.wiki/?plugin=about.
 
 ## Спасибо
 

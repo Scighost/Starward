@@ -46,7 +46,10 @@ internal sealed partial class EndfieldGachaService
     {
         using var connection = DatabaseService.CreateConnection();
         return connection.Query<EndfieldGachaAccount>(
-            "SELECT * FROM EndfieldGachaAccount ORDER BY LastSyncTime DESC;").ToList();
+            """
+            SELECT AccountKey, Uid AS AccountUid, RoleId, RoleName, ServerId, ServerName, LastSyncTime
+            FROM EndfieldGachaAccount ORDER BY LastSyncTime DESC;
+            """).ToList();
     }
 
     public List<EndfieldGachaItem> GetItems(string accountKey, string recordType)
@@ -105,7 +108,7 @@ internal sealed partial class EndfieldGachaService
         string loginToken = GetSavedLoginToken(account.AccountKey);
         progress?.Report("正在刷新账号授权");
         string oauthToken = await GetOAuthTokenAsync(loginToken, cancellationToken);
-        string u8Token = await GetU8TokenAsync(account.Uid, oauthToken, cancellationToken);
+        string u8Token = await GetU8TokenAsync(account.AccountUid, oauthToken, cancellationToken);
         return await SyncWithU8TokenAsync(account, u8Token, account.ServerId, progress, cancellationToken);
     }
 
@@ -217,7 +220,7 @@ internal sealed partial class EndfieldGachaService
                 """
                 INSERT INTO EndfieldGachaAccount
                 (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime)
-                VALUES (@AccountKey, @Uid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime)
+                VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime)
                 ON CONFLICT(AccountKey) DO UPDATE SET
                     Uid = excluded.Uid,
                     RoleId = excluded.RoleId,
@@ -306,8 +309,8 @@ internal sealed partial class EndfieldGachaService
             }
             foreach (JsonElement binding in bindings.EnumerateArray())
             {
-                string uid = GetString(binding, "uid");
-                if (string.IsNullOrWhiteSpace(uid) || !binding.TryGetProperty("roles", out JsonElement roles) ||
+                string accountUid = GetString(binding, "uid");
+                if (string.IsNullOrWhiteSpace(accountUid) || !binding.TryGetProperty("roles", out JsonElement roles) ||
                     roles.ValueKind != JsonValueKind.Array)
                 {
                     continue;
@@ -322,8 +325,8 @@ internal sealed partial class EndfieldGachaService
                     string serverId = GetString(role, "serverId", "1");
                     accounts.Add(new EndfieldGachaAccount
                     {
-                        AccountKey = $"{uid}_{roleId}",
-                        Uid = uid,
+                        AccountKey = $"{accountUid}_{roleId}",
+                        AccountUid = accountUid,
                         RoleId = roleId,
                         RoleName = GetString(role, "nickName"),
                         ServerId = string.IsNullOrWhiteSpace(serverId) ? "1" : serverId,
@@ -336,10 +339,10 @@ internal sealed partial class EndfieldGachaService
         return accounts.DistinctBy(x => x.AccountKey).ToList();
     }
 
-    private async Task<string> GetU8TokenAsync(string uid, string oauthToken, CancellationToken cancellationToken)
+    private async Task<string> GetU8TokenAsync(string accountUid, string oauthToken, CancellationToken cancellationToken)
     {
         using var request = CreateBrowserRequest(HttpMethod.Post, U8TokenApi);
-        request.Content = JsonContent.Create(new { uid, token = oauthToken });
+        request.Content = JsonContent.Create(new { uid = accountUid, token = oauthToken });
         using JsonDocument document = await SendJsonAsync(request, "寻访授权刷新", cancellationToken);
         JsonElement root = document.RootElement;
         if (GetInt32(root, "status") != 0 || !root.TryGetProperty("data", out JsonElement data))
@@ -387,7 +390,7 @@ internal sealed partial class EndfieldGachaService
             """
             INSERT OR REPLACE INTO EndfieldGachaAccount
             (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime)
-            VALUES (@AccountKey, @Uid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime);
+            VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime);
             """, account, transaction);
         int count = connection.Execute(
             """
@@ -416,7 +419,7 @@ internal sealed partial class EndfieldGachaService
             throw new InvalidOperationException("游戏日志授权已失效，请改用鹰角账号登录同步。");
         }
 
-        string uid = GetString(data, "uid");
+        string accountUid = GetString(data, "uid");
         JsonElement selectedRole = default;
         if (data.TryGetProperty("roles", out JsonElement roles) && roles.ValueKind == JsonValueKind.Array)
         {
@@ -433,7 +436,7 @@ internal sealed partial class EndfieldGachaService
             }
         }
         string roleId = GetString(selectedRole, "roleId");
-        if (string.IsNullOrWhiteSpace(uid) || string.IsNullOrWhiteSpace(roleId))
+        if (string.IsNullOrWhiteSpace(accountUid) || string.IsNullOrWhiteSpace(roleId))
         {
             throw new InvalidOperationException("官方账号接口未返回有效角色信息。");
         }
@@ -444,8 +447,8 @@ internal sealed partial class EndfieldGachaService
         }
         return new EndfieldGachaAccount
         {
-            AccountKey = $"{uid}_{roleId}",
-            Uid = uid,
+            AccountKey = $"{accountUid}_{roleId}",
+            AccountUid = accountUid,
             RoleId = roleId,
             RoleName = roleName,
             ServerId = serverId,

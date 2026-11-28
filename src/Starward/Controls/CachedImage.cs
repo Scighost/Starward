@@ -44,6 +44,10 @@ public sealed partial class CachedImage : ImageEx
         {
             if (imageUri.Scheme is "ms-appx")
             {
+                if (Path.GetExtension(imageUri.AbsolutePath).Equals(".svg", StringComparison.OrdinalIgnoreCase))
+                {
+                    return new SvgImageSource(imageUri);
+                }
                 return new BitmapImage(imageUri);
             }
             else if (imageUri.Scheme is "file")

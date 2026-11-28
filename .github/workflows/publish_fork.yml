@@ -1,0 +1,107 @@
+name: Publish Starward fork
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag, including v
+        required: true
+      generate_diffs:
+        description: Generate incremental updates from previous fork releases
+        type: boolean
+        default: true
+      preview:
+        description: Publish to the preview channel
+        type: boolean
+        default: false
+      notes:
+        description: Release notes
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-fork
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'NagiYume/Starward' && github.ref == 'refs/heads/main'
+    runs-on: windows-2025-vs2026
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x64, arm64]
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+      GENERATE_DIFFS: ${{ inputs.generate_diffs }}
+      ARCHITECTURE: ${{ matrix.arch }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+      - uses: microsoft/setup-msbuild@v3
+
+      - name: Build packages and update manifests
+        shell: pwsh
+        run: |
+          if ($env:RELEASE_TAG -cnotmatch '^v[0-9]+\.[0-9]+\.[0-9]+(-[a-z0-9]+(\.[a-z0-9]+)*)?$') {
+            throw "Invalid release tag: $env:RELEASE_TAG"
+          }
+          $version = $env:RELEASE_TAG.Substring(1)
+          dotnet run publish.cs -- full --version $version --arch $env:ARCHITECTURE --diff $env:GENERATE_DIFFS
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: release-${{ matrix.arch }}
+          path: |
+            publish/release/package/*
+            publish/release/manifest/*
+            publish/release/assets/*
+            publish/release/version/${{ matrix.arch }}/release_info_*.json
+          if-no-files-found: error
+          compression-level: 0
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RELEASE_TAG: ${{ inputs.tag }}
+      PREVIEW: ${{ inputs.preview }}
+      NOTES: ${{ inputs.notes }}
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: release-*
+          path: artifacts
+
+      - name: Verify and collect assets
+        run: python3 .github/scripts/verify_release.py "$RELEASE_TAG" artifacts release-assets
+
+      - name: Publish verified assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          channel=(--latest)
+          if [[ "$PREVIEW" == true ]]; then channel=(--prerelease --latest=false); fi
+          notes=(--generate-notes)
+          if [[ -n "$NOTES" ]]; then notes=(--notes "$NOTES"); fi
+          if gh release view "$RELEASE_TAG" --json isDraft,targetCommitish > existing.json 2>/dev/null; then
+            jq -e --arg sha "$GITHUB_SHA" '.isDraft and .targetCommitish == $sha' existing.json >/dev/null
+            gh release upload "$RELEASE_TAG" release-assets/* --clobber
+          else
+            gh release create "$RELEASE_TAG" release-assets/* --draft --target "$GITHUB_SHA" \
+              --title "Starward $RELEASE_TAG" "${notes[@]}"
+          fi
+          gh release view "$RELEASE_TAG" --json assets > uploaded.json
+          python3 .github/scripts/verify_release.py "$RELEASE_TAG" artifacts release-assets uploaded.json
+          gh release edit "$RELEASE_TAG" --draft=false "${channel[@]}"

@@ -10,6 +10,7 @@ permissions:
 jobs:
 
   upload-static:
+    if: github.repository == 'Scighost/Starward'
 
     runs-on: ubuntu-latest
 

@@ -21,7 +21,7 @@ Còn nhiều tính năng khác để chờ bạn khám phá...
 
 >[WebP Imaging Extension](https://apps.microsoft.com/detail/9pg2dk419drg) thường được tích hợp sẵn trong hệ thống của bạn. Nếu ứng dụng không hiển thị đúng hình nền, vui lòng đảm bảo rằng tiện ích này đã được cài đặt.
 
-Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn từ [GitHub Release](https://github.com/Scighost/Starward/releases). Giải nén nó, sau đó chạy `Starward.exe` và làm theo hướng dẫn.
+Tiếp theo, tải xuống gói dành cho kiến ​​trúc CPU của bạn từ [GitHub Release](https://github.com/NagiYume/Starward/releases). Giải nén nó, sau đó chạy `Starward.exe` và làm theo hướng dẫn.
 
 ## Dịch thuật
 
@@ -50,7 +50,7 @@ Starward sử dụng [Crowdin](https://crowdin.com/project/starward) cho việc 
 
 ## Ủng hộ
 
-Phát triển không phải là dễ dàng. Nếu bạn nghĩ Starward hữu ích, bạn có thể ủng hộ cho tôi qua https://donate.scighost.com.
+Phát triển không phải là dễ dàng. Nếu bạn nghĩ Starward hữu ích, bạn có thể ủng hộ cho tôi qua https://www.akedata.wiki/?plugin=about.
 
 ## Cảm ơn
 

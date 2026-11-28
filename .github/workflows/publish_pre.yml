@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   build:
+    if: github.repository == 'Scighost/Starward'
     runs-on: windows-2025-vs2026
     strategy:
       matrix:

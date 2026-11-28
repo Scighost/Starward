@@ -1,7 +1,10 @@
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Starward.Core.HoYoPlay;
 
 namespace Starward.Core.Hypergryph;
 
@@ -15,11 +18,11 @@ public sealed class HypergryphLauncherClient
     }
 
     public async Task<HypergryphLatestGame> GetLatestGameAsync(
-        GameBiz gameBiz,
+        GameId gameId,
         string? localVersion,
         CancellationToken cancellationToken = default)
     {
-        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameId);
         var request = new HypergryphBatchProxyRequest
         {
             Sequence = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(),
@@ -46,12 +49,25 @@ public sealed class HypergryphLauncherClient
             ?? throw new InvalidDataException($"The Hypergryph launcher returned no package information for {profile.GameAppCode}.");
     }
 
-    public async Task<HypergryphLauncherContent> GetGameContentAsync(
-        GameBiz gameBiz,
+    public Task<HypergryphLauncherContent> GetGameContentAsync(
+        GameId gameId,
         string? language,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default) =>
+        GetWebContentAsync(gameId, language, artworkOnly: false, cancellationToken);
+
+    public Task<HypergryphLauncherContent> GetGameArtworkAsync(
+        GameId gameId,
+        string? language,
+        CancellationToken cancellationToken = default) =>
+        GetWebContentAsync(gameId, language, artworkOnly: true, cancellationToken);
+
+    private async Task<HypergryphLauncherContent> GetWebContentAsync(
+        GameId gameId,
+        string? language,
+        bool artworkOnly,
+        CancellationToken cancellationToken)
     {
-        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameId);
         var contentRequest = new HypergryphWebContentRequest
         {
             AppCode = profile.GameAppCode,
@@ -59,26 +75,17 @@ public sealed class HypergryphLauncherClient
             Channel = profile.Channel,
             SubChannel = profile.SubChannel,
         };
+        var mainBackground = new HypergryphWebProxyRequest
+        {
+            Kind = "get_main_bg_image",
+            MainBackgroundRequest = contentRequest,
+        };
         var request = new HypergryphWebBatchProxyRequest
         {
-            ProxyRequests =
-            [
-                new HypergryphWebProxyRequest
-                {
-                    Kind = "get_main_bg_image",
-                    MainBackgroundRequest = contentRequest,
-                },
-                new HypergryphWebProxyRequest
-                {
-                    Kind = "get_banner",
-                    BannerRequest = contentRequest,
-                },
-                new HypergryphWebProxyRequest
-                {
-                    Kind = "get_announcement",
-                    AnnouncementRequest = contentRequest,
-                },
-            ],
+            ProxyRequests = artworkOnly
+                ? [mainBackground, new() { Kind = "get_game_image", ArtworkRequest = contentRequest }]
+                : [mainBackground, new() { Kind = "get_banner", BannerRequest = contentRequest },
+                    new() { Kind = "get_announcement", AnnouncementRequest = contentRequest }],
         };
 
         using HttpResponseMessage response = await _httpClient.PostAsJsonAsync(profile.WebBatchProxyUrl, request, cancellationToken);
@@ -88,6 +95,7 @@ public sealed class HypergryphLauncherClient
 
         return new HypergryphLauncherContent
         {
+            Artwork = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_game_image")?.Artwork,
             MainBackground = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_main_bg_image")?.MainBackgroundResponse?.MainBackground,
             Banners = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_banner")?.BannerResponse?.Banners ?? [],
             AnnouncementTabs = result.ProxyResponses.FirstOrDefault(x => x.Kind is "get_announcement")?.AnnouncementResponse?.Tabs ?? [],
@@ -115,17 +123,82 @@ public sealed class HypergryphLauncherClient
         return GetVerifiedBytesAsync(url, 0, package.GameFilesMD5, cancellationToken);
     }
 
+    public async Task<bool> HasEndfieldPackageAsync(GameId gameId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            HypergryphLatestGame latest = await GetLatestGameAsync(gameId, null, cancellationToken);
+            if (latest.Package is not { Packs.Count: > 0 } package || string.IsNullOrWhiteSpace(package.GameFilesMD5))
+            {
+                return false;
+            }
+            ReadEndfieldGameFiles(await GetGameFilesAsync(package, cancellationToken));
+            return true;
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return false;
+        }
+        catch (Exception ex) when (ex is InvalidDataException or JsonException or CryptographicException)
+        {
+            return false;
+        }
+    }
+
+    public static IReadOnlyList<HypergryphVerifyFile> ReadEndfieldGameFiles(byte[] encrypted)
+    {
+        // The launcher uses the same AES-CBC format across Endfield channels.
+        using Aes aes = Aes.Create();
+        aes.Key = Convert.FromHexString("C0F30E1CE763BBC21CC355A34303AC50399444BFF68C4A22AF398C0A166EE143");
+        byte[] decrypted = aes.DecryptCbc(encrypted, Convert.FromHexString("33467861192750649501937264608400"));
+        using StreamReader reader = new(new MemoryStream(decrypted), Encoding.UTF8);
+        var files = new List<HypergryphVerifyFile>();
+        var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        while (reader.ReadLine() is string line)
+        {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+            HypergryphVerifyFile file = JsonSerializer.Deserialize<HypergryphVerifyFile>(line)
+                ?? throw new InvalidDataException("The Endfield game_files manifest contains an empty entry.");
+            file.Path = file.Path?.Replace('\\', '/') ?? "";
+            string[] segments = file.Path.Split('/');
+            if (file.Size < 0 || file.MD5 is not { Length: 32 } || !file.MD5.All(Uri.IsHexDigit)
+                || segments.Any(x => x.Length == 0 || x.EndsWith('.') || x.EndsWith(' ') || x.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                || segments[0].Equals(".starward", StringComparison.OrdinalIgnoreCase)
+                || file.Path.Equals("game_files", StringComparison.OrdinalIgnoreCase)
+                || !paths.Add(file.Path))
+            {
+                throw new InvalidDataException($"The Endfield game_files manifest contains an invalid entry: {file.Path}.");
+            }
+            files.Add(file);
+        }
+        if (!paths.Contains(HypergryphGameConstants.EndfieldExeName))
+        {
+            throw new InvalidDataException("The Endfield game_files manifest does not include the game executable.");
+        }
+        return files;
+    }
+
     public Task<byte[]> GetV2VerifyFilesAsync(HypergryphGamePatch patch, CancellationToken cancellationToken = default)
     {
         return GetVerifiedBytesAsync(patch.V2VerifyFilesUrl, patch.V2VerifyFilesSize, patch.V2VerifyFilesMD5, cancellationToken);
     }
 
-    public async Task<string?> GetEndfieldMainResourceIndexAsync(GameBiz gameBiz, string installedManifestMD5, CancellationToken cancellationToken)
+    public async Task<string?> GetEndfieldMainResourceIndexAsync(GameId gameId, string installedManifestMD5, CancellationToken cancellationToken)
     {
-        HypergryphLatestGame latest = await GetLatestGameAsync(gameBiz, null, cancellationToken);
-        if (!string.Equals(latest.Package.GameFilesMD5, installedManifestMD5, StringComparison.OrdinalIgnoreCase)
-            || !Uri.TryCreate(latest.Package.FilePath, UriKind.Absolute, out Uri? packageUri)
-            || !Uri.TryCreate(HypergryphGameConstants.GetGameProfile(gameBiz).BatchProxyUrl, UriKind.Absolute, out Uri? proxyUri))
+        HypergryphLatestGame latest = await GetLatestGameAsync(gameId, null, cancellationToken);
+        return string.Equals(latest.Package.GameFilesMD5, installedManifestMD5, StringComparison.OrdinalIgnoreCase)
+            ? await GetEndfieldMainResourceIndexAsync(gameId, latest.Package, cancellationToken)
+            : null;
+    }
+
+    public async Task<string?> GetEndfieldMainResourceIndexAsync(GameId gameId, HypergryphGamePackage package, CancellationToken cancellationToken)
+    {
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameId);
+        if (!Uri.TryCreate(package.FilePath, UriKind.Absolute, out Uri? packageUri)
+            || !Uri.TryCreate(profile.BatchProxyUrl, UriKind.Absolute, out Uri? proxyUri))
         {
             return null;
         }
@@ -139,9 +212,8 @@ public sealed class HypergryphLauncherClient
         {
             return null;
         }
-        string appCode = HypergryphGameConstants.GetGameProfile(gameBiz).GameAppCode;
         string endpoint = new Uri(proxyUri, "/api/game/get_latest_resources").AbsoluteUri;
-        string query = $"appcode={appCode}&platform=Windows&game_version={Uri.EscapeDataString(path[1])}"
+        string query = $"appcode={profile.GameAppCode}&platform=Windows&game_version={Uri.EscapeDataString(path[1])}"
             + $"&version={Uri.EscapeDataString(seed[0])}&rand_str={Uri.EscapeDataString(seed[1])}";
         using Stream response = await _httpClient.GetStreamAsync($"{endpoint}?{query}", cancellationToken);
         using JsonDocument document = await JsonDocument.ParseAsync(response, cancellationToken: cancellationToken);
@@ -224,6 +296,10 @@ public sealed class HypergryphLauncherClient
         [JsonPropertyName("kind")]
         public string Kind { get; set; } = "";
 
+        [JsonPropertyName("get_game_image_req")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public HypergryphWebContentRequest? ArtworkRequest { get; set; }
+
         [JsonPropertyName("get_banner_req")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public HypergryphWebContentRequest? BannerRequest { get; set; }
@@ -268,6 +344,9 @@ public sealed class HypergryphLauncherClient
     {
         [JsonPropertyName("kind")]
         public string Kind { get; set; } = "";
+
+        [JsonPropertyName("get_game_image_rsp")]
+        public HypergryphGameArtwork? Artwork { get; set; }
 
         [JsonPropertyName("get_banner_rsp")]
         public HypergryphBannerResponse? BannerResponse { get; set; }

@@ -2,7 +2,7 @@
 
 > **Starward** 出自星穹铁道开服前的宣传语———愿此行，终抵群星 (May This Journey Lead Us **Starward**)。
 
-Starward 是一个为了解决 HoYoPlay (米哈游启动器) 的缺点而开发的开源第三方启动器，支持米哈游 PC 端的所有游戏，目标是完全替代官方启动器。除了启动器的基本功能外，我还会根据个人需求增加一些拓展功能，比如：
+Starward 是由 Scighost 创建的开源第三方启动器。Shiroha 维护此 fork，在米哈游 PC 游戏之外加入了《明日方舟：终末地》等鹰角游戏的支持。Starward 还提供以下功能。
 
 -  记录游戏时间
 -  切换游戏账号
@@ -12,6 +12,7 @@ Starward 是一个为了解决 HoYoPlay (米哈游启动器) 的缺点而开发�
 
 更多功能留给您自行探索。
 
+[项目主页](https://github.com/NagiYume/Starward) · [问题反馈](https://github.com/NagiYume/Starward/issues) · [隐私政策](./Privacy.zh-CN.md) · [上游项目](https://github.com/Scighost/Starward)
 
 ## 安装
 
@@ -23,7 +24,9 @@ Starward 是一个为了解决 HoYoPlay (米哈游启动器) 的缺点而开发�
 - 为了更好的使用体验，请在系统设置中开启**透明效果**和**动画效果**
 >[WebP 映像扩展](https://apps.microsoft.com/detail/9pg2dk419drg) 一般情况下系统自带，如果程序无法正常显示背景图片请自行检查是否安装。
 
-然后在 [GitHub Release](https://github.com/Scighost/Starward/releases) 下载对应 CPU 架构的压缩包，解压后运行 `Starward.exe` 并按提示操作。
+在 [GitHub Releases](https://github.com/NagiYume/Starward/releases) 下载对应 CPU 架构的安装包或便携版。运行安装程序，或解压便携版后运行 `Starward.exe`。
+
+`v0.19.2-1` 是此 fork 更新渠道的首版，请手动安装一次。后续可在「应用设置 → 关于」中检查并安装增量更新。
 
 
 ## 本地化
@@ -55,7 +58,7 @@ Starward 使用 [Crowdin](https://crowdin.com/project/starward) 进行应用内�
 
 ## 赞助
 
-开发不易，如果你觉得 Starward 好用，可以在 https://donate.scighost.com 赞助我。
+[赞助开发者](https://www.akedata.wiki/?plugin=about)。
 
 
 ## 致谢

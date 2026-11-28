@@ -44,6 +44,9 @@ public class ReleaseManifest
     [JsonPropertyName("url_suffix")]
     public string? UrlSuffix { get; set; }
 
+    [JsonPropertyName("file_bundle_url")]
+    public string? FileBundleUrl { get; set; }
+
     [JsonPropertyName("files")]
     public List<ReleaseFile> Files { get; set; }
 
@@ -72,6 +75,9 @@ public class ReleaseFile
 
     [JsonPropertyName("compressed_hash")]
     public string CompressedHash { get; set; }
+
+    [JsonPropertyName("bundle_offset")]
+    public long? BundleOffset { get; set; }
 
     [JsonPropertyName("url_suffix")]
     public string? UrlSuffix { get; set; }

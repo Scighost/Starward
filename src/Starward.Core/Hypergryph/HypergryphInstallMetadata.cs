@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Starward.Core.HoYoPlay;
 
 namespace Starward.Core.Hypergryph;
 
@@ -14,6 +15,9 @@ public sealed class HypergryphInstallMetadata
     [JsonPropertyName("app_code")]
     public string AppCode { get; set; } = "";
 
+    [JsonPropertyName("game_id")]
+    public string GameId { get; set; } = "";
+
     [JsonPropertyName("version")]
     public string Version { get; set; } = "";
 
@@ -23,10 +27,11 @@ public sealed class HypergryphInstallMetadata
     [JsonPropertyName("predownload_fingerprint")]
     public string PredownloadFingerprint { get; set; } = "";
 
-    public bool IsFor(GameBiz gameBiz)
+    public bool IsFor(GameId gameId)
     {
-        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
-        return string.Equals(AppCode, profile.GameAppCode, StringComparison.Ordinal);
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameId);
+        return string.Equals(AppCode, profile.GameAppCode, StringComparison.Ordinal)
+            && (string.IsNullOrEmpty(GameId) ? gameId.Id == AppCode : gameId.Id == GameId);
     }
 
     public static string GetMetadataDirectory(string installPath)

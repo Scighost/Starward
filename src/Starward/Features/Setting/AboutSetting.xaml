@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <sf:PageBase x:Class="Starward.Features.Setting.AboutSetting"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -25,7 +25,7 @@
                        FontSize="24"
                        FontWeight="Bold"
                        Text="Starward" />
-            <TextBlock Margin="0,4,0,0" Text="Developed by Scighost, all rights reserved." />
+            <TextBlock Margin="0,4,0,0" Text="Developed by Scighost &amp; Shiroha." />
 
 
             <!--  当前版本  -->
@@ -90,35 +90,35 @@
                        FontSize="20"
                        Text="{x:Bind lang:Lang.AboutSettingPage_Links}" />
             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
-                <Hyperlink NavigateUri="https://starward.scighost.com" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://github.com/NagiYume/Starward" UnderlineStyle="None">
                     <Run FontWeight="Bold"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                          Text="{x:Bind lang:Lang.SettingPage_ProjectHomepage}" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
-                <Hyperlink NavigateUri="https://github.com/Scighost/Starward/issues" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://github.com/NagiYume/Starward/issues" UnderlineStyle="None">
                     <Run FontWeight="Bold"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                          Text="{x:Bind lang:Lang.SettingPage_ReportIssue}" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
-                <Hyperlink NavigateUri="https://github.com/Scighost/Starward/releases" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://github.com/NagiYume/Starward/releases" UnderlineStyle="None">
                     <Run FontWeight="Bold"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                          Text="{x:Bind lang:Lang.SettingPage_ReleaseHistroy}" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
-                <Hyperlink NavigateUri="https://github.com/Scighost/Starward/blob/main/docs/Privacy.md" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://github.com/NagiYume/Starward/blob/main/docs/Privacy.md" UnderlineStyle="None">
                     <Run FontWeight="Bold"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                          Text="{x:Bind lang:Lang.SettingPage_PrivacyPolicy}" />
                 </Hyperlink>
             </TextBlock>
             <TextBlock Margin="0,8,0,0" HorizontalAlignment="Left">
-                <Hyperlink NavigateUri="https://donate.scighost.com" UnderlineStyle="None">
+                <Hyperlink NavigateUri="https://www.akedata.wiki/?plugin=about" UnderlineStyle="None">
                     <Run FontWeight="Bold"
                          Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
                          Text="{x:Bind lang:Lang.SettingPage_Donate}" />

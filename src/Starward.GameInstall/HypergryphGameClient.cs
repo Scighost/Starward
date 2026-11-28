@@ -2,41 +2,83 @@ using Starward.Core;
 using Starward.Core.Hypergryph;
 using Starward.Core.HoYoPlay;
 using Starward.Core.Passport;
+using System.Text.Json;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Starward.GameInstall;
 
-internal sealed class HypergryphGameClient(HttpClient http) : IHoYoPlayClient
+internal sealed class HypergryphGameClient(HttpClient http, IFusionCache cache, IEnumerable<string> cacheTags) : IHoYoPlayClient
 {
     private readonly HypergryphLauncherClient _client = new(http);
     public LauncherConfig LauncherConfig { get; set; }
     public string Language { get; set; }
     public PassportUserInfo? PassportUserInfo { get; set; }
 
-    private GameBiz[] Games => LauncherConfig.Id == HypergryphGameConstants.LauncherAppCode
-        ? [GameBiz.arknights_cn, GameBiz.endfield_cn] : [GameBiz.endfield_global];
-
-    public Task<List<GameInfo>> GetGameInfoAsync(CancellationToken cancellationToken = default)
+    private GameId[] Games => LauncherConfig.Id switch
     {
-        return Task.FromResult<List<GameInfo>>(Games.Select(HypergryphGameMetadata.CreateGameInfo).ToList());
+        HypergryphGameConstants.LauncherAppCode =>
+            [GameId.FromGameBiz(GameBiz.arknights_cn)!, GameId.FromGameBiz(GameBiz.endfield_cn)!],
+        HypergryphGameConstants.GlobalLauncherAppCode => [GameId.FromGameBiz(GameBiz.endfield_global)!],
+        _ when HypergryphGameConstants.GetEndfieldChannelGameId(LauncherConfig.Id) is GameId gameId => [gameId],
+        _ => [],
+    };
+
+    public async Task<List<GameInfo>> GetGameInfoAsync(CancellationToken cancellationToken = default)
+    {
+        return (await Task.WhenAll(Games.Select(gameId => GetGameInfoAsync(gameId, cancellationToken)))).ToList();
     }
 
+    public async Task<GameInfo> GetGameInfoAsync(GameId gameId, CancellationToken cancellationToken)
+    {
+        return HypergryphGameMetadata.CreateGameInfo(gameId, await GetArtworkAsync(gameId, cancellationToken));
+    }
+
+    public GameInfo GetCachedGameInfo(GameId gameId)
+    {
+        return HypergryphGameMetadata.CreateGameInfo(gameId,
+            cache.GetOrDefault<HypergryphLauncherContent>(GetArtworkCacheKey(gameId)));
+    }
+
+    private string GetArtworkCacheKey(GameId gameId) => $"HypergryphArtwork_{gameId.Id}_{Language}";
+
+    private async Task<HypergryphLauncherContent?> GetArtworkAsync(GameId gameId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            return await cache.GetOrSetAsync(GetArtworkCacheKey(gameId), async token =>
+            {
+                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+                timeout.CancelAfter(TimeSpan.FromSeconds(5));
+                return await _client.GetGameArtworkAsync(gameId, Language, timeout.Token);
+            }, tags: cacheTags, token: cancellationToken);
+        }
+        catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+        {
+            return null;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or InvalidDataException or JsonException)
+        {
+            return null;
+        }
+    }
     public async Task<List<GameBackgroundInfo>> GetGameBackgroundAsync(CancellationToken cancellationToken = default)
     {
-        return (await Task.WhenAll(Games.Select(async biz => HypergryphGameMetadata.CreateBackgroundInfo(biz, await _client.GetGameContentAsync(biz, Language, cancellationToken))))).ToList();
+        return (await Task.WhenAll(Games.Select(async gameId =>
+            HypergryphGameMetadata.CreateBackgroundInfo(gameId, await GetArtworkAsync(gameId, cancellationToken))))).ToList();
     }
 
     public async Task<GameContent> GetGameContentAsync(GameId gameId, CancellationToken cancellationToken = default)
     {
-        return HypergryphGameMetadata.CreateGameContent(gameId.GameBiz, await _client.GetGameContentAsync(gameId.GameBiz, Language, cancellationToken));
+        return HypergryphGameMetadata.CreateGameContent(gameId, await _client.GetGameContentAsync(gameId, Language, cancellationToken));
     }
 
     public async Task<List<GamePackage>> GetGamePackageAsync(IEnumerable<GameId>? gameIds = null, CancellationToken cancellationToken = default)
     {
         var packages = new List<GamePackage>();
-        foreach (GameBiz biz in Games.Where(biz => gameIds is null || gameIds.Any(id => id.GameBiz == biz)))
+        foreach (GameId gameId in Games.Where(id => gameIds is null || gameIds.Contains(id)))
         {
-            var latest = await _client.GetLatestGameAsync(biz, null, cancellationToken);
-            packages.Add(HypergryphGameMetadata.CreateGamePackage(biz, latest));
+            var latest = await _client.GetLatestGameAsync(gameId, null, cancellationToken);
+            packages.Add(HypergryphGameMetadata.CreateGamePackage(gameId, latest));
         }
         return packages;
     }

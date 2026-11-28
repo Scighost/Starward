@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
@@ -165,7 +165,7 @@ public sealed partial class UpdateWindow : WindowBase
             {
                 var url = fe.Tag switch
                 {
-                    "release" => $"https://github.com/Scighost/Starward/releases/tag/{NewVersion.Version}",
+                    "release" => ReleaseClient.GetReleasePageUrl(NewVersion.Version),
                     "package" => NewVersion.PackageUrl,
                     _ => null,
                 };
@@ -517,7 +517,7 @@ public sealed partial class UpdateWindow : WindowBase
         {
             _logger.LogError(ex, "Load recent update content");
             string tag = NewVersion?.Version ?? AppConfig.AppVersion;
-            webview.Source = new Uri($"https://github.com/Scighost/Starward/releases/tag/{tag}");
+            webview.Source = new Uri(ReleaseClient.GetReleasePageUrl(tag));
             webview.Visibility = Visibility.Visible;
             StackPanel_Loading.Visibility = Visibility.Collapsed;
             StackPanel_Error.Visibility = Visibility.Collapsed;
@@ -575,7 +575,7 @@ public sealed partial class UpdateWindow : WindowBase
         int count = 0;
         foreach (var release in releases)
         {
-            if (NuGetVersion.TryParse(release.TagName, out var version))
+            if (NuGetVersion.TryParse(release.TagName.TrimStart('v', 'V'), out var version))
             {
                 if (version >= startVersion && version <= endVersion)
                 {

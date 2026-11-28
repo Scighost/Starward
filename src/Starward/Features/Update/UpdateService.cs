@@ -337,7 +337,7 @@ internal class UpdateService
         List<(string Id, long Size, string Hash, string? Suffix)> list = new();
         foreach (var item in _releaseManifest.Files)
         {
-            if (item.Patch is null && !_currentVersionFilesHash!.ContainsKey(item.Hash))
+            if (item.Patch is null && item.BundleOffset is null && !_currentVersionFilesHash!.ContainsKey(item.Hash))
             {
                 list.Add((item.Id, item.CompressedSize, item.CompressedHash, item.UrlSuffix));
             }
@@ -361,7 +361,14 @@ internal class UpdateService
     private async Task PatchAndVerifyAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Update Starward, patching and verifying files");
-        await Parallel.ForEachAsync(_releaseManifest.Files, cancellationToken, async (releaseFile, token) =>
+        var versionFile = _releaseManifest.Files.FirstOrDefault(file => string.Equals(file.Path, "version.ini", StringComparison.OrdinalIgnoreCase));
+        await Parallel.ForEachAsync(_releaseManifest.Files.Where(file => file != versionFile), cancellationToken, ApplyFileAsync);
+        if (versionFile is not null)
+        {
+            await ApplyFileAsync(versionFile, cancellationToken);
+        }
+
+        async ValueTask ApplyFileAsync(ReleaseFile releaseFile, CancellationToken token)
         {
             try
             {
@@ -372,7 +379,7 @@ internal class UpdateService
                 _logger.LogWarning(ex, "Decompress or patch file failed: {file}", releaseFile.Path);
             }
             await _polly.ExecuteAsync(async (pollyToken) => await VerifyAndDownloadFileAsync(releaseFile, pollyToken), token);
-        });
+        }
     }
 
 
@@ -466,21 +473,30 @@ internal class UpdateService
         string path = Path.Combine(_targetPath, releaseFile.Path);
         Directory.CreateDirectory(Path.GetDirectoryName(path)!);
         using var fs = File.Open(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite | FileShare.Delete);
-        if (fs.Length != releaseFile.Size)
+        if (fs.Length == releaseFile.Size)
         {
-            string url = _releaseManifest.UrlPrefix + releaseFile.Id + _releaseManifest.UrlSuffix;
-            using var hs = await _httpClient.GetStreamAsync(url, cancellationToken);
-            fs.SetLength(0);
-            using var zstdStream = new ZstandardStream(hs, CompressionMode.Decompress);
-            await zstdStream.CopyToAsync(fs, cancellationToken);
-            fs.Position = 0;
+            var existingHash = await SHA256.HashDataAsync(fs, cancellationToken);
+            if (string.Equals(Convert.ToHexString(existingHash), releaseFile.Hash, StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
         }
+        using var response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, _releaseManifest, releaseFile, cancellationToken);
+        using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
+        fs.SetLength(0);
+        using var zstdStream = new ZstandardStream(hs, CompressionMode.Decompress);
+        await zstdStream.CopyToAsync(fs, cancellationToken);
+        fs.Position = 0;
         var sha256 = await SHA256.HashDataAsync(fs, cancellationToken);
-        if (!string.Equals(Convert.ToHexStringLower(sha256), releaseFile.Hash, StringComparison.OrdinalIgnoreCase))
+        if (fs.Length != releaseFile.Size || !string.Equals(Convert.ToHexStringLower(sha256), releaseFile.Hash, StringComparison.OrdinalIgnoreCase))
         {
             fs.Dispose();
             File.Delete(path);
             throw new Exception($"Checksum failed: {path}");
+        }
+        if (releaseFile.BundleOffset is not null && (releaseFile.Patch is null || releaseFile.Patch.Id is null))
+        {
+            Interlocked.Add(ref _progress_DownloadBytes, releaseFile.CompressedSize);
         }
     }
 

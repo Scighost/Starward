@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,15 +46,15 @@ internal sealed class HypergryphInstallStep : PackageStepBase
             && File.Exists(Path.Combine(context.HardLinkPath!, "game_files"));
         bool useGameFiles = isEndfield && (context.Operation is GameInstallOperation.Repair
             || (context.Operation is GameInstallOperation.Install && hasDonor));
-        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(context.GameId.GameBiz);
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(context.GameId);
         HypergryphInstallMetadata? metadata = await HypergryphInstallMetadata.ReadAsync(context.InstallPath, cancellationToken);
-        if (metadata is not null && !metadata.IsFor(context.GameId.GameBiz))
+        if (metadata is not null && !metadata.IsFor(context.GameId))
         {
             metadata = null;
         }
         string localVersion = metadata?.Version ?? "";
         HypergryphLatestGame latest = await _launcherClient.GetLatestGameAsync(
-            context.GameId.GameBiz,
+            context.GameId,
             localVersion,
             cancellationToken);
 
@@ -67,6 +66,7 @@ internal sealed class HypergryphInstallStep : PackageStepBase
                 metadata = new HypergryphInstallMetadata
                 {
                     AppCode = profile.GameAppCode,
+                    GameId = context.GameId.Id,
                     Version = latest.Version,
                     GameFilesMD5 = latest.Package.GameFilesMD5,
                 };
@@ -75,21 +75,34 @@ internal sealed class HypergryphInstallStep : PackageStepBase
         }
 
         _localVersion = localVersion;
+        string? donorPath = hasDonor ? context.HardLinkPath : null;
+        await ExecutePackageInstallAsync(latest, metadata, useGameFiles, donorPath, cancellationToken);
 
+        // Full package extraction breaks hard links. Seed the hot-update VFS only after all base files are installed.
+        if (donorPath is not null && context.Operation is not GameInstallOperation.Predownload)
+        {
+            await TryShareVoiceFilesAsync(latest.Package, donorPath, cancellationToken);
+        }
+    }
+
+    private async Task ExecutePackageInstallAsync(HypergryphLatestGame latest, HypergryphInstallMetadata? metadata,
+        bool useGameFiles, string? donorPath, CancellationToken cancellationToken)
+    {
+        GameInstallContext context = _context;
         if (useGameFiles)
         {
-            await ExecuteGameFilesAsync(context, latest, hasDonor ? context.HardLinkPath : null, cancellationToken);
+            await ExecuteGameFilesAsync(context, latest, donorPath, cancellationToken);
             return;
         }
 
-        if (hasDonor && context.Operation is GameInstallOperation.Update)
+        if (donorPath is not null && context.Operation is GameInstallOperation.Update)
         {
             string downloadDirectory = HypergryphInstallMetadata.GetDownloadsDirectory(context.InstallPath);
             IReadOnlyList<HypergryphPackagePart> parts = latest.Patch is { DownloadParts.Count: > 0 } patch
                 ? patch.DownloadParts : latest.Package.Packs;
             long downloadLimit = parts.Count == 0 ? long.MaxValue : parts.Sum(part =>
                 GetRemainingDownloadBytes(Path.Combine(downloadDirectory, part.GetFileName()), part.PackageSize));
-            if (downloadLimit > 0 && await ExecuteGameFilesAsync(context, latest, context.HardLinkPath, cancellationToken, downloadLimit))
+            if (downloadLimit > 0 && await ExecuteGameFilesAsync(context, latest, donorPath, cancellationToken, downloadLimit))
             {
                 return;
             }
@@ -139,6 +152,29 @@ internal sealed class HypergryphInstallStep : PackageStepBase
         }
     }
 
+    private async Task TryShareVoiceFilesAsync(HypergryphGamePackage package, string donorPath, CancellationToken cancellationToken)
+    {
+        GameInstallContext context = _context;
+        try
+        {
+            var (count, bytes) = await EndfieldVoiceHardLinkService.ShareAsync(donorPath, context.InstallPath, async token =>
+            {
+                using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+                timeout.CancelAfter(TimeSpan.FromSeconds(8));
+                return await _launcherClient.GetEndfieldMainResourceIndexAsync(context.GameId, package, timeout.Token);
+            }, cancellationToken);
+            context.AddHardLinkBytes(bytes);
+            if (count > 0)
+            {
+                _stepLogger.LogInformation("Hard linked {Count} Endfield voice files ({Bytes} bytes) before game resource download.", count, bytes);
+            }
+        }
+        catch (Exception ex) when (!cancellationToken.IsCancellationRequested)
+        {
+            _stepLogger.LogWarning(ex, "Could not prepare shared Endfield voice files after installing the game package.");
+        }
+    }
+
     private async Task<bool> ExecuteGameFilesAsync(
         GameInstallContext context,
         HypergryphLatestGame latest,
@@ -156,12 +192,12 @@ internal sealed class HypergryphInstallStep : PackageStepBase
         try
         {
             encrypted = await _launcherClient.GetGameFilesAsync(latest.Package, cancellationToken);
-            files = ReadGameFiles(encrypted);
+            files = HypergryphLauncherClient.ReadEndfieldGameFiles(encrypted);
             if (downloadLimit.HasValue && File.Exists(manifestPath))
             {
                 byte[] previous = await File.ReadAllBytesAsync(manifestPath, cancellationToken);
                 var currentPaths = files.Select(file => file.Path).ToHashSet(StringComparer.OrdinalIgnoreCase);
-                obsolete = ReadGameFiles(previous).Where(file => !currentPaths.Contains(file.Path))
+                obsolete = HypergryphLauncherClient.ReadEndfieldGameFiles(previous).Where(file => !currentPaths.Contains(file.Path))
                     .Select(file => GetGameFilePath(context.InstallPath, file.Path)).ToArray();
             }
         }
@@ -321,42 +357,6 @@ internal sealed class HypergryphInstallStep : PackageStepBase
         }
     }
 
-    private static IReadOnlyList<HypergryphVerifyFile> ReadGameFiles(byte[] encrypted)
-    {
-        // The launcher uses the same AES-CBC format for both Endfield regions.
-        using Aes aes = Aes.Create();
-        aes.Key = Convert.FromHexString("C0F30E1CE763BBC21CC355A34303AC50399444BFF68C4A22AF398C0A166EE143");
-        byte[] decrypted = aes.DecryptCbc(encrypted, Convert.FromHexString("33467861192750649501937264608400"));
-        using StreamReader reader = new(new MemoryStream(decrypted), Encoding.UTF8);
-        var files = new List<HypergryphVerifyFile>();
-        var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        while (reader.ReadLine() is string line)
-        {
-            if (string.IsNullOrWhiteSpace(line))
-            {
-                continue;
-            }
-            HypergryphVerifyFile file = JsonSerializer.Deserialize<HypergryphVerifyFile>(line)
-                ?? throw new InvalidDataException("The Endfield game_files manifest contains an empty entry.");
-            file.Path = file.Path?.Replace('\\', '/') ?? "";
-            string[] segments = file.Path.Split('/');
-            if (file.Size < 0 || file.MD5 is not { Length: 32 } || !file.MD5.All(Uri.IsHexDigit)
-                || segments.Any(x => x.Length == 0 || x.EndsWith('.') || x.EndsWith(' ') || x.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
-                || segments[0].Equals(".starward", StringComparison.OrdinalIgnoreCase)
-                || file.Path.Equals("game_files", StringComparison.OrdinalIgnoreCase)
-                || !paths.Add(file.Path))
-            {
-                throw new InvalidDataException($"The Endfield game_files manifest contains an invalid entry: {file.Path}.");
-            }
-            files.Add(file);
-        }
-        if (!paths.Contains(HypergryphGameConstants.EndfieldExeName))
-        {
-            throw new InvalidDataException("The Endfield game_files manifest does not include the game executable.");
-        }
-        return files;
-    }
-
     private static string GetGameFilePath(string root, string relativePath)
     {
         string path = GetSafePath(root, relativePath);
@@ -419,7 +419,8 @@ internal sealed class HypergryphInstallStep : PackageStepBase
         await DownloadPartsAsync(context, parts, cancellationToken);
         metadata ??= new HypergryphInstallMetadata
         {
-            AppCode = HypergryphGameConstants.GetGameProfile(context.GameId.GameBiz).GameAppCode,
+            AppCode = HypergryphGameConstants.GetGameProfile(context.GameId).GameAppCode,
+            GameId = context.GameId.Id,
             Version = _localVersion ?? "",
         };
         metadata.PredownloadFingerprint = patch.GetFingerprint();
@@ -755,7 +756,7 @@ internal sealed class HypergryphInstallStep : PackageStepBase
     {
         context.Step = RunnerStep.Verifying;
         context.ProgressDisplay = ProgressDisplay.Progress;
-        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(context.GameId.GameBiz);
+        HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(context.GameId);
         string exe = Path.Combine(context.InstallPath, profile.ExeName);
         if (!File.Exists(exe))
         {
@@ -774,7 +775,8 @@ internal sealed class HypergryphInstallStep : PackageStepBase
     {
         await new HypergryphInstallMetadata
         {
-            AppCode = HypergryphGameConstants.GetGameProfile(context.GameId.GameBiz).GameAppCode,
+            AppCode = HypergryphGameConstants.GetGameProfile(context.GameId).GameAppCode,
+            GameId = context.GameId.Id,
             Version = latest.Version,
             GameFilesMD5 = latest.Package.GameFilesMD5,
             PredownloadFingerprint = "",

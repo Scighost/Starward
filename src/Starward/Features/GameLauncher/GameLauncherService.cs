@@ -210,10 +210,10 @@ internal partial class GameLauncherService
         GameBiz gameBiz = gameId.GameBiz;
         if (HypergryphGameConstants.IsHypergryphGame(gameBiz))
         {
-            HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameBiz);
+            HypergryphGameProfile profile = HypergryphGameConstants.GetGameProfile(gameId);
             HypergryphInstallMetadata? metadata = await HypergryphInstallMetadata.ReadAsync(installPath);
             Version? metadataVersion = null;
-            if (metadata?.IsFor(gameBiz) is true
+            if (metadata?.IsFor(gameId) is true
                 && Version.TryParse(metadata.Version, out metadataVersion))
             {
                 // The official launcher updates the game in place and does not update
@@ -247,7 +247,7 @@ internal partial class GameLauncherService
             string gameFilesPath = Path.Combine(installPath, "game_files");
             if (File.Exists(gameFilesPath))
             {
-                HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(gameBiz, null);
+                HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(gameId, null, cancellation);
                 await using FileStream stream = File.OpenRead(gameFilesPath);
                 string md5 = Convert.ToHexStringLower(await MD5.HashDataAsync(stream));
                 if (string.Equals(md5, latest.Package.GameFilesMD5, StringComparison.OrdinalIgnoreCase)
@@ -256,6 +256,7 @@ internal partial class GameLauncherService
                     await new HypergryphInstallMetadata
                     {
                         AppCode = profile.GameAppCode,
+                        GameId = gameId.Id,
                         Version = latest.Version,
                         GameFilesMD5 = latest.Package.GameFilesMD5,
                     }.WriteAsync(installPath);
@@ -281,8 +282,8 @@ internal partial class GameLauncherService
         {
             Version? localVersion = await GetLocalGameVersionAsync(gameId);
             HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(
-                gameId.GameBiz,
-                localVersion?.ToString());
+                gameId,
+                localVersion?.ToString(), cancellation);
             _ = Version.TryParse(latest.Version, out Version? latestVersion);
             Version? predownloadVersion = null;
             if (latest.PrePatch is not null && latest.PrePatch.DownloadParts.Count > 0 && latestVersion is not null)
@@ -345,7 +346,7 @@ internal partial class GameLauncherService
         {
             Version? localVersion = await GetLocalGameVersionAsync(gameId, installPath, cancellation);
             HypergryphLatestGame latest = await _hypergryphLauncherClient.GetLatestGameAsync(
-                gameId.GameBiz,
+                gameId,
                 localVersion?.ToString(), cancellation);
             HypergryphGamePatch? prePatch = latest.PrePatch;
             if (prePatch is null || prePatch.DownloadParts.Count == 0)
@@ -353,7 +354,7 @@ internal partial class GameLauncherService
                 return false;
             }
             HypergryphInstallMetadata? metadata = await HypergryphInstallMetadata.ReadAsync(installPath);
-            if (metadata is null || !metadata.IsFor(gameId.GameBiz)
+            if (metadata is null || !metadata.IsFor(gameId)
                 || !string.Equals(metadata.PredownloadFingerprint, prePatch.GetFingerprint(), StringComparison.OrdinalIgnoreCase))
             {
                 return CheckHypergryphOfficialPreDownload(installPath, prePatch.DownloadParts);
@@ -478,7 +479,7 @@ internal partial class GameLauncherService
             GameBiz.hk4e_cn or GameBiz.hk4e_bilibili => "YuanShen.exe",
             GameBiz.hk4e_global => "GenshinImpact.exe",
             GameBiz.arknights_cn => HypergryphGameConstants.ArknightsExeName,
-            GameBiz.endfield_cn or GameBiz.endfield_global => HypergryphGameConstants.EndfieldExeName,
+            _ when HypergryphGameConstants.IsEndfield(gameBiz) => HypergryphGameConstants.EndfieldExeName,
             _ => gameBiz.Game switch
             {
                 GameBiz.hkrpg => "StarRail.exe",
@@ -611,7 +612,7 @@ internal partial class GameLauncherService
             {
                 sb.Append(" -popupwindow");
             }
-            if (HypergryphGameConstants.IsEndfield(gameId.GameBiz) && AppConfig.GetEnableDX11(gameId.GameBiz))
+            if (HypergryphGameConstants.IsEndfield(gameId.GameBiz) && AppConfig.GetEnableDX11(gameId))
             {
                 sb.Append(" -force-d3d11");
             }
@@ -625,7 +626,7 @@ internal partial class GameLauncherService
 
             if (!thirdPartyTool && HypergryphGameConstants.IsEndfield(gameId.GameBiz))
             {
-                await TryShareEndfieldVoiceFilesAsync(gameId.GameBiz, Path.GetDirectoryName(exe)!);
+                await TryShareEndfieldVoiceFilesAsync(gameId, Path.GetDirectoryName(exe)!);
                 _logger.LogInformation("Start Endfield with a signed auxiliary parent: {Path}", exe);
                 Process game = await EndfieldLauncher.StartAsync(exe, arg);
                 await _playTimeRecorderService.StartProcessToLogAsync(gameId, game.Id);

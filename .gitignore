@@ -222,12 +222,13 @@ Assets/
 src/Starward/Assets/*
 !src/Starward/Assets/Image/
 src/Starward/Assets/Image/*
-!src/Starward/Assets/Image/background_endfield.jpg
 !src/Starward/Assets/Image/icon_endfield.png
-!src/Starward/Assets/Image/background_arknights.jpg
 !src/Starward/Assets/Image/icon_arknights.png
 !src/Starward/Assets/Image/icon_hypergryph.png
 !src/Starward/Assets/Image/icon_gryphline.png
+!src/Starward/Assets/Image/logo_endfield.svg
+!src/Starward/Assets/Image/logo_endfield_global.svg
+!src/Starward/Assets/Image/logo_arknights.svg
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml

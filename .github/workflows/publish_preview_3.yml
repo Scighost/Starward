@@ -14,6 +14,7 @@ permissions:
 jobs:
 
   build-pack:
+    if: github.repository == 'Scighost/Starward'
     strategy:
       fail-fast: false
       matrix:

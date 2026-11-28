@@ -151,7 +151,7 @@ public sealed partial class PreDownloadDialog : ContentDialogBase
         if (HypergryphGameConstants.IsHypergryphGame(CurrentGameId.GameBiz))
         {
             _localVersion = (await AppConfig.GetService<GameLauncherService>().GetLocalGameVersionAsync(CurrentGameId, InstallPath, cancellation))?.ToString();
-            var latest = await AppConfig.GetService<HypergryphLauncherClient>().GetLatestGameAsync(CurrentGameId.GameBiz, _localVersion, cancellation);
+            var latest = await AppConfig.GetService<HypergryphLauncherClient>().GetLatestGameAsync(CurrentGameId, _localVersion, cancellation);
             if (latest.PrePatch is not { DownloadParts.Count: > 0 } patch)
             {
                 return false;

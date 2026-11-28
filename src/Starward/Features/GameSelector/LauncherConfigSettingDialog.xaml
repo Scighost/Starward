@@ -141,7 +141,7 @@
                                        Margin="24,0,0,0"
                                        VerticalAlignment="Center"
                                        IsTextScaleFactorEnabled="False"
-                                       Text="ID" />
+                                       Text="{x:Bind EditingConfig.IdLabel, Mode=OneWay}" />
                             <TextBox Width="276"
                                      IsSpellCheckEnabled="False"
                                      IsTextScaleFactorEnabled="False"
@@ -158,6 +158,7 @@
                             <ComboBox Width="224" SelectedIndex="{x:Bind EditingConfig.Region, Converter={StaticResource EnumToIntConverter}, Mode=TwoWay}">
                                 <ComboBoxItem Content="HoYoverse" />
                                 <ComboBoxItem Content="miHoYo" />
+                                <ComboBoxItem Content="Hypergryph" />
                             </ComboBox>
                             <!--  channel  -->
                             <TextBlock Width="72"
@@ -238,7 +239,9 @@
                         </StackPanel>
 
 
-                        <StackPanel Orientation="Horizontal" Spacing="12">
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="12"
+                                    Visibility="{x:Bind EditingConfig.IsHoYoLauncher, Mode=OneWay}">
                             <CheckBox Content="{x:Bind lang:Lang.LauncherConfigSettingDialog_AuthLogin}"
                                       IsChecked="{x:Bind EditingConfig.CanLogin, Mode=TwoWay}"
                                       IsEnabled="{x:Bind EditingConfig.IsBeta, Converter={StaticResource BoolReversedConverter}}"

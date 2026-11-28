@@ -13,6 +13,7 @@ permissions:
 jobs:
 
   version:
+    if: github.repository == 'Scighost/Starward'
     runs-on: windows-latest
     outputs: 
       version: ${{ github.ref_name }}

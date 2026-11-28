@@ -747,17 +747,17 @@ public static partial class AppConfig
     /// <summary>
     /// 使用 DX11 启动
     /// </summary>
-    public static bool GetEnableDX11(GameBiz biz)
+    public static bool GetEnableDX11(GameId gameId)
     {
-        return GetValue<bool>(default, "EnableDX11", GameId.FromGameBiz(biz)!.ToString());
+        return GetValue<bool>(default, "EnableDX11", gameId.ToString());
     }
 
     /// <summary>
     /// 使用 DX11 启动
     /// </summary>
-    public static void SetEnableDX11(GameBiz biz, bool value)
+    public static void SetEnableDX11(GameId gameId, bool value)
     {
-        SetValue(value, "EnableDX11", GameId.FromGameBiz(biz)!.ToString());
+        SetValue(value, "EnableDX11", gameId.ToString());
     }
 
 

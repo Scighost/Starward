@@ -4,11 +4,22 @@ namespace Starward.Core.Hypergryph;
 
 public sealed class HypergryphLauncherContent
 {
+    public HypergryphGameArtwork? Artwork { get; set; }
+
     public HypergryphMainBackground? MainBackground { get; set; }
 
     public List<HypergryphContentBanner> Banners { get; set; } = [];
 
     public List<HypergryphAnnouncementTab> AnnouncementTabs { get; set; } = [];
+}
+
+public sealed class HypergryphGameArtwork
+{
+    [JsonPropertyName("cover")]
+    public string? CoverUrl { get; set; }
+
+    [JsonPropertyName("bg")]
+    public string? BackgroundUrl { get; set; }
 }
 
 public sealed class HypergryphMainBackground

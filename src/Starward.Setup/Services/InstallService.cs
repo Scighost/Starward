@@ -100,8 +100,7 @@ public class InstallService : DownloadService
         {
             Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
             string path_tmp = filePath + ".tmp";
-            string url = ReleaseManifest.UrlPrefix + releaseFile.Id;
-            await DownloadZstdFileAsync(url, path_tmp, releaseFile.CompressedSize, cancellation).ConfigureAwait(false);
+            await DownloadZstdFileAsync(ReleaseManifest, releaseFile, path_tmp, cancellation).ConfigureAwait(false);
             cancellation.ThrowIfCancellationRequested();
             if (await CheckFileHashAsync(path_tmp, releaseFile.Hash, releaseFile.Size, cancellation).ConfigureAwait(false))
             {

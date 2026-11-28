@@ -2843,6 +2843,12 @@
   <data name="FindGamesDialog_AddGames" xml:space="preserve">
     <value>添加游戏</value>
   </data>
+  <data name="LauncherConfigSettingDialog_ChannelAlreadyExists" xml:space="preserve">
+    <value>该启动器渠道已存在。</value>
+  </data>
+  <data name="LauncherConfigSettingDialog_EndfieldChannelInvalid" xml:space="preserve">
+    <value>请输入终末地自定义渠道的 AppCode 和渠道号。官服与 B 服可在列表中启用。</value>
+  </data>
   <data name="LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty" xml:space="preserve">
     <value>ID、Name、Region 不可为空</value>
   </data>

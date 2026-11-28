@@ -76,6 +76,8 @@
                                         Icon="OpenFile"
                                         Text="从游戏日志同步" />
                         <MenuFlyoutSeparator />
+                        <MenuFlyoutItem Command="{x:Bind ImportAkegfCommand}" Text="导入 AKEGF" />
+                        <MenuFlyoutItem Command="{x:Bind OpenImportedAkegfCommand}" Text="已导入的 AKEGF" />
                         <MenuFlyoutItem Command="{x:Bind ExportAkegfCommand}"
                                         IsEnabled="{x:Bind IsExportingAkegf, Converter={StaticResource BoolReversedConverter}}"
                                         Text="导出 AKEGF v0.4" />
@@ -84,15 +86,22 @@
                     </MenuFlyout>
                 </SplitButton.Flyout>
             </SplitButton>
-            <Button Command="{x:Bind SyncAccountRecordsCommand}"
-                    IsEnabled="{x:Bind IsSyncing, Converter={StaticResource BoolReversedConverter}}"
-                    ToolTipService.ToolTip="同步账号记录"
-                    Visibility="{x:Bind IsAccountRecordView}">
+            <SplitButton Command="{x:Bind SyncAccountRecordsCommand}"
+                         IsEnabled="{x:Bind IsSyncing, Converter={StaticResource BoolReversedConverter}}"
+                         ToolTipService.ToolTip="同步账号记录"
+                         Visibility="{x:Bind IsAccountRecordView}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon FontSize="14" Glyph="&#xE72C;" />
                     <TextBlock Text="同步" />
                 </StackPanel>
-            </Button>
+                <SplitButton.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{x:Bind LoginAccountCommand}"
+                                        Icon="Contact"
+                                        Text="登录新鹰角账号" />
+                    </MenuFlyout>
+                </SplitButton.Flyout>
+            </SplitButton>
             <Button Command="{x:Bind CancelSyncCommand}"
                     Content="取消"
                     Visibility="{x:Bind IsSyncing}" />

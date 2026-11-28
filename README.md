@@ -5,7 +5,7 @@ English | [简体中文](./docs/README.zh-CN.md) | [Tiếng Việt](./docs/READM
 
 > **Starward** comes from the slogan of Star Rail: May This Journey Lead Us **Starward**, which is very suitable to be used as an app name.
 
-Starward is an open-source third-party launcher developed to address the shortcomings of HoYoPlay (miHoYo Launcher). It supports all PC games on of HoYoverse and aims to completely replace the official launcher. In addition to the basic functions of a launcher, I will also incorporate some additional features based on individual needs, such as:
+Starward is an open-source third-party launcher for HoYoverse PC games. Scighost created the original project, and Shiroha maintains this fork with support for Hypergryph games, including Arknights: Endfield. Starward also provides these features.
 
 -  Record game time
 -  Switch game accounts
@@ -14,6 +14,7 @@ Starward is an open-source third-party launcher developed to address the shortco
 
 More features are left for you to explore...
 
+[Project homepage](https://github.com/NagiYume/Starward) · [Feedback](https://github.com/NagiYume/Starward/issues) · [Privacy policy](./docs/Privacy.md) · [Upstream project](https://github.com/Scighost/Starward)
 
 ## Install
 
@@ -26,7 +27,9 @@ First, your device needs to meet the following requirements:
 
 >[WebP Imaging Extension](https://apps.microsoft.com/detail/9pg2dk419drg) is typically bundled with your system. If the application isn’t displaying background images correctly, please ensure it’s installed.
 
-Next, download the package for your CPU architecture from [GitHub Release](https://github.com/Scighost/Starward/releases). Extract it, then run `Starward.exe` and follow the prompts.
+Download the installer or portable package for your CPU architecture from [GitHub Releases](https://github.com/NagiYume/Starward/releases). Run the installer, or extract the portable package and launch `Starward.exe`.
+
+`v0.19.2-1` is the first release on this fork's update channel. Install it manually once. Later versions can be installed from Settings → About → Check for updates.
 
 
 ## Localization
@@ -58,7 +61,7 @@ To compile the project locally, you need to install Visual Studio 2022 and selec
 
 ## Donation
 
-Development is not easy. If you think Starward useful, you cloud donate me at https://donate.scighost.com.
+[Support the developers](https://www.akedata.wiki/?plugin=about).
 
 
 ## Thanks

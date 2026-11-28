@@ -55,6 +55,8 @@ public record struct GameBiz
     public const string endfield = "endfield";
     public const string endfield_cn = "endfield_cn";
     public const string endfield_global = "endfield_global";
+    public const string endfield_bilibili = "endfield_bilibili";
+    public const string endfield_channel = "endfield_channel";
 
 
     public const string None = "";
@@ -91,7 +93,7 @@ public record struct GameBiz
         hkrpg_cn or hkrpg_global or hkrpg_bilibili => true,
         nap_cn or nap_global or nap_bilibili => true,
         arknights_cn => true,
-        endfield_cn or endfield_global => true,
+        endfield_cn or endfield_global or endfield_bilibili or endfield_channel => true,
         _ => false,
     };
 
@@ -145,7 +147,7 @@ public record struct GameBiz
         bh3_asia => GameRegistry.GamePath_bh3_tw,
         nap_cn or nap_bilibili => GameRegistry.GamePath_nap_cn,
         nap_global => GameRegistry.GamePath_nap_global,
-        endfield_cn => GameRegistry.GamePath_endfield_cn,
+        endfield_cn or endfield_bilibili or endfield_channel => GameRegistry.GamePath_endfield_cn,
         endfield_global => GameRegistry.GamePath_endfield_global,
         _ => "HKEY_CURRENT_USER",
     };

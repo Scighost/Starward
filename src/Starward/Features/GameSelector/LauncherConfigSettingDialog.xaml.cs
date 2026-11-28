@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.Helpers;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,8 @@ public sealed partial class LauncherConfigSettingDialog : ContentDialogBase
     private readonly HoYoPlayClient _hoYoPlayClient = AppConfig.GetService<HoYoPlayClient>();
 
     private readonly HoYoPlayBetaClient _hoYoPlayBetaClient = AppConfig.GetService<HoYoPlayBetaClient>();
+    private readonly HypergryphLauncherClient _hypergryphLauncherClient = AppConfig.GetService<HypergryphLauncherClient>();
+    private LauncherConfigModel? _originalConfig;
 
 
     public LauncherConfigSettingDialog() : base()
@@ -59,6 +62,7 @@ public sealed partial class LauncherConfigSettingDialog : ContentDialogBase
         Pivot_Content.SelectedIndex = 0;
         ErrorText = null;
         EditingConfig = null;
+        _originalConfig = null;
     }
 
 
@@ -74,9 +78,16 @@ public sealed partial class LauncherConfigSettingDialog : ContentDialogBase
     {
         if (sender is FrameworkElement { DataContext: LauncherConfigModel { Editable: true } model })
         {
-            EditingConfig = model;
+            string id = model.Id;
+            if (model.Region == ServerRegion.Hypergryph && HypergryphGameConstants.GetEndfieldChannelGameId(id) is GameId gameId)
+            {
+                id = HypergryphGameConstants.GetGameProfile(gameId).GameAppCode;
+            }
+            _originalConfig = model;
+            EditingConfig = new(id, model.Channel, model.SubChannel, model.Region, model.Name, model.Icon, model.SmallIcon,
+                model.CanLogin, model.IsBeta) { Editable = true, IsSelected = model.IsSelected };
+            Pivot_Content.SelectedIndex = 1;
         }
-        Pivot_Content.SelectedIndex = 1;
     }
 
 
@@ -158,37 +169,71 @@ public sealed partial class LauncherConfigSettingDialog : ContentDialogBase
             _saveTokenSource = new();
             CancellationToken token = _saveTokenSource.Token;
 
-            if (EditingConfig is null)
+            if (EditingConfig is not LauncherConfigModel config)
             {
                 PivotGoBack();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(EditingConfig.Id) || string.IsNullOrWhiteSpace(EditingConfig.Name) || EditingConfig.Region is not ServerRegion.HoYoverse and not ServerRegion.miHoYo)
+            if (string.IsNullOrWhiteSpace(config.Id) || string.IsNullOrWhiteSpace(config.Name)
+                || config.Region is not (ServerRegion.HoYoverse or ServerRegion.miHoYo or ServerRegion.Hypergryph))
             {
                 ErrorText = Lang.LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty;
                 return;
             }
 
-            IHoYoPlayClient client = EditingConfig.IsBeta ? _hoYoPlayBetaClient : _hoYoPlayClient;
-            client.LauncherConfig = EditingConfig.ToLauncherConfig();
-            List<GameInfo> gameInfos = await client.GetGameInfoAsync(token);
-            if (gameInfos.Count is 0)
+            string id = config.Id.Trim();
+            if (config.Region == ServerRegion.Hypergryph)
             {
-                ErrorText = Lang.LauncherConfigSettingDialog_NoGamesFoundForThisLauncher;
+                GameId? gameId = HypergryphGameConstants.CreateEndfieldChannelGameId(id, config.Channel, config.SubChannel);
+                if (gameId?.GameBiz.Value != GameBiz.endfield_channel)
+                {
+                    ErrorText = Lang.LauncherConfigSettingDialog_EndfieldChannelInvalid;
+                    return;
+                }
+                id = gameId.Id;
+                if (!await _hypergryphLauncherClient.HasEndfieldPackageAsync(gameId, token))
+                {
+                    ErrorText = Lang.LauncherConfigSettingDialog_NoGamesFoundForThisLauncher;
+                    return;
+                }
+                config.IsBeta = false;
+                config.CanLogin = false;
+                config.Icon = string.IsNullOrWhiteSpace(config.Icon) ? HypergryphGameConstants.HypergryphLogo : config.Icon;
+                config.SmallIcon = string.IsNullOrWhiteSpace(config.SmallIcon) ? HypergryphGameConstants.HypergryphLogo : config.SmallIcon;
+            }
+            else
+            {
+                IHoYoPlayClient client = config.IsBeta ? _hoYoPlayBetaClient : _hoYoPlayClient;
+                client.LauncherConfig = config.ToLauncherConfig();
+                if ((await client.GetGameInfoAsync(token)).Count is 0)
+                {
+                    ErrorText = Lang.LauncherConfigSettingDialog_NoGamesFoundForThisLauncher;
+                    return;
+                }
+            }
+            token.ThrowIfCancellationRequested();
+            if (LauncherConfigs.Any(x => x != _originalConfig && string.Equals(x.Id, id, StringComparison.Ordinal)))
+            {
+                ErrorText = Lang.LauncherConfigSettingDialog_ChannelAlreadyExists;
                 return;
             }
+            config.Id = id;
+            config.Icon = CopyImageToUserDataFolder(config.Icon);
+            config.SmallIcon = CopyImageToUserDataFolder(config.SmallIcon);
 
-            EditingConfig.Icon = CopyImageToUserDataFolder(EditingConfig.Icon);
-            EditingConfig.SmallIcon = CopyImageToUserDataFolder(EditingConfig.SmallIcon);
-
-            if (!LauncherConfigs.Contains(EditingConfig))
+            if (_originalConfig is null)
             {
-                LauncherConfigs.Insert(LauncherConfigs.Count - 1, EditingConfig);
+                config.IsSelected = config.Region == ServerRegion.Hypergryph;
+                LauncherConfigs.Insert(LauncherConfigs.Count - 1, config);
             }
+            else
+            {
+                LauncherConfigs[LauncherConfigs.IndexOf(_originalConfig)] = config;
+            }
+
             LauncherConfigModel.SaveExtra(LauncherConfigs.Where(x => x.Editable));
             EnabledLauncherChanged = true;
-            OnLoaded();
             PivotGoBack();
         }
         catch (OperationCanceledException) { }
@@ -220,9 +265,9 @@ public sealed partial class LauncherConfigSettingDialog : ContentDialogBase
         try
         {
             _saveTokenSource?.Cancel();
-            if (EditingConfig is not null && LauncherConfigs.Contains(EditingConfig))
+            if (_originalConfig is not null)
             {
-                LauncherConfigs.Remove(EditingConfig);
+                LauncherConfigs.Remove(_originalConfig);
                 LauncherConfigModel.SaveExtra(LauncherConfigs.Where(x => x.Editable));
                 EnabledLauncherChanged = true;
             }

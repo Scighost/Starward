@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Starward.Core.HoYoPlay;
+using Starward.Core.Hypergryph;
 using Starward.GameInstall;
 using Starward.Helpers;
 using System;
@@ -109,12 +110,15 @@ public class BackgroundService
     {
         GameBackgroundInfo? backgroundInfo = await _hoYoPlayService.GetGameBackgroundInfoAsync(gameId, cancellationToken);
         List<GameBackground> backgrounds = backgroundInfo?.Backgrounds?.ToList() ?? [];
-        if (await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken) is GameInfo gameInfo)
+        if (await _hoYoPlayService.GetGameInfoAsync(gameId, cancellationToken) is GameInfo gameInfo
+            && gameInfo.Display.Background?.Url is string defaultUrl && !string.IsNullOrWhiteSpace(defaultUrl)
+            && (!HypergryphGameConstants.IsHypergryphGame(gameId.GameBiz)
+                || !backgrounds.Any(x => string.Equals(x.Background?.Url, defaultUrl, StringComparison.Ordinal))))
         {
             backgrounds.Add(new GameBackground
             {
                 Id = gameInfo.Id,
-                Background = new GameImage { Url = gameInfo.Display.Background?.Url! },
+                Background = new GameImage { Url = defaultUrl },
                 Icon = new(),
                 Video = new(),
                 Theme = new(),

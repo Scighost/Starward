@@ -5163,6 +5163,24 @@ namespace Starward.Language {
         }
         
         /// <summary>
+        ///   查找类似 This launcher channel already exists. 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_ChannelAlreadyExists {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_ChannelAlreadyExists", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   查找类似 Enter a custom Endfield AppCode and its channel numbers. Official and Bilibili are listed separately. 的本地化字符串。
+        /// </summary>
+        public static string LauncherConfigSettingDialog_EndfieldChannelInvalid {
+            get {
+                return ResourceManager.GetString("LauncherConfigSettingDialog_EndfieldChannelInvalid", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   查找类似 ID, Name and Region cannot be empty. 的本地化字符串。
         /// </summary>
         public static string LauncherConfigSettingDialog_IDNameAndRegionCannotBeEmpty {
