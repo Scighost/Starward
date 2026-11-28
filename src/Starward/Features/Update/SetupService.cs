@@ -4,7 +4,6 @@ using Starward.Setup.Core;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,15 +15,13 @@ internal class SetupService
 
     private readonly ILogger<SetupService> _logger;
 
-    private readonly HttpClient _httpClient;
 
     private readonly ReleaseClient _releaseClient;
 
 
-    public SetupService(ILogger<SetupService> logger, HttpClient httpClient, ReleaseClient releaseClient)
+    public SetupService(ILogger<SetupService> logger, ReleaseClient releaseClient)
     {
         _logger = logger;
-        _httpClient = httpClient;
         _releaseClient = releaseClient;
     }
 
@@ -86,11 +83,7 @@ internal class SetupService
             SetupDownloadBytes = stream.Length;
             if (stream.Length < SetupTotalBytes)
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, url);
-                request.VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher;
-                request.Headers.Range = new System.Net.Http.Headers.RangeHeaderValue(stream.Length, null);
-                using var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                response.EnsureSuccessStatusCode();
+                using var response = await _releaseClient.OpenAssetAsync(url, cancellationToken, stream.Length);
                 if (response.Content.Headers.ContentRange?.From is not null)
                 {
                     stream.Position = response.Content.Headers.ContentRange.From.Value;

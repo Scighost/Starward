@@ -136,7 +136,7 @@ public static partial class AppConfig
         sc.AddSingleton<SelfQueryClient>();
         sc.AddSingleton<SelfQueryService>();
 
-        sc.AddHttpClient<ReleaseClient>().ConfigStarwardHttpClient();
+        sc.AddHttpClient<ReleaseClient>();
         sc.AddTransient<UpdateService>();
 
         sc.AddSingleton<GameInstallService>();

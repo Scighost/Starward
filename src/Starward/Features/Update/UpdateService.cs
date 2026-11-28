@@ -9,8 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading;
@@ -23,17 +21,15 @@ internal class UpdateService
 
     private readonly ILogger<UpdateService> _logger;
 
-    private readonly HttpClient _httpClient;
 
     private readonly ReleaseClient _releaseClient;
 
     private readonly ResiliencePipeline _polly;
 
 
-    public UpdateService(ILogger<UpdateService> logger, HttpClient httpClient, ReleaseClient releaseClient)
+    public UpdateService(ILogger<UpdateService> logger, ReleaseClient releaseClient)
     {
         _logger = logger;
-        _httpClient = httpClient;
         _releaseClient = releaseClient;
         _polly = new ResiliencePipelineBuilder().AddRetry(new RetryStrategyOptions
         {
@@ -393,10 +389,7 @@ internal class UpdateService
         Interlocked.Add(ref _progress_DownloadBytes, fs.Length);
         if (fs.Length < item.Size)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
-            request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-            var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-            response.EnsureSuccessStatusCode();
+            using var response = await _releaseClient.OpenAssetAsync(url, cancellationToken, fs.Length);
             if (response.Content.Headers.ContentRange?.From is not null)
             {
                 fs.Position = response.Content.Headers.ContentRange.From.Value;
@@ -481,7 +474,7 @@ internal class UpdateService
                 return;
             }
         }
-        using var response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, _releaseManifest, releaseFile, cancellationToken);
+        using var response = await _releaseClient.DownloadReleaseFileAsync(_releaseManifest, releaseFile, cancellationToken);
         using var hs = await response.Content.ReadAsStreamAsync(cancellationToken);
         fs.SetLength(0);
         using var zstdStream = new ZstandardStream(hs, CompressionMode.Decompress);

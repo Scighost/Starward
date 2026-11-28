@@ -33,6 +33,7 @@ var knownCommands = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     "pack",
     "manifest",
     "merge",
+    "full",
 };
 
 string command = "full";
@@ -48,9 +49,9 @@ if (args.Length > 0 && !args[0].StartsWith('-'))
     else
     {
         Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine($"Error: Unknown subcommand '{args[0]}'. Supported subcommands: res, compile, pack, manifest, merge.");
+        Console.WriteLine($"Error: Unknown subcommand '{args[0]}'. Supported subcommands: res, compile, pack, manifest, merge, full.");
         Console.ResetColor();
-        return 0;
+        return 1;
     }
 }
 
@@ -1034,7 +1035,7 @@ public class BuildClient
                 return;
             }
             fs.Position = 0;
-            using HttpResponseMessage response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, manifest, file, token);
+            using HttpResponseMessage response = await _releaseClient.DownloadReleaseFileAsync(manifest, file, token);
             using var hs = await response.Content.ReadAsStreamAsync(token);
             using var zstd = new ZstandardStream(hs, System.IO.Compression.CompressionMode.Decompress);
             await zstd.CopyToAsync(fs, token);

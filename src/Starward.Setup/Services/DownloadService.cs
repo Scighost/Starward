@@ -1,36 +1,17 @@
-﻿using Microsoft.Win32;
-using SharpCompress.Compressors.ZStandard;
+﻿using SharpCompress.Compressors.ZStandard;
 using Starward.Setup.Core;
 using System.Buffers;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Starward.Setup.Services;
 
 public class DownloadService
 {
 
-    protected static Guid DeviceId { get; private set; }
-
-    protected static Guid SessionId { get; private set; }
-
-
-
-    static DownloadService()
-    {
-        string? systemBiosVersion = Registry.GetValue(@"HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System", "SystemBiosVersion", null) as string;
-        string? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography", "MachineGuid", null) as string;
-        DeviceId = new(MD5.HashData(Encoding.UTF8.GetBytes($"{systemBiosVersion}{machineGuid}{Environment.MachineName}")));
-        SessionId = Guid.CreateVersion7();
-    }
-
-
-
-    protected HttpClient _httpClient;
+    private HttpClient? _httpClient;
 
     protected ReleaseClient _releaseClient;
 
@@ -46,10 +27,9 @@ public class DownloadService
     protected void RecreateHttpClient()
     {
         string ver = typeof(DownloadService).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "";
+        _httpClient?.Dispose();
         _httpClient = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.All }) { DefaultVersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
         _httpClient.DefaultRequestHeaders.Add("User-Agent", $"Starward.Setup/{ver}");
-        _httpClient.DefaultRequestHeaders.Add("X-Sw-Device-Id", DeviceId.ToString());
-        _httpClient.DefaultRequestHeaders.Add("X-Sw-Session-Id", SessionId.ToString());
         _releaseClient = new ReleaseClient(_httpClient);
     }
 
@@ -120,10 +100,7 @@ public class DownloadService
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, url) { VersionPolicy = HttpVersionPolicy.RequestVersionOrHigher };
-                request.Headers.Range = new RangeHeaderValue(fs.Length, null);
-                var response = await _httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellation).ConfigureAwait(false);
-                response.EnsureSuccessStatusCode();
+                using var response = await _releaseClient.OpenAssetAsync(url, cancellation, fs.Length).ConfigureAwait(false);
                 if (response.Content.Headers.ContentRange?.From is not null)
                 {
                     fs.Position = response.Content.Headers.ContentRange.From.Value;
@@ -198,7 +175,7 @@ public class DownloadService
         if (fs.Length < file.Size)
         {
             fs.Position = 0;
-            using var response = await ReleaseClient.DownloadReleaseFileAsync(_httpClient, manifest, file, cancellation).ConfigureAwait(false);
+            using var response = await _releaseClient.DownloadReleaseFileAsync(manifest, file, cancellation).ConfigureAwait(false);
             using var hs = await response.Content.ReadAsStreamAsync(cancellation).ConfigureAwait(false);
             using DecompressionStream ds = new(hs, 8192);
             byte[] buffer = ArrayPool<byte>.Shared.Rent(8192);
