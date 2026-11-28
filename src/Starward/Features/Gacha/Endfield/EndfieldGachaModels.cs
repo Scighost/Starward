@@ -4,11 +4,20 @@ using System.Globalization;
 
 namespace Starward.Features.Gacha.Endfield;
 
+public enum EndfieldGachaRegion
+{
+    China = 0,
+    Bilibili = 1,
+    Global = 2,
+}
+
 public sealed class EndfieldGachaAccount
 {
     public string AccountKey { get; set; } = "";
 
     public string AccountUid { get; set; } = "";
+
+    public EndfieldGachaRegion Region { get; set; }
 
     public string RoleId { get; set; } = "";
 
@@ -20,7 +29,14 @@ public sealed class EndfieldGachaAccount
 
     public DateTimeOffset LastSyncTime { get; set; }
 
-    public string DisplayName => string.IsNullOrWhiteSpace(RoleName) ? RoleId : $"{RoleName}  {RoleId}";
+    public string DisplayName
+    {
+        get
+        {
+            string role = string.IsNullOrWhiteSpace(RoleName) ? RoleId : $"{RoleName}  {RoleId}";
+            return Region == EndfieldGachaRegion.Global ? $"{role} · {ServerName}" : role;
+        }
+    }
 
     public override string ToString() => DisplayName;
 }

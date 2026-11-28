@@ -10,11 +10,11 @@ namespace Starward.Features.Gacha.Endfield;
 
 public sealed partial class EndfieldLoginDialog : ContentDialog
 {
-    private const string LoginUrl = "https://user.hypergryph.com/";
     private const string BrowserUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36";
 
     private const string LoginCaptureScript = """
         (() => {
+            if (location.origin !== '__LOGIN_ORIGIN__') return;
             if (window.__starwardEndfieldLoginInstalled) return;
             window.__starwardEndfieldLoginInstalled = true;
             const sentTokens = new Map();
@@ -22,7 +22,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             function isAuthUrl(value) {
                 try {
                     const url = new URL(value, window.location.href);
-                    return url.origin === 'https://as.hypergryph.com' && url.pathname === '/user/auth';
+                    return url.origin === '__AUTH_ORIGIN__' && url.pathname === '/user/auth';
                 } catch (_) { return false; }
             }
 
@@ -66,7 +66,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             };
 
             window.setInterval(() => {
-                originalFetch('https://web-api.hypergryph.com/account/info/hg', {
+                originalFetch('__TOKEN_URL__', {
                     method: 'GET',
                     credentials: 'include'
                 }).then(response => response.json()).then(result => {
@@ -77,15 +77,23 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         """;
 
     private readonly ILogger<EndfieldLoginDialog> _logger = AppConfig.GetLogger<EndfieldLoginDialog>();
+    private readonly EndfieldGachaRegion _region;
+    private readonly string _providerDomain;
     private bool _initialized;
     private bool _validatingLogin;
     private bool _closed;
     private int _navigationVersion;
     private readonly CancellationTokenSource _lifetime = new();
 
-    public EndfieldLoginDialog()
+    public EndfieldLoginDialog(EndfieldGachaRegion region)
     {
+        _region = region;
+        _providerDomain = EndfieldGachaService.GetProviderDomain(region);
         InitializeComponent();
+        if (region == EndfieldGachaRegion.Global)
+        {
+            Title = "登录 GRYPHLINE 账号";
+        }
     }
 
     public string? LoginToken { get; private set; }
@@ -102,7 +110,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             CoreWebView2Environment environment = await CoreWebView2Environment.CreateAsync();
             if (_closed) return;
             CoreWebView2ControllerOptions options = environment.CreateCoreWebView2ControllerOptions();
-            options.ProfileName = "StarwardEndfieldLogin";
+            options.ProfileName = _region == EndfieldGachaRegion.Global ? "StarwardEndfieldGlobalLogin" : "StarwardEndfieldLogin";
             options.IsInPrivateModeEnabled = true;
             await WebView_Login.EnsureCoreWebView2Async(environment, options);
             if (_closed) return;
@@ -114,10 +122,16 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             core.NewWindowRequested += Core_NewWindowRequested;
             core.WebMessageReceived += Core_WebMessageReceived;
             core.ProcessFailed += Core_ProcessFailed;
-            await core.AddScriptToExecuteOnDocumentCreatedAsync(LoginCaptureScript);
+            string loginOrigin = $"https://user.{_providerDomain}";
+            string tokenPath = _region == EndfieldGachaRegion.Global ? "cookie_store/account_token" : "account/info/hg";
+            string script = LoginCaptureScript
+                .Replace("__LOGIN_ORIGIN__", loginOrigin)
+                .Replace("__AUTH_ORIGIN__", $"https://as.{_providerDomain}")
+                .Replace("__TOKEN_URL__", $"https://web-api.{_providerDomain}/{tokenPath}");
+            await core.AddScriptToExecuteOnDocumentCreatedAsync(script);
             if (!_closed)
             {
-                core.Navigate(LoginUrl);
+                core.Navigate(loginOrigin);
             }
         }
         catch (Exception) when (_closed) { }
@@ -132,8 +146,8 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
     {
         if (!Uri.TryCreate(args.Uri, UriKind.Absolute, out Uri? uri) ||
             (uri.Scheme != Uri.UriSchemeHttps ||
-             !(uri.Host.Equals("hypergryph.com", StringComparison.OrdinalIgnoreCase) ||
-               uri.Host.EndsWith(".hypergryph.com", StringComparison.OrdinalIgnoreCase))))
+             !(uri.Host.Equals(_providerDomain, StringComparison.OrdinalIgnoreCase) ||
+               uri.Host.EndsWith("." + _providerDomain, StringComparison.OrdinalIgnoreCase))))
         {
             args.Cancel = true;
         }
@@ -169,7 +183,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
         {
             if (!Uri.TryCreate(args.Source, UriKind.Absolute, out Uri? source) ||
                 source.Scheme != Uri.UriSchemeHttps ||
-                !source.Host.Equals("user.hypergryph.com", StringComparison.OrdinalIgnoreCase))
+                !source.Host.Equals($"user.{_providerDomain}", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }
@@ -189,7 +203,7 @@ public sealed partial class EndfieldLoginDialog : ContentDialog
             InfoBar_Status.Message = "正在验证登录状态。";
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetime.Token);
             timeout.CancelAfter(TimeSpan.FromSeconds(15));
-            await AppConfig.GetService<EndfieldGachaService>().ValidateLoginTokenAsync(token, timeout.Token);
+            await AppConfig.GetService<EndfieldGachaService>().ValidateLoginTokenAsync(_region, token, timeout.Token);
             // A redirect/logout or a closed dialog invalidates this document's pending result.
             if (_closed || navigationVersion != _navigationVersion) return;
             LoginToken = token;

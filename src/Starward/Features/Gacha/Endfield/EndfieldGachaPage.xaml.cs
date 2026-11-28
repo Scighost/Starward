@@ -2,6 +2,8 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using Starward.Core;
 using Starward.Features;
 using System;
 using System.Collections.Generic;
@@ -15,13 +17,7 @@ namespace Starward.Features.Gacha.Endfield;
 
 public sealed partial class EndfieldGachaPage : PageBase
 {
-    private static readonly Dictionary<string, string> CharacterPoolNames = new()
-    {
-        ["E_CharacterGachaPoolType_Special"] = "特许寻访",
-        ["E_CharacterGachaPoolType_Joint"] = "辉光庆典",
-        ["E_CharacterGachaPoolType_Standard"] = "基础寻访",
-        ["E_CharacterGachaPoolType_Beginner"] = "启程寻访",
-    };
+    private static IReadOnlyDictionary<string, string> CharacterPoolNames => EndfieldGachaService.CharacterPoolNames;
 
     private readonly ILogger<EndfieldGachaPage> _logger = AppConfig.GetLogger<EndfieldGachaPage>();
     private readonly EndfieldGachaService _service = AppConfig.GetService<EndfieldGachaService>();
@@ -130,7 +126,32 @@ public sealed partial class EndfieldGachaPage : PageBase
 
     public bool IsAccountRecordView => SelectedViewIndex == 1;
 
+    private EndfieldGachaRegion Region => CurrentGameBiz.Value switch
+    {
+        GameBiz.endfield_bilibili => EndfieldGachaRegion.Bilibili,
+        GameBiz.endfield_global => EndfieldGachaRegion.Global,
+        _ => EndfieldGachaRegion.China,
+    };
+
+    public bool SupportsAccountRecords => Region == EndfieldGachaRegion.China;
+
+    public bool IsBilibiliRegion => Region == EndfieldGachaRegion.Bilibili;
+
+    public string LoginAccountText => Region == EndfieldGachaRegion.Global ? "登录 GRYPHLINE 账号" : "登录鹰角账号";
+
     private string CurrentRecordType => SelectedRecordTypeIndex == 1 ? "weapon" : "char";
+
+    protected override void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+        if (!SupportsAccountRecords)
+        {
+            SelectedViewIndex = 0;
+        }
+        OnPropertyChanged(nameof(SupportsAccountRecords));
+        OnPropertyChanged(nameof(IsBilibiliRegion));
+        OnPropertyChanged(nameof(LoginAccountText));
+    }
 
     protected override void OnLoaded()
     {
@@ -176,7 +197,7 @@ public sealed partial class EndfieldGachaPage : PageBase
     private void LoadAccounts(string? selectedAccountKey = null)
     {
         selectedAccountKey ??= SelectedAccount?.AccountKey;
-        List<EndfieldGachaAccount> accounts = _service.GetAccounts();
+        List<EndfieldGachaAccount> accounts = _service.GetAccounts(Region);
         Accounts.Clear();
         foreach (EndfieldGachaAccount account in accounts)
         {
@@ -346,18 +367,16 @@ public sealed partial class EndfieldGachaPage : PageBase
                 items, ref pity6, ref pity5, true));
         }
 
-        foreach (string poolType in CharacterPoolNames.Keys
-            .Where(x => x is not "E_CharacterGachaPoolType_Special" and not "E_CharacterGachaPoolType_Joint")
-            .OrderBy(GetCharacterPoolOrder))
+        foreach (var group in _allItems.GroupBy(x => x.PoolType)
+            .Where(group => group.Key is not "E_CharacterGachaPoolType_Special" and not "E_CharacterGachaPoolType_Joint")
+            .OrderBy(group => GetCharacterPoolOrder(group.Key)))
         {
-            List<EndfieldGachaItem> items = _allItems.Where(x => x.PoolType == poolType).ToList();
-            if (items.Count == 0)
-            {
-                continue;
-            }
+            string poolType = group.Key;
+            List<EndfieldGachaItem> items = group.ToList();
             int pity6 = 0;
             int pity5 = 0;
-            result.Add(CreatePoolStats($"type:{poolType}", CharacterPoolNames[poolType], items,
+            result.Add(CreatePoolStats($"type:{poolType}",
+                CharacterPoolNames.GetValueOrDefault(poolType) ?? GetPoolName(items, poolType), items,
                 ref pity6, ref pity5, false));
         }
         return result;
@@ -526,6 +545,12 @@ public sealed partial class EndfieldGachaPage : PageBase
             await ExecuteSyncAsync((progress, token) => _service.SyncAccountAsync(account, progress, token));
             return;
         }
+        if (Region != EndfieldGachaRegion.China && SelectedAccount is { } logAccount)
+        {
+            await ExecuteSyncAsync((progress, token) =>
+                _service.SyncFromGameLogAsync(Region, progress, token, logAccount.AccountKey));
+            return;
+        }
         await LoginAccountInternalAsync();
     }
 
@@ -542,7 +567,7 @@ public sealed partial class EndfieldGachaPage : PageBase
     {
         try
         {
-            var dialog = new EndfieldLoginDialog { XamlRoot = XamlRoot };
+            var dialog = new EndfieldLoginDialog(Region) { XamlRoot = XamlRoot };
             await dialog.ShowAsync();
             if (!string.IsNullOrWhiteSpace(dialog.LoginToken))
             {
@@ -573,7 +598,7 @@ public sealed partial class EndfieldGachaPage : PageBase
         };
         var dialog = new ContentDialog
         {
-            Title = "输入鹰角账号登录 Token",
+            Title = Region == EndfieldGachaRegion.Global ? "输入 GRYPHLINE 登录 Token" : "输入鹰角账号登录 Token",
             Content = passwordBox,
             PrimaryButtonText = "确定",
             SecondaryButtonText = "取消",
@@ -593,7 +618,7 @@ public sealed partial class EndfieldGachaPage : PageBase
         {
             var progress = new Progress<string>(text => StatusText = text);
             List<EndfieldGachaAccount> accounts = await _service.AddAccountsFromLoginTokenAsync(
-                loginToken, progress, _syncCancellationTokenSource!.Token);
+                Region, loginToken, progress, _syncCancellationTokenSource!.Token);
             EndfieldGachaAccount account = accounts[0];
             LoadAccounts(account.AccountKey);
             EndfieldAccountRecordSyncResult? accountRecordResult = null;
@@ -710,8 +735,14 @@ public sealed partial class EndfieldGachaPage : PageBase
     {
         if (!IsSyncing)
         {
-            await ExecuteSyncAsync((progress, token) => _service.SyncFromGameLogAsync(progress, token));
+            await ExecuteSyncAsync((progress, token) => _service.SyncFromGameLogAsync(Region, progress, token));
         }
+    }
+
+    [RelayCommand]
+    private static async Task OpenBilibiliBindingAsync()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new Uri("https://user.hypergryph.com/bindCharacters?game=endfield"));
     }
 
     private async Task ExecuteSyncAsync(

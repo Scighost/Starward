@@ -17,21 +17,19 @@ namespace Starward.Features.Gacha.Endfield;
 
 internal sealed partial class EndfieldGachaService
 {
-    private const string WebViewHost = "https://ef-webview.hypergryph.com";
-    private const string RoleApi = "https://u8.hypergryph.com/game/role/v1/query_role_list";
-    private const string OAuthGrantApi = "https://as.hypergryph.com/user/oauth2/v2/grant";
-    private const string BindingListApi = "https://binding-api-account-prod.hypergryph.com/account/binding/v1/binding_list";
-    private const string U8TokenApi = "https://binding-api-account-prod.hypergryph.com/account/binding/v1/u8_token_by_uid";
     private const string BrowserUserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36";
-    private const string EndfieldAppCode = "be36d44aa36bfb5b";
 
-    private static readonly (string Key, string Name)[] CharacterPools =
-    [
-        ("E_CharacterGachaPoolType_Special", "特许寻访"),
-        ("E_CharacterGachaPoolType_Joint", "辉光庆典"),
-        ("E_CharacterGachaPoolType_Standard", "基础寻访"),
-        ("E_CharacterGachaPoolType_Beginner", "启程寻访"),
-    ];
+    internal static readonly IReadOnlyDictionary<string, string> CharacterPoolNames = new Dictionary<string, string>
+    {
+        ["E_CharacterGachaPoolType_Special"] = "特许寻访",
+        ["E_CharacterGachaPoolType_Rerun"] = "重构寻访",
+        ["E_CharacterGachaPoolType_Joint"] = "辉光庆典",
+        ["E_CharacterGachaPoolType_Standard"] = "基础寻访",
+        ["E_CharacterGachaPoolType_Beginner"] = "启程寻访",
+    };
+
+    internal static string GetProviderDomain(EndfieldGachaRegion region) =>
+        region == EndfieldGachaRegion.Global ? "gryphline.com" : "hypergryph.com";
 
     private readonly ILogger<EndfieldGachaService> _logger;
     private readonly HttpClient _httpClient;
@@ -42,14 +40,14 @@ internal sealed partial class EndfieldGachaService
         _httpClient = httpClient;
     }
 
-    public List<EndfieldGachaAccount> GetAccounts()
+    public List<EndfieldGachaAccount> GetAccounts(EndfieldGachaRegion region)
     {
         using var connection = DatabaseService.CreateConnection();
         return connection.Query<EndfieldGachaAccount>(
             """
-            SELECT AccountKey, Uid AS AccountUid, RoleId, RoleName, ServerId, ServerName, LastSyncTime
-            FROM EndfieldGachaAccount ORDER BY LastSyncTime DESC;
-            """).ToList();
+            SELECT AccountKey, Uid AS AccountUid, RoleId, RoleName, ServerId, ServerName, LastSyncTime, Region
+            FROM EndfieldGachaAccount WHERE Region = @region ORDER BY LastSyncTime DESC;
+            """, new { region }).ToList();
     }
 
     public List<EndfieldGachaItem> GetItems(string accountKey, string recordType)
@@ -79,7 +77,7 @@ internal sealed partial class EndfieldGachaService
             "SELECT COUNT(*) FROM EndfieldGachaAuth WHERE AccountKey = @accountKey;", new { accountKey }) > 0;
     }
 
-    public async Task<List<EndfieldGachaAccount>> AddAccountsFromLoginTokenAsync(string loginToken,
+    public async Task<List<EndfieldGachaAccount>> AddAccountsFromLoginTokenAsync(EndfieldGachaRegion region, string loginToken,
         IProgress<string>? progress = null, CancellationToken cancellationToken = default)
     {
         loginToken = loginToken.Trim();
@@ -89,12 +87,14 @@ internal sealed partial class EndfieldGachaService
         }
 
         progress?.Report("正在验证鹰角账号");
-        string oauthToken = await GetOAuthTokenAsync(loginToken, cancellationToken);
+        string oauthToken = await GetOAuthTokenAsync(region, loginToken, cancellationToken);
         progress?.Report("正在读取终末地角色");
-        List<EndfieldGachaAccount> accounts = await QueryBindingAccountsAsync(oauthToken, cancellationToken);
+        List<EndfieldGachaAccount> accounts = await QueryBindingAccountsAsync(region, oauthToken, cancellationToken);
         if (accounts.Count == 0)
         {
-            throw new InvalidOperationException("该鹰角账号下没有可用的终末地角色。");
+            throw new InvalidOperationException(region == EndfieldGachaRegion.Bilibili
+                ? "该通行证下没有可用的 B 服角色，请先绑定 B 服角色，或从 B 服游戏日志同步。"
+                : "该通行证下没有可用的当前区服角色。");
         }
 
         SaveAccountsAndLoginToken(accounts, loginToken);
@@ -107,48 +107,42 @@ internal sealed partial class EndfieldGachaService
         ArgumentNullException.ThrowIfNull(account);
         string loginToken = GetSavedLoginToken(account.AccountKey);
         progress?.Report("正在刷新账号授权");
-        string oauthToken = await GetOAuthTokenAsync(loginToken, cancellationToken);
-        string u8Token = await GetU8TokenAsync(account.AccountUid, oauthToken, cancellationToken);
-        return await SyncWithU8TokenAsync(account, u8Token, account.ServerId, progress, cancellationToken);
+        string oauthToken = await GetOAuthTokenAsync(account.Region, loginToken, cancellationToken);
+        string u8Token = await GetU8TokenAsync(account.Region, account.AccountUid, oauthToken, cancellationToken);
+        return await SyncWithU8TokenAsync(account, u8Token, progress, cancellationToken);
     }
 
-    public async Task<EndfieldGachaSyncResult> SyncFromGameLogAsync(IProgress<string>? progress = null, CancellationToken cancellationToken = default)
+    public async Task<EndfieldGachaSyncResult> SyncFromGameLogAsync(EndfieldGachaRegion region,
+        IProgress<string>? progress = null, CancellationToken cancellationToken = default, string? expectedAccountKey = null)
     {
         progress?.Report("正在读取游戏内寻访记录链接");
-        string url = ReadLatestGachaUrl();
-        Dictionary<string, string> parameters = ParseQueryParameters(url);
-        if (!parameters.TryGetValue("u8_token", out string? token) || string.IsNullOrWhiteSpace(token))
-        {
-            throw new InvalidOperationException("寻访记录链接中缺少授权参数，请在游戏内重新打开寻访记录后再试。");
-        }
-
-        string serverId = parameters.GetValueOrDefault("server_id",
-            parameters.GetValueOrDefault("server", "1"));
+        var (token, serverId) = ReadGameLogAuthorization(region);
         progress?.Report("正在识别终末地账号");
-        EndfieldGachaAccount account = await QueryAccountAsync(token, serverId, cancellationToken);
-        return await SyncWithU8TokenAsync(account, token, serverId, progress, cancellationToken);
+        EndfieldGachaAccount account = await QueryAccountAsync(region, token, serverId, cancellationToken);
+        if (expectedAccountKey is not null && account.AccountKey != expectedAccountKey)
+        {
+            throw new InvalidOperationException("游戏日志中的角色与当前所选角色不同。请在游戏内打开所选角色的寻访记录后再同步。");
+        }
+        return await SyncWithU8TokenAsync(account, token, progress, cancellationToken);
     }
 
     private async Task<EndfieldGachaSyncResult> SyncWithU8TokenAsync(EndfieldGachaAccount account, string token,
-        string serverId, IProgress<string>? progress, CancellationToken cancellationToken)
+        IProgress<string>? progress, CancellationToken cancellationToken)
     {
         HashSet<string> knownCharacters = GetKnownSeqIds(account.AccountKey, "char");
         HashSet<string> knownWeapons = GetKnownSeqIds(account.AccountKey, "weapon");
         var items = new List<EndfieldGachaItem>();
         var failedPools = new List<string>();
 
-        foreach ((string poolType, string poolName) in CharacterPools)
+        var characterPools = await FetchCharacterPoolsAsync(account, token, cancellationToken);
+        foreach ((string poolType, string poolName) in characterPools)
         {
             try
             {
-                items.AddRange(await FetchCharacterPoolAsync(account.AccountKey, token, serverId, poolType,
+                items.AddRange(await FetchRecordPoolAsync(account, token, "char", "pool_type", poolType,
                     poolName, knownCharacters, progress, cancellationToken));
             }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not (OperationCanceledException or GachaAuthorizationExpiredException))
             {
                 failedPools.Add(poolName);
                 _logger.LogWarning("Failed to sync Endfield character pool {PoolName}: {ErrorType}", poolName, ex.GetType().Name);
@@ -157,30 +151,22 @@ internal sealed partial class EndfieldGachaService
 
         try
         {
-            List<(string Id, string Name)> weaponPools = await FetchWeaponPoolsAsync(token, serverId, cancellationToken);
-            foreach ((string poolId, string poolName) in weaponPools)
+            var weaponPools = await FetchWeaponPoolsAsync(account, token, cancellationToken);
+            foreach ((string parameter, string poolId, string poolName) in weaponPools)
             {
                 try
                 {
-                    items.AddRange(await FetchWeaponPoolAsync(account.AccountKey, token, serverId, poolId,
+                    items.AddRange(await FetchRecordPoolAsync(account, token, "weapon", parameter, poolId,
                         poolName, knownWeapons, progress, cancellationToken));
                 }
-                catch (OperationCanceledException)
-                {
-                    throw;
-                }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is not (OperationCanceledException or GachaAuthorizationExpiredException))
                 {
                     failedPools.Add(poolName);
                     _logger.LogWarning("Failed to sync Endfield weapon pool {PoolName}: {ErrorType}", poolName, ex.GetType().Name);
                 }
             }
         }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not (OperationCanceledException or GachaAuthorizationExpiredException))
         {
             failedPools.Add("武器池列表");
             _logger.LogWarning("Failed to sync Endfield weapon pool list: {ErrorType}", ex.GetType().Name);
@@ -219,14 +205,15 @@ internal sealed partial class EndfieldGachaService
             connection.Execute(
                 """
                 INSERT INTO EndfieldGachaAccount
-                (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime)
-                VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime)
+                (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime, Region)
+                VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime, @Region)
                 ON CONFLICT(AccountKey) DO UPDATE SET
                     Uid = excluded.Uid,
                     RoleId = excluded.RoleId,
                     RoleName = excluded.RoleName,
                     ServerId = excluded.ServerId,
-                    ServerName = excluded.ServerName;
+                    ServerName = excluded.ServerName,
+                    Region = excluded.Region;
                 """, account, transaction);
             connection.Execute(
                 """
@@ -264,16 +251,17 @@ internal sealed partial class EndfieldGachaService
         }
     }
 
-    internal async Task ValidateLoginTokenAsync(string loginToken, CancellationToken cancellationToken)
+    internal async Task ValidateLoginTokenAsync(EndfieldGachaRegion region, string loginToken, CancellationToken cancellationToken)
     {
         // Validate without saving accounts or replacing the previously stored credentials.
-        _ = await GetOAuthTokenAsync(loginToken, cancellationToken);
+        _ = await GetOAuthTokenAsync(region, loginToken, cancellationToken);
     }
 
-    private async Task<string> GetOAuthTokenAsync(string loginToken, CancellationToken cancellationToken)
+    private async Task<string> GetOAuthTokenAsync(EndfieldGachaRegion region, string loginToken, CancellationToken cancellationToken)
     {
-        using var request = CreateBrowserRequest(HttpMethod.Post, OAuthGrantApi);
-        request.Content = JsonContent.Create(new { token = loginToken, appCode = EndfieldAppCode, type = 1 });
+        string appCode = region == EndfieldGachaRegion.Global ? "3dacefa138426cfe" : "be36d44aa36bfb5b";
+        using var request = CreateBrowserRequest(HttpMethod.Post, $"https://as.{GetProviderDomain(region)}/user/oauth2/v2/grant");
+        request.Content = JsonContent.Create(new { token = loginToken, appCode, type = 1 });
         using JsonDocument document = await SendJsonAsync(request, "鹰角账号授权", cancellationToken);
         JsonElement root = document.RootElement;
         if (GetInt32(root, "status") != 0 || !root.TryGetProperty("data", out JsonElement data))
@@ -286,10 +274,11 @@ internal sealed partial class EndfieldGachaService
             : throw new InvalidOperationException("鹰角账号授权未返回有效凭证，请重新登录。");
     }
 
-    private async Task<List<EndfieldGachaAccount>> QueryBindingAccountsAsync(string oauthToken,
+    private async Task<List<EndfieldGachaAccount>> QueryBindingAccountsAsync(EndfieldGachaRegion region, string oauthToken,
         CancellationToken cancellationToken)
     {
-        string url = $"{BindingListApi}?token={Uri.EscapeDataString(oauthToken)}&appCode=endfield";
+        string url = $"https://binding-api-account-prod.{GetProviderDomain(region)}/account/binding/v1/binding_list"
+            + $"?token={Uri.EscapeDataString(oauthToken)}&appCode=endfield";
         using var request = CreateBrowserRequest(HttpMethod.Get, url);
         using JsonDocument document = await SendJsonAsync(request, "终末地角色查询", cancellationToken);
         JsonElement root = document.RootElement;
@@ -310,38 +299,65 @@ internal sealed partial class EndfieldGachaService
             foreach (JsonElement binding in bindings.EnumerateArray())
             {
                 string accountUid = GetString(binding, "uid");
-                if (string.IsNullOrWhiteSpace(accountUid) || !binding.TryGetProperty("roles", out JsonElement roles) ||
+                if (!MatchesBindingRegion(region, binding) || string.IsNullOrWhiteSpace(accountUid)
+                    || !binding.TryGetProperty("roles", out JsonElement roles) ||
                     roles.ValueKind != JsonValueKind.Array)
                 {
                     continue;
                 }
                 foreach (JsonElement role in roles.EnumerateArray())
                 {
-                    string roleId = GetString(role, "roleId");
-                    if (string.IsNullOrWhiteSpace(roleId))
+                    string serverId = region == EndfieldGachaRegion.Global ? GetString(role, "serverId").Trim() : "1";
+                    if (!string.IsNullOrWhiteSpace(GetString(role, "roleId")) && serverId.Length > 0)
                     {
-                        continue;
+                        accounts.Add(CreateAccount(region, accountUid, role, serverId));
                     }
-                    string serverId = GetString(role, "serverId", "1");
-                    accounts.Add(new EndfieldGachaAccount
-                    {
-                        AccountKey = $"{accountUid}_{roleId}",
-                        AccountUid = accountUid,
-                        RoleId = roleId,
-                        RoleName = GetString(role, "nickName"),
-                        ServerId = string.IsNullOrWhiteSpace(serverId) ? "1" : serverId,
-                        ServerName = GetString(role, "serverName", "中国"),
-                        LastSyncTime = DateTimeOffset.UnixEpoch,
-                    });
                 }
             }
         }
         return accounts.DistinctBy(x => x.AccountKey).ToList();
     }
 
-    private async Task<string> GetU8TokenAsync(string accountUid, string oauthToken, CancellationToken cancellationToken)
+    private static bool MatchesBindingRegion(EndfieldGachaRegion region, JsonElement binding)
     {
-        using var request = CreateBrowserRequest(HttpMethod.Post, U8TokenApi);
+        if (region == EndfieldGachaRegion.Global)
+        {
+            return true;
+        }
+        string channel = GetString(binding, "channelName").Trim();
+        string channelId = GetString(binding, "channelMasterId");
+        bool official = GetBoolean(binding, "isOfficial");
+        bool bilibili = !official && (channel.Contains("bilibili", StringComparison.OrdinalIgnoreCase)
+            || channel.Contains("哔哩哔哩", StringComparison.Ordinal)
+            || channel.Equals("B服", StringComparison.OrdinalIgnoreCase)
+            || channel.Equals("B 服", StringComparison.OrdinalIgnoreCase)
+            || channelId == "2");
+        return region == EndfieldGachaRegion.Bilibili ? bilibili
+            : !bilibili && (official || channelId == "1" || !binding.TryGetProperty("isOfficial", out _) && channelId.Length == 0);
+    }
+
+    private static EndfieldGachaAccount CreateAccount(EndfieldGachaRegion region, string accountUid, JsonElement role, string serverId)
+    {
+        string roleId = GetString(role, "roleId");
+        string serverName = GetString(role, "serverName");
+        return new EndfieldGachaAccount
+        {
+            AccountKey = region == EndfieldGachaRegion.Global ? $"global_{serverId}_{accountUid}_{roleId}" : $"{accountUid}_{roleId}",
+            AccountUid = accountUid,
+            Region = region,
+            RoleId = roleId,
+            RoleName = GetString(role, "nickname", GetString(role, "nickName")),
+            ServerId = serverId,
+            ServerName = !string.IsNullOrWhiteSpace(serverName) ? serverName : region == EndfieldGachaRegion.Global ? serverId : "中国",
+            LastSyncTime = DateTimeOffset.UnixEpoch,
+        };
+    }
+
+    private async Task<string> GetU8TokenAsync(EndfieldGachaRegion region, string accountUid, string oauthToken,
+        CancellationToken cancellationToken)
+    {
+        using var request = CreateBrowserRequest(HttpMethod.Post,
+            $"https://binding-api-account-prod.{GetProviderDomain(region)}/account/binding/v1/u8_token_by_uid");
         request.Content = JsonContent.Create(new { uid = accountUid, token = oauthToken });
         using JsonDocument document = await SendJsonAsync(request, "寻访授权刷新", cancellationToken);
         JsonElement root = document.RootElement;
@@ -389,8 +405,8 @@ internal sealed partial class EndfieldGachaService
         connection.Execute(
             """
             INSERT OR REPLACE INTO EndfieldGachaAccount
-            (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime)
-            VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime);
+            (AccountKey, Uid, RoleId, RoleName, ServerId, ServerName, LastSyncTime, Region)
+            VALUES (@AccountKey, @AccountUid, @RoleId, @RoleName, @ServerId, @ServerName, @LastSyncTime, @Region);
             """, account, transaction);
         int count = connection.Execute(
             """
@@ -402,21 +418,22 @@ internal sealed partial class EndfieldGachaService
         return count;
     }
 
-    private async Task<EndfieldGachaAccount> QueryAccountAsync(string token, string serverId, CancellationToken cancellationToken)
+    private async Task<EndfieldGachaAccount> QueryAccountAsync(EndfieldGachaRegion region, string token, string serverId,
+        CancellationToken cancellationToken)
     {
-        using var request = CreateBrowserRequest(HttpMethod.Post, RoleApi);
+        using var request = CreateBrowserRequest(HttpMethod.Post, $"https://u8.{GetProviderDomain(region)}/game/role/v1/query_role_list");
         request.Content = JsonContent.Create(new { token, serverId });
         using HttpResponseMessage response = await _httpClient.SendAsync(request, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
-            throw new InvalidOperationException($"游戏日志授权不可用（HTTP {(int)response.StatusCode}），请改用鹰角账号登录同步。");
+            throw new InvalidOperationException($"游戏日志授权不可用（HTTP {(int)response.StatusCode}），请在游戏内重新打开寻访记录或改用账号登录同步。");
         }
         using JsonDocument document = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken: cancellationToken);
         JsonElement root = document.RootElement;
         int status = root.TryGetProperty("status", out JsonElement statusElement) ? statusElement.GetInt32() : -1;
         if (status != 0 || !root.TryGetProperty("data", out JsonElement data))
         {
-            throw new InvalidOperationException("游戏日志授权已失效，请改用鹰角账号登录同步。");
+            throw new InvalidOperationException("游戏日志授权已失效，请在游戏内重新打开寻访记录或改用账号登录同步。");
         }
 
         string accountUid = GetString(data, "uid");
@@ -425,13 +442,16 @@ internal sealed partial class EndfieldGachaService
         {
             foreach (JsonElement role in roles.EnumerateArray())
             {
-                if (selectedRole.ValueKind == JsonValueKind.Undefined || GetString(role, "serverId") == serverId)
+                string returnedServerId = GetString(role, "serverId");
+                if (returnedServerId == serverId)
                 {
                     selectedRole = role;
-                }
-                if (GetString(role, "serverId") == serverId)
-                {
                     break;
+                }
+                if (selectedRole.ValueKind == JsonValueKind.Undefined && (region != EndfieldGachaRegion.Global
+                    || (roles.GetArrayLength() == 1 && string.IsNullOrWhiteSpace(returnedServerId))))
+                {
+                    selectedRole = role;
                 }
             }
         }
@@ -440,160 +460,149 @@ internal sealed partial class EndfieldGachaService
         {
             throw new InvalidOperationException("官方账号接口未返回有效角色信息。");
         }
-        string roleName = GetString(selectedRole, "nickname");
-        if (string.IsNullOrWhiteSpace(roleName))
-        {
-            roleName = GetString(selectedRole, "nickName");
-        }
-        return new EndfieldGachaAccount
-        {
-            AccountKey = $"{accountUid}_{roleId}",
-            AccountUid = accountUid,
-            RoleId = roleId,
-            RoleName = roleName,
-            ServerId = serverId,
-            ServerName = GetString(selectedRole, "serverName"),
-        };
+        return CreateAccount(region, accountUid, selectedRole, serverId);
     }
 
-    private async Task<List<EndfieldGachaItem>> FetchCharacterPoolAsync(string accountKey, string token, string serverId,
-        string poolType, string poolName, HashSet<string> known, IProgress<string>? progress, CancellationToken cancellationToken)
+    private async Task<List<(string Type, string Name)>> FetchCharacterPoolsAsync(EndfieldGachaAccount account, string token,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            using JsonDocument document = await GetRecordApiJsonAsync(account, token, "char/meta", [], cancellationToken);
+            JsonElement data = GetApiData(document.RootElement);
+            if (data.TryGetProperty("tabs", out JsonElement tabs) && tabs.ValueKind == JsonValueKind.Array)
+            {
+                var pools = tabs.EnumerateArray()
+                    .Select(tab => GetString(tab, "poolType"))
+                    .Where(type => !string.IsNullOrWhiteSpace(type))
+                    .Distinct(StringComparer.Ordinal)
+                    .Select(type => (type, CharacterPoolNames.GetValueOrDefault(type, type)))
+                    .ToList();
+                if (pools.Count > 0)
+                {
+                    return pools;
+                }
+            }
+        }
+        catch (Exception ex) when (ex is not GachaAuthorizationExpiredException && !cancellationToken.IsCancellationRequested)
+        {
+            _logger.LogWarning("Could not discover Endfield character pools: {ErrorType}", ex.GetType().Name);
+        }
+        return CharacterPoolNames.Select(pair => (pair.Key, pair.Value)).ToList();
+    }
+
+    private async Task<List<(string Parameter, string Id, string Name)>> FetchWeaponPoolsAsync(EndfieldGachaAccount account,
+        string token, CancellationToken cancellationToken)
+    {
+        using JsonDocument document = await GetRecordApiJsonAsync(account, token, "weapon/pool", [], cancellationToken);
+        var pools = new List<(string Parameter, string Id, string Name)>();
+        var rerunIds = new List<string>();
+        foreach (JsonElement pool in GetApiData(document.RootElement).EnumerateArray())
+        {
+            string id = GetString(pool, "poolId");
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                continue;
+            }
+            if (GetString(pool, "poolType") == "rerun" || id.Contains("rerun_", StringComparison.OrdinalIgnoreCase))
+            {
+                rerunIds.Add(id);
+            }
+            else
+            {
+                pools.Add(("pool_id", id, GetString(pool, "poolName", id)));
+            }
+        }
+        if (rerunIds.Count > 0)
+        {
+            pools.Add(("pool_ids", string.Join(',', rerunIds.Distinct()), "重构申领"));
+        }
+        return pools;
+    }
+
+    private async Task<List<EndfieldGachaItem>> FetchRecordPoolAsync(EndfieldGachaAccount account, string token,
+        string recordType, string poolParameter, string pool, string poolName, HashSet<string> known,
+        IProgress<string>? progress, CancellationToken cancellationToken)
     {
         var result = new List<EndfieldGachaItem>();
-        string nextSeqId = "";
-        int page = 0;
-        bool hasMore;
-        do
+        var seenCursors = new HashSet<string>(StringComparer.Ordinal);
+        var query = new Dictionary<string, string> { [poolParameter] = pool };
+        bool isCharacter = recordType == "char";
+
+        for (int page = 1; ; page++)
         {
-            page++;
             progress?.Report($"正在同步{poolName} · 第 {page} 页");
-            var query = new Dictionary<string, string>
-            {
-                ["lang"] = "zh-cn",
-                ["token"] = token,
-                ["server_id"] = serverId,
-                ["pool_type"] = poolType,
-            };
-            if (!string.IsNullOrWhiteSpace(nextSeqId))
-            {
-                query["seq_id"] = nextSeqId;
-            }
-            using JsonDocument document = await GetApiJsonAsync($"{WebViewHost}/api/record/char", query, cancellationToken);
+            using JsonDocument document = await GetRecordApiJsonAsync(account, token, recordType, query, cancellationToken);
             JsonElement data = GetApiData(document.RootElement);
-            List<JsonElement> list = data.GetProperty("list").EnumerateArray().ToList();
-            bool reachedKnownItem = false;
-            foreach (JsonElement item in list)
+            JsonElement list = data.GetProperty("list");
+            if (list.GetArrayLength() == 0)
             {
-                string seqId = GetString(item, "seqId");
-                if (known.Contains(seqId))
+                break;
+            }
+
+            bool reachedKnownItem = false;
+            string cursor = "";
+            foreach (JsonElement item in list.EnumerateArray())
+            {
+                cursor = GetString(item, "seqId");
+                if (string.IsNullOrWhiteSpace(cursor))
+                {
+                    continue;
+                }
+                if (known.Contains(cursor))
                 {
                     reachedKnownItem = true;
                     continue;
                 }
-                known.Add(seqId);
+
+                string poolId = GetString(item, "poolId", poolParameter == "pool_id" ? pool : "");
+                if (poolParameter == "pool_ids" && string.IsNullOrWhiteSpace(poolId))
+                {
+                    throw new InvalidOperationException("合并武器池记录缺少卡池 ID。");
+                }
                 result.Add(new EndfieldGachaItem
                 {
-                    AccountKey = accountKey,
-                    RecordType = "char",
-                    SeqId = seqId,
-                    ItemId = GetString(item, "charId"),
-                    ItemName = GetString(item, "charName"),
-                    ItemType = "干员",
+                    AccountKey = account.AccountKey,
+                    RecordType = recordType,
+                    SeqId = cursor,
+                    ItemId = GetString(item, isCharacter ? "charId" : "weaponId"),
+                    ItemName = GetString(item, isCharacter ? "charName" : "weaponName"),
+                    ItemType = isCharacter ? "干员" : GetString(item, "weaponType", "武器"),
                     Rarity = GetInt32(item, "rarity"),
                     IsNew = GetBoolean(item, "isNew"),
-                    IsFree = GetBoolean(item, "isFree"),
-                    PoolId = GetString(item, "poolId"),
-                    PoolName = GetString(item, "poolName", poolName),
-                    PoolType = poolType,
+                    IsFree = isCharacter && GetBoolean(item, "isFree"),
+                    PoolId = poolId,
+                    PoolName = GetString(item, "poolName", poolParameter == "pool_ids" ? poolId : poolName),
+                    PoolType = isCharacter ? pool : "",
                     GachaTime = GetString(item, "gachaTs"),
                 });
             }
-            hasMore = !reachedKnownItem && GetBoolean(data, "hasMore") && list.Count > 0;
-            nextSeqId = list.Count > 0 ? GetString(list[^1], "seqId") : "";
-            if (hasMore)
+
+            // The combined rerun list can gain additional pools between syncs, so read past cached records.
+            if (!GetBoolean(data, "hasMore") || (reachedKnownItem && poolParameter != "pool_ids"))
             {
-                await Task.Delay(Random.Shared.Next(500, 1001), cancellationToken);
+                break;
             }
+            if (string.IsNullOrWhiteSpace(cursor) || !seenCursors.Add(cursor))
+            {
+                throw new InvalidOperationException("寻访记录分页游标无效。");
+            }
+            query["seq_id"] = cursor;
+            await Task.Delay(Random.Shared.Next(500, 1001), cancellationToken);
         }
-        while (hasMore);
         return result;
     }
 
-    private async Task<List<(string Id, string Name)>> FetchWeaponPoolsAsync(string token, string serverId, CancellationToken cancellationToken)
+    private Task<JsonDocument> GetRecordApiJsonAsync(EndfieldGachaAccount account, string token, string route,
+        Dictionary<string, string> parameters, CancellationToken cancellationToken)
     {
-        var query = new Dictionary<string, string>
+        var query = new Dictionary<string, string>(parameters)
         {
             ["lang"] = "zh-cn",
             ["token"] = token,
-            ["server_id"] = serverId,
+            ["server_id"] = account.ServerId,
         };
-        using JsonDocument document = await GetApiJsonAsync($"{WebViewHost}/api/record/weapon/pool", query, cancellationToken);
-        JsonElement data = GetApiData(document.RootElement);
-        return data.EnumerateArray()
-            .Select(x => (GetString(x, "poolId"), GetString(x, "poolName")))
-            .Where(x => !string.IsNullOrWhiteSpace(x.Item1))
-            .ToList();
-    }
-
-    private async Task<List<EndfieldGachaItem>> FetchWeaponPoolAsync(string accountKey, string token, string serverId,
-        string poolId, string poolName, HashSet<string> known, IProgress<string>? progress, CancellationToken cancellationToken)
-    {
-        var result = new List<EndfieldGachaItem>();
-        string nextSeqId = "";
-        int page = 0;
-        bool hasMore;
-        do
-        {
-            page++;
-            progress?.Report($"正在同步{poolName} · 第 {page} 页");
-            var query = new Dictionary<string, string>
-            {
-                ["lang"] = "zh-cn",
-                ["token"] = token,
-                ["server_id"] = serverId,
-                ["pool_id"] = poolId,
-            };
-            if (!string.IsNullOrWhiteSpace(nextSeqId))
-            {
-                query["seq_id"] = nextSeqId;
-            }
-            using JsonDocument document = await GetApiJsonAsync($"{WebViewHost}/api/record/weapon", query, cancellationToken);
-            JsonElement data = GetApiData(document.RootElement);
-            List<JsonElement> list = data.GetProperty("list").EnumerateArray().ToList();
-            bool reachedKnownItem = false;
-            foreach (JsonElement item in list)
-            {
-                string seqId = GetString(item, "seqId");
-                if (known.Contains(seqId))
-                {
-                    reachedKnownItem = true;
-                    continue;
-                }
-                known.Add(seqId);
-                result.Add(new EndfieldGachaItem
-                {
-                    AccountKey = accountKey,
-                    RecordType = "weapon",
-                    SeqId = seqId,
-                    ItemId = GetString(item, "weaponId"),
-                    ItemName = GetString(item, "weaponName"),
-                    ItemType = GetString(item, "weaponType", "武器"),
-                    Rarity = GetInt32(item, "rarity"),
-                    IsNew = GetBoolean(item, "isNew"),
-                    PoolId = poolId,
-                    PoolName = GetString(item, "poolName", poolName),
-                    GachaTime = GetString(item, "gachaTs"),
-                });
-            }
-            hasMore = !reachedKnownItem && GetBoolean(data, "hasMore") && list.Count > 0;
-            nextSeqId = list.Count > 0 ? GetString(list[^1], "seqId") : "";
-            if (hasMore)
-            {
-                await Task.Delay(Random.Shared.Next(500, 1001), cancellationToken);
-            }
-        }
-        while (hasMore);
-        return result;
+        return GetApiJsonAsync($"https://ef-webview.{GetProviderDomain(account.Region)}/api/record/{route}", query, cancellationToken);
     }
 
     private async Task<JsonDocument> GetApiJsonAsync(string endpoint, Dictionary<string, string> query, CancellationToken cancellationToken)
@@ -605,17 +614,31 @@ internal sealed partial class EndfieldGachaService
             {
                 using var request = CreateBrowserRequest(HttpMethod.Get, url);
                 using HttpResponseMessage response = await _httpClient.SendAsync(request, cancellationToken);
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new GachaAuthorizationExpiredException();
+                }
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new HttpRequestException($"HTTP {(int)response.StatusCode}");
                 }
-                return await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken: cancellationToken);
+                var document = await JsonDocument.ParseAsync(await response.Content.ReadAsStreamAsync(cancellationToken), cancellationToken: cancellationToken);
+                try
+                {
+                    _ = GetApiData(document.RootElement);
+                    return document;
+                }
+                catch
+                {
+                    document.Dispose();
+                    throw;
+                }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
                 throw;
             }
-            catch when (attempt < 3)
+            catch (Exception ex) when (ex is not GachaAuthorizationExpiredException && attempt < 3)
             {
                 await Task.Delay(Random.Shared.Next(500, 901), cancellationToken);
             }
@@ -625,51 +648,90 @@ internal sealed partial class EndfieldGachaService
 
     private static JsonElement GetApiData(JsonElement root)
     {
-        int code = root.TryGetProperty("code", out JsonElement codeElement) ? codeElement.GetInt32() : -1;
-        if (code == 40100)
+        string code = GetString(root, "code");
+        if (code == "40100")
         {
-            throw new InvalidOperationException("寻访授权已失效，请重新登录鹰角账号后再试。");
+            throw new GachaAuthorizationExpiredException();
         }
-        if (code != 0 || !root.TryGetProperty("data", out JsonElement data))
+        if (code != "0" || !root.TryGetProperty("data", out JsonElement data) || data.ValueKind is JsonValueKind.Null)
         {
             throw new InvalidOperationException("官方寻访记录接口返回异常。");
         }
         return data;
     }
 
-    private static string ReadLatestGachaUrl()
+    private static (string Token, string ServerId) ReadGameLogAuthorization(EndfieldGachaRegion region)
     {
+        string vendor = region == EndfieldGachaRegion.Global ? "Gryphline" : "Hypergryph";
         string logPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            "AppData", "LocalLow", "Hypergryph", "Endfield", "sdklogs", "HGWebview.log");
+            "AppData", "LocalLow", vendor, "Endfield", "sdklogs", "HGWebview.log");
         if (!File.Exists(logPath))
         {
             throw new FileNotFoundException("未找到终末地寻访日志，请先启动游戏并打开一次寻访记录。", logPath);
         }
 
-        string? latestUrl = null;
         using var stream = new FileStream(logPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
         using var reader = new StreamReader(stream);
-        while (reader.ReadLine() is string line)
-        {
-            Match match = GachaUrlRegex().Match(line);
-            if (match.Success)
-            {
-                latestUrl = WebUtility.HtmlDecode(match.Value).TrimEnd(']', ')', ',', ';');
-            }
-        }
-        return latestUrl ?? throw new InvalidOperationException("日志中没有寻访记录链接，请在游戏内打开一次寻访记录后再试。");
+        return FindGameLogAuthorization(reader, region)
+            ?? throw new InvalidOperationException("未找到当前区服有效的寻访记录链接，请在对应客户端打开一次寻访记录后再试。");
     }
 
-    private static Dictionary<string, string> ParseQueryParameters(string url)
+    internal static (string Token, string ServerId)? FindGameLogAuthorization(TextReader reader, EndfieldGachaRegion region)
     {
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
+        string host = $"ef-webview.{GetProviderDomain(region)}";
+        (string Token, string ServerId)? latest = null;
+        while (reader.ReadLine() is string line)
         {
-            throw new InvalidOperationException("日志中的寻访记录链接格式无效。");
+            foreach (Match match in GachaUrlRegex().Matches(line))
+            {
+                string url = WebUtility.HtmlDecode(match.Value).TrimEnd(']', ')', ',', ';');
+                if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || !uri.Host.Equals(host, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+                var query = ParseQueryParameters(uri);
+                string? token = query.GetValueOrDefault("u8_token");
+                if (string.IsNullOrWhiteSpace(token))
+                {
+                    continue;
+                }
+                if (region == EndfieldGachaRegion.Global)
+                {
+                    string? server = new[] { "server_id", "serverId", "server" }
+                        .Select(key => query.GetValueOrDefault(key)?.Trim())
+                        .FirstOrDefault(value => !string.IsNullOrWhiteSpace(value));
+                    if (server is not null)
+                    {
+                        latest = (token, server);
+                    }
+                    continue;
+                }
+                string? channel = query.GetValueOrDefault("channel");
+                string? subChannel = query.GetValueOrDefault("subChannel") ?? query.GetValueOrDefault("sub_channel");
+                bool matches = region == EndfieldGachaRegion.Bilibili
+                    ? channel == "2" && subChannel == "2"
+                    : (channel is null or "1") && (subChannel is null or "1");
+                if (matches)
+                {
+                    latest = (token, "1");
+                }
+            }
         }
-        return uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => x.Split('=', 2))
-            .Where(x => x.Length == 2)
-            .ToDictionary(x => WebUtility.UrlDecode(x[0]), x => WebUtility.UrlDecode(x[1]), StringComparer.OrdinalIgnoreCase);
+        return latest;
+    }
+
+    private static Dictionary<string, string> ParseQueryParameters(Uri uri)
+    {
+        var query = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (string param in uri.Query.TrimStart('?').Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            string[] parts = param.Split('=', 2);
+            if (parts.Length == 2)
+            {
+                query[WebUtility.UrlDecode(parts[0])] = WebUtility.UrlDecode(parts[1]);
+            }
+        }
+        return query;
     }
 
     private static string GetString(JsonElement element, string name, string defaultValue = "")
@@ -707,6 +769,11 @@ internal sealed partial class EndfieldGachaService
                value.ValueKind == JsonValueKind.String && bool.TryParse(value.GetString(), out bool result) && result;
     }
 
-    [GeneratedRegex("https://ef-webview\\.hypergryph\\.com/page/gacha_[^\\s\\\"']+")]
+    [GeneratedRegex("https://ef-webview\\.(?:hypergryph|gryphline)\\.com/page/gacha_[^\\s\\\"']+", RegexOptions.IgnoreCase)]
     private static partial Regex GachaUrlRegex();
+
+    private sealed class GachaAuthorizationExpiredException()
+        : InvalidOperationException("寻访授权已失效，请重新登录或在游戏中打开寻访记录后再试。")
+    {
+    }
 }

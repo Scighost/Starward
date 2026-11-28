@@ -107,8 +107,8 @@ internal sealed partial class EndfieldGachaService
         ArgumentNullException.ThrowIfNull(account);
         string loginToken = GetSavedLoginToken(account.AccountKey);
         progress?.Report("正在刷新客服中心授权");
-        string bindingToken = await GetOAuthTokenAsync(loginToken, cancellationToken);
-        string roleToken = await GetU8TokenAsync(account.AccountUid, bindingToken, cancellationToken);
+        string bindingToken = await GetOAuthTokenAsync(account.Region, loginToken, cancellationToken);
+        string roleToken = await GetU8TokenAsync(account.Region, account.AccountUid, bindingToken, cancellationToken);
 
         var items = new List<EndfieldAccountRecordItem>();
         var failedCategories = new List<string>();

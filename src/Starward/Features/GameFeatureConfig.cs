@@ -61,9 +61,9 @@ internal partial class GameFeatureConfig
             GameId.nap_global => nap_global,
             GameId.nap_bili => nap_bilibili,
             HypergryphGameConstants.ArknightsAppCode => arknights_cn,
-            HypergryphGameConstants.EndfieldAppCode => endfield_cn,
-            HypergryphGameConstants.GlobalEndfieldAppCode => endfield_global,
-            _ when HypergryphGameConstants.IsEndfield(gameId.GameBiz) => endfield_global,
+            HypergryphGameConstants.EndfieldAppCode or HypergryphGameConstants.GlobalEndfieldAppCode
+                or HypergryphGameConstants.BilibiliEndfieldId => endfield_gacha,
+            _ when HypergryphGameConstants.IsEndfield(gameId.GameBiz) => endfield_channel,
             _ => Default,
         };
         return config;
@@ -85,7 +85,7 @@ internal partial class GameFeatureConfig
     };
 
 
-    private static readonly GameFeatureConfig endfield_cn = new()
+    private static readonly GameFeatureConfig endfield_gacha = new()
     {
         SupportedPages =
         [
@@ -97,7 +97,7 @@ internal partial class GameFeatureConfig
     };
 
 
-    private static readonly GameFeatureConfig endfield_global = new()
+    private static readonly GameFeatureConfig endfield_channel = new()
     {
         SupportedPages =
         [

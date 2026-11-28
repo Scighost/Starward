@@ -35,7 +35,8 @@
                        FontSize="20"
                        FontWeight="SemiBold"
                        Text="终末地" />
-            <cwc:Segmented SelectedIndex="{x:Bind SelectedViewIndex, Mode=TwoWay}">
+            <cwc:Segmented SelectedIndex="{x:Bind SelectedViewIndex, Mode=TwoWay}"
+                           Visibility="{x:Bind SupportsAccountRecords}">
                 <cwc:SegmentedItem Content="寻访记录" />
                 <cwc:SegmentedItem Content="账号记录" />
             </cwc:Segmented>
@@ -67,7 +68,10 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Command="{x:Bind LoginAccountCommand}"
                                         Icon="Contact"
-                                        Text="登录鹰角账号" />
+                                        Text="{x:Bind LoginAccountText}" />
+                        <MenuFlyoutItem Command="{x:Bind OpenBilibiliBindingCommand}"
+                                        Text="绑定 B 服角色"
+                                        Visibility="{x:Bind IsBilibiliRegion}" />
                         <MenuFlyoutItem Command="{x:Bind InputLoginTokenCommand}"
                                         Icon="Permissions"
                                         Text="输入登录 Token" />

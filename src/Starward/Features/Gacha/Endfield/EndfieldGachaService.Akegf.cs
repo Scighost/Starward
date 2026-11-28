@@ -42,7 +42,7 @@ internal sealed partial class EndfieldGachaService
         AddOptionalText(info, "export_app_version", AppConfig.AppVersion);
         var group = new JsonObject
         {
-            ["region"] = "cn",
+            ["region"] = account.Region == EndfieldGachaRegion.Global ? "global" : "cn",
             ["server_id"] = account.ServerId,
             ["uid"] = account.RoleId,
             ["lang"] = "zh-cn",

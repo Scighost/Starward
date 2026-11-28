@@ -298,6 +298,7 @@ internal static class DatabaseService
         Sql_v23,
         Sql_v24,
         Sql_v25,
+        Sql_v26,
     ];
 
 
@@ -1358,6 +1359,13 @@ internal static class DatabaseService
         WHERE s.Key = 'InstallPath' AND instr(s.GameId, '-') > 0 AND length(trim(s.Value)) > 0;
 
         PRAGMA USER_VERSION = 25;
+        COMMIT TRANSACTION;
+        """;
+
+    private const string Sql_v26 = """
+        BEGIN TRANSACTION;
+        ALTER TABLE EndfieldGachaAccount ADD COLUMN Region INTEGER NOT NULL DEFAULT 0;
+        PRAGMA USER_VERSION = 26;
         COMMIT TRANSACTION;
         """;
 
